@@ -1,0 +1,1 @@
+../gmp-5.0.2/mpn/x86_64/core2/gmp-mparam.h

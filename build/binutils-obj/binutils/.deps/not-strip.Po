@@ -1,0 +1,1 @@
+not-strip.o: ../../binutils-2.21.1/binutils/not-strip.c
