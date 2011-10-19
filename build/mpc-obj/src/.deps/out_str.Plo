@@ -16,8 +16,8 @@ out_str.lo: ../../mpc-0.9/src/out_str.c /usr/include/stdio.h \
  /usr/include/bits/sigset.h /usr/include/bits/time.h \
  /usr/include/sys/sysmacros.h /usr/include/bits/pthreadtypes.h \
  /usr/include/alloca.h ../config.h ../../mpc-0.9/src/mpc.h \
- /home/edf12/buildtools_cross/local/include/gmp.h \
- /home/edf12/buildtools_cross/local/include/mpfr.h
+ /home/att14/patches/ultraxomb/local/include/gmp.h \
+ /home/att14/patches/ultraxomb/local/include/mpfr.h
 
 /usr/include/stdio.h:
 
@@ -91,6 +91,6 @@ out_str.lo: ../../mpc-0.9/src/out_str.c /usr/include/stdio.h \
 
 ../../mpc-0.9/src/mpc.h:
 
-/home/edf12/buildtools_cross/local/include/gmp.h:
+/home/att14/patches/ultraxomb/local/include/gmp.h:
 
-/home/edf12/buildtools_cross/local/include/mpfr.h:
+/home/att14/patches/ultraxomb/local/include/mpfr.h:

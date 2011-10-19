@@ -24,7 +24,7 @@
 libiberty_topdir = ../../binutils-2.21.1/libiberty/..
 srcdir = ../../binutils-2.21.1/libiberty
 
-prefix = /home/edf12/buildtools_cross/local
+prefix = /home/att14/ultraxomb/local
 
 exec_prefix = ${prefix}
 bindir = ${exec_prefix}/bin

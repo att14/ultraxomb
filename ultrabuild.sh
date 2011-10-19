@@ -22,6 +22,9 @@ mkdir -p gmp-obj
 mkdir -p mpfr-obj
 mkdir -p mpc-obj
 
+# -- Fetch and extract each package --
+#source ../scripts/fetchandpatch.sh
+
 # -- Build BINUTILS --
 
 setphase "COMPILE BINUTILS"

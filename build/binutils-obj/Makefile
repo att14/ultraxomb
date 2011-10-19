@@ -44,7 +44,7 @@ target=sparc64-pc-xomb
 
 program_transform_name = s&^&sparc64-pc-xomb-&
 
-prefix = /home/edf12/buildtools_cross/local
+prefix = /home/att14/ultraxomb/local
 exec_prefix = ${prefix}
 
 srcdir = ../binutils-2.21.1
@@ -90,7 +90,7 @@ MAINTAINER_MODE_TRUE = #
 # -------------------------------------------------
 
 # The gcc driver likes to know the arguments it was configured with.
-TOPLEVEL_CONFIGURE_ARGUMENTS=../binutils-2.21.1/configure --target=sparc64-pc-xomb --prefix=/home/edf12/buildtools_cross/local --disable-werror --enable-gold --enable-plugins
+TOPLEVEL_CONFIGURE_ARGUMENTS=../binutils-2.21.1/configure --target=sparc64-pc-xomb --prefix=/home/att14/ultraxomb/local --disable-werror --enable-gold --enable-plugins
 
 tooldir = ${exec_prefix}/sparc64-pc-xomb
 build_tooldir = ${exec_prefix}/sparc64-pc-xomb
@@ -110,7 +110,7 @@ GCC_SHLIB_SUBDIR =
 BUILD_SUBDIR = build-x86_64-unknown-linux-gnu
 # This is set by the configure script to the arguments to use when configuring
 # directories built for the build system.
-BUILD_CONFIGARGS =  --cache-file=../config.cache '--prefix=/home/edf12/buildtools_cross/local' '--disable-werror' '--enable-gold' '--enable-plugins' --program-transform-name='s&^&sparc64-pc-xomb-&' --disable-option-checking --with-build-subdir="$(BUILD_SUBDIR)"
+BUILD_CONFIGARGS =  --cache-file=../config.cache '--prefix=/home/att14/ultraxomb/local' '--disable-werror' '--enable-gold' '--enable-plugins' --program-transform-name='s&^&sparc64-pc-xomb-&' --disable-option-checking --with-build-subdir="$(BUILD_SUBDIR)"
 
 # Linker flags to use on the host, for stage1 or when not
 # bootstrapping.
@@ -171,7 +171,7 @@ SUBDIRS =  intl libiberty opcodes bfd binutils gas ld gprof etc
 TARGET_CONFIGDIRS = 
 # This is set by the configure script to the arguments to use when configuring
 # directories built for the host system.
-HOST_CONFIGARGS =  --cache-file=./config.cache  --with-gnu-as --with-gnu-ld --with-system-zlib '--prefix=/home/edf12/buildtools_cross/local' '--disable-werror' '--enable-gold' '--enable-plugins' --program-transform-name='s&^&sparc64-pc-xomb-&' --disable-option-checking
+HOST_CONFIGARGS =  --cache-file=./config.cache  --with-gnu-as --with-gnu-ld --with-system-zlib '--prefix=/home/att14/ultraxomb/local' '--disable-werror' '--enable-gold' '--enable-plugins' --program-transform-name='s&^&sparc64-pc-xomb-&' --disable-option-checking
 # Host programs are put under this directory, which is . except if building
 # with srcdir=..
 HOST_SUBDIR = .
@@ -239,7 +239,7 @@ POSTSTAGE1_HOST_EXPORTS = \
 TARGET_SUBDIR = sparc64-pc-xomb
 # This is set by the configure script to the arguments to use when configuring
 # directories built for the target.
-TARGET_CONFIGARGS = --cache-file=./config.cache --enable-multilib --with-cross-host=x86_64-unknown-linux-gnu  '--prefix=/home/edf12/buildtools_cross/local' '--disable-werror' '--enable-gold' '--enable-plugins' --program-transform-name='s&^&sparc64-pc-xomb-&' --disable-option-checking --with-target-subdir="$(TARGET_SUBDIR)"
+TARGET_CONFIGARGS = --cache-file=./config.cache --enable-multilib --with-cross-host=x86_64-unknown-linux-gnu  '--prefix=/home/att14/ultraxomb/local' '--disable-werror' '--enable-gold' '--enable-plugins' --program-transform-name='s&^&sparc64-pc-xomb-&' --disable-option-checking --with-target-subdir="$(TARGET_SUBDIR)"
 # This is the list of variables to export in the environment when
 # configuring subdirectories for the target system.
 BASE_TARGET_EXPORTS = \
@@ -458,7 +458,7 @@ do-compare3 = $(do-compare)
 
 AR_FOR_TARGET=$$r/$(HOST_SUBDIR)/binutils/ar
 AS_FOR_TARGET=$$r/$(HOST_SUBDIR)/gas/as-new
-CC_FOR_TARGET=$(STAGE_CC_WRAPPER) sparc64-pc-xomb-cc
+CC_FOR_TARGET=$(STAGE_CC_WRAPPER) sparc64-pc-xomb-gcc
 
 # If GCC_FOR_TARGET is not overriden on the command line, then this
 # variable is passed down to the gcc Makefile, where it is used to

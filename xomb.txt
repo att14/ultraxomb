@@ -1,0 +1,124 @@
+-- XOMB CROSS-COMPILER --
+
+mkdir -p build
+mkdir -p local
+cd build
+mkdir -p binutils-obj
+mkdir -p gcc-obj
+mkdir -p newlib-obj
+mkdir -p gmp-obj
+mkdir -p mpfr-obj
+mkdir -p mpc-obj
+
+wget -c http://ftp.gnu.org/gnu/binutils/binutils-2.21.1.tar.bz2
+wget -c http://ftp.gnu.org/gnu/gcc/gcc-4.6.1/gcc-core-4.6.1.tar.gz
+wget -c http://ftp.gnu.org/gnu/gcc/gcc-4.6.1/gcc-g++-4.6.1.tar.gz
+wget -c http://ftp.gnu.org/gnu/gcc/gcc-4.6.1/gcc-fortran-4.6.1.tar.gz
+wget -c http://ftp.gnu.org/gnu/gcc/gcc-4.3.3/gcc-core-4.3.3.tar.gz
+wget -c http://ftp.gnu.org/gnu/gcc/gcc-4.3.3/gcc-g++-4.3.3.tar.gz
+wget -c http://ftp.gnu.org/gnu/gcc/gcc-4.3.3/gcc-fortran-4.3.3.tar.gz
+wget -c http://ftp.gnu.org/gnu/gmp/gmp-5.0.2.tar.gz
+wget -c http://ftp.gnu.org/gnu/mpfr/mpfr-3.1.0.tar.gz
+wget -c http://www.multiprecision.org/mpc/download/mpc-0.9.tar.gz
+wget -c ftp://sources.redhat.com/pub/newlib/newlib-1.19.0.tar.gz
+wget -c ftp://ftp.cs.unipr.it/pub/ppl/releases/0.11.2/ppl-0.11.2.tar.bz2
+wget -c http://www.bastoul.net/cloog/pages/download/count.php3?url=./cloog-0.16.3.tar.gz -O cloog-0.16.3.tar.gz
+
+tar -xf binutils-2.21.1.tar.bz2
+tar -xf gcc-core-4.6.1.tar.gz
+tar -xf gcc-fortran-4.6.1.tar.gz
+tar -xf gcc-g++-4.6.1.tar.gz
+tar -xf gcc-core-4.3.3.tar.gz
+tar -xf gcc-fortran-4.3.3.tar.gz
+tar -xf gcc-g++-4.3.3.tar.gz
+tar -xf cloog-0.16.3.tar.gz
+tar -xf gmp-5.0.2.tar.gz
+tar -xf mpc-0.9.tar.gz
+tar -xf mpfr-3.1.0.tar.gz
+tar -xf newlib-1.19.0.tar.gz
+tar -xf ppl-0.11.2.tar.bz2
+
+
+
+* BUILD BINUTILS
+
+Make all the changes in patch/binutils-2.2X.patch, but for sparc64.
+Create binutile-2.21.1/ld/emulparams/xomb_sparc.sh
+
+cd binutils-obj
+../binutils-2.21.1/configure --target=sparc64-pc-xomb --prefix=/home/edf12/buildtools_cross/local --disable-werror --enable-gold --enable-plugins
+make -j4 all-gold
+make -j4
+make install
+
+
+
+* BUILD GMP
+
+Make all the changes in patch/gmp.patch, but for sparc64.
+
+cd gmp-obj
+../gmp-5.0.2/configure --prefix=/home/edf12/buildtools_cross/local --enable-cxx --disable-shared
+make -j4
+make check
+make install
+
+
+
+* BUILD MPFR
+
+Make all the changes in patch/mpfr.patch, but for sparc64.
+
+cd mpfr-obj
+../mpfr-3.1.0/configure --prefix=/home/edf12/buildtools_cross/local --with-gmp=/home/edf12/buildtools_cross/local --disable-shared
+make -j4
+make check
+make install
+
+
+
+* BUILD MPC
+
+Make all the changes in patch/mpc.patch, but for sparc64.
+
+cd mpc-obj
+../mpc-0.9/configure --target=sparc64-pc-xomb --prefix=/home/edf12/buildtools_cross/local --with-gmp=/home/edf12/buildtools_cross/local --with-mpfr=/home/edf12/buildtools_cross/local --disable-shared
+make -j4
+make check
+make install
+
+
+* BUILD GCC
+
+Make all the changes in patch/ppl.patch, but for sparc64.
+Make all the changes in patch/cloog.patch, but for sparc64.
+Make all the changes in patch/gcc.patch, but for sparc64.
+Make all the changes in patch/newlib.patch, but for sparc64.
+
+Create gcc-4.6.1/gcc/config/xomb.h
+Copy all of buildtools/newlib-files/ to buildtollt_cross/build/newlib-1.19.0/newlib/libc/sys/xomb/
+Copy buildtools/newlib-files/vanilla-syscalls.c to newlib-1.19.0/newlib/libc/sys/xomb/syscalls.c
+
+cd gcc-obj
+../gcc-4.6.1/configure --target=sparc64-pc-xomb --prefix=/home/edf12/buildtools_cross/local --enable-languages=c,c++ --disable-libssp --with-gmp=/home/edf12/buildtools_cross/local --with-mpfr=/home/edf12/buildtools_cross/local --with-mpc=/home/edf12/buildtools_cross/local --without-headers --disable-nls --with-newlib
+make -j4 all-gcc
+make install-gcc
+
+cd newlib-1.19.0/newlib/libc/sys
+autoconf
+cd xomb
+autoreconf
+
+cd newlib-obj
+../newlib-1.19.0/configure --target=sparc64-pc-xomb --prefix=/home/edf12/buildtools_cross/local --with-gmp=/home/edf12/buildtools_cross/local --with-mpfr=/home/edf12/buildtools_cross/local --enable-newlib-hw-fp
+make -j4
+
+
+Making all in search
+make[5]: Entering directory `/home/edf12/buildtools_cross/build/newlib-obj/sparc64-pc-xomb/newlib/libc/search'
+sparc64-pc-xomb-gcc -B/home/edf12/buildtools_cross/build/newlib-obj/sparc64-pc-xomb/newlib/ -isystem /home/edf12/buildtools_cross/build/newlib-obj/sparc64-pc-xomb/newlib/targ-include -isystem /home/edf12/buildtools_cross/build/newlib-1.19.0/newlib/libc/include -B/home/edf12/buildtools_cross/build/newlib-obj/sparc64-pc-xomb/libgloss/sparc64 -L/home/edf12/buildtools_cross/build/newlib-obj/sparc64-pc-xomb/libgloss/libnosys -L/home/edf12/buildtools_cross/build/newlib-1.19.0/libgloss/sparc64    -DPACKAGE_NAME=\"newlib\" -DPACKAGE_TARNAME=\"newlib\" -DPACKAGE_VERSION=\"1.19.0\" -DPACKAGE_STRING=\"newlib\ 1.19.0\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -I. -I../../../../../newlib-1.19.0/newlib/libc/search -DMALLOC_ALIGNMENT=8 -DREENTRANT_SYSCALLS_PROVIDED -DHAVE_BLKSIZE -DHAVE_FCNTL -DTARGET_PTR_SIZE=64 -fno-builtin      -g -O2 -c -o lib_a-hash.o `test -f 'hash.c' || echo '../../../../../newlib-1.19.0/newlib/libc/search/'`hash.c
+../../../../../newlib-1.19.0/newlib/libc/search/hash.c: In function 'init_hash':
+../../../../../newlib-1.19.0/newlib/libc/search/hash.c:343:25: error: 'struct stat' has no member named 'st_blksize'
+
+
+

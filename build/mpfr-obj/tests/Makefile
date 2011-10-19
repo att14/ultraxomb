@@ -983,20 +983,20 @@ CTAGS = ctags
 am__tty_colors = \
 red=; grn=; lgn=; blu=; std=
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} /home/edf12/buildtools_cross/build/mpfr-3.1.0/missing --run aclocal-1.11
+ACLOCAL = ${SHELL} /home/att14/ultraxomb/build/mpfr-3.1.0/missing --run aclocal-1.11
 ALLOCA = 
-AMTAR = ${SHELL} /home/edf12/buildtools_cross/build/mpfr-3.1.0/missing --run tar
+AMTAR = ${SHELL} /home/att14/ultraxomb/build/mpfr-3.1.0/missing --run tar
 AR = ar
 AS = as
-AUTOCONF = ${SHELL} /home/edf12/buildtools_cross/build/mpfr-3.1.0/missing --run autoconf
-AUTOHEADER = ${SHELL} /home/edf12/buildtools_cross/build/mpfr-3.1.0/missing --run autoheader
-AUTOMAKE = ${SHELL} /home/edf12/buildtools_cross/build/mpfr-3.1.0/missing --run automake-1.11
+AUTOCONF = ${SHELL} /home/att14/ultraxomb/build/mpfr-3.1.0/missing --run autoconf
+AUTOHEADER = ${SHELL} /home/att14/ultraxomb/build/mpfr-3.1.0/missing --run autoheader
+AUTOMAKE = ${SHELL} /home/att14/ultraxomb/build/mpfr-3.1.0/missing --run automake-1.11
 AWK = gawk
 CC = gcc -std=gnu99
 CCDEPMODE = depmode=gcc3
 CFLAGS = -Wall -Wmissing-prototypes -Wpointer-arith -O2 -pedantic -m64 -mtune=core2 -march=core2
 CPP = gcc -std=gnu99 -E
-CPPFLAGS =  -I/home/edf12/buildtools_cross/local/include
+CPPFLAGS =  -I/home/att14/ultraxomb/local/include
 CYGPATH_W = echo
 DATAFILES = 
 DEFS = -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DTIME_WITH_SYS_TIME=1 -DHAVE_LOCALE_H=1 -DHAVE_WCHAR_H=1 -DHAVE_STDARG=1 -DHAVE_SYS_TIME_H=1 -DHAVE_ALLOCA_H=1 -DHAVE_STDINT_H=1 -DHAVE_VA_COPY=1 -DHAVE_SETLOCALE=1 -DHAVE_GETTIMEOFDAY=1 -DHAVE_LONG_LONG=1 -DHAVE_INTMAX_T=1 -DMPFR_HAVE_INTMAX_MAX=1 -DMPFR_HAVE_FESETROUND=1 -DHAVE_DENORMS=1 -DHAVE_ROUND=1 -DHAVE_TRUNC=1 -DHAVE_FLOOR=1 -DHAVE_CEIL=1 -DHAVE_NEARBYINT=1 -DHAVE_LDOUBLE_IEEE_EXT_LITTLE=1 -DMPFR_USE_THREAD_SAFE=1 -DLT_OBJDIR=\".libs/\" -DHAVE_ATTRIBUTE_MODE=1 -DHAVE___GMPN_ROOTREM=1 -DHAVE___GMPN_SBPI1_DIVAPPR_Q=1
@@ -1017,7 +1017,7 @@ INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LD = /usr/bin/ld -m elf_x86_64
-LDFLAGS =  -L/home/edf12/buildtools_cross/local/lib
+LDFLAGS =  -L/home/att14/ultraxomb/local/lib
 LIBMPFR_LDFLAGS = 
 LIBOBJS = 
 LIBS = -lgmp 
@@ -1026,7 +1026,7 @@ LIPO =
 LN_S = ln -s
 LTLIBOBJS = 
 MAINT = 
-MAKEINFO = ${SHELL} /home/edf12/buildtools_cross/build/mpfr-3.1.0/missing --run makeinfo
+MAKEINFO = ${SHELL} /home/att14/ultraxomb/build/mpfr-3.1.0/missing --run makeinfo
 MANIFEST_TOOL = :
 MKDIR_P = /bin/mkdir -p
 MPFR_LDFLAGS = 
@@ -1052,10 +1052,10 @@ SHELL = /bin/sh
 STRIP = strip
 U = 
 VERSION = 3.1.0
-abs_builddir = /home/edf12/buildtools_cross/build/mpfr-obj/tests
-abs_srcdir = /home/edf12/buildtools_cross/build/mpfr-obj/../mpfr-3.1.0/tests
-abs_top_builddir = /home/edf12/buildtools_cross/build/mpfr-obj
-abs_top_srcdir = /home/edf12/buildtools_cross/build/mpfr-obj/../mpfr-3.1.0
+abs_builddir = /home/att14/ultraxomb/build/mpfr-obj/tests
+abs_srcdir = /home/att14/ultraxomb/build/mpfr-obj/../mpfr-3.1.0/tests
+abs_top_builddir = /home/att14/ultraxomb/build/mpfr-obj
+abs_top_srcdir = /home/att14/ultraxomb/build/mpfr-obj/../mpfr-3.1.0
 ac_ct_AR = ar
 ac_ct_CC = gcc -std=gnu99
 ac_ct_DUMPBIN = 
@@ -1084,7 +1084,7 @@ host_vendor = unknown
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /home/edf12/buildtools_cross/build/mpfr-3.1.0/install-sh
+install_sh = ${SHELL} /home/att14/ultraxomb/build/mpfr-3.1.0/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -1093,7 +1093,7 @@ mandir = ${datarootdir}/man
 mkdir_p = /bin/mkdir -p
 oldincludedir = /usr/include
 pdfdir = ${docdir}
-prefix = /home/edf12/buildtools_cross/local
+prefix = /home/att14/ultraxomb/local
 program_transform_name = s,x,x,
 psdir = ${docdir}
 sbindir = ${exec_prefix}/sbin

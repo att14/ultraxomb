@@ -4,7 +4,7 @@
 
 DESTDIR		=
 
-prefix 		= /home/edf12/buildtools_cross/local
+prefix 		= /home/att14/ultraxomb/local
 exec_prefix 	= ${prefix}
 
 srcdir  = ../../binutils-2.21.1/etc

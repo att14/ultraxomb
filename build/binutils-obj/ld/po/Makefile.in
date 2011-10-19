@@ -18,7 +18,7 @@ top_srcdir = ../../../binutils-2.21.1/ld
 VPATH = ../../../binutils-2.21.1/ld/po
 top_builddir = ..
 
-prefix = /home/edf12/buildtools_cross/local
+prefix = /home/att14/ultraxomb/local
 exec_prefix = ${prefix}
 datadir = $(prefix)/share
 localedir = $(datadir)/locale
