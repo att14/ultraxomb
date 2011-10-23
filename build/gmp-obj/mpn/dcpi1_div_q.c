@@ -1,1 +1,0 @@
-../../gmp-5.0.2/mpn/generic/dcpi1_div_q.c

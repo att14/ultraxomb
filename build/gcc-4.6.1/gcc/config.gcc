@@ -2666,6 +2666,7 @@ sparc64-*-xomb*)
         extra_options="${extra_options} sparc/little-endian.opt"
         tmake_file="${tmake_file} sparc/t-crtfm"
         use_fixproto=yes
+	extra_parts="crtbegin.o crtend.o"
         ;;
 spu-*-elf*)
 	tm_file="dbxelf.h elfos.h spu/spu-elf.h spu/spu.h newlib-stdint.h"

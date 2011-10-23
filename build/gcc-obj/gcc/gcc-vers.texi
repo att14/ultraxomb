@@ -1,5 +1,0 @@
-@set version-GCC 4.6.1
-@clear DEVELOPMENT
-@set srcdir /home/edf12/buildtools_cross/build/gcc-obj/gcc/../../gcc-4.6.1/gcc
-@set VERSION_PACKAGE (GCC) 
-@set BUGURL @uref{http://gcc.gnu.org/bugs.html}

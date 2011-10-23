@@ -1,1 +1,0 @@
-../../gmp-5.0.2/mpn/generic/mu_divappr_q.c

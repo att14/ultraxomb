@@ -32,19 +32,6 @@ struct	stat
   gid_t		st_gid;
   dev_t		st_rdev;
   off_t		st_size;
-#if defined(__rtems__)
-  struct timespec st_atim;
-  struct timespec st_mtim;
-  struct timespec st_ctim;
-  blksize_t     st_blksize;
-  blkcnt_t	st_blocks;
-#else
-  /* SysV/sco doesn't have the rest... But Solaris, eabi does.  */
-#if defined(__svr4__) && !defined(__PPC__) && !defined(__sun__)
-  time_t	st_atime;
-  time_t	st_mtime;
-  time_t	st_ctime;
-#else
   time_t	st_atime;
   long		st_spare1;
   time_t	st_mtime;
@@ -54,8 +41,6 @@ struct	stat
   long		st_blksize;
   long		st_blocks;
   long	st_spare4[2];
-#endif
-#endif
 };
 
 #if defined(__rtems__)
