@@ -5,10 +5,6 @@ PREFIX=`pwd`/local
 
 export PATH=$PREFIX/bin:$PATH
 
-if [ $CLEAN -eq 1 ]; then
-	rm -rf $PREFIX build/*/
-fi
-
 # -- Directory creation --
 
 mkdir -p build
@@ -18,12 +14,14 @@ cd build
 setphase "MAKE OBJECT DIRECTORIES"
 mkdir -p binutils-obj
 mkdir -p gcc-obj
+mkdir -p newlib-obj
 mkdir -p gmp-obj
 mkdir -p mpfr-obj
 mkdir -p mpc-obj
 
 # -- Fetch and extract each package --
 #source ../scripts/fetchandpatch.sh
+find . -name "config.cache" -exec rm -rf {} \;
 
 # -- Build BINUTILS --
 
@@ -73,6 +71,10 @@ cd ..
 
 # Do I need AUTOCONF GCC here???????????
 
+cd gcc-${GCC_VER}/libstdc++-v3
+#autoconf || exit
+cd ../..
+
 # -- Build GCC --
 
 setphase "COMPILE GCC"
@@ -92,4 +94,27 @@ cd ../../../../..
 setphase "CONFIGURE NEWLIB"
 cd newlib-obj
 ../newlib-${NEWLIB_VER}/configure --target=$TARGET --prefix=$PREFIX --with-gmp=$PREFIX --with-mpfr=$PREFIX -enable-newlib-hw-fp || exit
+
+setphase "COMPILE NEWLIB"
+make -j$NCPU || exit
+make install || exit
+cd ..
+
+setphase "PASS-2 COMPILE GCC"
+cd gcc-obj
+echo `pwd`
+make -j$NCPU all-target-libstdc++-v3 || exit
+make install-target-libstdc++-v3 || exit
+make -j$NCPU all || exit
+make install || exit
+cd ..
+
+setphase "PASS-2 COMPILE NEWLIB"
+cp ../newlib-files/syscalls.c newlib-${NEWLIB_VER}/newlib/llbc/sys/${OSNAME}/syscalls.c
+
+cd newlib-obj
+../newlib-${NEWLIB_VER}/configure --target=$TARGET --prefix=$PREFIX --with-gmp=$PREFIX --with-mpfr=$PREFIX -enable-newlib-hw-fp || exit
+make -j$NCPU || exit
+make install || exit
+cd ..
 
