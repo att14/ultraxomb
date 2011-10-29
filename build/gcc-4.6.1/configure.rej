@@ -1,0 +1,12 @@
+--- configure	2011-03-16 18:27:36.000000000 +0000
++++ configure	2011-05-28 21:37:07.919690215 +0100
+@@ -2720,7 +2720,8 @@
+ 		${libgcj} \
+ 		target-libobjc \
+ 		target-libada \
+-		target-libgo"
++		target-libgo \
++		target-libphobos"
+ 
+ # these tools are built using the target libraries, and are intended to
+ # run only in the target environment

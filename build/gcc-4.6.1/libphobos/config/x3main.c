@@ -1,0 +1,1 @@
+../../gcc/d/phobos2/config/x3main.c

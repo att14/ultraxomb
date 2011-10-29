@@ -1,0 +1,1 @@
+../../../../../gcc/d/druntime/core/sys/osx/mach/getsect.d

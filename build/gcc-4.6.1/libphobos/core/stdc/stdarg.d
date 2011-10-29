@@ -1,0 +1,1 @@
+../../../gcc/d/druntime/core/stdc/stdarg.d

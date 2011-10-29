@@ -1,0 +1,1 @@
+../../gcc/d/druntime/rt/obj.d

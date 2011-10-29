@@ -1,0 +1,10 @@
+--- Makefile.def	2011-02-12 12:02:24.000000000 +0000
++++ Makefile.def	2011-05-28 21:37:07.947690350 +0100
+@@ -160,6 +160,7 @@
+ target_modules = { module= libgfortran; };
+ target_modules = { module= libobjc; };
+ target_modules = { module= libgo; };
++target_modules = { module= libphobos; };
+ target_modules = { module= libtermcap; no_check=true;
+                    missing=mostlyclean;
+                    missing=clean;
