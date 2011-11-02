@@ -1,0 +1,1 @@
+../../gcc/d/phobos/etc/gamma.d

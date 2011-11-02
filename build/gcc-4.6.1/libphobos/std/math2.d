@@ -1,0 +1,1 @@
+../../gcc/d/phobos/std/math2.d

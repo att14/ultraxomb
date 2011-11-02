@@ -1,0 +1,1 @@
+../../../../gcc/d/phobos/std/c/osx/getsect.d

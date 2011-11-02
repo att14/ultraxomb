@@ -1,0 +1,1 @@
+../../../../gcc/d/phobos/std/c/mach/mach_extern.d

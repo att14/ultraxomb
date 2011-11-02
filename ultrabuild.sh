@@ -119,7 +119,7 @@ cd ..
 
 setphase "COMPILE GDC"
 cd gcc-obj
-../gcc-${GCC_VER}/configure --target=$TARGET --prefix=$PREFIX --enable-languages=d --disable-bootstrap --disable-shared --disable-libssp --with-gmp=$PREFIX --with-mpfr=$PREFIX --with-mpc=$PREFIX --without-headers --disable-nls --with-newlib || exit
+../gcc-${GCC_VER}/configure --target=$TARGET --prefix=$PREFIX --enable-languages=d --disable-bootstrap --disable-shared --disable-libssp --without-headers --disable-nls || exit
 make -j$NCPU || exit
 make install || exit
 cd ..
