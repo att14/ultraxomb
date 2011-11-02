@@ -21,8 +21,6 @@ mkdir -p gmp-obj
 mkdir -p mpfr-obj
 mkdir -p mpc-obj
 
-# -- Fetch and extract each package --
-#source ../scripts/fetchandpatch.sh
 find . -name "config.cache" -exec rm -rf {} \;
 
 # -- Build BINUTILS --
@@ -71,8 +69,6 @@ fi
 make install || exit
 cd ..
 
-# Do I need AUTOCONF GCC here???????????
-
 cd gcc-${GCC_VER}/libstdc++-v3
 #autoconf || exit
 cd ../..
@@ -102,6 +98,10 @@ make -j$NCPU || exit
 make install || exit
 cd ..
 
+cd ..
+./embedlibs.sh
+cd build
+
 setphase "PASS-2 COMPILE GCC"
 cd gcc-obj
 make -j$NCPU all-target-libstdc++-v3 || exit
@@ -113,13 +113,6 @@ cd ..
 setphase "PASS-2 COMPILE NEWLIB"
 cd newlib-obj
 ../newlib-${NEWLIB_VER}/configure --target=$TARGET --prefix=$PREFIX --with-gmp=$PREFIX --with-mpfr=$PREFIX -enable-newlib-hw-fp || exit
-make -j$NCPU || exit
-make install || exit
-cd ..
-
-setphase "COMPILE GDC"
-cd gcc-obj
-../gcc-${GCC_VER}/configure --target=$TARGET --prefix=$PREFIX --enable-languages=d --disable-bootstrap --disable-shared --disable-libssp --without-headers --disable-nls || exit
 make -j$NCPU || exit
 make install || exit
 cd ..
