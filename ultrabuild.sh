@@ -23,6 +23,9 @@ mkdir -p mpc-obj
 
 find . -name "config.cache" -exec rm -rf {} \;
 
+cp ../newlib-files/vanilla-syscalls.c newlib-${NEWLIB_VER}/newlib/libc/sys/${OSNAME}/syscalls.c || exit
+cp ../newlib-files/vanilla-crt0.c newlib-${NEWLIB_VER}/newlib/libc/sys/${OSNAME}/crt0.c || exit
+
 # -- Build BINUTILS --
 
 setphase "COMPILE BINUTILS"
@@ -69,15 +72,11 @@ fi
 make install || exit
 cd ..
 
-cd gcc-${GCC_VER}/libstdc++-v3
-#autoconf || exit
-cd ../..
-
 # -- Build GCC --
 
 setphase "COMPILE GCC"
 cd gcc-obj
-../gcc-${GCC_VER}/configure --target=$TARGET --prefix=$PREFIX --enable-languages=c,c++ --disable-libssp --with-gmp=$PREFIX --with-mpfr=$PREFIX --with-mpc=$PREFIX --without-headers --disable-nls --with-newlib || exit
+../gcc-${GCC_VER}/configure --target=$TARGET --prefix=$PREFIX --enable-languages=c,c++,d --disable-libssp --with-gmp=$PREFIX --with-mpfr=$PREFIX --with-mpc=$PREFIX --without-headers --disable-nls --with-newlib || exit
 make -j$NCPU all-gcc || exit
 make install-gcc || exit
 cd ..
@@ -98,10 +97,6 @@ make -j$NCPU || exit
 make install || exit
 cd ..
 
-cd ..
-./embedlibs.sh
-cd build
-
 setphase "PASS-2 COMPILE GCC"
 cd gcc-obj
 make -j$NCPU all-target-libstdc++-v3 || exit
@@ -111,6 +106,8 @@ make install || exit
 cd ..
 
 setphase "PASS-2 COMPILE NEWLIB"
+cp ../newlib-files/syscalls.c newlib-${NEWLIB_VER}/newlib/libc/sys/${OSNAME}/syscalls.c || exit
+cp ../newlib-files/crt0.c newlib-${NEWLIB_VER}/newlib/libc/sys/${OSNAME}/crt0.c || exit
 cd newlib-obj
 ../newlib-${NEWLIB_VER}/configure --target=$TARGET --prefix=$PREFIX --with-gmp=$PREFIX --with-mpfr=$PREFIX -enable-newlib-hw-fp || exit
 make -j$NCPU || exit
