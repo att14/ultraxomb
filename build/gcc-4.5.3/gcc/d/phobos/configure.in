@@ -17,6 +17,8 @@
 
 dnl Parts taken from libobjc configure.in
 
+set -x
+
 AC_PREREQ(2.59)
 AC_INIT(libphobos, version-unused)
 AC_CONFIG_SRCDIR(gcc/builtins.d)

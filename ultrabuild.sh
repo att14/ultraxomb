@@ -76,7 +76,7 @@ cd ..
 
 setphase "COMPILE GCC"
 cd gcc-obj
-../gcc-${GCC_VER}/configure --target=$TARGET --prefix=$PREFIX --enable-languages=c,c++,d --disable-libssp --with-gmp=$PREFIX --with-mpfr=$PREFIX --with-mpc=$PREFIX --without-headers --disable-nls --with-newlib || exit
+../gcc-${GCC_VER}/configure --target=$TARGET --prefix=$PREFIX --enable-languages=c,c++ --disable-libssp --with-gmp=$PREFIX --with-mpfr=$PREFIX --with-mpc=$PREFIX --without-headers --disable-nls --with-newlib || exit
 make -j$NCPU all-gcc || exit
 make install-gcc || exit
 cd ..
@@ -103,6 +103,15 @@ make -j$NCPU all-target-libstdc++-v3 || exit
 make install-target-libstdc++-v3 || exit
 make -j$NCPU all || exit
 make install || exit
+cd ..
+
+find . -name "config.cache" -exec rm -rf {} \;
+
+setphase "COMPILE GDC"
+cd gcc-obj
+../gcc-${GCC_VER}/configure --target=sparc64-sun-linux --prefix=$PREFIX --enable-languages=d --disable-libssp --with-gmp=$PREFIX --with-mpfr=$PREFIX --with-mpc=$PREFIX --without-headers --disable-nls --with-newlib || exit
+make -j$NCPU all-gcc || exit
+make install-gcc || exit
 cd ..
 
 setphase "PASS-2 COMPILE NEWLIB"

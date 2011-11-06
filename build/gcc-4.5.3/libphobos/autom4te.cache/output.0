@@ -5713,6 +5713,7 @@ fi
       skyos) DCFG_SEMAPHORE_IMPL="GNU_Sempahore_Pthreads"
 	     D_EXTRA_OBJS="$D_EXTRA_OBJS std/c/skyos/compat.o"
 	     ;;
+      xomb)  ;;
       *)     as_fn_error $? "No usable semaphore implementation" "$LINENO" 5 ;;
     esac
 else

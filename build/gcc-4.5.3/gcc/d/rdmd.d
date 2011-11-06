@@ -23,7 +23,7 @@ version (Windows)
 }
 else version (linux)
 {
-  import std.c.unix.unix;
+  import std.c.linux.linux;
 
   string fileSeparator = "/";
   string pathSeparator = ":";

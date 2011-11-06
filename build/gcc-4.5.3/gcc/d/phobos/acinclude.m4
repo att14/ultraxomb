@@ -56,6 +56,7 @@ if true; then
       skyos) DCFG_SEMAPHORE_IMPL="GNU_Sempahore_Pthreads"
 	     D_EXTRA_OBJS="$D_EXTRA_OBJS std/c/skyos/compat.o"
 	     ;;
+      xomb)  ;;
       *)     AC_MSG_ERROR([No usable semaphore implementation]) ;;
     esac
 else

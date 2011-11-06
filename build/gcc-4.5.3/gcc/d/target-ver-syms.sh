@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 
 # GDC -- D front-end for GCC
 # Copyright (C) 2004 David Friedman
@@ -45,7 +45,7 @@ sysv3*) d_os_versym=sysv3; d_unix=1 ;;
 sysv4*) d_os_versym=sysv4; d_unix=1 ;;
 *bsd*) d_os_versym=bsd; d_unix=1 ;;
 gnu*) d_os_versym=hurd; d_unix=1 ;;
-
+xomb*) ;;
 *) d_os_versym="$d_target_os"
 esac
 
