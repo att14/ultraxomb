@@ -1,0 +1,1 @@
+../../gcc/d/phobos/gcc/cbridge_stdio.c

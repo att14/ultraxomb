@@ -28,7 +28,6 @@ gt_ggc_mx_lto_symtab_entry_def (void *x_p)
       gt_ggc_m_9tree_node ((*x).id);
       gt_ggc_m_9tree_node ((*x).decl);
       gt_ggc_m_11cgraph_node ((*x).node);
-      gt_ggc_m_12varpool_node ((*x).vnode);
       gt_ggc_m_20lto_symtab_entry_def ((*x).next);
     }
 }
@@ -58,7 +57,6 @@ gt_pch_nx_lto_symtab_entry_def (void *x_p)
       gt_pch_n_9tree_node ((*x).id);
       gt_pch_n_9tree_node ((*x).decl);
       gt_pch_n_11cgraph_node ((*x).node);
-      gt_pch_n_12varpool_node ((*x).vnode);
       gt_pch_n_20lto_symtab_entry_def ((*x).next);
     }
 }
@@ -67,7 +65,7 @@ void
 gt_pch_n_P20lto_symtab_entry_def4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P20lto_symtab_entry_def4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P20lto_symtab_entry_def4htab, gt_e_P20lto_symtab_entry_def4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;
@@ -92,8 +90,6 @@ gt_pch_p_20lto_symtab_entry_def (ATTRIBUTE_UNUSED void *this_obj,
     op (&((*x).decl), cookie);
   if ((void *)(x) == this_obj)
     op (&((*x).node), cookie);
-  if ((void *)(x) == this_obj)
-    op (&((*x).vnode), cookie);
   if ((void *)(x) == this_obj)
     op (&((*x).next), cookie);
 }

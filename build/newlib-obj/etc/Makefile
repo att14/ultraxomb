@@ -4,7 +4,7 @@
 
 DESTDIR		=
 
-prefix 		= /home/edf12/buildtools_cross/local
+prefix 		= /home/att14/ultraxomb/local
 exec_prefix 	= ${prefix}
 
 srcdir  = ../../newlib-1.19.0/etc

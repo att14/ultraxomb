@@ -5359,6 +5359,10 @@ ix86_handle_cconv_attribute (tree *node, tree name,
 	{
 	  error ("fastcall and thiscall attributes are not compatible");
 	}
+      if (lookup_attribute ("optlink", TYPE_ATTRIBUTES (*node)))
+	{
+	  error ("fastcall and optlink attributes are not compatible");
+	}
     }
 
   /* Can combine stdcall with fastcall (redundant), regparm and
@@ -5377,6 +5381,10 @@ ix86_handle_cconv_attribute (tree *node, tree name,
 	{
 	  error ("stdcall and thiscall attributes are not compatible");
 	}
+      if (lookup_attribute ("optlink", TYPE_ATTRIBUTES (*node)))
+	{
+	  error ("stdcall and optlink attributes are not compatible");
+	}
     }
 
   /* Can combine cdecl with regparm and sseregparm.  */
@@ -5393,6 +5401,10 @@ ix86_handle_cconv_attribute (tree *node, tree name,
       if (lookup_attribute ("thiscall", TYPE_ATTRIBUTES (*node)))
 	{
 	  error ("cdecl and thiscall attributes are not compatible");
+	}
+      if (lookup_attribute ("optlink", TYPE_ATTRIBUTES (*node)))
+	{
+	  error ("cdecl and optlink attributes are not compatible");
 	}
     }
   else if (is_attribute_p ("thiscall", name))
@@ -5411,6 +5423,31 @@ ix86_handle_cconv_attribute (tree *node, tree name,
       if (lookup_attribute ("cdecl", TYPE_ATTRIBUTES (*node)))
 	{
 	  error ("cdecl and thiscall attributes are not compatible");
+	}
+      if (lookup_attribute ("optlink", TYPE_ATTRIBUTES (*node)))
+	{
+	  error ("optlink and thiscall attributes are not compatible");
+	}
+    }
+
+  /* Can combine optlink with regparm and sseregparm.  */
+  else if (is_attribute_p ("optlink", name))
+    {
+      if (lookup_attribute ("cdecl", TYPE_ATTRIBUTES (*node)))
+	{
+	  error ("optlink and cdecl attributes are not compatible");
+	}
+      if (lookup_attribute ("fastcall", TYPE_ATTRIBUTES (*node)))
+	{
+	  error ("optlink and fastcall attributes are not compatible");
+	}
+      if (lookup_attribute ("stdcall", TYPE_ATTRIBUTES (*node)))
+	{
+	  error ("optlink and stdcall attributes are not compatible");
+	}
+      if (lookup_attribute ("thiscall", TYPE_ATTRIBUTES (*node)))
+	{
+	  error ("optlink and thiscall attributes are not compatible");
 	}
     }
 
@@ -5643,6 +5680,12 @@ ix86_return_pops_args (tree fundecl, tree funtype, int size)
       if (lookup_attribute ("stdcall", TYPE_ATTRIBUTES (funtype))
 	  || lookup_attribute ("fastcall", TYPE_ATTRIBUTES (funtype))
           || lookup_attribute ("thiscall", TYPE_ATTRIBUTES (funtype)))
+	rtd = 1;
+
+      /* Optlink functions will pop the stack if floating-point return
+         and if not variable args.  */
+      if (lookup_attribute ("optlink", TYPE_ATTRIBUTES (funtype))
+	  && FLOAT_MODE_P (TYPE_MODE (TREE_TYPE (funtype))))
 	rtd = 1;
 
       if (rtd && ! stdarg_p (funtype))
@@ -5992,6 +6035,11 @@ init_cumulative_args (CUMULATIVE_ARGS *cum,  /* Argument info to initialize */
 	    }
 	  else
 	    cum->nregs = ix86_function_regparm (fntype, fndecl);
+
+	  /* For optlink, last parameter is passed in eax rather than
+	     being pushed on the stack.  */
+	  if (lookup_attribute ("optlink", TYPE_ATTRIBUTES (fntype)))
+	    cum->optlink = 1;
 	}
 
       /* Set up the number of SSE registers used for passing SFmode
@@ -8722,6 +8770,10 @@ ix86_frame_pointer_required (void)
   if (crtl->profile && !flag_fentry)
     return true;
 
+  /* Optlink mandates the setting up of ebp, unless 'naked' is used.  */
+  if (crtl->args.info.optlink && !cfun->naked)
+    return true;
+
   return false;
 }
 
@@ -9366,6 +9418,10 @@ ix86_compute_frame_layout (struct ix86_frame *frame)
   else
     frame->red_zone_size = 0;
   frame->stack_pointer_offset -= frame->red_zone_size;
+
+  if (cfun->naked)
+    /* As above, skip return address.  */
+    frame->stack_pointer_offset = UNITS_PER_WORD;
 
   /* The SEH frame pointer location is near the bottom of the frame.
      This is enforced by the fact that the difference between the
@@ -29805,7 +29861,7 @@ x86_output_mi_thunk (FILE *file,
 	  output_set_got (tmp, NULL_RTX);
 
 	  xops[1] = tmp;
-	  output_asm_insn ("mov{l}\t{%0@GOT(%1), %1|%1, %0@GOT[%1]}", xops);
+	  output_asm_insn ("mov{l}\t{%a0@GOT(%1), %1|%1, %a0@GOT[%1]}", xops);
 	  output_asm_insn ("jmp\t{*}%1", xops);
 	}
     }
@@ -32636,6 +32692,8 @@ static const struct attribute_spec ix86_attribute_table[] =
   /* Sseregparm attribute says we are using x86_64 calling conventions
      for FP arguments.  */
   { "sseregparm", 0, 0, false, true, true, ix86_handle_cconv_attribute },
+  /* Optlink attribute says we are using D calling convention */
+  { "optlink",    0, 0, false, true, true, ix86_handle_cconv_attribute },
   /* force_align_arg_pointer says this function realigns the stack at entry.  */
   { (const char *)&ix86_force_align_arg_pointer_string, 0, 0,
     false, true,  true, ix86_handle_cconv_attribute },

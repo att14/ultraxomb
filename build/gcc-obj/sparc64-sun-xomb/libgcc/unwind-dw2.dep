@@ -1,0 +1,80 @@
+unwind-dw2.o: ../../../gcc-4.5.3/libgcc/../gcc/unwind-dw2.c \
+ ../.././gcc/tconfig.h ../.././gcc/auto-host.h \
+ ../../../gcc-4.5.3/libgcc/../include/ansidecl.h \
+ ../../../gcc-4.5.3/libgcc/../gcc/tsystem.h \
+ /home/att14/ultraxomb/build/gcc-obj/./gcc/include/stddef.h \
+ /home/att14/ultraxomb/build/gcc-obj/./gcc/include/float.h \
+ ../../../gcc-4.5.3/libgcc/../include/filenames.h \
+ ../../../gcc-4.5.3/libgcc/../gcc/coretypes.h ../.././gcc/tm.h \
+ ../.././gcc/options.h \
+ ../../../gcc-4.5.3/libgcc/../gcc/config/sparc/sparc.h \
+ ../../../gcc-4.5.3/libgcc/../gcc/config/vxworks-dummy.h \
+ ../../../gcc-4.5.3/libgcc/../gcc/config/dbxelf.h \
+ ../../../gcc-4.5.3/libgcc/../gcc/config/elfos.h \
+ ../../../gcc-4.5.3/libgcc/../gcc/config/svr4.h \
+ ../../../gcc-4.5.3/libgcc/../gcc/config/sparc/sysv4.h \
+ ../../../gcc-4.5.3/libgcc/../gcc/config/sparc/sp64-elf.h \
+ ../../../gcc-4.5.3/libgcc/../gcc/config/xomb.h \
+ ../../../gcc-4.5.3/libgcc/../gcc/defaults.h \
+ ../../../gcc-4.5.3/libgcc/../include/dwarf2.h \
+ /home/att14/ultraxomb/build/gcc-obj/./gcc/include/unwind.h \
+ ../../../gcc-4.5.3/libgcc/../gcc/unwind-pe.h \
+ ../../../gcc-4.5.3/libgcc/../gcc/unwind-dw2-fde.h \
+ ../../../gcc-4.5.3/libgcc/../gcc/gthr.h \
+ ../../../gcc-4.5.3/libgcc/../gcc/gthr-single.h \
+ ../../../gcc-4.5.3/libgcc/../gcc/unwind-dw2.h \
+ ../../../gcc-4.5.3/libgcc/../gcc/unwind.inc
+
+../.././gcc/tconfig.h:
+
+../.././gcc/auto-host.h:
+
+../../../gcc-4.5.3/libgcc/../include/ansidecl.h:
+
+../../../gcc-4.5.3/libgcc/../gcc/tsystem.h:
+
+/home/att14/ultraxomb/build/gcc-obj/./gcc/include/stddef.h:
+
+/home/att14/ultraxomb/build/gcc-obj/./gcc/include/float.h:
+
+../../../gcc-4.5.3/libgcc/../include/filenames.h:
+
+../../../gcc-4.5.3/libgcc/../gcc/coretypes.h:
+
+../.././gcc/tm.h:
+
+../.././gcc/options.h:
+
+../../../gcc-4.5.3/libgcc/../gcc/config/sparc/sparc.h:
+
+../../../gcc-4.5.3/libgcc/../gcc/config/vxworks-dummy.h:
+
+../../../gcc-4.5.3/libgcc/../gcc/config/dbxelf.h:
+
+../../../gcc-4.5.3/libgcc/../gcc/config/elfos.h:
+
+../../../gcc-4.5.3/libgcc/../gcc/config/svr4.h:
+
+../../../gcc-4.5.3/libgcc/../gcc/config/sparc/sysv4.h:
+
+../../../gcc-4.5.3/libgcc/../gcc/config/sparc/sp64-elf.h:
+
+../../../gcc-4.5.3/libgcc/../gcc/config/xomb.h:
+
+../../../gcc-4.5.3/libgcc/../gcc/defaults.h:
+
+../../../gcc-4.5.3/libgcc/../include/dwarf2.h:
+
+/home/att14/ultraxomb/build/gcc-obj/./gcc/include/unwind.h:
+
+../../../gcc-4.5.3/libgcc/../gcc/unwind-pe.h:
+
+../../../gcc-4.5.3/libgcc/../gcc/unwind-dw2-fde.h:
+
+../../../gcc-4.5.3/libgcc/../gcc/gthr.h:
+
+../../../gcc-4.5.3/libgcc/../gcc/gthr-single.h:
+
+../../../gcc-4.5.3/libgcc/../gcc/unwind-dw2.h:
+
+../../../gcc-4.5.3/libgcc/../gcc/unwind.inc:

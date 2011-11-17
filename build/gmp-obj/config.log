@@ -3195,7 +3195,7 @@ configure:25373: $? = 0
 configure:25373: result: yes
 configure:25373: checking for attr_get
 configure:25373: gcc -std=gnu99 -o conftest -O2 -pedantic -m64 -mtune=core2 -march=core2   conftest.c  >&5
-/tmp/ccMyaGfE.o: In function `main':
+/tmp/ccGzJmSd.o: In function `main':
 conftest.c:(.text.startup+0x7): undefined reference to `attr_get'
 collect2: ld returned 1 exit status
 configure:25373: $? = 1
@@ -3316,7 +3316,7 @@ configure:25373: $? = 0
 configure:25373: result: yes
 configure:25373: checking for clock_gettime
 configure:25373: gcc -std=gnu99 -o conftest -O2 -pedantic -m64 -mtune=core2 -march=core2   conftest.c  >&5
-/tmp/ccqFAadK.o: In function `main':
+/tmp/ccKHoGfl.o: In function `main':
 conftest.c:(.text.startup+0x7): undefined reference to `clock_gettime'
 collect2: ld returned 1 exit status
 configure:25373: $? = 1
@@ -3434,7 +3434,7 @@ configure: failed program was:
 configure:25373: result: no
 configure:25373: checking for cputime
 configure:25373: gcc -std=gnu99 -o conftest -O2 -pedantic -m64 -mtune=core2 -march=core2   conftest.c  >&5
-/tmp/cc4JIl9P.o: In function `main':
+/tmp/cc0Cvjdn.o: In function `main':
 conftest.c:(.text.startup+0x7): undefined reference to `cputime'
 collect2: ld returned 1 exit status
 configure:25373: $? = 1
@@ -3564,7 +3564,7 @@ configure:25373: $? = 0
 configure:25373: result: yes
 configure:25373: checking for getsysinfo
 configure:25373: gcc -std=gnu99 -o conftest -O2 -pedantic -m64 -mtune=core2 -march=core2   conftest.c  >&5
-/tmp/ccdmKUOW.o: In function `main':
+/tmp/ccateoTE.o: In function `main':
 conftest.c:(.text.startup+0x7): undefined reference to `getsysinfo'
 collect2: ld returned 1 exit status
 configure:25373: $? = 1
@@ -3714,7 +3714,7 @@ configure:25373: $? = 0
 configure:25373: result: yes
 configure:25373: checking for processor_info
 configure:25373: gcc -std=gnu99 -o conftest -O2 -pedantic -m64 -mtune=core2 -march=core2   conftest.c  >&5
-/tmp/ccCIfAZq.o: In function `main':
+/tmp/ccEBKMeY.o: In function `main':
 conftest.c:(.text.startup+0x7): undefined reference to `processor_info'
 collect2: ld returned 1 exit status
 configure:25373: $? = 1
@@ -3842,7 +3842,7 @@ configure: failed program was:
 configure:25373: result: no
 configure:25373: checking for pstat_getprocessor
 configure:25373: gcc -std=gnu99 -o conftest -O2 -pedantic -m64 -mtune=core2 -march=core2   conftest.c  >&5
-/tmp/ccchrwcv.o: In function `main':
+/tmp/ccK2Oih4.o: In function `main':
 conftest.c:(.text.startup+0x7): undefined reference to `pstat_getprocessor'
 collect2: ld returned 1 exit status
 configure:25373: $? = 1
@@ -3974,7 +3974,7 @@ configure:25373: $? = 0
 configure:25373: result: yes
 configure:25373: checking for read_real_time
 configure:25373: gcc -std=gnu99 -o conftest -O2 -pedantic -m64 -mtune=core2 -march=core2   conftest.c  >&5
-/tmp/ccKtBEVC.o: In function `main':
+/tmp/ccPvXKW9.o: In function `main':
 conftest.c:(.text.startup+0x7): undefined reference to `read_real_time'
 collect2: ld returned 1 exit status
 configure:25373: $? = 1
@@ -4111,13 +4111,13 @@ configure:25373: $? = 0
 configure:25373: result: yes
 configure:25373: checking for sigstack
 configure:25373: gcc -std=gnu99 -o conftest -O2 -pedantic -m64 -mtune=core2 -march=core2   conftest.c  >&5
-/tmp/ccg350aR.o: In function `main':
+/tmp/ccgNYVRn.o: In function `main':
 conftest.c:(.text.startup+0x7): warning: the `sigstack' function is dangerous.  `sigaltstack' should be used instead.
 configure:25373: $? = 0
 configure:25373: result: yes
 configure:25373: checking for syssgi
 configure:25373: gcc -std=gnu99 -o conftest -O2 -pedantic -m64 -mtune=core2 -march=core2   conftest.c  >&5
-/tmp/ccGH3RKV.o: In function `main':
+/tmp/cc4a9hDp.o: In function `main':
 conftest.c:(.text.startup+0x7): undefined reference to `syssgi'
 collect2: ld returned 1 exit status
 configure:25373: $? = 1
@@ -4278,7 +4278,7 @@ configure:25373: $? = 0
 configure:25373: result: yes
 configure:25373: checking for sysctlbyname
 configure:25373: gcc -std=gnu99 -o conftest -O2 -pedantic -m64 -mtune=core2 -march=core2   conftest.c  >&5
-/tmp/ccY7nDrg.o: In function `main':
+/tmp/ccLb8WlL.o: In function `main':
 conftest.c:(.text.startup+0x7): undefined reference to `sysctlbyname'
 collect2: ld returned 1 exit status
 configure:25373: $? = 1
@@ -5270,10 +5270,10 @@ configure:28264: checking lex output file root
 configure:28278: result: lex.yy
 configure:28283: checking lex library
 configure:28297: gcc -std=gnu99 -o conftest -O2 -pedantic -m64 -mtune=core2 -march=core2   conftest.c   >&5
-/tmp/ccG5OW0H.o: In function `yylex':
+/tmp/ccyiV6Xf.o: In function `yylex':
 conftest.c:(.text+0xb63): undefined reference to `yywrap'
 conftest.c:(.text+0xfb0): undefined reference to `yywrap'
-/tmp/ccG5OW0H.o: In function `main':
+/tmp/ccyiV6Xf.o: In function `main':
 conftest.c:(.text.startup+0x9): undefined reference to `yywrap'
 collect2: ld returned 1 exit status
 configure:28297: $? = 1
@@ -7386,7 +7386,6 @@ config.status:1588: creating demos/expr/Makefile
 config.status:1588: creating gmp.h
 config.status:1588: creating mp.h
 config.status:1588: creating config.h
-config.status:1753: config.h is unchanged
 config.status:1813: linking ../gmp-5.0.2/mpn/generic/add.c to mpn/add.c
 config.status:1813: linking ../gmp-5.0.2/mpn/generic/add_1.c to mpn/add_1.c
 config.status:1813: linking ../gmp-5.0.2/mpn/x86_64/core2/aors_n.asm to mpn/add_n.asm

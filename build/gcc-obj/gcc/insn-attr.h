@@ -7,7 +7,7 @@
 #define HAVE_ATTR_alternative
 #define get_attr_alternative(insn) which_alternative
 #define HAVE_ATTR_cpu
-enum attr_cpu {CPU_V7, CPU_CYPRESS, CPU_V8, CPU_SUPERSPARC, CPU_HYPERSPARC, CPU_LEON, CPU_SPARCLITE, CPU_F930, CPU_F934, CPU_SPARCLITE86X, CPU_SPARCLET, CPU_TSC701, CPU_V9, CPU_ULTRASPARC, CPU_ULTRASPARC3, CPU_NIAGARA, CPU_NIAGARA2};
+enum attr_cpu {CPU_V7, CPU_CYPRESS, CPU_V8, CPU_SUPERSPARC, CPU_SPARCLITE, CPU_F930, CPU_F934, CPU_HYPERSPARC, CPU_SPARCLITE86X, CPU_SPARCLET, CPU_TSC701, CPU_V9, CPU_ULTRASPARC, CPU_ULTRASPARC3, CPU_NIAGARA, CPU_NIAGARA2};
 extern enum attr_cpu get_attr_cpu (void);
 
 #define HAVE_ATTR_isa
@@ -117,15 +117,11 @@ extern int eligible_for_annul_false (rtx, int, rtx, int);
 #define CPU_UNITS_QUERY 0
 #endif
 
-/* Initialize fn pointers for internal_dfa_insn_code
-   and insn_default_latency.  */
-extern void init_sched_attrs (void);
-
 /* Internal insn code number used by automata.  */
-extern int (*internal_dfa_insn_code) (rtx);
+extern int internal_dfa_insn_code (rtx);
 
 /* Insn latency time defined in define_insn_reservation. */
-extern int (*insn_default_latency) (rtx);
+extern int insn_default_latency (rtx);
 
 /* Return nonzero if there is a bypass for given insn
    which is a data producer.  */

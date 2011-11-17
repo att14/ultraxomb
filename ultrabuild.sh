@@ -1,6 +1,8 @@
 source scripts/functions.sh
 source scripts/config.sh
 
+set -x
+
 PREFIX=`pwd`/local
 
 export PATH=$PREFIX/bin:$PATH
@@ -22,6 +24,11 @@ mkdir -p mpc-obj
 # -- Fetch and extract each package --
 #source ../scripts/fetchandpatch.sh
 find . -name "config.cache" -exec rm -rf {} \;
+
+find . -name "config.cache" -exec rm -rf {} \;
+
+cp ../newlib-files/vanilla-syscalls.c newlib-${NEWLIB_VER}/newlib/libc/sys/${OSNAME}/syscalls.c || exit
+cp ../newlib-files/vanilla-crt0.c newlib-${NEWLIB_VER}/newlib/libc/sys/${OSNAME}/crt0.c || exit
 
 # -- Build BINUTILS --
 
@@ -112,6 +119,18 @@ cd ..
 setphase "PASS-2 COMPILE NEWLIB"
 cp ../newlib-files/syscalls.c newlib-${NEWLIB_VER}/newlib/llbc/sys/${OSNAME}/syscalls.c
 
+#find . -name "config.cache" -exec rm -rf {} \;
+
+setphase "COMPILE GDC"
+cd gcc-obj
+../gcc-${GCC_VER}/configure --target=$TARGET --prefix=$PREFIX --enable-languages=d --disable-libssp --with-gmp=$PREFIX --with-mpfr=$PREFIX --with-mpc=$PREFIX --without-headers --disable-nls --with-newlib || exit
+make -j$NCPU all-gcc || exit
+make install-gcc || exit
+cd ..
+
+setphase "PASS-2 COMPILE NEWLIB"
+cp ../newlib-files/syscalls.c newlib-${NEWLIB_VER}/newlib/libc/sys/${OSNAME}/syscalls.c || exit
+cp ../newlib-files/crt0.c newlib-${NEWLIB_VER}/newlib/libc/sys/${OSNAME}/crt0.c || exit
 cd newlib-obj
 ../newlib-${NEWLIB_VER}/configure --target=$TARGET --prefix=$PREFIX --with-gmp=$PREFIX --with-mpfr=$PREFIX -enable-newlib-hw-fp || exit
 make -j$NCPU || exit

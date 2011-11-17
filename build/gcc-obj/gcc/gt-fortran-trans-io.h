@@ -38,8 +38,8 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gt_fortran_trans_io_h[] = {
   },
   {
     &st_parameter_field[0].name,
-    1 * ARRAY_SIZE (st_parameter_field),
-    sizeof (st_parameter_field[0]),
+    1, 
+    sizeof (st_parameter_field),
     (gt_pointer_walker) &gt_ggc_m_S,
     (gt_pointer_walker) &gt_pch_n_S
   },
@@ -59,8 +59,8 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gt_fortran_trans_io_h[] = {
   },
   {
     &st_parameter[0].name,
-    1 * ARRAY_SIZE (st_parameter),
-    sizeof (st_parameter[0]),
+    1, 
+    sizeof (st_parameter),
     (gt_pointer_walker) &gt_ggc_m_S,
     (gt_pointer_walker) &gt_pch_n_S
   },

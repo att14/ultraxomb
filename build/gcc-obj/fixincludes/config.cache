@@ -31,7 +31,7 @@ ac_cv_env_build_alias_value=x86_64-unknown-linux-gnu
 ac_cv_env_host_alias_set=set
 ac_cv_env_host_alias_value=x86_64-unknown-linux-gnu
 ac_cv_env_target_alias_set=set
-ac_cv_env_target_alias_value=sparc64-pc-xomb
+ac_cv_env_target_alias_value=sparc64-sun-xomb
 ac_cv_func_clearerr_unlocked=${ac_cv_func_clearerr_unlocked=yes}
 ac_cv_func_feof_unlocked=${ac_cv_func_feof_unlocked=yes}
 ac_cv_func_ferror_unlocked=${ac_cv_func_ferror_unlocked=yes}
@@ -51,7 +51,7 @@ ac_cv_func_putc_unlocked=${ac_cv_func_putc_unlocked=yes}
 ac_cv_func_putchar_unlocked=${ac_cv_func_putchar_unlocked=yes}
 ac_cv_have_decl_abort=${ac_cv_have_decl_abort=yes}
 ac_cv_have_decl_asprintf=${ac_cv_have_decl_asprintf=no}
-ac_cv_have_decl_basename_char_p_=${ac_cv_have_decl_basename_char_p_=no}
+ac_cv_have_decl_basename=${ac_cv_have_decl_basename=no}
 ac_cv_have_decl_clearerr_unlocked=${ac_cv_have_decl_clearerr_unlocked=yes}
 ac_cv_have_decl_errno=${ac_cv_have_decl_errno=no}
 ac_cv_have_decl_feof_unlocked=${ac_cv_have_decl_feof_unlocked=yes}
@@ -93,7 +93,7 @@ ac_cv_prog_CC=${ac_cv_prog_CC=gcc}
 ac_cv_prog_CPP=${ac_cv_prog_CPP='gcc -E'}
 ac_cv_prog_cc_c89=${ac_cv_prog_cc_c89=}
 ac_cv_prog_cc_g=${ac_cv_prog_cc_g=yes}
-ac_cv_target=${ac_cv_target=sparc64-pc-xomb}
+ac_cv_target=${ac_cv_target=sparc64-sun-xomb}
 acx_cv_prog_cc_pedantic__Wno_long_long=${acx_cv_prog_cc_pedantic__Wno_long_long=yes}
 acx_cv_prog_cc_warning__W=${acx_cv_prog_cc_warning__W=yes}
 acx_cv_prog_cc_warning__Wall=${acx_cv_prog_cc_warning__Wall=yes}

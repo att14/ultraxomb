@@ -58,6 +58,13 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gt_fortran_trans_decl_h[] = {
     &gt_pch_nx_tree_node
   },
   {
+    &current_function_return_label,
+    1,
+    sizeof (current_function_return_label),
+    &gt_ggc_mx_tree_node,
+    &gt_pch_nx_tree_node
+  },
+  {
     &parent_fake_result_decl,
     1,
     sizeof (parent_fake_result_decl),

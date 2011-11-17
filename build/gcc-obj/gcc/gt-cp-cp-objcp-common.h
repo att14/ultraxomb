@@ -26,9 +26,9 @@ EXPORTED_CONST struct ggc_cache_tab gt_ggc_rc_gt_cp_cp_objcp_common_h[] = {
     &shadowed_var_for_decl,
     1,
     sizeof (shadowed_var_for_decl),
-    &gt_ggc_mx_tree_decl_map,
-    &gt_pch_nx_tree_decl_map,
-    &tree_decl_map_marked_p
+    &gt_ggc_mx_tree_map,
+    &gt_pch_nx_tree_map,
+    &tree_map_marked_p
   },
   LAST_GGC_CACHE_TAB
 };
@@ -38,8 +38,8 @@ EXPORTED_CONST struct ggc_root_tab gt_pch_rc_gt_cp_cp_objcp_common_h[] = {
     &shadowed_var_for_decl,
     1,
     sizeof (shadowed_var_for_decl),
-    &gt_ggc_m_P13tree_decl_map4htab,
-    &gt_pch_n_P13tree_decl_map4htab
+    &gt_ggc_m_P8tree_map4htab,
+    &gt_pch_n_P8tree_map4htab
   },
   LAST_GGC_ROOT_TAB
 };

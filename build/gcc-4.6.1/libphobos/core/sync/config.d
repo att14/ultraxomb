@@ -1,0 +1,1 @@
+../../../gcc/d/druntime/core/sync/config.d

@@ -1,0 +1,2 @@
+crtfastmath.o: \
+ ../../../gcc-4.5.3/libgcc/../gcc/config/sparc/crtfastmath.c

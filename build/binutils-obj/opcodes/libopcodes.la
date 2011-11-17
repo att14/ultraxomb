@@ -38,4 +38,4 @@ dlopen=''
 dlpreopen=''
 
 # Directory that this library needs to be installed in:
-libdir='/home/edf12/buildtools_cross/local/x86_64-unknown-linux-gnu/sparc64-pc-xomb/lib'
+libdir='/home/att14/ultraxomb/local/x86_64-unknown-linux-gnu/sparc64-sun-xomb/lib'

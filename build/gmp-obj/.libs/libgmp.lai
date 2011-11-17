@@ -38,4 +38,4 @@ dlopen=''
 dlpreopen=''
 
 # Directory that this library needs to be installed in:
-libdir='/home/edf12/buildtools_cross/local/lib'
+libdir='/home/att14/ultraxomb/local/lib'

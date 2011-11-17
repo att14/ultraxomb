@@ -34,7 +34,7 @@ ac_cv_env_build_alias_value=x86_64-unknown-linux-gnu
 ac_cv_env_host_alias_set=set
 ac_cv_env_host_alias_value=x86_64-unknown-linux-gnu
 ac_cv_env_target_alias_set=set
-ac_cv_env_target_alias_value=sparc64-pc-xomb
+ac_cv_env_target_alias_value=sparc64-sun-xomb
 ac_cv_func___fsetlocking=${ac_cv_func___fsetlocking=yes}
 ac_cv_func__doprnt=${ac_cv_func__doprnt=no}
 ac_cv_func_asprintf=${ac_cv_func_asprintf=yes}
@@ -47,7 +47,6 @@ ac_cv_func_bzero=${ac_cv_func_bzero=yes}
 ac_cv_func_calloc=${ac_cv_func_calloc=yes}
 ac_cv_func_canonicalize_file_name=${ac_cv_func_canonicalize_file_name=yes}
 ac_cv_func_clock=${ac_cv_func_clock=yes}
-ac_cv_func_dup3=${ac_cv_func_dup3=yes}
 ac_cv_func_ffs=${ac_cv_func_ffs=yes}
 ac_cv_func_fork=${ac_cv_func_fork=yes}
 ac_cv_func_fork_works=${ac_cv_func_fork_works=yes}
@@ -78,11 +77,8 @@ ac_cv_func_rename=${ac_cv_func_rename=yes}
 ac_cv_func_rindex=${ac_cv_func_rindex=yes}
 ac_cv_func_sbrk=${ac_cv_func_sbrk=yes}
 ac_cv_func_setenv=${ac_cv_func_setenv=yes}
-ac_cv_func_setproctitle=${ac_cv_func_setproctitle=no}
 ac_cv_func_sigsetmask=${ac_cv_func_sigsetmask=yes}
 ac_cv_func_snprintf=${ac_cv_func_snprintf=yes}
-ac_cv_func_spawnve=${ac_cv_func_spawnve=no}
-ac_cv_func_spawnvpe=${ac_cv_func_spawnvpe=no}
 ac_cv_func_stpcpy=${ac_cv_func_stpcpy=yes}
 ac_cv_func_stpncpy=${ac_cv_func_stpncpy=yes}
 ac_cv_func_strcasecmp=${ac_cv_func_strcasecmp=yes}
@@ -116,7 +112,7 @@ ac_cv_func_wait3=${ac_cv_func_wait3=yes}
 ac_cv_func_wait4=${ac_cv_func_wait4=yes}
 ac_cv_func_waitpid=${ac_cv_func_waitpid=yes}
 ac_cv_have_decl_asprintf=${ac_cv_have_decl_asprintf=no}
-ac_cv_have_decl_basename_char_p_=${ac_cv_have_decl_basename_char_p_=no}
+ac_cv_have_decl_basename=${ac_cv_have_decl_basename=no}
 ac_cv_have_decl_calloc=${ac_cv_have_decl_calloc=yes}
 ac_cv_have_decl_ffs=${ac_cv_have_decl_ffs=yes}
 ac_cv_have_decl_getenv=${ac_cv_have_decl_getenv=yes}
@@ -135,7 +131,6 @@ ac_cv_header_limits_h=${ac_cv_header_limits_h=yes}
 ac_cv_header_machine_hal_sysinfo_h=${ac_cv_header_machine_hal_sysinfo_h=no}
 ac_cv_header_malloc_h=${ac_cv_header_malloc_h=yes}
 ac_cv_header_memory_h=${ac_cv_header_memory_h=yes}
-ac_cv_header_process_h=${ac_cv_header_process_h=no}
 ac_cv_header_stdc=${ac_cv_header_stdc=yes}
 ac_cv_header_stdint_h=${ac_cv_header_stdint_h=yes}
 ac_cv_header_stdio_ext_h=${ac_cv_header_stdio_ext_h=yes}
@@ -145,7 +140,6 @@ ac_cv_header_strings_h=${ac_cv_header_strings_h=yes}
 ac_cv_header_sys_file_h=${ac_cv_header_sys_file_h=yes}
 ac_cv_header_sys_mman_h=${ac_cv_header_sys_mman_h=yes}
 ac_cv_header_sys_param_h=${ac_cv_header_sys_param_h=yes}
-ac_cv_header_sys_prctl_h=${ac_cv_header_sys_prctl_h=yes}
 ac_cv_header_sys_pstat_h=${ac_cv_header_sys_pstat_h=no}
 ac_cv_header_sys_resource_h=${ac_cv_header_sys_resource_h=yes}
 ac_cv_header_sys_stat_h=${ac_cv_header_sys_stat_h=yes}
@@ -182,7 +176,6 @@ ac_cv_sys_file_offset_bits=${ac_cv_sys_file_offset_bits=no}
 ac_cv_sys_largefile_CC=${ac_cv_sys_largefile_CC=no}
 ac_cv_type_intptr_t=${ac_cv_type_intptr_t=yes}
 ac_cv_type_pid_t=${ac_cv_type_pid_t=yes}
-ac_cv_type_ssize_t=${ac_cv_type_ssize_t=yes}
 ac_cv_type_uintptr_t=${ac_cv_type_uintptr_t=yes}
 acx_cv_prog_cc_pedantic_=${acx_cv_prog_cc_pedantic_=yes}
 acx_cv_prog_cc_warning__W=${acx_cv_prog_cc_warning__W=yes}

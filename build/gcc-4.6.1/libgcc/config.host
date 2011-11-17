@@ -571,7 +571,8 @@ sparc64-*-linux*)		# 64-bit SPARC's running GNU/Linux
 sparc64-*-netbsd*)
 	;;
 sparc64-*-xomb*)
-        extra_parts="crtbegin.o crtend.o"
+        extra_parts="crtbegin.o crtend.o crtfastmath.o"
+	tmake_file="${tmake_file} sparc/t-crtfm"
         ;;
 spu-*-elf*)
 	;;

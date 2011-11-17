@@ -50,6 +50,7 @@
    && offsettable_memref_p (operands[0])")
   (-1 "REG_P (operands[0]) && REGNO (operands[0]) < 32")
   (-1 "TARGET_V9 && TARGET_FPU && TARGET_HARD_QUAD")
+  (0 "(TARGET_ARCH32) && ( reload_completed)")
   (0 "! TARGET_FPU
    && ! TARGET_ARCH64
    && (register_operand (operands[0], TFmode)

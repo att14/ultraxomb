@@ -486,6 +486,7 @@ case "${host}" in
 	unix_dir=unix
 	;;
   sparc64-*-xomb*)
+	machine_dir=sparc
 	unix_dir=unix
 	posix_dir=posix
 	sys_dir=xomb

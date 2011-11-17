@@ -35,15 +35,14 @@ extern const struct ggc_root_tab gt_ggc_r_gt_expr_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_function_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_except_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_gcse_h[];
-extern const struct ggc_root_tab gt_ggc_r_gt_godump_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_optabs_h[];
+extern const struct ggc_root_tab gt_ggc_r_gt_reginfo_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_cfglayout_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_sdbout_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_stor_layout_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_stringpool_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_tree_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_varasm_h[];
-extern const struct ggc_root_tab gt_ggc_r_gt_gimple_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_tree_mudflap_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_tree_ssa_address_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_gimplify_h[];
@@ -58,6 +57,7 @@ extern const struct ggc_root_tab gt_ggc_r_gt_sparc_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_passes_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_cgraphunit_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_tree_ssa_propagate_h[];
+extern const struct ggc_root_tab gt_ggc_r_gt_ipa_reference_h[];
 extern const struct ggc_root_tab gt_ggc_r_gtype_desc_c[];
 extern const struct ggc_root_tab gt_ggc_r_gt_cp_rtti_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_cp_mangle_h[];
@@ -72,8 +72,8 @@ extern const struct ggc_root_tab gt_ggc_r_gt_cp_tree_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_cp_parser_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_cp_method_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_cp_typeck2_h[];
-extern const struct ggc_root_tab gt_ggc_r_gt_c_family_c_common_h[];
-extern const struct ggc_root_tab gt_ggc_r_gt_c_family_c_pragma_h[];
+extern const struct ggc_root_tab gt_ggc_r_gt_c_common_h[];
+extern const struct ggc_root_tab gt_ggc_r_gt_c_pragma_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_cp_class_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_cp_cp_lang_h[];
 EXPORTED_CONST struct ggc_root_tab * const gt_ggc_rtab[] = {
@@ -94,15 +94,14 @@ EXPORTED_CONST struct ggc_root_tab * const gt_ggc_rtab[] = {
   gt_ggc_r_gt_function_h,
   gt_ggc_r_gt_except_h,
   gt_ggc_r_gt_gcse_h,
-  gt_ggc_r_gt_godump_h,
   gt_ggc_r_gt_optabs_h,
+  gt_ggc_r_gt_reginfo_h,
   gt_ggc_r_gt_cfglayout_h,
   gt_ggc_r_gt_sdbout_h,
   gt_ggc_r_gt_stor_layout_h,
   gt_ggc_r_gt_stringpool_h,
   gt_ggc_r_gt_tree_h,
   gt_ggc_r_gt_varasm_h,
-  gt_ggc_r_gt_gimple_h,
   gt_ggc_r_gt_tree_mudflap_h,
   gt_ggc_r_gt_tree_ssa_address_h,
   gt_ggc_r_gt_gimplify_h,
@@ -117,6 +116,7 @@ EXPORTED_CONST struct ggc_root_tab * const gt_ggc_rtab[] = {
   gt_ggc_r_gt_passes_h,
   gt_ggc_r_gt_cgraphunit_h,
   gt_ggc_r_gt_tree_ssa_propagate_h,
+  gt_ggc_r_gt_ipa_reference_h,
   gt_ggc_r_gtype_desc_c,
   gt_ggc_r_gt_cp_rtti_h,
   gt_ggc_r_gt_cp_mangle_h,
@@ -131,8 +131,8 @@ EXPORTED_CONST struct ggc_root_tab * const gt_ggc_rtab[] = {
   gt_ggc_r_gt_cp_parser_h,
   gt_ggc_r_gt_cp_method_h,
   gt_ggc_r_gt_cp_typeck2_h,
-  gt_ggc_r_gt_c_family_c_common_h,
-  gt_ggc_r_gt_c_family_c_pragma_h,
+  gt_ggc_r_gt_c_common_h,
+  gt_ggc_r_gt_c_pragma_h,
   gt_ggc_r_gt_cp_class_h,
   gt_ggc_r_gt_cp_cp_lang_h,
   NULL
@@ -146,7 +146,7 @@ extern const struct ggc_root_tab gt_ggc_rd_gt_tree_iterator_h[];
 extern const struct ggc_root_tab gt_ggc_rd_gt_tree_phinodes_h[];
 extern const struct ggc_root_tab gt_ggc_rd_gt_cp_name_lookup_h[];
 extern const struct ggc_root_tab gt_ggc_rd_gt_cp_parser_h[];
-extern const struct ggc_root_tab gt_ggc_rd_gt_c_family_c_common_h[];
+extern const struct ggc_root_tab gt_ggc_rd_gt_c_common_h[];
 EXPORTED_CONST struct ggc_root_tab * const gt_ggc_deletable_rtab[] = {
   gt_ggc_rd_gt_alias_h,
   gt_ggc_rd_gt_bitmap_h,
@@ -157,13 +157,13 @@ EXPORTED_CONST struct ggc_root_tab * const gt_ggc_deletable_rtab[] = {
   gt_ggc_rd_gt_tree_phinodes_h,
   gt_ggc_rd_gt_cp_name_lookup_h,
   gt_ggc_rd_gt_cp_parser_h,
-  gt_ggc_rd_gt_c_family_c_common_h,
+  gt_ggc_rd_gt_c_common_h,
   NULL
 };
 extern const struct ggc_cache_tab gt_ggc_rc_gt_emit_rtl_h[];
 extern const struct ggc_cache_tab gt_ggc_rc_gt_function_h[];
 extern const struct ggc_cache_tab gt_ggc_rc_gt_tree_h[];
-extern const struct ggc_cache_tab gt_ggc_rc_gt_gimple_h[];
+extern const struct ggc_cache_tab gt_ggc_rc_gt_varasm_h[];
 extern const struct ggc_cache_tab gt_ggc_rc_gt_tree_ssa_structalias_h[];
 extern const struct ggc_cache_tab gt_ggc_rc_gt_lto_symtab_h[];
 extern const struct ggc_cache_tab gt_ggc_rc_gt_cp_cp_objcp_common_h[];
@@ -171,7 +171,7 @@ EXPORTED_CONST struct ggc_cache_tab * const gt_ggc_cache_rtab[] = {
   gt_ggc_rc_gt_emit_rtl_h,
   gt_ggc_rc_gt_function_h,
   gt_ggc_rc_gt_tree_h,
-  gt_ggc_rc_gt_gimple_h,
+  gt_ggc_rc_gt_varasm_h,
   gt_ggc_rc_gt_tree_ssa_structalias_h,
   gt_ggc_rc_gt_lto_symtab_h,
   gt_ggc_rc_gt_cp_cp_objcp_common_h,
@@ -180,7 +180,7 @@ EXPORTED_CONST struct ggc_cache_tab * const gt_ggc_cache_rtab[] = {
 extern const struct ggc_root_tab gt_pch_rc_gt_emit_rtl_h[];
 extern const struct ggc_root_tab gt_pch_rc_gt_function_h[];
 extern const struct ggc_root_tab gt_pch_rc_gt_tree_h[];
-extern const struct ggc_root_tab gt_pch_rc_gt_gimple_h[];
+extern const struct ggc_root_tab gt_pch_rc_gt_varasm_h[];
 extern const struct ggc_root_tab gt_pch_rc_gt_tree_ssa_structalias_h[];
 extern const struct ggc_root_tab gt_pch_rc_gt_lto_symtab_h[];
 extern const struct ggc_root_tab gt_pch_rc_gt_cp_cp_objcp_common_h[];
@@ -188,7 +188,7 @@ EXPORTED_CONST struct ggc_root_tab * const gt_pch_cache_rtab[] = {
   gt_pch_rc_gt_emit_rtl_h,
   gt_pch_rc_gt_function_h,
   gt_pch_rc_gt_tree_h,
-  gt_pch_rc_gt_gimple_h,
+  gt_pch_rc_gt_varasm_h,
   gt_pch_rc_gt_tree_ssa_structalias_h,
   gt_pch_rc_gt_lto_symtab_h,
   gt_pch_rc_gt_cp_cp_objcp_common_h,
@@ -208,6 +208,7 @@ extern const struct ggc_root_tab gt_pch_rs_gt_tree_h[];
 extern const struct ggc_root_tab gt_pch_rs_gt_varasm_h[];
 extern const struct ggc_root_tab gt_pch_rs_gt_gimplify_h[];
 extern const struct ggc_root_tab gt_pch_rs_gt_omp_low_h[];
+extern const struct ggc_root_tab gt_pch_rs_gt_sparc_h[];
 extern const struct ggc_root_tab gt_pch_rs_gtype_desc_c[];
 extern const struct ggc_root_tab gt_pch_rs_gt_cp_mangle_h[];
 extern const struct ggc_root_tab gt_pch_rs_gt_cp_name_lookup_h[];
@@ -216,7 +217,7 @@ extern const struct ggc_root_tab gt_pch_rs_gt_cp_semantics_h[];
 extern const struct ggc_root_tab gt_pch_rs_gt_cp_tree_h[];
 extern const struct ggc_root_tab gt_pch_rs_gt_cp_parser_h[];
 extern const struct ggc_root_tab gt_pch_rs_gt_cp_method_h[];
-extern const struct ggc_root_tab gt_pch_rs_gt_c_family_c_common_h[];
+extern const struct ggc_root_tab gt_pch_rs_gt_c_common_h[];
 EXPORTED_CONST struct ggc_root_tab * const gt_pch_scalar_rtab[] = {
   gt_pch_rs_gt_alias_h,
   gt_pch_rs_gt_cgraph_h,
@@ -232,6 +233,7 @@ EXPORTED_CONST struct ggc_root_tab * const gt_pch_scalar_rtab[] = {
   gt_pch_rs_gt_varasm_h,
   gt_pch_rs_gt_gimplify_h,
   gt_pch_rs_gt_omp_low_h,
+  gt_pch_rs_gt_sparc_h,
   gt_pch_rs_gtype_desc_c,
   gt_pch_rs_gt_cp_mangle_h,
   gt_pch_rs_gt_cp_name_lookup_h,
@@ -240,6 +242,6 @@ EXPORTED_CONST struct ggc_root_tab * const gt_pch_scalar_rtab[] = {
   gt_pch_rs_gt_cp_tree_h,
   gt_pch_rs_gt_cp_parser_h,
   gt_pch_rs_gt_cp_method_h,
-  gt_pch_rs_gt_c_family_c_common_h,
+  gt_pch_rs_gt_c_common_h,
   NULL
 };

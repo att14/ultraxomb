@@ -1,5 +1,5 @@
 *asm:
--s %{fpic|fPIC|fpie|fPIE:-K PIC} %{mlittle-endian:-EL} %(asm_cpu) %(asm_arch) 
+%{v:-V} -s %{fpic|fPIC|fpie|fPIE:-K PIC} %{mlittle-endian:-EL} %(asm_cpu) %(asm_arch) 
 
 *asm_debug:
 %{!g0:%{gstabs*:--gstabs}%{!gstabs*:%{g*:--gdwarf2}}} %{fdebug-prefix-map=*:--debug-prefix-map %*}
@@ -8,11 +8,11 @@
 
 
 *asm_options:
-%{-target-help:%:print-asm-header()} %a %Y %{c:%W{o*}%{!o*:-o %w%b%O}}%{!c:-o %d%w%u%O}
+%{--target-help:%:print-asm-header()} %a %Y %{c:%W{o*}%{!o*:-o %w%b%O}}%{!c:-o %d%w%u%O}
 
 *invoke_as:
 %{!fwpa:   %{fcompare-debug=*|fdump-final-insns=*:%:compare-debug-dump-opt()}   %{!S:-o %|.s |
- as %(asm_options) %m.s %A }  }
+ as %(asm_options) %|.s %A }  }
 
 *cpp:
 %(cpp_cpu) %(cpp_arch) %(cpp_endian) %(cpp_subtarget)
@@ -24,16 +24,16 @@
 %{d*}
 
 *cpp_unique_options:
-%{!Q:-quiet} %{nostdinc*} %{C} %{CC} %{v} %{I*&F*} %{P} %I %{MD:-MD %{!o:%b.d}%{o*:%.d%*}} %{MMD:-MMD %{!o:%b.d}%{o*:%.d%*}} %{M} %{MM} %{MF*} %{MG} %{MP} %{MQ*} %{MT*} %{!E:%{!M:%{!MM:%{!MT:%{!MQ:%{MD|MMD:%{o*:-MQ %*}}}}}}} %{remap} %{g3|ggdb3|gstabs3|gcoff3|gxcoff3|gvms3:-dD} %{!iplugindir*:%{fplugin*:%:find-plugindir()}} %{H} %C %{D*&U*&A*} %{i*} %Z %i %{fmudflap:-D_MUDFLAP -include mf-runtime.h} %{fmudflapth:-D_MUDFLAP -D_MUDFLAPTH -include mf-runtime.h} %{E|M|MM:%W{o*}}
+%{C|CC:%{!E:%eGCC does not support -C or -CC without -E}} %{!Q:-quiet} %{nostdinc*} %{C} %{CC} %{v} %{I*&F*} %{P} %I %{MD:-MD %{!o:%b.d}%{o*:%.d%*}} %{MMD:-MMD %{!o:%b.d}%{o*:%.d%*}} %{M} %{MM} %{MF*} %{MG} %{MP} %{MQ*} %{MT*} %{!E:%{!M:%{!MM:%{!MT:%{!MQ:%{MD|MMD:%{o*:-MQ %*}}}}}}} %{remap} %{g3|ggdb3|gstabs3|gcoff3|gxcoff3|gvms3:-dD} %{H} %C %{D*&U*&A*} %{i*} %Z %i %{fmudflap:-D_MUDFLAP -include mf-runtime.h} %{fmudflapth:-D_MUDFLAP -D_MUDFLAPTH -include mf-runtime.h} %{E|M|MM:%W{o*}}
 
 *trad_capable_cpp:
-cc1 -E %{traditional|traditional-cpp:-traditional-cpp}
+cc1 -E %{traditional|ftraditional|traditional-cpp:-traditional-cpp}
 
 *cc1:
-
+%{sun4:} %{target:} %{mcypress:-mcpu=cypress} %{msparclite:-mcpu=sparclite} %{mf930:-mcpu=f930} %{mf934:-mcpu=f934} %{mv8:-mcpu=v8} %{msupersparc:-mcpu=supersparc} 
 
 *cc1_options:
-%{pg:%{fomit-frame-pointer:%e-pg and -fomit-frame-pointer are incompatible}} %{!iplugindir*:%{fplugin*:%:find-plugindir()}} %1 %{!Q:-quiet} %{!dumpbase:-dumpbase %B} %{d*} %{m*} %{aux-info*} %{fcompare-debug-second:%:compare-debug-auxbase-opt(%b)}  %{!fcompare-debug-second:%{c|S:%{o*:-auxbase-strip %*}%{!o*:-auxbase %b}}}%{!c:%{!S:-auxbase %b}}  %{g*} %{O*} %{W*&pedantic*} %{w} %{std*&ansi&trigraphs} %{v:-version} %{pg:-p} %{p} %{f*} %{undef} %{Qn:-fno-ident} %{Qy:} %{-help:--help} %{-target-help:--target-help} %{-version:--version} %{-help=*:--help=%*} %{!fsyntax-only:%{S:%W{o*}%{!o*:-o %b.s}}} %{fsyntax-only:-o %j} %{-param*} %{fmudflap|fmudflapth:-fno-builtin -fno-merge-constants} %{coverage:-fprofile-arcs -ftest-coverage}
+%{pg:%{fomit-frame-pointer:%e-pg and -fomit-frame-pointer are incompatible}} %1 %{!Q:-quiet} %{!dumpbase:-dumpbase %B} %{d*} %{m*} %{a*} %{fcompare-debug-second:%:compare-debug-auxbase-opt(%b)}  %{!fcompare-debug-second:%{c|S:%{o*:-auxbase-strip %*}%{!o*:-auxbase %b}}}%{!c:%{!S:-auxbase %b}}  %{g*} %{O*} %{W*&pedantic*} %{w} %{std*&ansi&trigraphs} %{v:-version} %{pg:-p} %{p} %{f*} %{undef} %{Qn:-fno-ident} %{--help:--help} %{--target-help:--target-help} %{--help=*:--help=%(VALUE)} %{!fsyntax-only:%{S:%W{o*}%{!o*:-o %b.s}}} %{fsyntax-only:-o %j} %{-param*} %{fmudflap|fmudflapth:-fno-builtin -fno-merge-constants} %{coverage:-fprofile-arcs -ftest-coverage}
 
 *cc1plus:
 
@@ -45,7 +45,7 @@ cc1 -E %{traditional|traditional-cpp:-traditional-cpp}
 %{fstack-protector|fstack-protector-all:-lssp_nonshared -lssp}
 
 *endfile:
-%{ffast-math|funsafe-math-optimizations:crtfastmath.o%s}    crtend.o%s crtn.o%s
+%{ffast-math|funsafe-math-optimizations:crtfastmath.o%s}    crtend.o%s
 
 *link:
 %{v:-V} %{mlittle-endian:-EL} 
@@ -66,13 +66,16 @@ cc1 -E %{traditional|traditional-cpp:-traditional-cpp}
 -lgcc
 
 *startfile:
-crt0.o%s crti.o%s crtbegin.o%s
+%{!shared:%{pg:gcrt0.o%s}%{!pg:%{p:mcrt0.o%s}%{!p:crt0.o%s}}} crtbegin.o%s 
+
+*switches_need_spaces:
+o
 
 *cross_compile:
 1
 
 *version:
-4.6.1
+4.5.3
 
 *multilib:
 . ;
@@ -104,6 +107,9 @@ collect2
 *lto_gcc:
 
 
+*lto_libgcc:
+
+
 *link_libgcc:
 %D
 
@@ -129,7 +135,7 @@ collect2
 
 
 *cpp_cpu:
-%{msoft-float:-D_SOFT_FLOAT} %{mcpu=sparclet:-D__sparclet__} %{mcpu=tsc701:-D__sparclet__} %{mcpu=sparclite:-D__sparclite__} %{mcpu=f930:-D__sparclite__} %{mcpu=f934:-D__sparclite__} %{mcpu=sparclite86x:-D__sparclite86x__} %{mcpu=v8:-D__sparc_v8__} %{mcpu=supersparc:-D__supersparc__ -D__sparc_v8__} %{mcpu=hypersparc:-D__hypersparc__ -D__sparc_v8__} %{mcpu=leon:-D__leon__ -D__sparc_v8__} %{mcpu=v9:-D__sparc_v9__} %{mcpu=ultrasparc:-D__sparc_v9__} %{mcpu=ultrasparc3:-D__sparc_v9__} %{mcpu=niagara:-D__sparc_v9__} %{mcpu=niagara2:-D__sparc_v9__} %{!mcpu*:%(cpp_cpu_default)} 
+%{msoft-float:-D_SOFT_FLOAT} %{mcypress:} %{msparclite:-D__sparclite__} %{mf930:-D__sparclite__} %{mf934:-D__sparclite__} %{mv8:-D__sparc_v8__} %{msupersparc:-D__supersparc__ -D__sparc_v8__} %{mcpu=sparclet:-D__sparclet__} %{mcpu=tsc701:-D__sparclet__} %{mcpu=sparclite:-D__sparclite__} %{mcpu=f930:-D__sparclite__} %{mcpu=f934:-D__sparclite__} %{mcpu=v8:-D__sparc_v8__} %{mcpu=supersparc:-D__supersparc__ -D__sparc_v8__} %{mcpu=hypersparc:-D__hypersparc__ -D__sparc_v8__} %{mcpu=sparclite86x:-D__sparclite86x__} %{mcpu=v9:-D__sparc_v9__} %{mcpu=ultrasparc:-D__sparc_v9__} %{mcpu=ultrasparc3:-D__sparc_v9__} %{mcpu=niagara:-D__sparc_v9__} %{mcpu=niagara2:-D__sparc_v9__} %{!mcpu*:%{!mcypress:%{!msparclite:%{!mf930:%{!mf934:%{!mv8:%{!msupersparc:%(cpp_cpu_default)}}}}}}} 
 
 *cpp_cpu_default:
 -D__sparc_v9__
@@ -147,13 +153,13 @@ collect2
 %{m32:%(cpp_arch32)} %{m64:%(cpp_arch64)} %{!m32:%{!m64:%(cpp_arch_default)}} 
 
 *cpp_endian:
-%{mlittle-endian:-D__LITTLE_ENDIAN__}
+%{mlittle-endian:-D__LITTLE_ENDIAN__} %{mlittle-endian-data:-D__LITTLE_ENDIAN_DATA__}
 
 *cpp_subtarget:
 -D__svr4__
 
 *asm_cpu:
-%{mcpu=sparclet:-Asparclet} %{mcpu=tsc701:-Asparclet} %{mcpu=sparclite:-Asparclite} %{mcpu=sparclite86x:-Asparclite} %{mcpu=f930:-Asparclite} %{mcpu=f934:-Asparclite} %{mv8plus:-Av8plus} %{mcpu=v9:-Av9} %{mcpu=ultrasparc:%{!mv8plus:-Av9a}} %{mcpu=ultrasparc3:%{!mv8plus:-Av9b}} %{mcpu=niagara:%{!mv8plus:-Av9b}} %{mcpu=niagara2:%{!mv8plus:-Av9b}} %{!mcpu*:%(asm_cpu_default)} 
+%{mcpu=sparclet:-Asparclet} %{mcpu=tsc701:-Asparclet} %{msparclite:-Asparclite} %{mf930:-Asparclite} %{mf934:-Asparclite} %{mcpu=sparclite:-Asparclite} %{mcpu=sparclite86x:-Asparclite} %{mcpu=f930:-Asparclite} %{mcpu=f934:-Asparclite} %{mv8plus:-Av8plus} %{mcpu=v9:-Av9} %{mcpu=ultrasparc:%{!mv8plus:-Av9a}} %{mcpu=ultrasparc3:%{!mv8plus:-Av9b}} %{mcpu=niagara:%{!mv8plus:-Av9b}} %{mcpu=niagara2:%{!mv8plus:-Av9b}} %{!mcpu*:%{!mcypress:%{!msparclite:%{!mf930:%{!mf934:%{!mv8:%{!msupersparc:%(asm_cpu_default)}}}}}}} 
 
 *asm_cpu_default:
 -Av9
@@ -174,5 +180,5 @@ collect2
 %{m32:%(asm_arch32)} %{m64:%(asm_arch64)} %{!m32:%{!m64:%(asm_arch_default)}} 
 
 *link_command:
-%{!fsyntax-only:%{!c:%{!M:%{!MM:%{!E:%{!S:    %(linker)     %{!fno-use-linker-plugin:%{flto|flto=*|fuse-linker-plugin:     -plugin %(linker_plugin_file)     -plugin-opt=%(lto_wrapper)     -plugin-opt=-fresolution=%u.res     %{!nostdlib:%{!nodefaultlibs:%:pass-through-libs(%(link_gcc_c_sequence))}}     }}     %{flto|flto=*:%<fcompare-debug*}     %{flto} %{flto=*} %l %{pie:-pie} %X %{o*} %{e*} %{N} %{n} %{r}    %{s} %{t} %{u*} %{z} %{Z} %{!nostdlib:%{!nostartfiles:%S}}    %{static:} %{L*} %(mfwrap) %(link_libgcc) %o    %{fopenmp|ftree-parallelize-loops=*:%:include(libgomp.spec)%(link_gomp)}    %(mflib)  %{fsplit-stack: --wrap=pthread_create}    %{fprofile-arcs|fprofile-generate*|coverage:-lgcov}    %{!nostdlib:%{!nodefaultlibs:%(link_ssp) %(link_gcc_c_sequence)}}    %{!nostdlib:%{!nostartfiles:%E}} %{T*} }}}}}}
+%{!fsyntax-only:%{!c:%{!M:%{!MM:%{!E:%{!S:    %(linker)     %{fuse-linker-plugin:     -plugin %(linker_plugin_file)     -plugin-opt=%(lto_wrapper)     -plugin-opt=%(lto_gcc)     %{static|static-libgcc:-plugin-opt=-pass-through=%(lto_libgcc)}	    %{static:-plugin-opt=-pass-through=-lc}	    %{O*:-plugin-opt=-O%*}     %{w:-plugin-opt=-w}     %{f*:-plugin-opt=-f%*}     %{m*:-plugin-opt=-m%*}     %{v:-plugin-opt=-v}     }     %{flto} %{fwhopr} %l %{pie:-pie} %X %{o*} %{A} %{d} %{e*} %{m} %{N} %{n} %{r}    %{s} %{t} %{u*} %{x} %{z} %{Z} %{!A:%{!nostdlib:%{!nostartfiles:%S}}}    %{static:} %{L*} %(mfwrap) %(link_libgcc) %o    %{fopenmp|ftree-parallelize-loops=*:%:include(libgomp.spec)%(link_gomp)} %(mflib)    %{fprofile-arcs|fprofile-generate*|coverage:-lgcov}    %{!nostdlib:%{!nodefaultlibs:%(link_ssp) %(link_gcc_c_sequence)}}    %{!A:%{!nostdlib:%{!nostartfiles:%E}}} %{T*} }}}}}}
 

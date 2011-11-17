@@ -23,12 +23,12 @@
 
 SHELL = /bin/sh
 
-srcdir = ../../gcc-4.6.1/intl
+srcdir = ../../gcc-4.5.3/intl
 VPATH = $(srcdir)
 
-prefix = /home/edf12/buildtools_cross/local
+prefix = /home/att14/ultraxomb/local
 exec_prefix = ${prefix}
-transform = s&^&sparc64-pc-xomb-&
+transform = s&^&sparc64-sun-xomb-&
 libdir = ${exec_prefix}/lib
 includedir = ${prefix}/include
 datarootdir = ${prefix}/share

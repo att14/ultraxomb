@@ -15,9 +15,8 @@ acos.lo: ../../mpc-0.9/src/acos.c /usr/include/stdio.h \
  /usr/include/bits/select.h /usr/include/bits/sigset.h \
  /usr/include/bits/time.h /usr/include/sys/sysmacros.h \
  /usr/include/bits/pthreadtypes.h /usr/include/alloca.h ../config.h \
- ../../mpc-0.9/src/mpc.h \
- /home/att14/patches/ultraxomb/local/include/gmp.h \
- /home/att14/patches/ultraxomb/local/include/mpfr.h
+ ../../mpc-0.9/src/mpc.h /home/att14/ultraxomb/local/include/gmp.h \
+ /home/att14/ultraxomb/local/include/mpfr.h
 
 /usr/include/stdio.h:
 
@@ -87,6 +86,6 @@ acos.lo: ../../mpc-0.9/src/acos.c /usr/include/stdio.h \
 
 ../../mpc-0.9/src/mpc.h:
 
-/home/att14/patches/ultraxomb/local/include/gmp.h:
+/home/att14/ultraxomb/local/include/gmp.h:
 
-/home/att14/patches/ultraxomb/local/include/mpfr.h:
+/home/att14/ultraxomb/local/include/mpfr.h:

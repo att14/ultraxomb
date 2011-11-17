@@ -12,7 +12,6 @@
 # following values.
 
 ac_cv_build=${ac_cv_build=x86_64-unknown-linux-gnu}
-ac_cv_c_bigendian=${ac_cv_c_bigendian=no}
 ac_cv_c_compiler_gnu=${ac_cv_c_compiler_gnu=yes}
 ac_cv_c_const=${ac_cv_c_const=yes}
 ac_cv_c_inline=${ac_cv_c_inline=inline}
@@ -27,6 +26,8 @@ ac_cv_env_CPPFLAGS_set=
 ac_cv_env_CPPFLAGS_value=
 ac_cv_env_CPP_set=
 ac_cv_env_CPP_value=
+ac_cv_env_CXXCPP_set=
+ac_cv_env_CXXCPP_value=
 ac_cv_env_CXXFLAGS_set=set
 ac_cv_env_CXXFLAGS_value='-g -O2'
 ac_cv_env_CXX_set=set
@@ -40,7 +41,7 @@ ac_cv_env_build_alias_value=x86_64-unknown-linux-gnu
 ac_cv_env_host_alias_set=set
 ac_cv_env_host_alias_value=x86_64-unknown-linux-gnu
 ac_cv_env_target_alias_set=set
-ac_cv_env_target_alias_value=sparc64-pc-xomb
+ac_cv_env_target_alias_value=sparc64-sun-xomb
 ac_cv_func_alloca_works=${ac_cv_func_alloca_works=yes}
 ac_cv_func_clearerr_unlocked=${ac_cv_func_clearerr_unlocked=yes}
 ac_cv_func_feof_unlocked=${ac_cv_func_feof_unlocked=yes}
@@ -60,19 +61,19 @@ ac_cv_func_obstack=${ac_cv_func_obstack=yes}
 ac_cv_func_putc_unlocked=${ac_cv_func_putc_unlocked=yes}
 ac_cv_func_putchar_unlocked=${ac_cv_func_putchar_unlocked=yes}
 ac_cv_have_decl_abort=${ac_cv_have_decl_abort=yes}
-ac_cv_have_decl_asprintf=${ac_cv_have_decl_asprintf=yes}
-ac_cv_have_decl_basename_char_p_=${ac_cv_have_decl_basename_char_p_=yes}
+ac_cv_have_decl_asprintf=${ac_cv_have_decl_asprintf=no}
+ac_cv_have_decl_basename=${ac_cv_have_decl_basename=no}
 ac_cv_have_decl_clearerr_unlocked=${ac_cv_have_decl_clearerr_unlocked=yes}
 ac_cv_have_decl_errno=${ac_cv_have_decl_errno=no}
 ac_cv_have_decl_feof_unlocked=${ac_cv_have_decl_feof_unlocked=yes}
 ac_cv_have_decl_ferror_unlocked=${ac_cv_have_decl_ferror_unlocked=yes}
 ac_cv_have_decl_fflush_unlocked=${ac_cv_have_decl_fflush_unlocked=yes}
 ac_cv_have_decl_fgetc_unlocked=${ac_cv_have_decl_fgetc_unlocked=yes}
-ac_cv_have_decl_fgets_unlocked=${ac_cv_have_decl_fgets_unlocked=yes}
+ac_cv_have_decl_fgets_unlocked=${ac_cv_have_decl_fgets_unlocked=no}
 ac_cv_have_decl_fileno_unlocked=${ac_cv_have_decl_fileno_unlocked=yes}
 ac_cv_have_decl_fprintf_unlocked=${ac_cv_have_decl_fprintf_unlocked=no}
 ac_cv_have_decl_fputc_unlocked=${ac_cv_have_decl_fputc_unlocked=yes}
-ac_cv_have_decl_fputs_unlocked=${ac_cv_have_decl_fputs_unlocked=yes}
+ac_cv_have_decl_fputs_unlocked=${ac_cv_have_decl_fputs_unlocked=no}
 ac_cv_have_decl_fread_unlocked=${ac_cv_have_decl_fread_unlocked=yes}
 ac_cv_have_decl_fwrite_unlocked=${ac_cv_have_decl_fwrite_unlocked=yes}
 ac_cv_have_decl_getc_unlocked=${ac_cv_have_decl_getc_unlocked=yes}
@@ -80,13 +81,12 @@ ac_cv_have_decl_getchar_unlocked=${ac_cv_have_decl_getchar_unlocked=yes}
 ac_cv_have_decl_getopt=${ac_cv_have_decl_getopt=yes}
 ac_cv_have_decl_putc_unlocked=${ac_cv_have_decl_putc_unlocked=yes}
 ac_cv_have_decl_putchar_unlocked=${ac_cv_have_decl_putchar_unlocked=yes}
-ac_cv_have_decl_vasprintf=${ac_cv_have_decl_vasprintf=yes}
+ac_cv_have_decl_vasprintf=${ac_cv_have_decl_vasprintf=no}
 ac_cv_header_fcntl_h=${ac_cv_header_fcntl_h=yes}
 ac_cv_header_inttypes_h=${ac_cv_header_inttypes_h=yes}
 ac_cv_header_limits_h=${ac_cv_header_limits_h=yes}
 ac_cv_header_locale_h=${ac_cv_header_locale_h=yes}
 ac_cv_header_memory_h=${ac_cv_header_memory_h=yes}
-ac_cv_header_minix_config_h=${ac_cv_header_minix_config_h=no}
 ac_cv_header_stdc=${ac_cv_header_stdc=yes}
 ac_cv_header_stddef_h=${ac_cv_header_stddef_h=yes}
 ac_cv_header_stdint_h=${ac_cv_header_stdint_h=yes}
@@ -113,19 +113,14 @@ ac_cv_prog_cc_c89=${ac_cv_prog_cc_c89=}
 ac_cv_prog_cc_g=${ac_cv_prog_cc_g=yes}
 ac_cv_prog_cxx_g=${ac_cv_prog_cxx_g=yes}
 ac_cv_prog_make_make_set=${ac_cv_prog_make_make_set=yes}
-ac_cv_safe_to_define___extensions__=${ac_cv_safe_to_define___extensions__=yes}
 ac_cv_sizeof_int=${ac_cv_sizeof_int=4}
 ac_cv_sizeof_long=${ac_cv_sizeof_long=8}
 ac_cv_struct_tm=${ac_cv_struct_tm=time.h}
-ac_cv_sys_file_offset_bits=${ac_cv_sys_file_offset_bits=no}
-ac_cv_sys_largefile_CC=${ac_cv_sys_largefile_CC=no}
-ac_cv_target=${ac_cv_target=sparc64-pc-xomb}
+ac_cv_target=${ac_cv_target=sparc64-sun-xomb}
 ac_cv_type_off_t=${ac_cv_type_off_t=yes}
-ac_cv_type_ptrdiff_t=${ac_cv_type_ptrdiff_t=yes}
 ac_cv_type_size_t=${ac_cv_type_size_t=yes}
 ac_cv_type_ssize_t=${ac_cv_type_ssize_t=yes}
 ac_cv_type_uchar=${ac_cv_type_uchar=no}
-ac_cv_type_uintptr_t=${ac_cv_type_uintptr_t=yes}
 ac_cv_working_alloca_h=${ac_cv_working_alloca_h=yes}
 acl_cv_hardcode_direct=${acl_cv_hardcode_direct=no}
 test "${acl_cv_hardcode_libdir_flag_spec+set}" = set || acl_cv_hardcode_libdir_flag_spec='${wl}-rpath ${wl}$libdir'

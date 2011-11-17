@@ -1821,7 +1821,7 @@ OUTPUT_FORMAT(\"elf64-sparc\", \"elf64-sparc\",\n\
 	      \"elf64-sparc\")\n\
 OUTPUT_ARCH(sparc:v9)\n\
 ENTRY(_start)\n\
-SEARCH_DIR(\"/home/edf12/buildtools_cross/local/sparc64-pc-xomb/lib\");\n\
+SEARCH_DIR(\"/home/att14/ultraxomb/local/sparc64-sun-xomb/lib\");\n\
 SECTIONS\n\
 {\n\
   /* Read-only sections, merged into text segment: */\n\
@@ -2034,7 +2034,7 @@ OUTPUT_FORMAT(\"elf64-sparc\", \"elf64-sparc\",\n\
 	      \"elf64-sparc\")\n\
 OUTPUT_ARCH(sparc:v9)\n\
 ENTRY(_start)\n\
-SEARCH_DIR(\"/home/edf12/buildtools_cross/local/sparc64-pc-xomb/lib\");\n\
+SEARCH_DIR(\"/home/att14/ultraxomb/local/sparc64-sun-xomb/lib\");\n\
 SECTIONS\n\
 {\n\
   /* Read-only sections, merged into text segment: */\n\
@@ -2251,7 +2251,7 @@ OUTPUT_FORMAT(\"elf64-sparc\", \"elf64-sparc\",\n\
 	      \"elf64-sparc\")\n\
 OUTPUT_ARCH(sparc:v9)\n\
 ENTRY(_start)\n\
-SEARCH_DIR(\"/home/edf12/buildtools_cross/local/sparc64-pc-xomb/lib\");\n\
+SEARCH_DIR(\"/home/att14/ultraxomb/local/sparc64-sun-xomb/lib\");\n\
 SECTIONS\n\
 {\n\
   /* Read-only sections, merged into text segment: */\n\
@@ -2466,7 +2466,7 @@ OUTPUT_FORMAT(\"elf64-sparc\", \"elf64-sparc\",\n\
 	      \"elf64-sparc\")\n\
 OUTPUT_ARCH(sparc:v9)\n\
 ENTRY(_start)\n\
-SEARCH_DIR(\"/home/edf12/buildtools_cross/local/sparc64-pc-xomb/lib\");\n\
+SEARCH_DIR(\"/home/att14/ultraxomb/local/sparc64-sun-xomb/lib\");\n\
 SECTIONS\n\
 {\n\
   /* Read-only sections, merged into text segment: */\n\
@@ -2682,7 +2682,7 @@ OUTPUT_FORMAT(\"elf64-sparc\", \"elf64-sparc\",\n\
 	      \"elf64-sparc\")\n\
 OUTPUT_ARCH(sparc:v9)\n\
 ENTRY(_start)\n\
-SEARCH_DIR(\"/home/edf12/buildtools_cross/local/sparc64-pc-xomb/lib\");\n\
+SEARCH_DIR(\"/home/att14/ultraxomb/local/sparc64-sun-xomb/lib\");\n\
 SECTIONS\n\
 {\n\
   /* Read-only sections, merged into text segment: */\n\
@@ -2898,7 +2898,7 @@ OUTPUT_FORMAT(\"elf64-sparc\", \"elf64-sparc\",\n\
 	      \"elf64-sparc\")\n\
 OUTPUT_ARCH(sparc:v9)\n\
 ENTRY(_start)\n\
-SEARCH_DIR(\"/home/edf12/buildtools_cross/local/sparc64-pc-xomb/lib\");\n\
+SEARCH_DIR(\"/home/att14/ultraxomb/local/sparc64-sun-xomb/lib\");\n\
 SECTIONS\n\
 {\n\
   /* Read-only sections, merged into text segment: */\n\
@@ -3113,7 +3113,7 @@ OUTPUT_FORMAT(\"elf64-sparc\", \"elf64-sparc\",\n\
 	      \"elf64-sparc\")\n\
 OUTPUT_ARCH(sparc:v9)\n\
 ENTRY(_start)\n\
-SEARCH_DIR(\"/home/edf12/buildtools_cross/local/sparc64-pc-xomb/lib\");\n\
+SEARCH_DIR(\"/home/att14/ultraxomb/local/sparc64-sun-xomb/lib\");\n\
 SECTIONS\n\
 {\n\
   /* Read-only sections, merged into text segment: */\n\
@@ -3329,7 +3329,7 @@ OUTPUT_FORMAT(\"elf64-sparc\", \"elf64-sparc\",\n\
 	      \"elf64-sparc\")\n\
 OUTPUT_ARCH(sparc:v9)\n\
 ENTRY(_start)\n\
-SEARCH_DIR(\"/home/edf12/buildtools_cross/local/sparc64-pc-xomb/lib\");\n\
+SEARCH_DIR(\"/home/att14/ultraxomb/local/sparc64-sun-xomb/lib\");\n\
 SECTIONS\n\
 {\n\
   /* Read-only sections, merged into text segment: */\n\

@@ -34,7 +34,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = x86_64-unknown-linux-gnu
 host_triplet = x86_64-unknown-linux-gnu
-target_triplet = sparc64-pc-xomb
+target_triplet = sparc64-sun-xomb
 bin_PROGRAMS = ld-new$(EXEEXT)
 
 # Automake 1.9 will only build info files in the objdir if they are
@@ -168,7 +168,7 @@ CTAGS = ctags
 DEJATOOL = $(PACKAGE)
 RUNTESTDEFAULTFLAGS = --tool $$tool --srcdir $$srcdir
 DIST_SUBDIRS = $(SUBDIRS)
-transform = s/^ld-new$$/$(installed_linker)/;s&^&sparc64-pc-xomb-&
+transform = s/^ld-new$$/$(installed_linker)/;s&^&sparc64-sun-xomb-&
 ACLOCAL = ${SHELL} /home/att14/ultraxomb/build/binutils-2.21.1/missing --run aclocal-1.11
 AMTAR = ${SHELL} /home/att14/ultraxomb/build/binutils-2.21.1/missing --run tar
 AR = ar
@@ -325,17 +325,17 @@ mkdir_p = /bin/mkdir -p
 oldincludedir = /usr/include
 pdfdir = ${docdir}
 prefix = /home/att14/ultraxomb/local
-program_transform_name = s&^&sparc64-pc-xomb-&
+program_transform_name = s&^&sparc64-sun-xomb-&
 psdir = ${docdir}
 sbindir = ${exec_prefix}/sbin
 sharedstatedir = ${prefix}/com
 srcdir = ../../binutils-2.21.1/ld
 sysconfdir = ${prefix}/etc
-target = sparc64-pc-xomb
-target_alias = sparc64-pc-xomb
+target = sparc64-sun-xomb
+target_alias = sparc64-sun-xomb
 target_cpu = sparc64
 target_os = xomb
-target_vendor = pc
+target_vendor = sun
 top_build_prefix = 
 top_builddir = .
 top_srcdir = ../../binutils-2.21.1/ld
@@ -393,7 +393,7 @@ CC_FOR_TARGET = ` \
       echo $$r/../gcc/xgcc -B$$r/../gcc/; \
     fi; \
   else \
-    if [ "x86_64-unknown-linux-gnu" = "sparc64-pc-xomb" ] ; then \
+    if [ "x86_64-unknown-linux-gnu" = "sparc64-sun-xomb" ] ; then \
       echo $(CC); \
     else \
       echo gcc | sed '$(transform)'; \
@@ -408,7 +408,7 @@ CXX_FOR_TARGET = ` \
       echo $$r/../gcc/g++ -B$$r/../gcc/; \
     fi; \
   else \
-    if [ "x86_64-unknown-linux-gnu" = "sparc64-pc-xomb" ] ; then \
+    if [ "x86_64-unknown-linux-gnu" = "sparc64-sun-xomb" ] ; then \
       echo $(CXX); \
     else \
       echo g++ | sed '$(transform)'; \
@@ -808,7 +808,7 @@ EMULATION_FILES = emultempl/pe.em emultempl/armcoff.em
 POTFILES = $(CFILES) $(HFILES) $(EMULATION_FILES)
 
 # These all start with e so 'make clean' can find them.
-GENSCRIPTS = LIB_PATH='${LIB_PATH}' $(SHELL) $(srcdir)/genscripts.sh "${srcdir}" "${libdir}" "${prefix}" "${exec_prefix}" x86_64-unknown-linux-gnu sparc64-pc-xomb sparc64-pc-xomb "xomb_sparc" "/usr/local/lib /lib /usr/lib" no
+GENSCRIPTS = LIB_PATH='${LIB_PATH}' $(SHELL) $(srcdir)/genscripts.sh "${srcdir}" "${libdir}" "${prefix}" "${exec_prefix}" x86_64-unknown-linux-gnu sparc64-sun-xomb sparc64-sun-xomb "xomb_sparc" "/usr/local/lib /lib /usr/lib" no
 GEN_DEPENDS = $(srcdir)/genscripts.sh stringify.sed
 ELF_DEPS = $(srcdir)/emultempl/elf32.em $(srcdir)/emultempl/elf-generic.em
 ELF_GEN_DEPS = $(srcdir)/emultempl/generic.em $(srcdir)/emultempl/elf-generic.em $(srcdir)/emultempl/genelf.em
@@ -2009,14 +2009,14 @@ ldmain.o: ldmain.c config.status
 	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ \
 	  -DDEFAULT_EMULATION='"$(EMUL)"' \
 	  -DBINDIR='"$(bindir)"' -DTOOLBINDIR='"$(tooldir)/bin"' \
-	  -DTARGET='"sparc64-pc-xomb"' -DTARGET_SYSTEM_ROOT=\"\" \
+	  -DTARGET='"sparc64-sun-xomb"' -DTARGET_SYSTEM_ROOT=\"\" \
 	  $(srcdir)/ldmain.c
 	mv -f $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
 #	source='ldmain.c' object='$@' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
 #	$(COMPILE) -c -DDEFAULT_EMULATION='"$(EMUL)"' \
 #	  -DBINDIR='"$(bindir)"' -DTOOLBINDIR='"$(tooldir)/bin"' \
-#	  -DTARGET='"sparc64-pc-xomb"' -DTARGET_SYSTEM_ROOT=\"\" \
+#	  -DTARGET='"sparc64-sun-xomb"' -DTARGET_SYSTEM_ROOT=\"\" \
 #	  $(srcdir)/ldmain.c
 
 ldfile.o: ldfile.c config.status
@@ -2057,7 +2057,7 @@ ldemul-list.h: Makefile
 stringify.sed: ${srcdir}/emultempl/$(STRINGIFY)
 	  cp ${srcdir}/emultempl/$(STRINGIFY) stringify.sed
 
-tdir_xomb_sparc=sparc64-pc-xomb
+tdir_xomb_sparc=sparc64-sun-xomb
 
 eaix5ppc.c: $(srcdir)/emulparams/aix5ppc.sh \
   $(srcdir)/emultempl/aix.em $(srcdir)/scripttempl/aix.sc ${GEN_DEPENDS}

@@ -28,7 +28,7 @@ VPATH = $(srcdir)
 
 prefix = /home/att14/ultraxomb/local
 exec_prefix = ${prefix}
-transform = s&^&sparc64-pc-xomb-&
+transform = s&^&sparc64-sun-xomb-&
 libdir = ${exec_prefix}/lib
 includedir = ${prefix}/include
 datarootdir = ${prefix}/share

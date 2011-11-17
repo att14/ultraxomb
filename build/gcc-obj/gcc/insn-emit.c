@@ -10,6 +10,7 @@ from the machine description file `md'.  */
 #include "function.h"
 #include "expr.h"
 #include "optabs.h"
+#include "real.h"
 #include "dfp.h"
 #include "flags.h"
 #include "output.h"
@@ -18,7 +19,7 @@ from the machine description file `md'.  */
 #include "recog.h"
 #include "resource.h"
 #include "reload.h"
-#include "diagnostic-core.h"
+#include "toplev.h"
 #include "regs.h"
 #include "tm-constrs.h"
 #include "ggc.h"
@@ -28,7 +29,7 @@ from the machine description file `md'.  */
 #define FAIL return (end_sequence (), _val)
 #define DONE return (_val = get_insns (), end_sequence (), _val)
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1118 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1111 */
 rtx
 gen_load_pcrel_symsi (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -47,7 +48,7 @@ gen_load_pcrel_symsi (rtx operand0 ATTRIBUTE_UNUSED,
 		gen_hard_reg_clobber (SImode, 15)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1118 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1111 */
 rtx
 gen_load_pcrel_symdi (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -66,7 +67,7 @@ gen_load_pcrel_symdi (rtx operand0 ATTRIBUTE_UNUSED,
 		gen_hard_reg_clobber (DImode, 15)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1231 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1224 */
 rtx
 gen_movsi_lo_sum_pic (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -82,7 +83,7 @@ gen_movsi_lo_sum_pic (rtx operand0 ATTRIBUTE_UNUSED,
 	0)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1244 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1237 */
 rtx
 gen_movsi_high_pic (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -96,7 +97,7 @@ gen_movsi_high_pic (rtx operand0 ATTRIBUTE_UNUSED,
 	0)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1256 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1249 */
 rtx
 gen_movsi_pic_gotdata_op (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -113,7 +114,7 @@ gen_movsi_pic_gotdata_op (rtx operand0 ATTRIBUTE_UNUSED,
 	19));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1464 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1457 */
 rtx
 gen_movdi_lo_sum_pic (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -129,7 +130,7 @@ gen_movdi_lo_sum_pic (rtx operand0 ATTRIBUTE_UNUSED,
 	0)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1477 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1470 */
 rtx
 gen_movdi_high_pic (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -143,7 +144,7 @@ gen_movdi_high_pic (rtx operand0 ATTRIBUTE_UNUSED,
 	0)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1489 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1482 */
 rtx
 gen_movdi_pic_gotdata_op (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -160,7 +161,7 @@ gen_movdi_pic_gotdata_op (rtx operand0 ATTRIBUTE_UNUSED,
 	19));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1523 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1516 */
 rtx
 gen_seth44 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -174,7 +175,7 @@ gen_seth44 (rtx operand0 ATTRIBUTE_UNUSED,
 	6)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1529 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1522 */
 rtx
 gen_setm44 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -190,7 +191,7 @@ gen_setm44 (rtx operand0 ATTRIBUTE_UNUSED,
 	7)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1536 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1529 */
 rtx
 gen_setl44 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -203,7 +204,7 @@ gen_setl44 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1543 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1536 */
 rtx
 gen_sethh (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -217,7 +218,7 @@ gen_sethh (rtx operand0 ATTRIBUTE_UNUSED,
 	9)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1549 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1542 */
 rtx
 gen_setlm (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -231,7 +232,7 @@ gen_setlm (rtx operand0 ATTRIBUTE_UNUSED,
 	10)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1555 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1548 */
 rtx
 gen_sethm (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -247,7 +248,7 @@ gen_sethm (rtx operand0 ATTRIBUTE_UNUSED,
 	18)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1562 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1555 */
 rtx
 gen_setlo (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -260,7 +261,7 @@ gen_setlo (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1569 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1562 */
 rtx
 gen_embmedany_sethi (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -274,7 +275,7 @@ gen_embmedany_sethi (rtx operand0 ATTRIBUTE_UNUSED,
 	11)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1575 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1568 */
 rtx
 gen_embmedany_losum (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -287,7 +288,7 @@ gen_embmedany_losum (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1582 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1575 */
 rtx
 gen_embmedany_brsum (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -300,7 +301,7 @@ gen_embmedany_brsum (rtx operand0 ATTRIBUTE_UNUSED,
 	11));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1588 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1581 */
 rtx
 gen_embmedany_textuhi (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -314,7 +315,7 @@ gen_embmedany_textuhi (rtx operand0 ATTRIBUTE_UNUSED,
 	13)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1594 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1587 */
 rtx
 gen_embmedany_texthi (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -328,7 +329,7 @@ gen_embmedany_texthi (rtx operand0 ATTRIBUTE_UNUSED,
 	14)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1600 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1593 */
 rtx
 gen_embmedany_textulo (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -344,7 +345,7 @@ gen_embmedany_textulo (rtx operand0 ATTRIBUTE_UNUSED,
 	15)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1607 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1600 */
 rtx
 gen_embmedany_textlo (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -357,7 +358,7 @@ gen_embmedany_textlo (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2595 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2588 */
 rtx
 gen_movdf_cc_v9 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -375,7 +376,7 @@ gen_movdf_cc_v9 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand4));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2610 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2603 */
 rtx
 gen_movdf_cc_reg_sp64 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -393,7 +394,7 @@ gen_movdf_cc_reg_sp64 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand4));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3244 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3237 */
 rtx
 gen_extendsfdf2 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -404,7 +405,7 @@ gen_extendsfdf2 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand1));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3283 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3276 */
 rtx
 gen_truncdfsf2 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -415,7 +416,7 @@ gen_truncdfsf2 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand1));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3325 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3318 */
 rtx
 gen_floatsisf2 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -426,7 +427,7 @@ gen_floatsisf2 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand1));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3333 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3326 */
 rtx
 gen_floatsidf2 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -437,7 +438,7 @@ gen_floatsidf2 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand1));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3362 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3355 */
 rtx
 gen_floatdisf2 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -448,7 +449,7 @@ gen_floatdisf2 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand1));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3376 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3369 */
 rtx
 gen_floatdidf2 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -459,7 +460,7 @@ gen_floatdidf2 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand1));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3412 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3405 */
 rtx
 gen_fix_truncsfsi2 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -471,7 +472,7 @@ gen_fix_truncsfsi2 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand1)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3420 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3413 */
 rtx
 gen_fix_truncdfsi2 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -483,7 +484,7 @@ gen_fix_truncdfsi2 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand1)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3449 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3442 */
 rtx
 gen_fix_truncsfdi2 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -495,7 +496,7 @@ gen_fix_truncsfdi2 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand1)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3463 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3456 */
 rtx
 gen_fix_truncdfdi2 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -507,7 +508,7 @@ gen_fix_truncdfdi2 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand1)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3556 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3549 */
 rtx
 gen_addx (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -525,7 +526,7 @@ gen_addx (rtx operand0 ATTRIBUTE_UNUSED,
 	const0_rtx)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3620 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3613 */
 rtx
 gen_addsi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -538,7 +539,7 @@ gen_addsi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3729 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3722 */
 rtx
 gen_subx (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -556,7 +557,7 @@ gen_subx (rtx operand0 ATTRIBUTE_UNUSED,
 	const0_rtx)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3792 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3785 */
 rtx
 gen_subsi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -569,7 +570,7 @@ gen_subsi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3822 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3815 */
 rtx
 gen_cmp_minus_cc_set (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -591,7 +592,7 @@ gen_cmp_minus_cc_set (rtx operand0 ATTRIBUTE_UNUSED,
 	copy_rtx (operand2)))));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3850 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3843 */
 rtx
 gen_mulsi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -604,7 +605,7 @@ gen_mulsi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3881 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3874 */
 rtx
 gen_muldi3_v8plus (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -622,7 +623,7 @@ gen_muldi3_v8plus (rtx operand0 ATTRIBUTE_UNUSED,
 	gen_rtx_SCRATCH (SImode))));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3957 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3950 */
 rtx
 gen_mulsidi3_v8plus (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -640,7 +641,7 @@ gen_mulsidi3_v8plus (rtx operand0 ATTRIBUTE_UNUSED,
 	gen_rtx_SCRATCH (SImode))));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3970 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3963 */
 rtx
 gen_const_mulsidi3_v8plus (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -657,7 +658,7 @@ gen_const_mulsidi3_v8plus (rtx operand0 ATTRIBUTE_UNUSED,
 	gen_rtx_SCRATCH (SImode))));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4028 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4021 */
 rtx
 gen_const_mulsidi3_sp64 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -671,7 +672,7 @@ gen_const_mulsidi3_sp64 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4066 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4059 */
 rtx
 gen_smulsi3_highpart_v8plus (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -693,7 +694,7 @@ gen_smulsi3_highpart_v8plus (rtx operand0 ATTRIBUTE_UNUSED,
 	gen_rtx_SCRATCH (SImode))));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4099 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4092 */
 rtx
 gen_const_smulsi3_highpart_v8plus (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -714,7 +715,7 @@ gen_const_smulsi3_highpart_v8plus (rtx operand0 ATTRIBUTE_UNUSED,
 	gen_rtx_SCRATCH (SImode))));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4164 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4157 */
 rtx
 gen_umulsidi3_v8plus (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -732,7 +733,7 @@ gen_umulsidi3_v8plus (rtx operand0 ATTRIBUTE_UNUSED,
 	gen_rtx_SCRATCH (SImode))));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4222 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4215 */
 rtx
 gen_const_umulsidi3_sp64 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -746,7 +747,7 @@ gen_const_umulsidi3_sp64 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4231 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4224 */
 rtx
 gen_const_umulsidi3_v8plus (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -763,7 +764,7 @@ gen_const_umulsidi3_v8plus (rtx operand0 ATTRIBUTE_UNUSED,
 	gen_rtx_SCRATCH (SImode))));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4273 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4266 */
 rtx
 gen_umulsi3_highpart_v8plus (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -785,7 +786,7 @@ gen_umulsi3_highpart_v8plus (rtx operand0 ATTRIBUTE_UNUSED,
 	gen_rtx_SCRATCH (SImode))));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4288 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4281 */
 rtx
 gen_const_umulsi3_highpart_v8plus (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -806,7 +807,7 @@ gen_const_umulsi3_highpart_v8plus (rtx operand0 ATTRIBUTE_UNUSED,
 	gen_rtx_SCRATCH (SImode))));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4383 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4376 */
 rtx
 gen_divsi3_sp64 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -823,7 +824,7 @@ gen_divsi3_sp64 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand3)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4393 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4386 */
 rtx
 gen_divdi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -836,7 +837,7 @@ gen_divdi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4475 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4468 */
 rtx
 gen_udivsi3_sp64 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -849,7 +850,7 @@ gen_udivsi3_sp64 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4484 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4477 */
 rtx
 gen_udivdi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -862,7 +863,7 @@ gen_udivdi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4582 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4575 */
 rtx
 gen_andsi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -875,7 +876,7 @@ gen_andsi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4582 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4575 */
 rtx
 gen_andv2hi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -888,7 +889,7 @@ gen_andv2hi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4582 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4575 */
 rtx
 gen_andv4qi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -901,7 +902,7 @@ gen_andv4qi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4683 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4676 */
 rtx
 gen_iorsi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -914,7 +915,7 @@ gen_iorsi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4683 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4676 */
 rtx
 gen_iorv2hi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -927,7 +928,7 @@ gen_iorv2hi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4683 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4676 */
 rtx
 gen_iorv4qi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -940,7 +941,7 @@ gen_iorv4qi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4784 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4777 */
 rtx
 gen_xorsi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -953,7 +954,7 @@ gen_xorsi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4784 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4777 */
 rtx
 gen_xorv2hi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -966,7 +967,7 @@ gen_xorv2hi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4784 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4777 */
 rtx
 gen_xorv4qi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -979,7 +980,7 @@ gen_xorv4qi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5095 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5088 */
 rtx
 gen_negsi2 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -990,7 +991,7 @@ gen_negsi2 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand1));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5178 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5171 */
 rtx
 gen_one_cmplsi2 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -1001,7 +1002,7 @@ gen_one_cmplsi2 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand1));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5178 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5171 */
 rtx
 gen_one_cmplv2hi2 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -1012,7 +1013,7 @@ gen_one_cmplv2hi2 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand1));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5178 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5171 */
 rtx
 gen_one_cmplv4qi2 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -1023,7 +1024,7 @@ gen_one_cmplv4qi2 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand1));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5262 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5255 */
 rtx
 gen_adddf3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1036,7 +1037,7 @@ gen_adddf3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5271 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5264 */
 rtx
 gen_addsf3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1049,7 +1050,7 @@ gen_addsf3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5294 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5287 */
 rtx
 gen_subdf3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1062,7 +1063,7 @@ gen_subdf3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5303 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5296 */
 rtx
 gen_subsf3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1075,7 +1076,7 @@ gen_subsf3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5326 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5319 */
 rtx
 gen_muldf3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1088,7 +1089,7 @@ gen_muldf3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5335 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5328 */
 rtx
 gen_mulsf3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1101,7 +1102,7 @@ gen_mulsf3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5376 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5369 */
 rtx
 gen_divdf3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1114,7 +1115,7 @@ gen_divdf3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5385 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5378 */
 rtx
 gen_divsf3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1127,7 +1128,7 @@ gen_divsf3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5474 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5467 */
 rtx
 gen_negsf2 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -1138,7 +1139,7 @@ gen_negsf2 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand1));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5570 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5563 */
 rtx
 gen_abssf2 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -1149,7 +1150,7 @@ gen_abssf2 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand1));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5590 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5583 */
 rtx
 gen_sqrtdf2 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -1160,7 +1161,7 @@ gen_sqrtdf2 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand1));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5598 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5591 */
 rtx
 gen_sqrtsf2 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -1171,7 +1172,7 @@ gen_sqrtsf2 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand1));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5608 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5601 */
 rtx
 gen_ashlsi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1184,7 +1185,7 @@ gen_ashlsi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5652 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5645 */
 rtx
 gen_ashldi3_v8plus (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1200,7 +1201,7 @@ gen_ashldi3_v8plus (rtx operand0 ATTRIBUTE_UNUSED,
 	gen_rtx_SCRATCH (SImode))));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5699 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5692 */
 rtx
 gen_ashrsi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1213,7 +1214,7 @@ gen_ashrsi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5762 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5755 */
 rtx
 gen_ashrdi3_v8plus (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1229,7 +1230,7 @@ gen_ashrdi3_v8plus (rtx operand0 ATTRIBUTE_UNUSED,
 	gen_rtx_SCRATCH (SImode))));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5772 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5765 */
 rtx
 gen_lshrsi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1242,7 +1243,7 @@ gen_lshrsi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5839 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5832 */
 rtx
 gen_lshrdi3_v8plus (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1258,7 +1259,7 @@ gen_lshrdi3_v8plus (rtx operand0 ATTRIBUTE_UNUSED,
 	gen_rtx_SCRATCH (SImode))));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5908 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5901 */
 rtx
 gen_jump (rtx operand0 ATTRIBUTE_UNUSED)
 {
@@ -1268,7 +1269,7 @@ gen_jump (rtx operand0 ATTRIBUTE_UNUSED)
 	operand0));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6281 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6274 */
 rtx
 gen_save_register_windowdi (rtx operand0 ATTRIBUTE_UNUSED)
 {
@@ -1294,7 +1295,7 @@ gen_save_register_windowdi (rtx operand0 ATTRIBUTE_UNUSED)
 	15))));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6335 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6330 */
 rtx
 gen_blockage (void)
 {
@@ -1304,29 +1305,14 @@ gen_blockage (void)
 	0);
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6349 */
-rtx
-gen_probe_stack_rangedi (rtx operand0 ATTRIBUTE_UNUSED,
-	rtx operand1 ATTRIBUTE_UNUSED,
-	rtx operand2 ATTRIBUTE_UNUSED)
-{
-  return gen_rtx_SET (VOIDmode,
-	operand0,
-	gen_rtx_UNSPEC_VOLATILE (DImode,
-	gen_rtvec (2,
-		operand1,
-		operand2),
-	11));
-}
-
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6423 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6409 */
 rtx
 gen_nop (void)
 {
   return const0_rtx;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6486 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6472 */
 rtx
 gen_flush_register_windows (void)
 {
@@ -1336,7 +1322,7 @@ gen_flush_register_windows (void)
 	1);
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6492 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6478 */
 rtx
 gen_goto_handler_and_restore (rtx operand0 ATTRIBUTE_UNUSED)
 {
@@ -1346,7 +1332,7 @@ gen_goto_handler_and_restore (rtx operand0 ATTRIBUTE_UNUSED)
 	2);
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6518 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6504 */
 rtx
 gen_do_builtin_setjmp_setup (void)
 {
@@ -1356,7 +1342,7 @@ gen_do_builtin_setjmp_setup (void)
 	5);
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6583 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6562 */
 rtx
 gen_flush (rtx operand0 ATTRIBUTE_UNUSED)
 {
@@ -1366,7 +1352,7 @@ gen_flush (rtx operand0 ATTRIBUTE_UNUSED)
 	4);
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6589 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6568 */
 rtx
 gen_flushdi (rtx operand0 ATTRIBUTE_UNUSED)
 {
@@ -1376,7 +1362,7 @@ gen_flushdi (rtx operand0 ATTRIBUTE_UNUSED)
 	4);
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6604 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6583 */
 rtx
 gen_ffssi2 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -1390,7 +1376,7 @@ gen_ffssi2 (rtx operand0 ATTRIBUTE_UNUSED,
 	gen_rtx_SCRATCH (SImode))));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6812 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6791 */
 rtx
 gen_prefetch_64 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1402,7 +1388,7 @@ gen_prefetch_64 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2);
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6837 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6816 */
 rtx
 gen_prefetch_32 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1414,7 +1400,7 @@ gen_prefetch_32 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2);
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6865 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6844 */
 rtx
 gen_trap (void)
 {
@@ -1423,7 +1409,7 @@ gen_trap (void)
 	const_int_rtx[MAX_SAVED_CONST_INT + (5)]);
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6916 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6895 */
 rtx
 gen_tgd_hi22 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -1437,7 +1423,7 @@ gen_tgd_hi22 (rtx operand0 ATTRIBUTE_UNUSED,
 	30)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6923 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6902 */
 rtx
 gen_tgd_lo10 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1453,7 +1439,7 @@ gen_tgd_lo10 (rtx operand0 ATTRIBUTE_UNUSED,
 	30)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6940 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6919 */
 rtx
 gen_tgd_add64 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1471,7 +1457,7 @@ gen_tgd_add64 (rtx operand0 ATTRIBUTE_UNUSED,
 	30)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6960 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6939 */
 rtx
 gen_tgd_call64 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1492,7 +1478,7 @@ gen_tgd_call64 (rtx operand0 ATTRIBUTE_UNUSED,
 		gen_hard_reg_clobber (DImode, 15)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6971 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6950 */
 rtx
 gen_tldm_hi22 (rtx operand0 ATTRIBUTE_UNUSED)
 {
@@ -1505,7 +1491,7 @@ gen_tldm_hi22 (rtx operand0 ATTRIBUTE_UNUSED)
 	31)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6977 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6956 */
 rtx
 gen_tldm_lo10 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -1520,7 +1506,7 @@ gen_tldm_lo10 (rtx operand0 ATTRIBUTE_UNUSED,
 	31)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6992 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6971 */
 rtx
 gen_tldm_add64 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1536,7 +1522,7 @@ gen_tldm_add64 (rtx operand0 ATTRIBUTE_UNUSED,
 	31)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7010 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6989 */
 rtx
 gen_tldm_call64 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1555,7 +1541,7 @@ gen_tldm_call64 (rtx operand0 ATTRIBUTE_UNUSED,
 		gen_hard_reg_clobber (DImode, 15)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7020 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6999 */
 rtx
 gen_tldo_hix22 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -1569,7 +1555,7 @@ gen_tldo_hix22 (rtx operand0 ATTRIBUTE_UNUSED,
 	32)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7027 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7006 */
 rtx
 gen_tldo_lox10 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1585,7 +1571,7 @@ gen_tldo_lox10 (rtx operand0 ATTRIBUTE_UNUSED,
 	32)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7044 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7023 */
 rtx
 gen_tldo_add64 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1603,7 +1589,7 @@ gen_tldo_add64 (rtx operand0 ATTRIBUTE_UNUSED,
 	32)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7053 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7032 */
 rtx
 gen_tie_hi22 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -1617,7 +1603,7 @@ gen_tie_hi22 (rtx operand0 ATTRIBUTE_UNUSED,
 	33)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7060 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7039 */
 rtx
 gen_tie_lo10 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1633,7 +1619,7 @@ gen_tie_lo10 (rtx operand0 ATTRIBUTE_UNUSED,
 	33)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7078 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7057 */
 rtx
 gen_tie_ld64 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1650,7 +1636,7 @@ gen_tie_ld64 (rtx operand0 ATTRIBUTE_UNUSED,
 	33));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7097 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7076 */
 rtx
 gen_tie_add64 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1668,7 +1654,7 @@ gen_tie_add64 (rtx operand0 ATTRIBUTE_UNUSED,
 	33)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7121 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7100 */
 rtx
 gen_tle_hix22_sp64 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -1682,7 +1668,7 @@ gen_tle_hix22_sp64 (rtx operand0 ATTRIBUTE_UNUSED,
 	34)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7128 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7107 */
 rtx
 gen_tle_lox10_sp64 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1698,7 +1684,7 @@ gen_tle_lox10_sp64 (rtx operand0 ATTRIBUTE_UNUSED,
 	34)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7507 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7486 */
 rtx
 gen_stack_protect_setdi (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -1715,7 +1701,7 @@ gen_stack_protect_setdi (rtx operand0 ATTRIBUTE_UNUSED,
 	const0_rtx)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7557 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7536 */
 rtx
 gen_stack_protect_testdi (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1734,7 +1720,7 @@ gen_stack_protect_testdi (rtx operand0 ATTRIBUTE_UNUSED,
 	const0_rtx)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7571 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7550 */
 rtx
 gen_addv2si3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1747,7 +1733,7 @@ gen_addv2si3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7580 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7559 */
 rtx
 gen_addv4hi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1760,7 +1746,7 @@ gen_addv4hi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7591 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7570 */
 rtx
 gen_addv2hi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1773,7 +1759,7 @@ gen_addv2hi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7600 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7579 */
 rtx
 gen_subv2si3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1786,7 +1772,7 @@ gen_subv2si3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7609 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7588 */
 rtx
 gen_subv4hi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1799,7 +1785,7 @@ gen_subv4hi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7620 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7599 */
 rtx
 gen_subv2hi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1812,7 +1798,7 @@ gen_subv2hi3 (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7654 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7633 */
 rtx
 gen_fpack16_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -1825,7 +1811,7 @@ gen_fpack16_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	40));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7663 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7642 */
 rtx
 gen_fpackfix_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -1838,7 +1824,7 @@ gen_fpackfix_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	42));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7672 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7651 */
 rtx
 gen_fpack32_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1853,7 +1839,7 @@ gen_fpack32_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	41));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7682 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7661 */
 rtx
 gen_fexpand_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED)
@@ -1866,7 +1852,7 @@ gen_fexpand_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	43));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7696 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7675 */
 rtx
 gen_fpmerge_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1881,7 +1867,7 @@ gen_fpmerge_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	44));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7707 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7686 */
 rtx
 gen_fmul8x16_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1894,7 +1880,7 @@ gen_fmul8x16_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7717 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7696 */
 rtx
 gen_fmul8x16au_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1907,7 +1893,7 @@ gen_fmul8x16au_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7726 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7705 */
 rtx
 gen_fmul8x16al_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1922,7 +1908,7 @@ gen_fmul8x16al_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	45));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7737 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7716 */
 rtx
 gen_fmul8sux16_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1935,7 +1921,7 @@ gen_fmul8sux16_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7746 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7725 */
 rtx
 gen_fmul8ulx16_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1950,7 +1936,7 @@ gen_fmul8ulx16_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	46));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7757 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7736 */
 rtx
 gen_fmuld8sux16_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1963,7 +1949,7 @@ gen_fmuld8sux16_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7766 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7745 */
 rtx
 gen_fmuld8ulx16_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1978,7 +1964,7 @@ gen_fmuld8ulx16_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	47));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7779 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7758 */
 rtx
 gen_faligndatadi_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -1993,7 +1979,7 @@ gen_faligndatadi_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	48));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7779 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7758 */
 rtx
 gen_faligndatav2si_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -2008,7 +1994,7 @@ gen_faligndatav2si_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	48));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7779 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7758 */
 rtx
 gen_faligndatav4hi_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -2023,7 +2009,7 @@ gen_faligndatav4hi_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	48));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7779 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7758 */
 rtx
 gen_faligndatav8qi_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -2038,7 +2024,7 @@ gen_faligndatav8qi_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	48));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7789 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7768 */
 rtx
 gen_alignaddrdi_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -2053,7 +2039,7 @@ gen_alignaddrdi_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	49));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7797 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7776 */
 rtx
 gen_pdist_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	rtx operand1 ATTRIBUTE_UNUSED,
@@ -2070,7 +2056,7 @@ gen_pdist_vis (rtx operand0 ATTRIBUTE_UNUSED,
 	50));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:461 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:454 */
 rtx
 gen_cstoresi4 (rtx operand0,
 	rtx operand1,
@@ -2085,20 +2071,16 @@ gen_cstoresi4 (rtx operand0,
     operands[1] = operand1;
     operands[2] = operand2;
     operands[3] = operand3;
-#line 467 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 460 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (GET_CODE (operands[2]) == ZERO_EXTRACT && operands[3] != const0_rtx)
     operands[2] = force_reg (SImode, operands[2]);
   if (emit_scc_insn (operands)) DONE; else FAIL;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit_insn (gen_rtx_USE (VOIDmode,
 	gen_rtx_fmt_ee (GET_CODE (operand1), VOIDmode,
@@ -2111,7 +2093,7 @@ gen_cstoresi4 (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:473 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:466 */
 rtx
 gen_cstoredi4 (rtx operand0,
 	rtx operand1,
@@ -2126,20 +2108,16 @@ gen_cstoredi4 (rtx operand0,
     operands[1] = operand1;
     operands[2] = operand2;
     operands[3] = operand3;
-#line 479 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 472 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (GET_CODE (operands[2]) == ZERO_EXTRACT && operands[3] != const0_rtx)
     operands[2] = force_reg (DImode, operands[2]);
   if (emit_scc_insn (operands)) DONE; else FAIL;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit_insn (gen_rtx_USE (VOIDmode,
 	gen_rtx_fmt_ee (GET_CODE (operand1), VOIDmode,
@@ -2152,7 +2130,7 @@ gen_cstoredi4 (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:485 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:478 */
 rtx
 gen_cstoresf4 (rtx operand0,
 	rtx operand1,
@@ -2167,16 +2145,12 @@ gen_cstoresf4 (rtx operand0,
     operands[1] = operand1;
     operands[2] = operand2;
     operands[3] = operand3;
-#line 491 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 484 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 { if (emit_scc_insn (operands)) DONE; else FAIL; }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit_insn (gen_rtx_USE (VOIDmode,
 	gen_rtx_fmt_ee (GET_CODE (operand1), VOIDmode,
@@ -2189,7 +2163,7 @@ gen_cstoresf4 (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:485 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:478 */
 rtx
 gen_cstoredf4 (rtx operand0,
 	rtx operand1,
@@ -2204,16 +2178,12 @@ gen_cstoredf4 (rtx operand0,
     operands[1] = operand1;
     operands[2] = operand2;
     operands[3] = operand3;
-#line 491 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 484 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 { if (emit_scc_insn (operands)) DONE; else FAIL; }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit_insn (gen_rtx_USE (VOIDmode,
 	gen_rtx_fmt_ee (GET_CODE (operand1), VOIDmode,
@@ -2226,7 +2196,7 @@ gen_cstoredf4 (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:485 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:478 */
 rtx
 gen_cstoretf4 (rtx operand0,
 	rtx operand1,
@@ -2241,16 +2211,12 @@ gen_cstoretf4 (rtx operand0,
     operands[1] = operand1;
     operands[2] = operand2;
     operands[3] = operand3;
-#line 491 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 484 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 { if (emit_scc_insn (operands)) DONE; else FAIL; }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit_insn (gen_rtx_USE (VOIDmode,
 	gen_rtx_fmt_ee (GET_CODE (operand1), VOIDmode,
@@ -2263,7 +2229,7 @@ gen_cstoretf4 (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:498 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:491 */
 rtx
 gen_seqsi_special (rtx operand0,
 	rtx operand1,
@@ -2277,16 +2243,12 @@ gen_seqsi_special (rtx operand0,
     operands[0] = operand0;
     operands[1] = operand1;
     operands[2] = operand2;
-#line 506 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 499 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 { operands[3] = gen_reg_rtx (SImode); }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand3,
@@ -2306,7 +2268,7 @@ gen_seqsi_special (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:508 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:501 */
 rtx
 gen_seqdi_special (rtx operand0,
 	rtx operand1,
@@ -2320,16 +2282,12 @@ gen_seqdi_special (rtx operand0,
     operands[0] = operand0;
     operands[1] = operand1;
     operands[2] = operand2;
-#line 515 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 508 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 { operands[3] = gen_reg_rtx (DImode); }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand3,
@@ -2346,7 +2304,7 @@ gen_seqdi_special (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:517 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:510 */
 rtx
 gen_snesi_special (rtx operand0,
 	rtx operand1,
@@ -2360,16 +2318,12 @@ gen_snesi_special (rtx operand0,
     operands[0] = operand0;
     operands[1] = operand1;
     operands[2] = operand2;
-#line 525 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 518 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 { operands[3] = gen_reg_rtx (SImode); }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand3,
@@ -2389,7 +2343,7 @@ gen_snesi_special (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:527 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:520 */
 rtx
 gen_snedi_special (rtx operand0,
 	rtx operand1,
@@ -2403,16 +2357,12 @@ gen_snedi_special (rtx operand0,
     operands[0] = operand0;
     operands[1] = operand1;
     operands[2] = operand2;
-#line 534 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 527 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 { operands[3] = gen_reg_rtx (DImode); }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand3,
@@ -2429,21 +2379,19 @@ gen_snedi_special (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:544 */
-extern rtx gen_split_433 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:537 */
+extern rtx gen_split_432 (rtx, rtx *);
 rtx
-gen_split_433 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+gen_split_432 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx operand1;
   rtx _val = 0;
   start_sequence ();
-#line 555 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 548 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   emit_insn (gen_rtx_SET (VOIDmode,
 	gen_rtx_REG (CC_NOOVmode,
 	100),
@@ -2462,21 +2410,19 @@ gen_split_433 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:558 */
-extern rtx gen_split_434 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:551 */
+extern rtx gen_split_433 (rtx, rtx *);
 rtx
-gen_split_434 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+gen_split_433 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx operand1;
   rtx _val = 0;
   start_sequence ();
-#line 569 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 562 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   emit_insn (gen_rtx_SET (VOIDmode,
 	gen_rtx_REG (CC_NOOVmode,
 	100),
@@ -2496,21 +2442,19 @@ gen_split_434 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:572 */
-extern rtx gen_split_435 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:565 */
+extern rtx gen_split_434 (rtx, rtx *);
 rtx
-gen_split_435 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+gen_split_434 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx operand1;
   rtx _val = 0;
   start_sequence ();
-#line 587 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 580 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   emit_insn (gen_rtx_SET (VOIDmode,
 	gen_rtx_REG (CC_NOOVmode,
 	100),
@@ -2535,21 +2479,19 @@ gen_split_435 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:590 */
-extern rtx gen_split_436 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:583 */
+extern rtx gen_split_435 (rtx, rtx *);
 rtx
-gen_split_436 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+gen_split_435 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx operand1;
   rtx _val = 0;
   start_sequence ();
-#line 602 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 595 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
 	const0_rtx));
@@ -2566,21 +2508,19 @@ gen_split_436 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:605 */
-extern rtx gen_split_437 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:598 */
+extern rtx gen_split_436 (rtx, rtx *);
 rtx
-gen_split_437 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+gen_split_436 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx operand1;
   rtx _val = 0;
   start_sequence ();
-#line 617 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 610 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
 	const0_rtx));
@@ -2597,21 +2537,19 @@ gen_split_437 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:620 */
-extern rtx gen_split_438 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:613 */
+extern rtx gen_split_437 (rtx, rtx *);
 rtx
-gen_split_438 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+gen_split_437 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx operand1;
   rtx _val = 0;
   start_sequence ();
-#line 632 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 625 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
 	const0_rtx));
@@ -2628,21 +2566,19 @@ gen_split_438 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:635 */
-extern rtx gen_split_439 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:628 */
+extern rtx gen_split_438 (rtx, rtx *);
 rtx
-gen_split_439 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+gen_split_438 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx operand1;
   rtx _val = 0;
   start_sequence ();
-#line 646 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 639 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   emit_insn (gen_rtx_SET (VOIDmode,
 	gen_rtx_REG (CC_NOOVmode,
 	100),
@@ -2661,21 +2597,19 @@ gen_split_439 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:649 */
-extern rtx gen_split_440 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:642 */
+extern rtx gen_split_439 (rtx, rtx *);
 rtx
-gen_split_440 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+gen_split_439 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx operand1;
   rtx _val = 0;
   start_sequence ();
-#line 660 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 653 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   emit_insn (gen_rtx_SET (VOIDmode,
 	gen_rtx_REG (CC_NOOVmode,
 	100),
@@ -2695,21 +2629,19 @@ gen_split_440 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:663 */
-extern rtx gen_split_441 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:656 */
+extern rtx gen_split_440 (rtx, rtx *);
 rtx
-gen_split_441 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+gen_split_440 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx operand1;
   rtx _val = 0;
   start_sequence ();
-#line 678 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 671 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   emit_insn (gen_rtx_SET (VOIDmode,
 	gen_rtx_REG (CC_NOOVmode,
 	100),
@@ -2734,21 +2666,19 @@ gen_split_441 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:681 */
-extern rtx gen_split_442 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:674 */
+extern rtx gen_split_441 (rtx, rtx *);
 rtx
-gen_split_442 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+gen_split_441 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx operand1;
   rtx _val = 0;
   start_sequence ();
-#line 693 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 686 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
 	const0_rtx));
@@ -2765,21 +2695,19 @@ gen_split_442 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:696 */
-extern rtx gen_split_443 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:689 */
+extern rtx gen_split_442 (rtx, rtx *);
 rtx
-gen_split_443 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+gen_split_442 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx operand1;
   rtx _val = 0;
   start_sequence ();
-#line 708 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 701 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
 	const0_rtx));
@@ -2796,21 +2724,19 @@ gen_split_443 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:711 */
-extern rtx gen_split_444 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:704 */
+extern rtx gen_split_443 (rtx, rtx *);
 rtx
-gen_split_444 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+gen_split_443 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx operand1;
   rtx _val = 0;
   start_sequence ();
-#line 723 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 716 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
 	const0_rtx));
@@ -2827,7 +2753,42 @@ gen_split_444 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:730 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:723 */
+extern rtx gen_split_444 (rtx, rtx *);
+rtx
+gen_split_444 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+{
+  rtx operand0;
+  rtx operand1;
+  rtx operand2;
+  rtx _val = 0;
+  start_sequence ();
+#line 736 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+
+  operand0 = operands[0];
+  operand1 = operands[1];
+  operand2 = operands[2];
+  emit_insn (gen_rtx_SET (VOIDmode,
+	gen_rtx_REG (CC_NOOVmode,
+	100),
+	gen_rtx_COMPARE (CC_NOOVmode,
+	gen_rtx_NEG (SImode,
+	operand1),
+	const0_rtx)));
+  emit_insn (gen_rtx_SET (VOIDmode,
+	operand0,
+	gen_rtx_PLUS (SImode,
+	gen_rtx_LTU (SImode,
+	gen_rtx_REG (CCmode,
+	100),
+	const0_rtx),
+	operand2)));
+  _val = get_insns ();
+  end_sequence ();
+  return _val;
+}
+
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:739 */
 extern rtx gen_split_445 (rtx, rtx *);
 rtx
 gen_split_445 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
@@ -2837,14 +2798,11 @@ gen_split_445 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   rtx operand2;
   rtx _val = 0;
   start_sequence ();
-#line 743 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 752 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   operand2 = operands[2];
-  (void) operand2;
   emit_insn (gen_rtx_SET (VOIDmode,
 	gen_rtx_REG (CC_NOOVmode,
 	100),
@@ -2854,18 +2812,18 @@ gen_split_445 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 	const0_rtx)));
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
-	gen_rtx_PLUS (SImode,
+	gen_rtx_MINUS (SImode,
+	operand2,
 	gen_rtx_LTU (SImode,
 	gen_rtx_REG (CCmode,
 	100),
-	const0_rtx),
-	operand2)));
+	const0_rtx))));
   _val = get_insns ();
   end_sequence ();
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:746 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:755 */
 extern rtx gen_split_446 (rtx, rtx *);
 rtx
 gen_split_446 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
@@ -2875,52 +2833,11 @@ gen_split_446 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   rtx operand2;
   rtx _val = 0;
   start_sequence ();
-#line 759 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 768 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   operand2 = operands[2];
-  (void) operand2;
-  emit_insn (gen_rtx_SET (VOIDmode,
-	gen_rtx_REG (CC_NOOVmode,
-	100),
-	gen_rtx_COMPARE (CC_NOOVmode,
-	gen_rtx_NEG (SImode,
-	operand1),
-	const0_rtx)));
-  emit_insn (gen_rtx_SET (VOIDmode,
-	operand0,
-	gen_rtx_MINUS (SImode,
-	operand2,
-	gen_rtx_LTU (SImode,
-	gen_rtx_REG (CCmode,
-	100),
-	const0_rtx))));
-  _val = get_insns ();
-  end_sequence ();
-  return _val;
-}
-
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:762 */
-extern rtx gen_split_447 (rtx, rtx *);
-rtx
-gen_split_447 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
-{
-  rtx operand0;
-  rtx operand1;
-  rtx operand2;
-  rtx _val = 0;
-  start_sequence ();
-#line 775 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-
-  operand0 = operands[0];
-  (void) operand0;
-  operand1 = operands[1];
-  (void) operand1;
-  operand2 = operands[2];
-  (void) operand2;
   emit_insn (gen_rtx_SET (VOIDmode,
 	gen_rtx_REG (CC_NOOVmode,
 	100),
@@ -2941,24 +2858,21 @@ gen_split_447 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:778 */
-extern rtx gen_split_448 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:771 */
+extern rtx gen_split_447 (rtx, rtx *);
 rtx
-gen_split_448 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+gen_split_447 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx operand1;
   rtx operand2;
   rtx _val = 0;
   start_sequence ();
-#line 791 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 784 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   operand2 = operands[2];
-  (void) operand2;
   emit_insn (gen_rtx_SET (VOIDmode,
 	gen_rtx_REG (CC_NOOVmode,
 	100),
@@ -2979,24 +2893,21 @@ gen_split_448 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:907 */
-extern rtx gen_split_449 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:900 */
+extern rtx gen_split_448 (rtx, rtx *);
 rtx
-gen_split_449 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+gen_split_448 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx operand1;
   rtx operand2;
   rtx _val = 0;
   start_sequence ();
-#line 922 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 915 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   operand2 = operands[2];
-  (void) operand2;
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
 	const0_rtx));
@@ -3013,7 +2924,7 @@ gen_split_449 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:927 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:920 */
 rtx
 gen_cbranchcc4 (rtx operand0,
 	rtx operand1,
@@ -3031,7 +2942,7 @@ gen_cbranchcc4 (rtx operand0,
 	pc_rtx));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:937 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:930 */
 rtx
 gen_cbranchsi4 (rtx operand0,
 	rtx operand1,
@@ -3046,7 +2957,7 @@ gen_cbranchsi4 (rtx operand0,
     operands[1] = operand1;
     operands[2] = operand2;
     operands[3] = operand3;
-#line 943 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 936 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (GET_CODE (operands[1]) == ZERO_EXTRACT && operands[2] != const0_rtx)
     operands[1] = force_reg (SImode, operands[1]);
@@ -3054,13 +2965,9 @@ gen_cbranchsi4 (rtx operand0,
   DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit_insn (gen_rtx_USE (VOIDmode,
 	gen_rtx_fmt_ee (GET_CODE (operand0), VOIDmode,
@@ -3073,7 +2980,7 @@ gen_cbranchsi4 (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:950 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:943 */
 rtx
 gen_cbranchdi4 (rtx operand0,
 	rtx operand1,
@@ -3088,7 +2995,7 @@ gen_cbranchdi4 (rtx operand0,
     operands[1] = operand1;
     operands[2] = operand2;
     operands[3] = operand3;
-#line 956 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 949 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (GET_CODE (operands[1]) == ZERO_EXTRACT && operands[2] != const0_rtx)
     operands[1] = force_reg (DImode, operands[1]);
@@ -3096,13 +3003,9 @@ gen_cbranchdi4 (rtx operand0,
   DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit_insn (gen_rtx_USE (VOIDmode,
 	gen_rtx_fmt_ee (GET_CODE (operand0), VOIDmode,
@@ -3115,7 +3018,7 @@ gen_cbranchdi4 (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:963 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:956 */
 rtx
 gen_cbranchsf4 (rtx operand0,
 	rtx operand1,
@@ -3130,16 +3033,12 @@ gen_cbranchsf4 (rtx operand0,
     operands[1] = operand1;
     operands[2] = operand2;
     operands[3] = operand3;
-#line 969 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 962 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 { emit_conditional_branch_insn (operands); DONE; }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit_insn (gen_rtx_USE (VOIDmode,
 	gen_rtx_fmt_ee (GET_CODE (operand0), VOIDmode,
@@ -3152,7 +3051,7 @@ gen_cbranchsf4 (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:963 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:956 */
 rtx
 gen_cbranchdf4 (rtx operand0,
 	rtx operand1,
@@ -3167,16 +3066,12 @@ gen_cbranchdf4 (rtx operand0,
     operands[1] = operand1;
     operands[2] = operand2;
     operands[3] = operand3;
-#line 969 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 962 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 { emit_conditional_branch_insn (operands); DONE; }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit_insn (gen_rtx_USE (VOIDmode,
 	gen_rtx_fmt_ee (GET_CODE (operand0), VOIDmode,
@@ -3189,7 +3084,7 @@ gen_cbranchdf4 (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:963 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:956 */
 rtx
 gen_cbranchtf4 (rtx operand0,
 	rtx operand1,
@@ -3204,16 +3099,12 @@ gen_cbranchtf4 (rtx operand0,
     operands[1] = operand1;
     operands[2] = operand2;
     operands[3] = operand3;
-#line 969 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 962 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 { emit_conditional_branch_insn (operands); DONE; }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit_insn (gen_rtx_USE (VOIDmode,
 	gen_rtx_fmt_ee (GET_CODE (operand0), VOIDmode,
@@ -3226,7 +3117,7 @@ gen_cbranchtf4 (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1140 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1133 */
 rtx
 gen_movqi (rtx operand0,
 	rtx operand1)
@@ -3237,15 +3128,13 @@ gen_movqi (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 1144 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1137 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (sparc_expand_move (QImode, operands))
     DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -3255,7 +3144,7 @@ gen_movqi (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1161 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1154 */
 rtx
 gen_movhi (rtx operand0,
 	rtx operand1)
@@ -3266,15 +3155,13 @@ gen_movhi (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 1165 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1158 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (sparc_expand_move (HImode, operands))
     DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -3284,7 +3171,7 @@ gen_movhi (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1191 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1184 */
 rtx
 gen_movsi (rtx operand0,
 	rtx operand1)
@@ -3295,15 +3182,13 @@ gen_movsi (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 1195 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1188 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (sparc_expand_move (SImode, operands))
     DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -3313,7 +3198,7 @@ gen_movsi (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1271 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1264 */
 rtx
 gen_movsi_pic_label_ref (rtx operand0,
 	rtx operand1)
@@ -3328,7 +3213,7 @@ gen_movsi_pic_label_ref (rtx operand0,
     rtx operands[6];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 1280 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1273 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   crtl->uses_pic_offset_table = 1;
   operands[2] = gen_rtx_SYMBOL_REF (Pmode, "_GLOBAL_OFFSET_TABLE_");
@@ -3345,17 +3230,11 @@ gen_movsi_pic_label_ref (rtx operand0,
   operands[5] = pic_offset_table_rtx;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
     operand4 = operands[4];
-    (void) operand4;
     operand5 = operands[5];
-    (void) operand5;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand3,
@@ -3384,7 +3263,7 @@ gen_movsi_pic_label_ref (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1328 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1321 */
 rtx
 gen_movdi (rtx operand0,
 	rtx operand1)
@@ -3395,15 +3274,13 @@ gen_movdi (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 1332 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1325 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (sparc_expand_move (DImode, operands))
     DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -3413,7 +3290,7 @@ gen_movdi (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1420 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1413 */
 rtx
 gen_movdi_pic_label_ref (rtx operand0,
 	rtx operand1)
@@ -3428,7 +3305,7 @@ gen_movdi_pic_label_ref (rtx operand0,
     rtx operands[6];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 1429 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1422 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   crtl->uses_pic_offset_table = 1;
   operands[2] = gen_rtx_SYMBOL_REF (Pmode, "_GLOBAL_OFFSET_TABLE_");
@@ -3445,17 +3322,11 @@ gen_movdi_pic_label_ref (rtx operand0,
   operands[5] = pic_offset_table_rtx;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
     operand4 = operands[4];
-    (void) operand4;
     operand5 = operands[5];
-    (void) operand5;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand3,
@@ -3484,7 +3355,7 @@ gen_movdi_pic_label_ref (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1615 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1608 */
 rtx
 gen_reload_indi (rtx operand0,
 	rtx operand1,
@@ -3497,17 +3368,14 @@ gen_reload_indi (rtx operand0,
     operands[0] = operand0;
     operands[1] = operand1;
     operands[2] = operand2;
-#line 1622 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1615 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   sparc_emit_set_symbolic_const64 (operands[0], operands[1], operands[2]);
   DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
   }
   emit (gen_rtx_PARALLEL (VOIDmode,
 	gen_rtvec (3,
@@ -3519,7 +3387,7 @@ gen_reload_indi (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1627 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1620 */
 rtx
 gen_reload_outdi (rtx operand0,
 	rtx operand1,
@@ -3532,17 +3400,14 @@ gen_reload_outdi (rtx operand0,
     operands[0] = operand0;
     operands[1] = operand1;
     operands[2] = operand2;
-#line 1634 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1627 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   sparc_emit_set_symbolic_const64 (operands[0], operands[1], operands[2]);
   DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
   }
   emit (gen_rtx_PARALLEL (VOIDmode,
 	gen_rtvec (3,
@@ -3554,14 +3419,14 @@ gen_reload_outdi (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1673 */
-extern rtx gen_split_464 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1666 */
+extern rtx gen_split_463 (rtx, rtx *);
 rtx
-gen_split_464 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
+gen_split_463 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
 {
   rtx _val = 0;
   start_sequence ();
-#line 1685 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1678 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   emit_insn (gen_movsi (gen_highpart (SImode, operands[0]),
 			GEN_INT (CONST_DOUBLE_HIGH (operands[1]))));
@@ -3589,14 +3454,14 @@ gen_split_464 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1706 */
-extern rtx gen_split_465 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1699 */
+extern rtx gen_split_464 (rtx, rtx *);
 rtx
-gen_split_465 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
+gen_split_464 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
 {
   rtx _val = 0;
   start_sequence ();
-#line 1718 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1711 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   rtx set_dest = operands[0];
   rtx set_src = operands[1];
@@ -3629,14 +3494,14 @@ gen_split_465 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1787 */
-extern rtx gen_split_466 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1780 */
+extern rtx gen_split_465 (rtx, rtx *);
 rtx
-gen_split_466 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
+gen_split_465 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
 {
   rtx _val = 0;
   start_sequence ();
-#line 1796 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1789 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   emit_insn (gen_movsi (adjust_address (operands[0], SImode, 0), const0_rtx));
   emit_insn (gen_movsi (adjust_address (operands[0], SImode, 4), const0_rtx));
@@ -3649,7 +3514,7 @@ gen_split_466 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1806 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1799 */
 rtx
 gen_movsf (rtx operand0,
 	rtx operand1)
@@ -3660,15 +3525,13 @@ gen_movsf (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 1810 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1803 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (sparc_expand_move (SFmode, operands))
     DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -3678,7 +3541,7 @@ gen_movsf (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1806 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1799 */
 rtx
 gen_movv2hi (rtx operand0,
 	rtx operand1)
@@ -3689,15 +3552,13 @@ gen_movv2hi (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 1810 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1803 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (sparc_expand_move (V2HImode, operands))
     DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -3707,7 +3568,7 @@ gen_movv2hi (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1806 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1799 */
 rtx
 gen_movv4qi (rtx operand0,
 	rtx operand1)
@@ -3718,15 +3579,13 @@ gen_movv4qi (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 1810 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1803 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (sparc_expand_move (V4QImode, operands))
     DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -3736,19 +3595,17 @@ gen_movv4qi (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1932 */
-extern rtx gen_split_470 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1925 */
+extern rtx gen_split_469 (rtx, rtx *);
 rtx
-gen_split_470 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+gen_split_469 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx operand1;
   rtx _val = 0;
   start_sequence ();
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
 	gen_rtx_HIGH (SFmode,
@@ -3763,7 +3620,7 @@ gen_split_470 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1940 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1933 */
 rtx
 gen_movdf (rtx operand0,
 	rtx operand1)
@@ -3774,15 +3631,13 @@ gen_movdf (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 1944 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1937 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (sparc_expand_move (DFmode, operands))
     DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -3792,7 +3647,7 @@ gen_movdf (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1940 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1933 */
 rtx
 gen_movv2si (rtx operand0,
 	rtx operand1)
@@ -3803,15 +3658,13 @@ gen_movv2si (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 1944 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1937 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (sparc_expand_move (V2SImode, operands))
     DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -3821,7 +3674,7 @@ gen_movv2si (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1940 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1933 */
 rtx
 gen_movv4hi (rtx operand0,
 	rtx operand1)
@@ -3832,15 +3685,13 @@ gen_movv4hi (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 1944 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1937 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (sparc_expand_move (V4HImode, operands))
     DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -3850,7 +3701,7 @@ gen_movv4hi (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1940 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1933 */
 rtx
 gen_movv8qi (rtx operand0,
 	rtx operand1)
@@ -3861,15 +3712,13 @@ gen_movv8qi (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 1944 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1937 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (sparc_expand_move (V8QImode, operands))
     DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -3879,14 +3728,69 @@ gen_movv8qi (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2063 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2056 */
+extern rtx gen_split_474 (rtx, rtx *);
+rtx
+gen_split_474 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
+{
+  rtx _val = 0;
+  start_sequence ();
+#line 2065 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+{
+  operands[0] = gen_rtx_raw_REG (DImode, REGNO (operands[0]));
+
+  if (TARGET_ARCH64)
+    {
+#if HOST_BITS_PER_WIDE_INT == 32
+      gcc_unreachable ();
+#else
+      enum machine_mode mode = GET_MODE (operands[1]);
+      rtx tem = simplify_subreg (DImode, operands[1], mode, 0);
+      emit_insn (gen_movdi (operands[0], tem));
+#endif
+    }
+  else
+    {
+      enum machine_mode mode = GET_MODE (operands[1]);
+      rtx hi = simplify_subreg (SImode, operands[1], mode, 0);
+      rtx lo = simplify_subreg (SImode, operands[1], mode, 4);
+
+      gcc_assert (GET_CODE (hi) == CONST_INT);
+      gcc_assert (GET_CODE (lo) == CONST_INT);
+
+      emit_insn (gen_movsi (gen_highpart (SImode, operands[0]), hi));
+
+      /* Slick... but this trick loses if this subreg constant part
+         can be done in one insn.  */
+      if (lo == hi
+	  && ! SPARC_SETHI32_P (INTVAL (hi))
+	  && ! SPARC_SIMM13_P (INTVAL (hi)))
+        {
+          emit_insn (gen_movsi (gen_lowpart (SImode, operands[0]),
+			        gen_highpart (SImode, operands[0])));
+        }
+      else
+        {
+          emit_insn (gen_movsi (gen_lowpart (SImode, operands[0]), lo));
+        }
+    }
+  DONE;
+}
+  emit_insn (gen_rtx_CLOBBER (VOIDmode,
+	const0_rtx));
+  _val = get_insns ();
+  end_sequence ();
+  return _val;
+}
+
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2056 */
 extern rtx gen_split_475 (rtx, rtx *);
 rtx
 gen_split_475 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
 {
   rtx _val = 0;
   start_sequence ();
-#line 2072 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2065 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   operands[0] = gen_rtx_raw_REG (DImode, REGNO (operands[0]));
 
@@ -3934,14 +3838,14 @@ gen_split_475 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2063 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2056 */
 extern rtx gen_split_476 (rtx, rtx *);
 rtx
 gen_split_476 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
 {
   rtx _val = 0;
   start_sequence ();
-#line 2072 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2065 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   operands[0] = gen_rtx_raw_REG (DImode, REGNO (operands[0]));
 
@@ -3989,14 +3893,14 @@ gen_split_476 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2063 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2056 */
 extern rtx gen_split_477 (rtx, rtx *);
 rtx
 gen_split_477 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
 {
   rtx _val = 0;
   start_sequence ();
-#line 2072 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2065 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   operands[0] = gen_rtx_raw_REG (DImode, REGNO (operands[0]));
 
@@ -4044,51 +3948,43 @@ gen_split_477 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2063 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2111 */
 extern rtx gen_split_478 (rtx, rtx *);
 rtx
 gen_split_478 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
 {
   rtx _val = 0;
   start_sequence ();
-#line 2072 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2123 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
-  operands[0] = gen_rtx_raw_REG (DImode, REGNO (operands[0]));
+  rtx set_dest = operands[0];
+  rtx set_src = operands[1];
+  rtx dest1, dest2;
+  rtx src1, src2;
+  enum machine_mode half_mode;
 
-  if (TARGET_ARCH64)
+  /* We can be expanded for DFmode or integral vector modes.  */
+  if (DFmode == DFmode)
+    half_mode = SFmode;
+  else
+    half_mode = SImode;
+  
+  dest1 = gen_highpart (half_mode, set_dest);
+  dest2 = gen_lowpart (half_mode, set_dest);
+  src1 = gen_highpart (half_mode, set_src);
+  src2 = gen_lowpart (half_mode, set_src);
+
+  /* Now emit using the real source and destination we found, swapping
+     the order if we detect overlap.  */
+  if (reg_overlap_mentioned_p (dest1, src2))
     {
-#if HOST_BITS_PER_WIDE_INT == 32
-      gcc_unreachable ();
-#else
-      enum machine_mode mode = GET_MODE (operands[1]);
-      rtx tem = simplify_subreg (DImode, operands[1], mode, 0);
-      emit_insn (gen_movdi (operands[0], tem));
-#endif
+      emit_move_insn_1 (dest2, src2);
+      emit_move_insn_1 (dest1, src1);
     }
   else
     {
-      enum machine_mode mode = GET_MODE (operands[1]);
-      rtx hi = simplify_subreg (SImode, operands[1], mode, 0);
-      rtx lo = simplify_subreg (SImode, operands[1], mode, 4);
-
-      gcc_assert (GET_CODE (hi) == CONST_INT);
-      gcc_assert (GET_CODE (lo) == CONST_INT);
-
-      emit_insn (gen_movsi (gen_highpart (SImode, operands[0]), hi));
-
-      /* Slick... but this trick loses if this subreg constant part
-         can be done in one insn.  */
-      if (lo == hi
-	  && ! SPARC_SETHI32_P (INTVAL (hi))
-	  && ! SPARC_SIMM13_P (INTVAL (hi)))
-        {
-          emit_insn (gen_movsi (gen_lowpart (SImode, operands[0]),
-			        gen_highpart (SImode, operands[0])));
-        }
-      else
-        {
-          emit_insn (gen_movsi (gen_lowpart (SImode, operands[0]), lo));
-        }
+      emit_move_insn_1 (dest1, src1);
+      emit_move_insn_1 (dest2, src2);
     }
   DONE;
 }
@@ -4099,14 +3995,14 @@ gen_split_478 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2118 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2111 */
 extern rtx gen_split_479 (rtx, rtx *);
 rtx
 gen_split_479 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
 {
   rtx _val = 0;
   start_sequence ();
-#line 2130 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2123 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   rtx set_dest = operands[0];
   rtx set_src = operands[1];
@@ -4115,7 +4011,7 @@ gen_split_479 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
   enum machine_mode half_mode;
 
   /* We can be expanded for DFmode or integral vector modes.  */
-  if (DFmode == DFmode)
+  if (V2SImode == DFmode)
     half_mode = SFmode;
   else
     half_mode = SImode;
@@ -4146,61 +4042,14 @@ gen_split_479 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2118 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2111 */
 extern rtx gen_split_480 (rtx, rtx *);
 rtx
 gen_split_480 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
 {
   rtx _val = 0;
   start_sequence ();
-#line 2130 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-{
-  rtx set_dest = operands[0];
-  rtx set_src = operands[1];
-  rtx dest1, dest2;
-  rtx src1, src2;
-  enum machine_mode half_mode;
-
-  /* We can be expanded for DFmode or integral vector modes.  */
-  if (V2SImode == DFmode)
-    half_mode = SFmode;
-  else
-    half_mode = SImode;
-  
-  dest1 = gen_highpart (half_mode, set_dest);
-  dest2 = gen_lowpart (half_mode, set_dest);
-  src1 = gen_highpart (half_mode, set_src);
-  src2 = gen_lowpart (half_mode, set_src);
-
-  /* Now emit using the real source and destination we found, swapping
-     the order if we detect overlap.  */
-  if (reg_overlap_mentioned_p (dest1, src2))
-    {
-      emit_move_insn_1 (dest2, src2);
-      emit_move_insn_1 (dest1, src1);
-    }
-  else
-    {
-      emit_move_insn_1 (dest1, src1);
-      emit_move_insn_1 (dest2, src2);
-    }
-  DONE;
-}
-  emit_insn (gen_rtx_CLOBBER (VOIDmode,
-	const0_rtx));
-  _val = get_insns ();
-  end_sequence ();
-  return _val;
-}
-
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2118 */
-extern rtx gen_split_481 (rtx, rtx *);
-rtx
-gen_split_481 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
-{
-  rtx _val = 0;
-  start_sequence ();
-#line 2130 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2123 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   rtx set_dest = operands[0];
   rtx set_src = operands[1];
@@ -4240,14 +4089,14 @@ gen_split_481 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2118 */
-extern rtx gen_split_482 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2111 */
+extern rtx gen_split_481 (rtx, rtx *);
 rtx
-gen_split_482 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
+gen_split_481 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
 {
   rtx _val = 0;
   start_sequence ();
-#line 2130 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2123 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   rtx set_dest = operands[0];
   rtx set_src = operands[1];
@@ -4287,14 +4136,14 @@ gen_split_482 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2225 */
-extern rtx gen_split_483 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2218 */
+extern rtx gen_split_482 (rtx, rtx *);
 rtx
-gen_split_483 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
+gen_split_482 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
 {
   rtx _val = 0;
   start_sequence ();
-#line 2234 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2227 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   enum machine_mode half_mode;
   rtx dest1, dest2;
@@ -4319,14 +4168,14 @@ gen_split_483 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2225 */
-extern rtx gen_split_484 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2218 */
+extern rtx gen_split_483 (rtx, rtx *);
 rtx
-gen_split_484 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
+gen_split_483 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
 {
   rtx _val = 0;
   start_sequence ();
-#line 2234 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2227 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   enum machine_mode half_mode;
   rtx dest1, dest2;
@@ -4351,14 +4200,14 @@ gen_split_484 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2225 */
-extern rtx gen_split_485 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2218 */
+extern rtx gen_split_484 (rtx, rtx *);
 rtx
-gen_split_485 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
+gen_split_484 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
 {
   rtx _val = 0;
   start_sequence ();
-#line 2234 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2227 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   enum machine_mode half_mode;
   rtx dest1, dest2;
@@ -4383,14 +4232,14 @@ gen_split_485 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2225 */
-extern rtx gen_split_486 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2218 */
+extern rtx gen_split_485 (rtx, rtx *);
 rtx
-gen_split_486 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
+gen_split_485 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
 {
   rtx _val = 0;
   start_sequence ();
-#line 2234 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2227 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   enum machine_mode half_mode;
   rtx dest1, dest2;
@@ -4415,7 +4264,7 @@ gen_split_486 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2281 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2274 */
 rtx
 gen_movtf (rtx operand0,
 	rtx operand1)
@@ -4426,15 +4275,13 @@ gen_movtf (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 2285 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2278 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (sparc_expand_move (TFmode, operands))
     DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -4444,14 +4291,14 @@ gen_movtf (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2354 */
-extern rtx gen_split_488 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2347 */
+extern rtx gen_split_487 (rtx, rtx *);
 rtx
-gen_split_488 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
+gen_split_487 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
 {
   rtx _val = 0;
   start_sequence ();
-#line 2363 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2356 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   rtx set_dest = operands[0];
   rtx set_src = operands[1];
@@ -4484,14 +4331,14 @@ gen_split_488 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2389 */
-extern rtx gen_split_489 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2382 */
+extern rtx gen_split_488 (rtx, rtx *);
 rtx
-gen_split_489 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
+gen_split_488 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
 {
   rtx _val = 0;
   start_sequence ();
-#line 2394 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2387 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   rtx set_dest = operands[0];
   rtx dest1, dest2;
@@ -4521,14 +4368,14 @@ gen_split_489 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2417 */
-extern rtx gen_split_490 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2410 */
+extern rtx gen_split_489 (rtx, rtx *);
 rtx
-gen_split_490 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
+gen_split_489 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
 {
   rtx _val = 0;
   start_sequence ();
-#line 2426 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2419 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   rtx word0 = adjust_address (operands[1], DFmode, 0);
   rtx word1 = adjust_address (operands[1], DFmode, 8);
@@ -4561,14 +4408,14 @@ gen_split_490 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2452 */
-extern rtx gen_split_491 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2445 */
+extern rtx gen_split_490 (rtx, rtx *);
 rtx
-gen_split_491 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
+gen_split_490 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
 {
   rtx _val = 0;
   start_sequence ();
-#line 2461 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2454 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   rtx set_src = operands[1];
 
@@ -4585,7 +4432,7 @@ gen_split_491 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2480 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2473 */
 rtx
 gen_movqicc (rtx operand0,
 	rtx operand1,
@@ -4600,7 +4447,7 @@ gen_movqicc (rtx operand0,
     operands[1] = operand1;
     operands[2] = operand2;
     operands[3] = operand3;
-#line 2486 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2479 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   enum rtx_code code = GET_CODE (operands[1]);
   rtx cc_reg;
@@ -4625,13 +4472,9 @@ gen_movqicc (rtx operand0,
   operands[1] = gen_rtx_fmt_ee (code, GET_MODE (cc_reg), cc_reg, const0_rtx);
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -4644,7 +4487,7 @@ gen_movqicc (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2480 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2473 */
 rtx
 gen_movhicc (rtx operand0,
 	rtx operand1,
@@ -4659,7 +4502,7 @@ gen_movhicc (rtx operand0,
     operands[1] = operand1;
     operands[2] = operand2;
     operands[3] = operand3;
-#line 2486 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2479 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   enum rtx_code code = GET_CODE (operands[1]);
   rtx cc_reg;
@@ -4684,13 +4527,9 @@ gen_movhicc (rtx operand0,
   operands[1] = gen_rtx_fmt_ee (code, GET_MODE (cc_reg), cc_reg, const0_rtx);
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -4703,7 +4542,7 @@ gen_movhicc (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2480 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2473 */
 rtx
 gen_movsicc (rtx operand0,
 	rtx operand1,
@@ -4718,7 +4557,7 @@ gen_movsicc (rtx operand0,
     operands[1] = operand1;
     operands[2] = operand2;
     operands[3] = operand3;
-#line 2486 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2479 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   enum rtx_code code = GET_CODE (operands[1]);
   rtx cc_reg;
@@ -4743,13 +4582,9 @@ gen_movsicc (rtx operand0,
   operands[1] = gen_rtx_fmt_ee (code, GET_MODE (cc_reg), cc_reg, const0_rtx);
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -4762,7 +4597,7 @@ gen_movsicc (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2480 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2473 */
 rtx
 gen_movdicc (rtx operand0,
 	rtx operand1,
@@ -4777,7 +4612,7 @@ gen_movdicc (rtx operand0,
     operands[1] = operand1;
     operands[2] = operand2;
     operands[3] = operand3;
-#line 2486 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2479 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   enum rtx_code code = GET_CODE (operands[1]);
   rtx cc_reg;
@@ -4802,13 +4637,9 @@ gen_movdicc (rtx operand0,
   operands[1] = gen_rtx_fmt_ee (code, GET_MODE (cc_reg), cc_reg, const0_rtx);
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -4821,7 +4652,7 @@ gen_movdicc (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2510 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2503 */
 rtx
 gen_movsfcc (rtx operand0,
 	rtx operand1,
@@ -4836,7 +4667,7 @@ gen_movsfcc (rtx operand0,
     operands[1] = operand1;
     operands[2] = operand2;
     operands[3] = operand3;
-#line 2516 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2509 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   enum rtx_code code = GET_CODE (operands[1]);
   rtx cc_reg;
@@ -4861,13 +4692,9 @@ gen_movsfcc (rtx operand0,
   operands[1] = gen_rtx_fmt_ee (code, GET_MODE (cc_reg), cc_reg, const0_rtx);
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -4880,7 +4707,7 @@ gen_movsfcc (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2510 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2503 */
 rtx
 gen_movdfcc (rtx operand0,
 	rtx operand1,
@@ -4895,7 +4722,7 @@ gen_movdfcc (rtx operand0,
     operands[1] = operand1;
     operands[2] = operand2;
     operands[3] = operand3;
-#line 2516 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2509 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   enum rtx_code code = GET_CODE (operands[1]);
   rtx cc_reg;
@@ -4920,13 +4747,9 @@ gen_movdfcc (rtx operand0,
   operands[1] = gen_rtx_fmt_ee (code, GET_MODE (cc_reg), cc_reg, const0_rtx);
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -4939,7 +4762,7 @@ gen_movdfcc (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2510 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2503 */
 rtx
 gen_movtfcc (rtx operand0,
 	rtx operand1,
@@ -4954,7 +4777,7 @@ gen_movtfcc (rtx operand0,
     operands[1] = operand1;
     operands[2] = operand2;
     operands[3] = operand3;
-#line 2516 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2509 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   enum rtx_code code = GET_CODE (operands[1]);
   rtx cc_reg;
@@ -4979,13 +4802,9 @@ gen_movtfcc (rtx operand0,
   operands[1] = gen_rtx_fmt_ee (code, GET_MODE (cc_reg), cc_reg, const0_rtx);
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -4998,59 +4817,59 @@ gen_movtfcc (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2650 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2643 */
+extern rtx gen_split_498 (rtx, rtx *);
+rtx
+gen_split_498 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
+{
+  rtx _val = 0;
+  start_sequence ();
+#line 2654 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+{
+  rtx set_dest = operands[0];
+  rtx set_srca = operands[3];
+  rtx set_srcb = operands[4];
+  int third = rtx_equal_p (set_dest, set_srca);
+  rtx dest1, dest2;
+  rtx srca1, srca2, srcb1, srcb2;
+
+  dest1 = gen_df_reg (set_dest, 0);
+  dest2 = gen_df_reg (set_dest, 1);
+  srca1 = gen_df_reg (set_srca, 0);
+  srca2 = gen_df_reg (set_srca, 1);
+  srcb1 = gen_df_reg (set_srcb, 0);
+  srcb2 = gen_df_reg (set_srcb, 1);
+
+  /* Now emit using the real source and destination we found, swapping
+     the order if we detect overlap.  */
+  if ((third && reg_overlap_mentioned_p (dest1, srcb2))
+      || (!third && reg_overlap_mentioned_p (dest1, srca2)))
+    {
+      emit_insn (gen_movdf_cc_v9 (dest2, operands[1], operands[2], srca2, srcb2));
+      emit_insn (gen_movdf_cc_v9 (dest1, operands[1], operands[2], srca1, srcb1));
+    }
+  else
+    {
+      emit_insn (gen_movdf_cc_v9 (dest1, operands[1], operands[2], srca1, srcb1));
+      emit_insn (gen_movdf_cc_v9 (dest2, operands[1], operands[2], srca2, srcb2));
+    }
+  DONE;
+}
+  emit_insn (gen_rtx_CLOBBER (VOIDmode,
+	const0_rtx));
+  _val = get_insns ();
+  end_sequence ();
+  return _val;
+}
+
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2686 */
 extern rtx gen_split_499 (rtx, rtx *);
 rtx
 gen_split_499 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
 {
   rtx _val = 0;
   start_sequence ();
-#line 2661 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-{
-  rtx set_dest = operands[0];
-  rtx set_srca = operands[3];
-  rtx set_srcb = operands[4];
-  int third = rtx_equal_p (set_dest, set_srca);
-  rtx dest1, dest2;
-  rtx srca1, srca2, srcb1, srcb2;
-
-  dest1 = gen_df_reg (set_dest, 0);
-  dest2 = gen_df_reg (set_dest, 1);
-  srca1 = gen_df_reg (set_srca, 0);
-  srca2 = gen_df_reg (set_srca, 1);
-  srcb1 = gen_df_reg (set_srcb, 0);
-  srcb2 = gen_df_reg (set_srcb, 1);
-
-  /* Now emit using the real source and destination we found, swapping
-     the order if we detect overlap.  */
-  if ((third && reg_overlap_mentioned_p (dest1, srcb2))
-      || (!third && reg_overlap_mentioned_p (dest1, srca2)))
-    {
-      emit_insn (gen_movdf_cc_v9 (dest2, operands[1], operands[2], srca2, srcb2));
-      emit_insn (gen_movdf_cc_v9 (dest1, operands[1], operands[2], srca1, srcb1));
-    }
-  else
-    {
-      emit_insn (gen_movdf_cc_v9 (dest1, operands[1], operands[2], srca1, srcb1));
-      emit_insn (gen_movdf_cc_v9 (dest2, operands[1], operands[2], srca2, srcb2));
-    }
-  DONE;
-}
-  emit_insn (gen_rtx_CLOBBER (VOIDmode,
-	const0_rtx));
-  _val = get_insns ();
-  end_sequence ();
-  return _val;
-}
-
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2693 */
-extern rtx gen_split_500 (rtx, rtx *);
-rtx
-gen_split_500 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
-{
-  rtx _val = 0;
-  start_sequence ();
-#line 2704 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2697 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   rtx set_dest = operands[0];
   rtx set_srca = operands[3];
@@ -5088,7 +4907,7 @@ gen_split_500 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands ATTRIBUTE_UNUSED)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2743 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2736 */
 rtx
 gen_zero_extendhisi2 (rtx operand0,
 	rtx operand1)
@@ -5099,7 +4918,7 @@ gen_zero_extendhisi2 (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 2747 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2740 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   rtx temp = gen_reg_rtx (SImode);
   rtx shift_16 = GEN_INT (16);
@@ -5119,9 +4938,7 @@ gen_zero_extendhisi2 (rtx operand0,
   DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -5132,7 +4949,7 @@ gen_zero_extendhisi2 (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2774 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2767 */
 rtx
 gen_zero_extendqihi2 (rtx operand0,
 	rtx operand1)
@@ -5143,7 +4960,7 @@ gen_zero_extendqihi2 (rtx operand0,
 	operand1));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2790 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2783 */
 rtx
 gen_zero_extendqisi2 (rtx operand0,
 	rtx operand1)
@@ -5154,7 +4971,7 @@ gen_zero_extendqisi2 (rtx operand0,
 	operand1));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2806 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2799 */
 rtx
 gen_zero_extendqidi2 (rtx operand0,
 	rtx operand1)
@@ -5165,7 +4982,7 @@ gen_zero_extendqidi2 (rtx operand0,
 	operand1));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2822 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2815 */
 rtx
 gen_zero_extendhidi2 (rtx operand0,
 	rtx operand1)
@@ -5176,7 +4993,7 @@ gen_zero_extendhidi2 (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 2826 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2819 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   rtx temp = gen_reg_rtx (DImode);
   rtx shift_48 = GEN_INT (48);
@@ -5196,9 +5013,7 @@ gen_zero_extendhidi2 (rtx operand0,
   DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -5209,7 +5024,7 @@ gen_zero_extendhidi2 (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2855 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2848 */
 rtx
 gen_zero_extendsidi2 (rtx operand0,
 	rtx operand1)
@@ -5220,7 +5035,7 @@ gen_zero_extendsidi2 (rtx operand0,
 	operand1));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3023 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3016 */
 rtx
 gen_extendhisi2 (rtx operand0,
 	rtx operand1)
@@ -5231,7 +5046,7 @@ gen_extendhisi2 (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 3027 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3020 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   rtx temp = gen_reg_rtx (SImode);
   rtx shift_16 = GEN_INT (16);
@@ -5251,9 +5066,7 @@ gen_extendhisi2 (rtx operand0,
   DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -5264,7 +5077,7 @@ gen_extendhisi2 (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3054 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3047 */
 rtx
 gen_extendqihi2 (rtx operand0,
 	rtx operand1)
@@ -5275,7 +5088,7 @@ gen_extendqihi2 (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 3058 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3051 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   rtx temp = gen_reg_rtx (SImode);
   rtx shift_24 = GEN_INT (24);
@@ -5304,9 +5117,7 @@ gen_extendqihi2 (rtx operand0,
   DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -5317,7 +5128,7 @@ gen_extendqihi2 (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3094 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3087 */
 rtx
 gen_extendqisi2 (rtx operand0,
 	rtx operand1)
@@ -5328,7 +5139,7 @@ gen_extendqisi2 (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 3098 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3091 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   rtx temp = gen_reg_rtx (SImode);
   rtx shift_24 = GEN_INT (24);
@@ -5348,9 +5159,7 @@ gen_extendqisi2 (rtx operand0,
   DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -5361,7 +5170,7 @@ gen_extendqisi2 (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3125 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3118 */
 rtx
 gen_extendqidi2 (rtx operand0,
 	rtx operand1)
@@ -5372,7 +5181,7 @@ gen_extendqidi2 (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 3129 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3122 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   rtx temp = gen_reg_rtx (DImode);
   rtx shift_56 = GEN_INT (56);
@@ -5392,9 +5201,7 @@ gen_extendqidi2 (rtx operand0,
   DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -5405,7 +5212,7 @@ gen_extendqidi2 (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3156 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3149 */
 rtx
 gen_extendhidi2 (rtx operand0,
 	rtx operand1)
@@ -5416,7 +5223,7 @@ gen_extendhidi2 (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 3160 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3153 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   rtx temp = gen_reg_rtx (DImode);
   rtx shift_48 = GEN_INT (48);
@@ -5436,9 +5243,7 @@ gen_extendhidi2 (rtx operand0,
   DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -5449,7 +5254,7 @@ gen_extendhidi2 (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3187 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3180 */
 rtx
 gen_extendsidi2 (rtx operand0,
 	rtx operand1)
@@ -5460,7 +5265,7 @@ gen_extendsidi2 (rtx operand0,
 	operand1));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3253 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3246 */
 rtx
 gen_extendsftf2 (rtx operand0,
 	rtx operand1)
@@ -5471,12 +5276,10 @@ gen_extendsftf2 (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 3258 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3251 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 emit_tfmode_cvt (FLOAT_EXTEND, operands); DONE;
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -5487,7 +5290,7 @@ emit_tfmode_cvt (FLOAT_EXTEND, operands); DONE;
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3268 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3261 */
 rtx
 gen_extenddftf2 (rtx operand0,
 	rtx operand1)
@@ -5498,12 +5301,10 @@ gen_extenddftf2 (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 3273 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3266 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 emit_tfmode_cvt (FLOAT_EXTEND, operands); DONE;
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -5514,7 +5315,7 @@ emit_tfmode_cvt (FLOAT_EXTEND, operands); DONE;
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3292 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3285 */
 rtx
 gen_trunctfsf2 (rtx operand0,
 	rtx operand1)
@@ -5525,12 +5326,10 @@ gen_trunctfsf2 (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 3297 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3290 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 emit_tfmode_cvt (FLOAT_TRUNCATE, operands); DONE;
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -5541,7 +5340,7 @@ emit_tfmode_cvt (FLOAT_TRUNCATE, operands); DONE;
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3307 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3300 */
 rtx
 gen_trunctfdf2 (rtx operand0,
 	rtx operand1)
@@ -5552,12 +5351,10 @@ gen_trunctfdf2 (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 3312 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3305 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 emit_tfmode_cvt (FLOAT_TRUNCATE, operands); DONE;
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -5568,7 +5365,7 @@ emit_tfmode_cvt (FLOAT_TRUNCATE, operands); DONE;
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3341 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3334 */
 rtx
 gen_floatsitf2 (rtx operand0,
 	rtx operand1)
@@ -5579,12 +5376,10 @@ gen_floatsitf2 (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 3345 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3338 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 emit_tfmode_cvt (FLOAT, operands); DONE;
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -5595,7 +5390,7 @@ emit_tfmode_cvt (FLOAT, operands); DONE;
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3354 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3347 */
 rtx
 gen_floatunssitf2 (rtx operand0,
 	rtx operand1)
@@ -5606,12 +5401,10 @@ gen_floatunssitf2 (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 3358 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3351 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 emit_tfmode_cvt (UNSIGNED_FLOAT, operands); DONE;
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -5622,7 +5415,7 @@ emit_tfmode_cvt (UNSIGNED_FLOAT, operands); DONE;
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3370 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3363 */
 rtx
 gen_floatunsdisf2 (rtx operand0,
 	rtx operand1)
@@ -5633,12 +5426,10 @@ gen_floatunsdisf2 (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 3374 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3367 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 sparc_emit_floatunsdi (operands, SFmode); DONE;
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_USE (VOIDmode,
 	operand0));
@@ -5649,7 +5440,7 @@ sparc_emit_floatunsdi (operands, SFmode); DONE;
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3384 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3377 */
 rtx
 gen_floatunsdidf2 (rtx operand0,
 	rtx operand1)
@@ -5660,12 +5451,10 @@ gen_floatunsdidf2 (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 3388 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3381 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 sparc_emit_floatunsdi (operands, DFmode); DONE;
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_USE (VOIDmode,
 	operand0));
@@ -5676,7 +5465,7 @@ sparc_emit_floatunsdi (operands, DFmode); DONE;
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3390 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3383 */
 rtx
 gen_floatditf2 (rtx operand0,
 	rtx operand1)
@@ -5687,12 +5476,10 @@ gen_floatditf2 (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 3394 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3387 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 emit_tfmode_cvt (FLOAT, operands); DONE;
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -5703,7 +5490,7 @@ emit_tfmode_cvt (FLOAT, operands); DONE;
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3403 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3396 */
 rtx
 gen_floatunsditf2 (rtx operand0,
 	rtx operand1)
@@ -5714,12 +5501,10 @@ gen_floatunsditf2 (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 3407 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3400 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 emit_tfmode_cvt (UNSIGNED_FLOAT, operands); DONE;
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -5730,7 +5515,7 @@ emit_tfmode_cvt (UNSIGNED_FLOAT, operands); DONE;
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3428 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3421 */
 rtx
 gen_fix_trunctfsi2 (rtx operand0,
 	rtx operand1)
@@ -5741,12 +5526,10 @@ gen_fix_trunctfsi2 (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 3432 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3425 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 emit_tfmode_cvt (FIX, operands); DONE;
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -5757,7 +5540,7 @@ emit_tfmode_cvt (FIX, operands); DONE;
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3441 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3434 */
 rtx
 gen_fixuns_trunctfsi2 (rtx operand0,
 	rtx operand1)
@@ -5768,12 +5551,10 @@ gen_fixuns_trunctfsi2 (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 3445 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3438 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 emit_tfmode_cvt (UNSIGNED_FIX, operands); DONE;
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -5784,7 +5565,7 @@ emit_tfmode_cvt (UNSIGNED_FIX, operands); DONE;
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3457 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3450 */
 rtx
 gen_fixuns_truncsfdi2 (rtx operand0,
 	rtx operand1)
@@ -5795,12 +5576,10 @@ gen_fixuns_truncsfdi2 (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 3461 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3454 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 sparc_emit_fixunsdi (operands, SFmode); DONE;
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_USE (VOIDmode,
 	operand0));
@@ -5811,7 +5590,7 @@ sparc_emit_fixunsdi (operands, SFmode); DONE;
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3471 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3464 */
 rtx
 gen_fixuns_truncdfdi2 (rtx operand0,
 	rtx operand1)
@@ -5822,12 +5601,10 @@ gen_fixuns_truncdfdi2 (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 3475 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3468 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 sparc_emit_fixunsdi (operands, DFmode); DONE;
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_USE (VOIDmode,
 	operand0));
@@ -5838,7 +5615,7 @@ sparc_emit_fixunsdi (operands, DFmode); DONE;
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3477 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3470 */
 rtx
 gen_fix_trunctfdi2 (rtx operand0,
 	rtx operand1)
@@ -5849,12 +5626,10 @@ gen_fix_trunctfdi2 (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 3481 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3474 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 emit_tfmode_cvt (FIX, operands); DONE;
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -5865,7 +5640,7 @@ emit_tfmode_cvt (FIX, operands); DONE;
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3490 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3483 */
 rtx
 gen_fixuns_trunctfdi2 (rtx operand0,
 	rtx operand1)
@@ -5876,12 +5651,10 @@ gen_fixuns_trunctfdi2 (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 3494 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3487 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 emit_tfmode_cvt (UNSIGNED_FIX, operands); DONE;
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -5892,7 +5665,7 @@ emit_tfmode_cvt (UNSIGNED_FIX, operands); DONE;
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3499 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3492 */
 rtx
 gen_adddi3 (rtx operand0,
 	rtx operand1,
@@ -5905,7 +5678,7 @@ gen_adddi3 (rtx operand0,
     operands[0] = operand0;
     operands[1] = operand1;
     operands[2] = operand2;
-#line 3504 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3497 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (! TARGET_ARCH64)
     {
@@ -5919,11 +5692,8 @@ gen_adddi3 (rtx operand0,
     }
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -5935,7 +5705,7 @@ gen_adddi3 (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3672 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3665 */
 rtx
 gen_subdi3 (rtx operand0,
 	rtx operand1,
@@ -5948,7 +5718,7 @@ gen_subdi3 (rtx operand0,
     operands[0] = operand0;
     operands[1] = operand1;
     operands[2] = operand2;
-#line 3677 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3670 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (! TARGET_ARCH64)
     {
@@ -5962,11 +5732,8 @@ gen_subdi3 (rtx operand0,
     }
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -5978,7 +5745,7 @@ gen_subdi3 (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3858 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3851 */
 rtx
 gen_muldi3 (rtx operand0,
 	rtx operand1,
@@ -5991,7 +5758,7 @@ gen_muldi3 (rtx operand0,
     operands[0] = operand0;
     operands[1] = operand1;
     operands[2] = operand2;
-#line 3863 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3856 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (TARGET_V8PLUS)
     {
@@ -6000,11 +5767,8 @@ gen_muldi3 (rtx operand0,
     }
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -6016,7 +5780,7 @@ gen_muldi3 (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3928 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3921 */
 rtx
 gen_mulsidi3 (rtx operand0,
 	rtx operand1,
@@ -6029,7 +5793,7 @@ gen_mulsidi3 (rtx operand0,
     operands[0] = operand0;
     operands[1] = operand1;
     operands[2] = operand2;
-#line 3933 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3926 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (CONSTANT_P (operands[2]))
     {
@@ -6051,11 +5815,8 @@ gen_mulsidi3 (rtx operand0,
     }
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -6069,7 +5830,7 @@ gen_mulsidi3 (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4137 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4130 */
 rtx
 gen_umulsidi3 (rtx operand0,
 	rtx operand1,
@@ -6082,7 +5843,7 @@ gen_umulsidi3 (rtx operand0,
     operands[0] = operand0;
     operands[1] = operand1;
     operands[2] = operand2;
-#line 4142 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4135 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (CONSTANT_P (operands[2]))
     {
@@ -6104,11 +5865,8 @@ gen_umulsidi3 (rtx operand0,
     }
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -6122,7 +5880,7 @@ gen_umulsidi3 (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4326 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4319 */
 rtx
 gen_divsi3 (rtx operand0,
 	rtx operand1,
@@ -6136,7 +5894,7 @@ gen_divsi3 (rtx operand0,
     operands[0] = operand0;
     operands[1] = operand1;
     operands[2] = operand2;
-#line 4332 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4325 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (TARGET_ARCH64)
     {
@@ -6148,13 +5906,9 @@ gen_divsi3 (rtx operand0,
     }
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit (gen_rtx_PARALLEL (VOIDmode,
 	gen_rtvec (2,
@@ -6170,7 +5924,7 @@ gen_divsi3 (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4425 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4418 */
 rtx
 gen_udivsi3 (rtx operand0,
 	rtx operand1,
@@ -6183,7 +5937,7 @@ gen_udivsi3 (rtx operand0,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4552 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4545 */
 rtx
 gen_anddi3 (rtx operand0,
 	rtx operand1,
@@ -6196,7 +5950,7 @@ gen_anddi3 (rtx operand0,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4552 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4545 */
 rtx
 gen_andv2si3 (rtx operand0,
 	rtx operand1,
@@ -6209,7 +5963,7 @@ gen_andv2si3 (rtx operand0,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4552 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4545 */
 rtx
 gen_andv4hi3 (rtx operand0,
 	rtx operand1,
@@ -6222,7 +5976,7 @@ gen_andv4hi3 (rtx operand0,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4552 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4545 */
 rtx
 gen_andv8qi3 (rtx operand0,
 	rtx operand1,
@@ -6235,10 +5989,10 @@ gen_andv8qi3 (rtx operand0,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4593 */
-extern rtx gen_split_540 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4586 */
+extern rtx gen_split_539 (rtx, rtx *);
 rtx
-gen_split_540 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+gen_split_539 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx operand1;
@@ -6247,20 +6001,15 @@ gen_split_540 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   rtx operand4;
   rtx _val = 0;
   start_sequence ();
-#line 4601 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4594 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   operands[4] = GEN_INT (~INTVAL (operands[2]));
 }
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   operand2 = operands[2];
-  (void) operand2;
   operand3 = operands[3];
-  (void) operand3;
   operand4 = operands[4];
-  (void) operand4;
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand3,
 	operand4));
@@ -6275,7 +6024,7 @@ gen_split_540 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4653 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4646 */
 rtx
 gen_iordi3 (rtx operand0,
 	rtx operand1,
@@ -6288,7 +6037,7 @@ gen_iordi3 (rtx operand0,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4653 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4646 */
 rtx
 gen_iorv2si3 (rtx operand0,
 	rtx operand1,
@@ -6301,7 +6050,7 @@ gen_iorv2si3 (rtx operand0,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4653 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4646 */
 rtx
 gen_iorv4hi3 (rtx operand0,
 	rtx operand1,
@@ -6314,7 +6063,7 @@ gen_iorv4hi3 (rtx operand0,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4653 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4646 */
 rtx
 gen_iorv8qi3 (rtx operand0,
 	rtx operand1,
@@ -6327,10 +6076,10 @@ gen_iorv8qi3 (rtx operand0,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4694 */
-extern rtx gen_split_545 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4687 */
+extern rtx gen_split_544 (rtx, rtx *);
 rtx
-gen_split_545 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+gen_split_544 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx operand1;
@@ -6339,20 +6088,15 @@ gen_split_545 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   rtx operand4;
   rtx _val = 0;
   start_sequence ();
-#line 4702 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4695 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   operands[4] = GEN_INT (~INTVAL (operands[2]));
 }
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   operand2 = operands[2];
-  (void) operand2;
   operand3 = operands[3];
-  (void) operand3;
   operand4 = operands[4];
-  (void) operand4;
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand3,
 	operand4));
@@ -6367,7 +6111,7 @@ gen_split_545 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4754 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4747 */
 rtx
 gen_xordi3 (rtx operand0,
 	rtx operand1,
@@ -6380,7 +6124,7 @@ gen_xordi3 (rtx operand0,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4754 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4747 */
 rtx
 gen_xorv2si3 (rtx operand0,
 	rtx operand1,
@@ -6393,7 +6137,7 @@ gen_xorv2si3 (rtx operand0,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4754 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4747 */
 rtx
 gen_xorv4hi3 (rtx operand0,
 	rtx operand1,
@@ -6406,7 +6150,7 @@ gen_xorv4hi3 (rtx operand0,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4754 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4747 */
 rtx
 gen_xorv8qi3 (rtx operand0,
 	rtx operand1,
@@ -6419,10 +6163,10 @@ gen_xorv8qi3 (rtx operand0,
 	operand2));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4795 */
-extern rtx gen_split_550 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4788 */
+extern rtx gen_split_549 (rtx, rtx *);
 rtx
-gen_split_550 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+gen_split_549 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx operand1;
@@ -6431,20 +6175,15 @@ gen_split_550 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   rtx operand4;
   rtx _val = 0;
   start_sequence ();
-#line 4803 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4796 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   operands[4] = GEN_INT (~INTVAL (operands[2]));
 }
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   operand2 = operands[2];
-  (void) operand2;
   operand3 = operands[3];
-  (void) operand3;
   operand4 = operands[4];
-  (void) operand4;
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand3,
 	operand4));
@@ -6459,10 +6198,10 @@ gen_split_550 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4807 */
-extern rtx gen_split_551 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4800 */
+extern rtx gen_split_550 (rtx, rtx *);
 rtx
-gen_split_551 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+gen_split_550 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx operand1;
@@ -6471,20 +6210,15 @@ gen_split_551 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   rtx operand4;
   rtx _val = 0;
   start_sequence ();
-#line 4815 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4808 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   operands[4] = GEN_INT (~INTVAL (operands[2]));
 }
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   operand2 = operands[2];
-  (void) operand2;
   operand3 = operands[3];
-  (void) operand3;
   operand4 = operands[4];
-  (void) operand4;
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand3,
 	operand4));
@@ -6498,7 +6232,7 @@ gen_split_551 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5051 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5044 */
 rtx
 gen_negdi2 (rtx operand0,
 	rtx operand1)
@@ -6509,7 +6243,7 @@ gen_negdi2 (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 5055 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5048 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (! TARGET_ARCH64)
     {
@@ -6525,9 +6259,7 @@ gen_negdi2 (rtx operand0,
     }
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -6538,7 +6270,7 @@ gen_negdi2 (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5139 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5132 */
 rtx
 gen_one_cmpldi2 (rtx operand0,
 	rtx operand1)
@@ -6549,7 +6281,7 @@ gen_one_cmpldi2 (rtx operand0,
 	operand1));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5139 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5132 */
 rtx
 gen_one_cmplv2si2 (rtx operand0,
 	rtx operand1)
@@ -6560,7 +6292,7 @@ gen_one_cmplv2si2 (rtx operand0,
 	operand1));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5139 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5132 */
 rtx
 gen_one_cmplv4hi2 (rtx operand0,
 	rtx operand1)
@@ -6571,7 +6303,7 @@ gen_one_cmplv4hi2 (rtx operand0,
 	operand1));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5139 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5132 */
 rtx
 gen_one_cmplv8qi2 (rtx operand0,
 	rtx operand1)
@@ -6582,7 +6314,7 @@ gen_one_cmplv8qi2 (rtx operand0,
 	operand1));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5247 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5240 */
 rtx
 gen_addtf3 (rtx operand0,
 	rtx operand1,
@@ -6595,14 +6327,11 @@ gen_addtf3 (rtx operand0,
     operands[0] = operand0;
     operands[1] = operand1;
     operands[2] = operand2;
-#line 5252 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5245 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 emit_tfmode_binop (PLUS, operands); DONE;
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -6614,7 +6343,7 @@ emit_tfmode_binop (PLUS, operands); DONE;
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5279 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5272 */
 rtx
 gen_subtf3 (rtx operand0,
 	rtx operand1,
@@ -6627,14 +6356,11 @@ gen_subtf3 (rtx operand0,
     operands[0] = operand0;
     operands[1] = operand1;
     operands[2] = operand2;
-#line 5284 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5277 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 emit_tfmode_binop (MINUS, operands); DONE;
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -6646,7 +6372,7 @@ emit_tfmode_binop (MINUS, operands); DONE;
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5311 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5304 */
 rtx
 gen_multf3 (rtx operand0,
 	rtx operand1,
@@ -6659,14 +6385,11 @@ gen_multf3 (rtx operand0,
     operands[0] = operand0;
     operands[1] = operand1;
     operands[2] = operand2;
-#line 5316 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5309 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 emit_tfmode_binop (MULT, operands); DONE;
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -6678,7 +6401,7 @@ emit_tfmode_binop (MULT, operands); DONE;
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5360 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5353 */
 rtx
 gen_divtf3 (rtx operand0,
 	rtx operand1,
@@ -6691,14 +6414,11 @@ gen_divtf3 (rtx operand0,
     operands[0] = operand0;
     operands[1] = operand1;
     operands[2] = operand2;
-#line 5365 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5358 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 emit_tfmode_binop (DIV, operands); DONE;
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -6710,7 +6430,7 @@ emit_tfmode_binop (DIV, operands); DONE;
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5393 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5386 */
 rtx
 gen_negtf2 (rtx operand0,
 	rtx operand1)
@@ -6721,7 +6441,52 @@ gen_negtf2 (rtx operand0,
 	operand1));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5399 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5392 */
+extern rtx gen_split_561 (rtx, rtx *);
+rtx
+gen_split_561 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+{
+  rtx operand0;
+  rtx operand1;
+  rtx operand2;
+  rtx operand3;
+  rtx operand4;
+  rtx operand5;
+  rtx operand6;
+  rtx operand7;
+  rtx _val = 0;
+  start_sequence ();
+#line 5406 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+operands[2] = gen_rtx_raw_REG (SFmode, REGNO (operands[0]));
+   operands[3] = gen_rtx_raw_REG (SFmode, REGNO (operands[1]));
+   operands[4] = gen_rtx_raw_REG (SFmode, REGNO (operands[0]) + 1);
+   operands[5] = gen_rtx_raw_REG (SFmode, REGNO (operands[1]) + 1);
+   operands[6] = gen_rtx_raw_REG (DFmode, REGNO (operands[0]) + 2);
+   operands[7] = gen_rtx_raw_REG (DFmode, REGNO (operands[1]) + 2);
+  operand0 = operands[0];
+  operand1 = operands[1];
+  operand2 = operands[2];
+  operand3 = operands[3];
+  operand4 = operands[4];
+  operand5 = operands[5];
+  operand6 = operands[6];
+  operand7 = operands[7];
+  emit_insn (gen_rtx_SET (VOIDmode,
+	operand2,
+	gen_rtx_NEG (SFmode,
+	operand3)));
+  emit_insn (gen_rtx_SET (VOIDmode,
+	operand4,
+	operand5));
+  emit_insn (gen_rtx_SET (VOIDmode,
+	operand6,
+	operand7));
+  _val = get_insns ();
+  end_sequence ();
+  return _val;
+}
+
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5415 */
 extern rtx gen_split_562 (rtx, rtx *);
 rtx
 gen_split_562 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
@@ -6732,78 +6497,19 @@ gen_split_562 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   rtx operand3;
   rtx operand4;
   rtx operand5;
-  rtx operand6;
-  rtx operand7;
   rtx _val = 0;
   start_sequence ();
-#line 5413 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-operands[2] = gen_rtx_raw_REG (SFmode, REGNO (operands[0]));
-   operands[3] = gen_rtx_raw_REG (SFmode, REGNO (operands[1]));
-   operands[4] = gen_rtx_raw_REG (SFmode, REGNO (operands[0]) + 1);
-   operands[5] = gen_rtx_raw_REG (SFmode, REGNO (operands[1]) + 1);
-   operands[6] = gen_rtx_raw_REG (DFmode, REGNO (operands[0]) + 2);
-   operands[7] = gen_rtx_raw_REG (DFmode, REGNO (operands[1]) + 2);
-  operand0 = operands[0];
-  (void) operand0;
-  operand1 = operands[1];
-  (void) operand1;
-  operand2 = operands[2];
-  (void) operand2;
-  operand3 = operands[3];
-  (void) operand3;
-  operand4 = operands[4];
-  (void) operand4;
-  operand5 = operands[5];
-  (void) operand5;
-  operand6 = operands[6];
-  (void) operand6;
-  operand7 = operands[7];
-  (void) operand7;
-  emit_insn (gen_rtx_SET (VOIDmode,
-	operand2,
-	gen_rtx_NEG (SFmode,
-	operand3)));
-  emit_insn (gen_rtx_SET (VOIDmode,
-	operand4,
-	operand5));
-  emit_insn (gen_rtx_SET (VOIDmode,
-	operand6,
-	operand7));
-  _val = get_insns ();
-  end_sequence ();
-  return _val;
-}
-
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5422 */
-extern rtx gen_split_563 (rtx, rtx *);
-rtx
-gen_split_563 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
-{
-  rtx operand0;
-  rtx operand1;
-  rtx operand2;
-  rtx operand3;
-  rtx operand4;
-  rtx operand5;
-  rtx _val = 0;
-  start_sequence ();
-#line 5434 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5427 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 operands[2] = gen_rtx_raw_REG (DFmode, REGNO (operands[0]));
    operands[3] = gen_rtx_raw_REG (DFmode, REGNO (operands[1]));
    operands[4] = gen_rtx_raw_REG (DFmode, REGNO (operands[0]) + 2);
    operands[5] = gen_rtx_raw_REG (DFmode, REGNO (operands[1]) + 2);
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   operand2 = operands[2];
-  (void) operand2;
   operand3 = operands[3];
-  (void) operand3;
   operand4 = operands[4];
-  (void) operand4;
   operand5 = operands[5];
-  (void) operand5;
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand2,
 	gen_rtx_NEG (DFmode,
@@ -6816,7 +6522,7 @@ operands[2] = gen_rtx_raw_REG (DFmode, REGNO (operands[0]));
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5442 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5435 */
 rtx
 gen_negdf2 (rtx operand0,
 	rtx operand1)
@@ -6827,10 +6533,10 @@ gen_negdf2 (rtx operand0,
 	operand1));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5448 */
-extern rtx gen_split_565 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5441 */
+extern rtx gen_split_564 (rtx, rtx *);
 rtx
-gen_split_565 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+gen_split_564 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx operand1;
@@ -6840,23 +6546,17 @@ gen_split_565 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   rtx operand5;
   rtx _val = 0;
   start_sequence ();
-#line 5459 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5452 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 operands[2] = gen_rtx_raw_REG (SFmode, REGNO (operands[0]));
    operands[3] = gen_rtx_raw_REG (SFmode, REGNO (operands[1]));
    operands[4] = gen_rtx_raw_REG (SFmode, REGNO (operands[0]) + 1);
    operands[5] = gen_rtx_raw_REG (SFmode, REGNO (operands[1]) + 1);
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   operand2 = operands[2];
-  (void) operand2;
   operand3 = operands[3];
-  (void) operand3;
   operand4 = operands[4];
-  (void) operand4;
   operand5 = operands[5];
-  (void) operand5;
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand2,
 	gen_rtx_NEG (SFmode,
@@ -6869,7 +6569,7 @@ operands[2] = gen_rtx_raw_REG (SFmode, REGNO (operands[0]));
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5481 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5474 */
 rtx
 gen_abstf2 (rtx operand0,
 	rtx operand1)
@@ -6880,10 +6580,10 @@ gen_abstf2 (rtx operand0,
 	operand1));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5487 */
-extern rtx gen_split_567 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5480 */
+extern rtx gen_split_566 (rtx, rtx *);
 rtx
-gen_split_567 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+gen_split_566 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx operand1;
@@ -6895,7 +6595,7 @@ gen_split_567 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   rtx operand7;
   rtx _val = 0;
   start_sequence ();
-#line 5500 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5493 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 operands[2] = gen_rtx_raw_REG (SFmode, REGNO (operands[0]));
    operands[3] = gen_rtx_raw_REG (SFmode, REGNO (operands[1]));
    operands[4] = gen_rtx_raw_REG (SFmode, REGNO (operands[0]) + 1);
@@ -6903,21 +6603,13 @@ operands[2] = gen_rtx_raw_REG (SFmode, REGNO (operands[0]));
    operands[6] = gen_rtx_raw_REG (DFmode, REGNO (operands[0]) + 2);
    operands[7] = gen_rtx_raw_REG (DFmode, REGNO (operands[1]) + 2);
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   operand2 = operands[2];
-  (void) operand2;
   operand3 = operands[3];
-  (void) operand3;
   operand4 = operands[4];
-  (void) operand4;
   operand5 = operands[5];
-  (void) operand5;
   operand6 = operands[6];
-  (void) operand6;
   operand7 = operands[7];
-  (void) operand7;
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand2,
 	gen_rtx_ABS (SFmode,
@@ -6933,10 +6625,10 @@ operands[2] = gen_rtx_raw_REG (SFmode, REGNO (operands[0]));
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5519 */
-extern rtx gen_split_568 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5512 */
+extern rtx gen_split_567 (rtx, rtx *);
 rtx
-gen_split_568 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+gen_split_567 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx operand1;
@@ -6946,23 +6638,17 @@ gen_split_568 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   rtx operand5;
   rtx _val = 0;
   start_sequence ();
-#line 5530 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5523 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 operands[2] = gen_rtx_raw_REG (DFmode, REGNO (operands[0]));
    operands[3] = gen_rtx_raw_REG (DFmode, REGNO (operands[1]));
    operands[4] = gen_rtx_raw_REG (DFmode, REGNO (operands[0]) + 2);
    operands[5] = gen_rtx_raw_REG (DFmode, REGNO (operands[1]) + 2);
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   operand2 = operands[2];
-  (void) operand2;
   operand3 = operands[3];
-  (void) operand3;
   operand4 = operands[4];
-  (void) operand4;
   operand5 = operands[5];
-  (void) operand5;
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand2,
 	gen_rtx_ABS (DFmode,
@@ -6975,7 +6661,7 @@ operands[2] = gen_rtx_raw_REG (DFmode, REGNO (operands[0]));
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5538 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5531 */
 rtx
 gen_absdf2 (rtx operand0,
 	rtx operand1)
@@ -6986,10 +6672,10 @@ gen_absdf2 (rtx operand0,
 	operand1));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5544 */
-extern rtx gen_split_570 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5537 */
+extern rtx gen_split_569 (rtx, rtx *);
 rtx
-gen_split_570 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+gen_split_569 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx operand1;
@@ -6999,23 +6685,17 @@ gen_split_570 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   rtx operand5;
   rtx _val = 0;
   start_sequence ();
-#line 5555 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5548 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 operands[2] = gen_rtx_raw_REG (SFmode, REGNO (operands[0]));
    operands[3] = gen_rtx_raw_REG (SFmode, REGNO (operands[1]));
    operands[4] = gen_rtx_raw_REG (SFmode, REGNO (operands[0]) + 1);
    operands[5] = gen_rtx_raw_REG (SFmode, REGNO (operands[1]) + 1);
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   operand2 = operands[2];
-  (void) operand2;
   operand3 = operands[3];
-  (void) operand3;
   operand4 = operands[4];
-  (void) operand4;
   operand5 = operands[5];
-  (void) operand5;
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand2,
 	gen_rtx_ABS (SFmode,
@@ -7028,7 +6708,7 @@ operands[2] = gen_rtx_raw_REG (SFmode, REGNO (operands[0]));
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5577 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5570 */
 rtx
 gen_sqrttf2 (rtx operand0,
 	rtx operand1)
@@ -7039,12 +6719,10 @@ gen_sqrttf2 (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 5581 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5574 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 emit_tfmode_unop (SQRT, operands); DONE;
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -7055,7 +6733,7 @@ emit_tfmode_unop (SQRT, operands); DONE;
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5622 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5615 */
 rtx
 gen_ashldi3 (rtx operand0,
 	rtx operand1,
@@ -7068,7 +6746,7 @@ gen_ashldi3 (rtx operand0,
     operands[0] = operand0;
     operands[1] = operand1;
     operands[2] = operand2;
-#line 5627 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5620 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (! TARGET_ARCH64)
     {
@@ -7079,11 +6757,8 @@ gen_ashldi3 (rtx operand0,
     }
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -7095,7 +6770,7 @@ gen_ashldi3 (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5733 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5726 */
 rtx
 gen_ashrdi3 (rtx operand0,
 	rtx operand1,
@@ -7108,7 +6783,7 @@ gen_ashrdi3 (rtx operand0,
     operands[0] = operand0;
     operands[1] = operand1;
     operands[2] = operand2;
-#line 5738 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5731 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (! TARGET_ARCH64)
     {
@@ -7119,11 +6794,8 @@ gen_ashrdi3 (rtx operand0,
     }
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -7135,7 +6807,7 @@ gen_ashrdi3 (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5811 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5804 */
 rtx
 gen_lshrdi3 (rtx operand0,
 	rtx operand1,
@@ -7148,7 +6820,7 @@ gen_lshrdi3 (rtx operand0,
     operands[0] = operand0;
     operands[1] = operand1;
     operands[2] = operand2;
-#line 5816 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5809 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (! TARGET_ARCH64)
     {
@@ -7159,11 +6831,8 @@ gen_lshrdi3 (rtx operand0,
     }
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -7175,7 +6844,7 @@ gen_lshrdi3 (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5914 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5907 */
 rtx
 gen_tablejump (rtx operand0,
 	rtx operand1)
@@ -7186,7 +6855,7 @@ gen_tablejump (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 5918 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5911 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   gcc_assert (GET_MODE (operands[0]) == CASE_VECTOR_MODE);
 
@@ -7205,9 +6874,7 @@ gen_tablejump (rtx operand0,
     }
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit_jump_insn (gen_rtx_PARALLEL (VOIDmode,
 	gen_rtvec (2,
@@ -7222,7 +6889,7 @@ gen_tablejump (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5953 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5946 */
 rtx
 gen_call (rtx operand0,
 	rtx operand1,
@@ -7237,7 +6904,7 @@ gen_call (rtx operand0,
     operands[1] = operand1;
     operands[2] = operand2;
     operands[3] = operand3;
-#line 5961 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5954 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   rtx fn_rtx;
 
@@ -7297,13 +6964,9 @@ gen_call (rtx operand0,
   DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit_call_insn (gen_rtx_CALL (VOIDmode,
 	operand0,
@@ -7313,7 +6976,7 @@ gen_call (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6117 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6110 */
 rtx
 gen_call_value (rtx operand0,
 	rtx operand1,
@@ -7330,7 +6993,7 @@ gen_call_value (rtx operand0,
     operands[2] = operand2;
     operands[3] = operand3;
     operands[4] = operand4;
-#line 6126 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6119 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   rtx fn_rtx;
   rtvec vec;
@@ -7349,15 +7012,10 @@ gen_call_value (rtx operand0,
   DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
     operand4 = operands[4];
-    (void) operand4;
   }
   emit_call_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -7369,7 +7027,7 @@ gen_call_value (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6184 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6177 */
 rtx
 gen_untyped_call (rtx operand0,
 	rtx operand1,
@@ -7382,7 +7040,7 @@ gen_untyped_call (rtx operand0,
     operands[0] = operand0;
     operands[1] = operand1;
     operands[2] = operand2;
-#line 6190 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6183 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   rtx valreg1 = gen_rtx_REG (DImode, 8);
   rtx valreg2 = gen_rtx_REG (TARGET_ARCH64 ? TFmode : DFmode, 32);
@@ -7406,11 +7064,8 @@ gen_untyped_call (rtx operand0,
   DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
   }
   emit_call_insn (gen_rtx_PARALLEL (VOIDmode,
 	gen_rtvec (3,
@@ -7424,7 +7079,7 @@ gen_untyped_call (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6215 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6208 */
 rtx
 gen_sibcall (rtx operand0)
 {
@@ -7436,7 +7091,7 @@ gen_sibcall (rtx operand0)
 		gen_rtx_RETURN (VOIDmode)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6237 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6230 */
 rtx
 gen_sibcall_value (rtx operand0,
 	rtx operand1)
@@ -7451,14 +7106,14 @@ gen_sibcall_value (rtx operand0,
 		gen_rtx_RETURN (VOIDmode)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6265 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6258 */
 rtx
 gen_prologue (void)
 {
   rtx _val = 0;
   start_sequence ();
   {
-#line 6268 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6261 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   sparc_expand_prologue ();
   DONE;
@@ -7470,14 +7125,14 @@ gen_prologue (void)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6290 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6283 */
 rtx
 gen_epilogue (void)
 {
   rtx _val = 0;
   start_sequence ();
   {
-#line 6293 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6286 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   sparc_expand_epilogue ();
 }
@@ -7488,14 +7143,14 @@ gen_epilogue (void)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6297 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6290 */
 rtx
 gen_sibcall_epilogue (void)
 {
   rtx _val = 0;
   start_sequence ();
   {
-#line 6300 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6293 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   sparc_expand_epilogue ();
   DONE;
@@ -7507,14 +7162,14 @@ gen_sibcall_epilogue (void)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6305 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6298 */
 rtx
 gen_return (void)
 {
   return gen_rtx_RETURN (VOIDmode);
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6341 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6336 */
 rtx
 gen_probe_stack (rtx operand0)
 {
@@ -7523,13 +7178,12 @@ gen_probe_stack (rtx operand0)
   {
     rtx operands[1];
     operands[0] = operand0;
-#line 6344 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6339 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   operands[0]
     = adjust_address (operands[0], GET_MODE (operands[0]), SPARC_STACK_BIAS);
 }
     operand0 = operands[0];
-    (void) operand0;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -7539,7 +7193,7 @@ gen_probe_stack (rtx operand0)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6360 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6346 */
 rtx
 gen_untyped_return (rtx operand0,
 	rtx operand1)
@@ -7550,7 +7204,7 @@ gen_untyped_return (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 6364 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6350 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   rtx valreg1 = gen_rtx_REG (DImode, 24);
   rtx valreg2 = gen_rtx_REG (TARGET_ARCH64 ? TFmode : DFmode, 32);
@@ -7586,9 +7240,7 @@ gen_untyped_return (rtx operand0,
   DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit (operand0);
   emit (operand1);
@@ -7597,7 +7249,7 @@ gen_untyped_return (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6428 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6414 */
 rtx
 gen_indirect_jump (rtx operand0)
 {
@@ -7606,7 +7258,7 @@ gen_indirect_jump (rtx operand0)
 	operand0);
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6445 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6431 */
 rtx
 gen_nonlocal_goto (rtx operand0,
 	rtx operand1,
@@ -7621,7 +7273,7 @@ gen_nonlocal_goto (rtx operand0,
     operands[1] = operand1;
     operands[2] = operand2;
     operands[3] = operand3;
-#line 6451 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6437 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   rtx lab = operands[1];
   rtx stack = operands[2];
@@ -7656,13 +7308,9 @@ gen_nonlocal_goto (rtx operand0,
   DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit (operand0);
   emit (operand1);
@@ -7673,7 +7321,7 @@ gen_nonlocal_goto (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6510 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6496 */
 rtx
 gen_builtin_setjmp_setup (rtx operand0)
 {
@@ -7682,13 +7330,12 @@ gen_builtin_setjmp_setup (rtx operand0)
   {
     rtx operands[1];
     operands[0] = operand0;
-#line 6513 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6499 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   emit_insn (gen_do_builtin_setjmp_setup ());
   DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
   }
   emit (operand0);
   _val = get_insns ();
@@ -7696,29 +7343,21 @@ gen_builtin_setjmp_setup (rtx operand0)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6550 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6537 */
 rtx
 gen_setjmp (void)
 {
   rtx _val = 0;
   start_sequence ();
   {
-#line 6553 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6540 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   rtx mem;
-
-  if (flag_pic)
-    {
-      mem = gen_rtx_MEM (Pmode,
-			 plus_constant (stack_pointer_rtx,
-					SPARC_STACK_BIAS + 7 * UNITS_PER_WORD));
-      emit_insn (gen_rtx_SET (VOIDmode, mem, pic_offset_table_rtx));
-    }
-
+  
   mem = gen_rtx_MEM (Pmode,
 		     plus_constant (stack_pointer_rtx,
 				    SPARC_STACK_BIAS + 14 * UNITS_PER_WORD));
-  emit_insn (gen_rtx_SET (VOIDmode, mem, hard_frame_pointer_rtx));
+  emit_insn (gen_rtx_SET (VOIDmode, mem, frame_pointer_rtx));
 
   mem = gen_rtx_MEM (Pmode,
 		     plus_constant (stack_pointer_rtx,
@@ -7733,18 +7372,17 @@ gen_setjmp (void)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6638 */
-extern rtx gen_peephole2_591 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6617 */
+extern rtx gen_peephole2_590 (rtx, rtx *);
 rtx
-gen_peephole2_591 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+gen_peephole2_590 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx _val = 0;
   start_sequence ();
-#line 6647 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6626 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 operands[0] = widen_memory_access (operands[0], DImode, 0);
   operand0 = operands[0];
-  (void) operand0;
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
 	const0_rtx));
@@ -7753,21 +7391,19 @@ operands[0] = widen_memory_access (operands[0], DImode, 0);
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6649 */
-extern rtx gen_peephole2_592 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6628 */
+extern rtx gen_peephole2_591 (rtx, rtx *);
 rtx
-gen_peephole2_592 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+gen_peephole2_591 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx operand1;
   rtx _val = 0;
   start_sequence ();
-#line 6658 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6637 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 operands[1] = widen_memory_access (operands[1], DImode, 0);
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand1,
 	const0_rtx));
@@ -7776,7 +7412,29 @@ operands[1] = widen_memory_access (operands[1], DImode, 0);
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6660 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6639 */
+extern rtx gen_peephole2_592 (rtx, rtx *);
+rtx
+gen_peephole2_592 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+{
+  rtx operand0;
+  rtx operand1;
+  rtx _val = 0;
+  start_sequence ();
+#line 6648 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+operands[1] = widen_memory_access (operands[1], DImode, 0);
+   operands[0] = gen_rtx_REG (DImode, REGNO (operands[0]));
+  operand0 = operands[0];
+  operand1 = operands[1];
+  emit_insn (gen_rtx_SET (VOIDmode,
+	operand0,
+	operand1));
+  _val = get_insns ();
+  end_sequence ();
+  return _val;
+}
+
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6651 */
 extern rtx gen_peephole2_593 (rtx, rtx *);
 rtx
 gen_peephole2_593 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
@@ -7785,13 +7443,11 @@ gen_peephole2_593 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   rtx operand1;
   rtx _val = 0;
   start_sequence ();
-#line 6669 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-operands[1] = widen_memory_access (operands[1], DImode, 0);
-   operands[0] = gen_rtx_REG (DImode, REGNO (operands[0]));
+#line 6660 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+operands[0] = widen_memory_access (operands[0], DImode, 0);
+   operands[1] = gen_rtx_REG (DImode, REGNO (operands[1]));
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
 	operand1));
@@ -7800,7 +7456,7 @@ operands[1] = widen_memory_access (operands[1], DImode, 0);
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6672 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6663 */
 extern rtx gen_peephole2_594 (rtx, rtx *);
 rtx
 gen_peephole2_594 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
@@ -7809,13 +7465,11 @@ gen_peephole2_594 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   rtx operand1;
   rtx _val = 0;
   start_sequence ();
-#line 6681 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-operands[0] = widen_memory_access (operands[0], DImode, 0);
-   operands[1] = gen_rtx_REG (DImode, REGNO (operands[1]));
+#line 6672 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+operands[1] = widen_memory_access (operands[1], DFmode, 0);
+   operands[0] = gen_rtx_REG (DFmode, REGNO (operands[0]));
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
 	operand1));
@@ -7824,7 +7478,7 @@ operands[0] = widen_memory_access (operands[0], DImode, 0);
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6684 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6675 */
 extern rtx gen_peephole2_595 (rtx, rtx *);
 rtx
 gen_peephole2_595 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
@@ -7833,13 +7487,11 @@ gen_peephole2_595 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   rtx operand1;
   rtx _val = 0;
   start_sequence ();
-#line 6693 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-operands[1] = widen_memory_access (operands[1], DFmode, 0);
-   operands[0] = gen_rtx_REG (DFmode, REGNO (operands[0]));
+#line 6684 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+operands[0] = widen_memory_access (operands[0], DFmode, 0);
+   operands[1] = gen_rtx_REG (DFmode, REGNO (operands[1]));
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
 	operand1));
@@ -7848,31 +7500,33 @@ operands[1] = widen_memory_access (operands[1], DFmode, 0);
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6696 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6687 */
 extern rtx gen_peephole2_596 (rtx, rtx *);
 rtx
 gen_peephole2_596 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx operand1;
+  rtx operand2;
+  rtx operand3;
   rtx _val = 0;
   start_sequence ();
-#line 6705 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-operands[0] = widen_memory_access (operands[0], DFmode, 0);
-   operands[1] = gen_rtx_REG (DFmode, REGNO (operands[1]));
+#line 6696 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+operands[3] = widen_memory_access (operands[3], DImode, 0);
+    operands[2] = gen_rtx_REG (DImode, REGNO (operands[2]));
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
+  operand2 = operands[2];
+  operand3 = operands[3];
   emit_insn (gen_rtx_SET (VOIDmode,
-	operand0,
-	operand1));
+	operand2,
+	operand3));
   _val = get_insns ();
   end_sequence ();
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6708 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6699 */
 extern rtx gen_peephole2_597 (rtx, rtx *);
 rtx
 gen_peephole2_597 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
@@ -7883,17 +7537,14 @@ gen_peephole2_597 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   rtx operand3;
   rtx _val = 0;
   start_sequence ();
-#line 6717 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-operands[3] = widen_memory_access (operands[3], DImode, 0);
-    operands[2] = gen_rtx_REG (DImode, REGNO (operands[2]));
+#line 6708 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+operands[2] = widen_memory_access (operands[2], DImode, 0);
+   operands[3] = gen_rtx_REG (DImode, REGNO (operands[3]));
+   
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   operand2 = operands[2];
-  (void) operand2;
   operand3 = operands[3];
-  (void) operand3;
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand2,
 	operand3));
@@ -7902,7 +7553,7 @@ operands[3] = widen_memory_access (operands[3], DImode, 0);
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6720 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6712 */
 extern rtx gen_peephole2_598 (rtx, rtx *);
 rtx
 gen_peephole2_598 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
@@ -7913,18 +7564,13 @@ gen_peephole2_598 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   rtx operand3;
   rtx _val = 0;
   start_sequence ();
-#line 6729 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-operands[2] = widen_memory_access (operands[2], DImode, 0);
-   operands[3] = gen_rtx_REG (DImode, REGNO (operands[3]));
-   
+#line 6721 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+operands[3] = widen_memory_access (operands[3], DFmode, 0);
+   operands[2] = gen_rtx_REG (DFmode, REGNO (operands[2]));
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   operand2 = operands[2];
-  (void) operand2;
   operand3 = operands[3];
-  (void) operand3;
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand2,
 	operand3));
@@ -7933,7 +7579,7 @@ operands[2] = widen_memory_access (operands[2], DImode, 0);
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6733 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6724 */
 extern rtx gen_peephole2_599 (rtx, rtx *);
 rtx
 gen_peephole2_599 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
@@ -7944,17 +7590,13 @@ gen_peephole2_599 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   rtx operand3;
   rtx _val = 0;
   start_sequence ();
-#line 6742 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-operands[3] = widen_memory_access (operands[3], DFmode, 0);
-   operands[2] = gen_rtx_REG (DFmode, REGNO (operands[2]));
+#line 6733 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+operands[2] = widen_memory_access (operands[2], DFmode, 0);
+   operands[3] = gen_rtx_REG (DFmode, REGNO (operands[3]));
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   operand2 = operands[2];
-  (void) operand2;
   operand3 = operands[3];
-  (void) operand3;
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand2,
 	operand3));
@@ -7963,51 +7605,19 @@ operands[3] = widen_memory_access (operands[3], DFmode, 0);
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6745 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6740 */
 extern rtx gen_peephole2_600 (rtx, rtx *);
 rtx
 gen_peephole2_600 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx operand1;
-  rtx operand2;
-  rtx operand3;
   rtx _val = 0;
   start_sequence ();
-#line 6754 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-operands[2] = widen_memory_access (operands[2], DFmode, 0);
-   operands[3] = gen_rtx_REG (DFmode, REGNO (operands[3]));
-  operand0 = operands[0];
-  (void) operand0;
-  operand1 = operands[1];
-  (void) operand1;
-  operand2 = operands[2];
-  (void) operand2;
-  operand3 = operands[3];
-  (void) operand3;
-  emit_insn (gen_rtx_SET (VOIDmode,
-	operand2,
-	operand3));
-  _val = get_insns ();
-  end_sequence ();
-  return _val;
-}
-
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6761 */
-extern rtx gen_peephole2_601 (rtx, rtx *);
-rtx
-gen_peephole2_601 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
-{
-  rtx operand0;
-  rtx operand1;
-  rtx _val = 0;
-  start_sequence ();
-#line 6774 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6753 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   emit (gen_rtx_PARALLEL (VOIDmode,
 	gen_rtvec (2,
 		gen_rtx_SET (VOIDmode,
@@ -8024,21 +7634,19 @@ gen_peephole2_601 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6776 */
-extern rtx gen_peephole2_602 (rtx, rtx *);
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6755 */
+extern rtx gen_peephole2_601 (rtx, rtx *);
 rtx
-gen_peephole2_602 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
+gen_peephole2_601 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
 {
   rtx operand0;
   rtx operand1;
   rtx _val = 0;
   start_sequence ();
-#line 6790 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6769 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 
   operand0 = operands[0];
-  (void) operand0;
   operand1 = operands[1];
-  (void) operand1;
   emit (gen_rtx_PARALLEL (VOIDmode,
 	gen_rtvec (2,
 		gen_rtx_SET (VOIDmode,
@@ -8055,7 +7663,7 @@ gen_peephole2_602 (rtx curr_insn ATTRIBUTE_UNUSED, rtx *operands)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6799 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6778 */
 rtx
 gen_prefetch (rtx operand0,
 	rtx operand1,
@@ -8068,7 +7676,7 @@ gen_prefetch (rtx operand0,
     operands[0] = operand0;
     operands[1] = operand1;
     operands[2] = operand2;
-#line 6804 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6783 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (TARGET_ARCH64)
     emit_insn (gen_prefetch_64 (operands[0], operands[1], operands[2]));
@@ -8077,11 +7685,8 @@ gen_prefetch (rtx operand0,
   DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
   }
   emit (operand0);
   emit (operand1);
@@ -8091,7 +7696,7 @@ gen_prefetch (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6871 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6850 */
 rtx
 gen_ctrapsi4 (rtx operand0,
 	rtx operand1,
@@ -8106,19 +7711,15 @@ gen_ctrapsi4 (rtx operand0,
     operands[1] = operand1;
     operands[2] = operand2;
     operands[3] = operand3;
-#line 6877 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6856 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 operands[1] = gen_compare_reg (operands[0]);
    if (GET_MODE (operands[1]) != CCmode && GET_MODE (operands[1]) != CCXmode)
      FAIL;
    operands[2] = const0_rtx;
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit_insn (gen_rtx_TRAP_IF (VOIDmode,
 	gen_rtx_fmt_ee (GET_CODE (operand0), VOIDmode,
@@ -8130,7 +7731,7 @@ operands[1] = gen_compare_reg (operands[0]);
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6882 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6861 */
 rtx
 gen_ctrapdi4 (rtx operand0,
 	rtx operand1,
@@ -8145,19 +7746,15 @@ gen_ctrapdi4 (rtx operand0,
     operands[1] = operand1;
     operands[2] = operand2;
     operands[3] = operand3;
-#line 6888 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6867 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 operands[1] = gen_compare_reg (operands[0]);
    if (GET_MODE (operands[1]) != CCmode && GET_MODE (operands[1]) != CCXmode)
      FAIL;
    operands[2] = const0_rtx;
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit_insn (gen_rtx_TRAP_IF (VOIDmode,
 	gen_rtx_fmt_ee (GET_CODE (operand0), VOIDmode,
@@ -8169,7 +7766,7 @@ operands[1] = gen_compare_reg (operands[0]);
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7481 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7460 */
 rtx
 gen_stack_protect_set (rtx operand0,
 	rtx operand1)
@@ -8180,7 +7777,7 @@ gen_stack_protect_set (rtx operand0,
     rtx operands[2];
     operands[0] = operand0;
     operands[1] = operand1;
-#line 7485 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 7464 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
 #ifdef TARGET_THREAD_SSP_OFFSET
   rtx tlsreg = gen_rtx_REG (Pmode, 7);
@@ -8194,9 +7791,7 @@ gen_stack_protect_set (rtx operand0,
   DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
   }
   emit (operand0);
   emit (operand1);
@@ -8205,7 +7800,7 @@ gen_stack_protect_set (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7516 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7495 */
 rtx
 gen_stack_protect_test (rtx operand0,
 	rtx operand1,
@@ -8218,7 +7813,7 @@ gen_stack_protect_test (rtx operand0,
     operands[0] = operand0;
     operands[1] = operand1;
     operands[2] = operand2;
-#line 7521 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 7500 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   rtx result, test;
 #ifdef TARGET_THREAD_SSP_OFFSET
@@ -8243,11 +7838,8 @@ gen_stack_protect_test (rtx operand0,
   DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
   }
   emit (operand0);
   emit (operand1);
@@ -8257,7 +7849,7 @@ gen_stack_protect_test (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sync.md:26 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sync.md:21 */
 rtx
 gen_memory_barrier (void)
 {
@@ -8266,14 +7858,13 @@ gen_memory_barrier (void)
   start_sequence ();
   {
     rtx operands[1];
-#line 30 "../../gcc-4.6.1/gcc/config/sparc/sync.md"
+#line 30 "../../gcc-4.5.3/gcc/config/sparc/sync.md"
 {
   operands[0] = gen_rtx_MEM (BLKmode, gen_rtx_SCRATCH (Pmode));
   MEM_VOLATILE_P (operands[0]) = 1;
 
 }
     operand0 = operands[0];
-    (void) operand0;
   }
   emit_insn (gen_rtx_SET (VOIDmode,
 	operand0,
@@ -8286,7 +7877,7 @@ gen_memory_barrier (void)
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sync.md:51 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sync.md:51 */
 rtx
 gen_sync_compare_and_swapqi (rtx operand0,
 	rtx operand1,
@@ -8301,20 +7892,16 @@ gen_sync_compare_and_swapqi (rtx operand0,
     operands[1] = operand1;
     operands[2] = operand2;
     operands[3] = operand3;
-#line 57 "../../gcc-4.6.1/gcc/config/sparc/sync.md"
+#line 57 "../../gcc-4.5.3/gcc/config/sparc/sync.md"
 {
   sparc_expand_compare_and_swap_12 (operands[0], operands[1],
 				    operands[2], operands[3]);
   DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit (operand0);
   emit (operand1);
@@ -8325,7 +7912,7 @@ gen_sync_compare_and_swapqi (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sync.md:51 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sync.md:51 */
 rtx
 gen_sync_compare_and_swaphi (rtx operand0,
 	rtx operand1,
@@ -8340,20 +7927,16 @@ gen_sync_compare_and_swaphi (rtx operand0,
     operands[1] = operand1;
     operands[2] = operand2;
     operands[3] = operand3;
-#line 57 "../../gcc-4.6.1/gcc/config/sparc/sync.md"
+#line 57 "../../gcc-4.5.3/gcc/config/sparc/sync.md"
 {
   sparc_expand_compare_and_swap_12 (operands[0], operands[1],
 				    operands[2], operands[3]);
   DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit (operand0);
   emit (operand1);
@@ -8364,7 +7947,7 @@ gen_sync_compare_and_swaphi (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sync.md:63 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sync.md:63 */
 rtx
 gen_sync_compare_and_swapsi (rtx operand0,
 	rtx operand1,
@@ -8379,9 +7962,9 @@ gen_sync_compare_and_swapsi (rtx operand0,
     operands[1] = operand1;
     operands[2] = operand2;
     operands[3] = operand3;
-#line 73 "../../gcc-4.6.1/gcc/config/sparc/sync.md"
+#line 73 "../../gcc-4.5.3/gcc/config/sparc/sync.md"
 {
-  if (!REG_P (XEXP (operands[1], 0)))
+  if (! REG_P (XEXP (operands[1], 0)))
     {
       rtx addr = force_reg (Pmode, XEXP (operands[1], 0));
       operands[1] = replace_equiv_address (operands[1], addr);
@@ -8389,13 +7972,9 @@ gen_sync_compare_and_swapsi (rtx operand0,
   emit_insn (gen_memory_barrier ());
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit (gen_rtx_PARALLEL (VOIDmode,
 	gen_rtvec (2,
@@ -8414,7 +7993,7 @@ gen_sync_compare_and_swapsi (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sync.md:63 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sync.md:63 */
 rtx
 gen_sync_compare_and_swapdi (rtx operand0,
 	rtx operand1,
@@ -8429,9 +8008,9 @@ gen_sync_compare_and_swapdi (rtx operand0,
     operands[1] = operand1;
     operands[2] = operand2;
     operands[3] = operand3;
-#line 73 "../../gcc-4.6.1/gcc/config/sparc/sync.md"
+#line 73 "../../gcc-4.5.3/gcc/config/sparc/sync.md"
 {
-  if (!REG_P (XEXP (operands[1], 0)))
+  if (! REG_P (XEXP (operands[1], 0)))
     {
       rtx addr = force_reg (Pmode, XEXP (operands[1], 0));
       operands[1] = replace_equiv_address (operands[1], addr);
@@ -8439,13 +8018,9 @@ gen_sync_compare_and_swapdi (rtx operand0,
   emit_insn (gen_memory_barrier ());
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
     operand3 = operands[3];
-    (void) operand3;
   }
   emit (gen_rtx_PARALLEL (VOIDmode,
 	gen_rtvec (2,
@@ -8464,7 +8039,7 @@ gen_sync_compare_and_swapdi (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sync.md:118 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sync.md:118 */
 rtx
 gen_sync_lock_test_and_setqi (rtx operand0,
 	rtx operand1,
@@ -8477,7 +8052,7 @@ gen_sync_lock_test_and_setqi (rtx operand0,
     operands[0] = operand0;
     operands[1] = operand1;
     operands[2] = operand2;
-#line 123 "../../gcc-4.6.1/gcc/config/sparc/sync.md"
+#line 123 "../../gcc-4.5.3/gcc/config/sparc/sync.md"
 {
   if (operands[2] != const1_rtx)
     FAIL;
@@ -8489,11 +8064,8 @@ gen_sync_lock_test_and_setqi (rtx operand0,
   DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
   }
   emit (operand0);
   emit (operand1);
@@ -8503,7 +8075,7 @@ gen_sync_lock_test_and_setqi (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sync.md:118 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sync.md:118 */
 rtx
 gen_sync_lock_test_and_sethi (rtx operand0,
 	rtx operand1,
@@ -8516,7 +8088,7 @@ gen_sync_lock_test_and_sethi (rtx operand0,
     operands[0] = operand0;
     operands[1] = operand1;
     operands[2] = operand2;
-#line 123 "../../gcc-4.6.1/gcc/config/sparc/sync.md"
+#line 123 "../../gcc-4.5.3/gcc/config/sparc/sync.md"
 {
   if (operands[2] != const1_rtx)
     FAIL;
@@ -8528,11 +8100,8 @@ gen_sync_lock_test_and_sethi (rtx operand0,
   DONE;
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
   }
   emit (operand0);
   emit (operand1);
@@ -8542,7 +8111,7 @@ gen_sync_lock_test_and_sethi (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sync.md:134 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sync.md:134 */
 rtx
 gen_sync_lock_test_and_setsi (rtx operand0,
 	rtx operand1,
@@ -8555,7 +8124,7 @@ gen_sync_lock_test_and_setsi (rtx operand0,
     operands[0] = operand0;
     operands[1] = operand1;
     operands[2] = operand2;
-#line 142 "../../gcc-4.6.1/gcc/config/sparc/sync.md"
+#line 142 "../../gcc-4.5.3/gcc/config/sparc/sync.md"
 {
   if (! TARGET_V8 && ! TARGET_V9)
     {
@@ -8569,11 +8138,8 @@ gen_sync_lock_test_and_setsi (rtx operand0,
   operands[2] = force_reg (SImode, operands[2]);
 }
     operand0 = operands[0];
-    (void) operand0;
     operand1 = operands[1];
-    (void) operand1;
     operand2 = operands[2];
-    (void) operand2;
   }
   emit (gen_rtx_PARALLEL (VOIDmode,
 	gen_rtvec (2,
@@ -8591,7 +8157,7 @@ gen_sync_lock_test_and_setsi (rtx operand0,
   return _val;
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sync.md:165 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sync.md:165 */
 rtx
 gen_ldstubqi (rtx operand0,
 	rtx operand1)
@@ -8609,7 +8175,7 @@ gen_ldstubqi (rtx operand0,
 	constm1_rtx)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sync.md:173 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sync.md:173 */
 rtx
 gen_ldstubhi (rtx operand0,
 	rtx operand1)
@@ -8628,7 +8194,7 @@ gen_ldstubhi (rtx operand0,
 	constm1_rtx)));
 }
 
-/* ../../gcc-4.6.1/gcc/config/sparc/sync.md:173 */
+/* ../../gcc-4.5.3/gcc/config/sparc/sync.md:173 */
 rtx
 gen_ldstubsi (rtx operand0,
 	rtx operand1)
@@ -8659,7 +8225,7 @@ add_clobbers (rtx pattern ATTRIBUTE_UNUSED, int insn_code_number)
 	gen_rtx_SCRATCH (SImode));
       break;
 
-    case 339:
+    case 338:
     case 315:
     case 310:
     case 303:
@@ -8683,8 +8249,8 @@ add_clobbers (rtx pattern ATTRIBUTE_UNUSED, int insn_code_number)
 	gen_rtx_SCRATCH (SImode));
       break;
 
-    case 352:
-    case 348:
+    case 351:
+    case 347:
     case 325:
     case 324:
     case 323:
@@ -8722,7 +8288,7 @@ added_clobbers_hard_reg_p (int insn_code_number)
   switch (insn_code_number)
     {
     case 193:
-    case 339:
+    case 338:
     case 315:
     case 310:
     case 303:
@@ -8738,8 +8304,8 @@ added_clobbers_hard_reg_p (int insn_code_number)
     case 176:
       return 0;
 
-    case 352:
-    case 348:
+    case 351:
+    case 347:
     case 325:
     case 324:
     case 323:

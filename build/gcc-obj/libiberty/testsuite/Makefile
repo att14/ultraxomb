@@ -26,8 +26,8 @@
 # Makefile for libiberty/testsuite directory
 #
 
-srcdir = ../../../gcc-4.6.1/libiberty/testsuite
-VPATH = ../../../gcc-4.6.1/libiberty/testsuite
+srcdir = ../../../gcc-4.5.3/libiberty/testsuite
+VPATH = ../../../gcc-4.5.3/libiberty/testsuite
 
 SHELL = /bin/sh
 

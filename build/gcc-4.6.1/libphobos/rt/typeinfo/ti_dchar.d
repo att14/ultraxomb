@@ -1,0 +1,1 @@
+../../../gcc/d/druntime/rt/typeinfo/ti_dchar.d

@@ -1,0 +1,8 @@
+build=x86_64-unknown-linux-gnu
+host=x86_64-unknown-linux-gnu
+target=sparc64-sun-xomb
+target_alias=sparc64-sun-xomb
+gcc_version=4.5.3
+srcdir=../../gcc-4.5.3/gcc
+prefix=/home/att14/ultraxomb/local
+exeext=

@@ -1,0 +1,13 @@
+--- function.h	2011-01-03 20:52:22.000000000 +0000
++++ function.h	2011-07-12 23:04:20.197744890 +0100
+@@ -636,6 +636,10 @@
+      adjusts one of its arguments and forwards to another
+      function.  */
+   unsigned int is_thunk : 1;
++
++  /* Nonzero if no code should be generated for prologues, copying
++     parameters, etc. */
++  unsigned int naked : 1;
+ };
+ 
+ /* Add the decl D to the local_decls list of FUN.  */

@@ -10,12 +10,12 @@
 #include "insn-config.h"
 #include "recog.h"
 #include "regs.h"
+#include "real.h"
 #include "output.h"
 #include "insn-attr.h"
-#include "diagnostic-core.h"
+#include "toplev.h"
 #include "flags.h"
 #include "function.h"
-#include "emit-rtl.h"
 
 /* Vector translating external insn codes to internal ones.*/
 static const unsigned char cypress_0_translate[] ATTRIBUTE_UNUSED = {
@@ -30,7 +30,7 @@ static const unsigned char cypress_0_translate[] ATTRIBUTE_UNUSED = {
     2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
     2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
     2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-    2,     2,     2,     2,     2,     2,     2,     2,     3};
+    2,     2,     3};
 
 /* Vector for state transitions.  */
 static const unsigned char cypress_0_transitions[] ATTRIBUTE_UNUSED = {
@@ -54,7 +54,7 @@ static const unsigned char cypress_1_translate[] ATTRIBUTE_UNUSED = {
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,     2};
+    0,     0,     2};
 
 /* Vector for state transitions.  */
 static const unsigned char cypress_1_transitions[] ATTRIBUTE_UNUSED = {
@@ -77,7 +77,7 @@ static const unsigned char supersparc_0_translate[] ATTRIBUTE_UNUSED = {
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,     5};
+    0,     0,     5};
 
 /* Vector for state transitions.  */
 static const unsigned char supersparc_0_transitions[] ATTRIBUTE_UNUSED = {
@@ -110,7 +110,7 @@ static const unsigned char supersparc_1_translate[] ATTRIBUTE_UNUSED = {
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,     5};
+    0,     0,     5};
 
 /* Comb vector for state transitions.  */
 static const unsigned char supersparc_1_transitions[] ATTRIBUTE_UNUSED = {
@@ -149,7 +149,7 @@ static const unsigned char hypersparc_0_translate[] ATTRIBUTE_UNUSED = {
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,     5};
+    0,     0,     5};
 
 /* Vector for state transitions.  */
 static const unsigned char hypersparc_0_transitions[] ATTRIBUTE_UNUSED = {
@@ -182,7 +182,7 @@ static const unsigned char hypersparc_1_translate[] ATTRIBUTE_UNUSED = {
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,     5};
+    0,     0,     5};
 
 /* Comb vector for state transitions.  */
 static const unsigned char hypersparc_1_transitions[] ATTRIBUTE_UNUSED = {
@@ -212,46 +212,19 @@ static const unsigned char hypersparc_1_min_issue_delay[] ATTRIBUTE_UNUSED = {
    51,    48,     2,    34,    32,     1,    17,    16};
 
 /* Vector translating external insn codes to internal ones.*/
-static const unsigned char leon_translate[] ATTRIBUTE_UNUSED = {
-    0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     1,     1,     2,     3,
-    3,     3,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,     4};
-
-/* Vector for state transitions.  */
-static const unsigned char leon_transitions[] ATTRIBUTE_UNUSED = {
-    0,     7,     5,     1,     0,     1,     4,     2,     8,     0,
-    2,     3,     8,     8,     0,     3,     8,     8,     8,     0,
-    4,     8,     3,     8,     0,     5,     6,     8,     2,     0,
-    6,     8,     8,     3,     0,     7,     8,     6,     4,     0,
-};
-
-/* Vector of min issue delay of insns.  */
-static const unsigned char leon_min_issue_delay[] ATTRIBUTE_UNUSED = {
-    0,   140,   229,    17,   136};
-
-/* Vector translating external insn codes to internal ones.*/
 static const unsigned char sparclet_translate[] ATTRIBUTE_UNUSED = {
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     1,     2,     3,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+    0,     0,     0,     0,     0,     0,     1,     2,     3,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,     4};
+    0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+    0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+    0,     0,     4};
 
 /* Vector for state transitions.  */
 static const unsigned char sparclet_transitions[] ATTRIBUTE_UNUSED = {
@@ -425,13 +398,13 @@ static const unsigned char ultrasparc_0_translate[] ATTRIBUTE_UNUSED = {
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     1,     1,     2,     3,
-    0,     0,     1,     1,     1,     0,     0,     0,     0,     0,
+    1,     1,     2,     3,     0,     0,     1,     1,     1,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,     4};
+    0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+    0,     0,     4};
 
 /* Vector for state transitions.  */
 static const unsigned char ultrasparc_0_transitions[] ATTRIBUTE_UNUSED = {
@@ -487,16 +460,16 @@ static const unsigned char ultrasparc_0_min_issue_delay[] ATTRIBUTE_UNUSED = {
 static const unsigned char ultrasparc_1_translate[] ATTRIBUTE_UNUSED = {
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     1,     2,     3,     4,     1,
-    1,     1,     1,     5,     6,     7,     8,     9,    10,    11,
-   10,    11,    10,    11,    10,    11,    12,    13,    14,    14,
-   10,    11,    12,    13,    13,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+    0,     0,     0,     0,     0,     0,     0,     0,     0,     1,
+    2,     3,     4,     1,     1,     1,     1,     5,     6,     7,
+    8,     9,    10,    11,    10,    11,    10,    11,    10,    11,
+   12,    13,    14,    14,    10,    11,    12,    13,    13,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,    15};
+    0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+    0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+    0,     0,    15};
 
 /* Vector for state transitions.  */
 static const unsigned char ultrasparc_1_transitions[] ATTRIBUTE_UNUSED = {
@@ -745,12 +718,12 @@ static const unsigned char ultrasparc3_0_translate[] ATTRIBUTE_UNUSED = {
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,     1,     2,
-    2,     2,     2,     2,     3,     1,     0,     3,     2,     0,
-    0,     4,     5,     6,     6,     7,     0,     4,     4,     0,
+    0,     0,     1,     2,     2,     2,     2,     2,     3,     1,
+    0,     3,     2,     0,     0,     4,     5,     6,     6,     7,
+    0,     4,     4,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,     8};
+    0,     0,     8};
 
 /* Vector for state transitions.  */
 static const unsigned char ultrasparc3_0_transitions[] ATTRIBUTE_UNUSED = {
@@ -967,13 +940,13 @@ static const unsigned char ultrasparc3_1_translate[] ATTRIBUTE_UNUSED = {
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+    0,     0,     0,     0,     0,     0,     0,     0,     0,     1,
+    2,     3,     4,     5,     6,     7,     8,     4,     4,     4,
+    9,     9,     9,     9,     9,     4,     4,     4,     4,     4,
+    9,     4,     4,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     1,     2,     3,     4,     5,
-    6,     7,     8,     4,     4,     4,     9,     9,     9,     9,
-    9,     4,     4,     4,     4,     4,     9,     4,     4,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,    10};
+    0,     0,    10};
 
 /* Vector for state transitions.  */
 static const unsigned char ultrasparc3_1_transitions[] ATTRIBUTE_UNUSED = {
@@ -1325,10 +1298,10 @@ static const unsigned char niagara_0_translate[] ATTRIBUTE_UNUSED = {
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,     0,     1,
-    2,     3,     4,     5,     6,     6,     7,     3,     8,     8,
-    9,    10,    11,    12,     8,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,    13};
+    0,     0,     0,     1,     2,     3,     4,     5,     6,     6,
+    7,     3,     8,     8,     9,    10,    11,    12,     8,     0,
+    0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+    0,     0,    13};
 
 /* Comb vector for state transitions.  */
 static const unsigned char niagara_0_transitions[] ATTRIBUTE_UNUSED = {
@@ -1518,9 +1491,9 @@ static const unsigned char niagara2_0_translate[] ATTRIBUTE_UNUSED = {
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-    0,     0,     0,     0,     0,     1,     2,     3,     4,     2,
-    5,     2,     6,     4,     6,     7,     8,     9,    10};
+    0,     0,     0,     0,     0,     0,     0,     0,     0,     1,
+    2,     3,     4,     2,     5,     2,     6,     4,     6,     7,
+    8,     9,    10};
 
 /* Comb vector for state transitions.  */
 static const unsigned char niagara2_0_transitions[] ATTRIBUTE_UNUSED = {
@@ -1595,7 +1568,7 @@ static const unsigned char niagara2_0_min_issue_delay[] ATTRIBUTE_UNUSED = {
     7,     7,     7,     0};
 
 
-#define DFA__ADVANCE_CYCLE 118
+#define DFA__ADVANCE_CYCLE 112
 
 struct DFA_chip
 {
@@ -1605,7 +1578,6 @@ struct DFA_chip
   unsigned char supersparc_1_automaton_state;
   unsigned char hypersparc_0_automaton_state;
   unsigned char hypersparc_1_automaton_state;
-  unsigned char leon_automaton_state;
   unsigned char sparclet_automaton_state;
   unsigned char ultrasparc_0_automaton_state;
   unsigned char ultrasparc_1_automaton_state;
@@ -1630,7 +1602,7 @@ internal_min_issue_delay (int insn_code, struct DFA_chip *chip ATTRIBUTE_UNUSED)
     case 1: /* cyp_fp_alu */
 
       temp = cypress_0_min_issue_delay [(cypress_0_translate [insn_code] + chip->cypress_0_automaton_state * 4) / 8];
-      temp = (temp >> (8 - ((cypress_0_translate [insn_code] + chip->cypress_0_automaton_state * 4) % 8 + 1) * 1)) & 1;
+      temp = (temp >> (8 - (cypress_0_translate [insn_code] % 8 + 1) * 1)) & 1;
       res = temp;
       break;
 
@@ -1639,7 +1611,7 @@ internal_min_issue_delay (int insn_code, struct DFA_chip *chip ATTRIBUTE_UNUSED)
     case 4: /* cyp_fp_sqrt */
 
       temp = cypress_1_min_issue_delay [(cypress_1_translate [insn_code] + chip->cypress_1_automaton_state * 3) / 8];
-      temp = (temp >> (8 - ((cypress_1_translate [insn_code] + chip->cypress_1_automaton_state * 3) % 8 + 1) * 1)) & 1;
+      temp = (temp >> (8 - (cypress_1_translate [insn_code] % 8 + 1) * 1)) & 1;
       res = temp;
       break;
 
@@ -1651,7 +1623,7 @@ internal_min_issue_delay (int insn_code, struct DFA_chip *chip ATTRIBUTE_UNUSED)
     case 10: /* ss_fp_alu */
 
       temp = supersparc_0_min_issue_delay [(supersparc_0_translate [insn_code] + chip->supersparc_0_automaton_state * 6) / 8];
-      temp = (temp >> (8 - ((supersparc_0_translate [insn_code] + chip->supersparc_0_automaton_state * 6) % 8 + 1) * 1)) & 1;
+      temp = (temp >> (8 - (supersparc_0_translate [insn_code] % 8 + 1) * 1)) & 1;
       res = temp;
       break;
 
@@ -1662,7 +1634,7 @@ internal_min_issue_delay (int insn_code, struct DFA_chip *chip ATTRIBUTE_UNUSED)
     case 15: /* ss_imul */
 
       temp = supersparc_1_min_issue_delay [(supersparc_1_translate [insn_code] + chip->supersparc_1_automaton_state * 6) / 2];
-      temp = (temp >> (8 - ((supersparc_1_translate [insn_code] + chip->supersparc_1_automaton_state * 6) % 2 + 1) * 4)) & 15;
+      temp = (temp >> (8 - (supersparc_1_translate [insn_code] % 2 + 1) * 4)) & 15;
       res = temp;
       break;
 
@@ -1673,7 +1645,7 @@ internal_min_issue_delay (int insn_code, struct DFA_chip *chip ATTRIBUTE_UNUSED)
     case 20: /* hs_fp_alu */
 
       temp = hypersparc_0_min_issue_delay [(hypersparc_0_translate [insn_code] + chip->hypersparc_0_automaton_state * 6) / 8];
-      temp = (temp >> (8 - ((hypersparc_0_translate [insn_code] + chip->hypersparc_0_automaton_state * 6) % 8 + 1) * 1)) & 1;
+      temp = (temp >> (8 - (hypersparc_0_translate [insn_code] % 8 + 1) * 1)) & 1;
       res = temp;
       break;
 
@@ -1684,70 +1656,58 @@ internal_min_issue_delay (int insn_code, struct DFA_chip *chip ATTRIBUTE_UNUSED)
     case 25: /* hs_imul */
 
       temp = hypersparc_1_min_issue_delay [(hypersparc_1_translate [insn_code] + chip->hypersparc_1_automaton_state * 6) / 2];
-      temp = (temp >> (8 - ((hypersparc_1_translate [insn_code] + chip->hypersparc_1_automaton_state * 6) % 2 + 1) * 4)) & 15;
+      temp = (temp >> (8 - (hypersparc_1_translate [insn_code] % 2 + 1) * 4)) & 15;
       res = temp;
       break;
 
-    case 26: /* leon_load */
-    case 27: /* leon_store */
-    case 28: /* leon_fp_alu */
-    case 29: /* leon_fp_mult */
-    case 30: /* leon_fp_div */
-    case 31: /* leon_fp_sqrt */
-
-      temp = leon_min_issue_delay [(leon_translate [insn_code] + chip->leon_automaton_state * 5) / 8];
-      temp = (temp >> (8 - ((leon_translate [insn_code] + chip->leon_automaton_state * 5) % 8 + 1) * 1)) & 1;
-      res = temp;
-      break;
-
-    case 32: /* sl_ld */
-    case 33: /* sl_st */
-    case 34: /* sl_imul */
+    case 26: /* sl_ld */
+    case 27: /* sl_st */
+    case 28: /* sl_imul */
 
       temp = sparclet_min_issue_delay [(sparclet_translate [insn_code] + chip->sparclet_automaton_state * 5) / 2];
-      temp = (temp >> (8 - ((sparclet_translate [insn_code] + chip->sparclet_automaton_state * 5) % 2 + 1) * 4)) & 15;
+      temp = (temp >> (8 - (sparclet_translate [insn_code] % 2 + 1) * 4)) & 15;
       res = temp;
       break;
 
-    case 35: /* us1_single */
-    case 36: /* us1_simple_ieuN */
-    case 37: /* us1_simple_ieu0 */
-    case 38: /* us1_simple_ieu1 */
-    case 39: /* us1_ialuX */
-    case 40: /* us1_cmove */
-    case 41: /* us1_imul */
-    case 42: /* us1_idiv */
-    case 43: /* us1_load */
-    case 44: /* us1_load_signed */
-    case 45: /* us1_store */
-    case 46: /* us1_branch */
-    case 47: /* us1_call_jmpl */
-    case 48: /* us1_fmov_single */
-    case 49: /* us1_fmov_double */
-    case 50: /* us1_fcmov_single */
-    case 51: /* us1_fcmov_double */
-    case 52: /* us1_faddsub_single */
-    case 53: /* us1_faddsub_double */
-    case 54: /* us1_fpcmp_single */
-    case 55: /* us1_fpcmp_double */
-    case 60: /* us1_fga_single */
-    case 61: /* us1_fga_double */
+    case 29: /* us1_single */
+    case 30: /* us1_simple_ieuN */
+    case 31: /* us1_simple_ieu0 */
+    case 32: /* us1_simple_ieu1 */
+    case 33: /* us1_ialuX */
+    case 34: /* us1_cmove */
+    case 35: /* us1_imul */
+    case 36: /* us1_idiv */
+    case 37: /* us1_load */
+    case 38: /* us1_load_signed */
+    case 39: /* us1_store */
+    case 40: /* us1_branch */
+    case 41: /* us1_call_jmpl */
+    case 42: /* us1_fmov_single */
+    case 43: /* us1_fmov_double */
+    case 44: /* us1_fcmov_single */
+    case 45: /* us1_fcmov_double */
+    case 46: /* us1_faddsub_single */
+    case 47: /* us1_faddsub_double */
+    case 48: /* us1_fpcmp_single */
+    case 49: /* us1_fpcmp_double */
+    case 54: /* us1_fga_single */
+    case 55: /* us1_fga_double */
 
       temp = ultrasparc_1_min_issue_delay [(ultrasparc_1_translate [insn_code] + chip->ultrasparc_1_automaton_state * 16) / 4];
-      temp = (temp >> (8 - ((ultrasparc_1_translate [insn_code] + chip->ultrasparc_1_automaton_state * 16) % 4 + 1) * 2)) & 3;
+      temp = (temp >> (8 - (ultrasparc_1_translate [insn_code] % 4 + 1) * 2)) & 3;
       res = temp;
       break;
 
-    case 56: /* us1_fmult_single */
-    case 57: /* us1_fmult_double */
-    case 58: /* us1_fdivs */
-    case 59: /* us1_fdivd */
-    case 62: /* us1_fgm_single */
-    case 63: /* us1_fgm_double */
-    case 64: /* us1_pdist */
+    case 50: /* us1_fmult_single */
+    case 51: /* us1_fmult_double */
+    case 52: /* us1_fdivs */
+    case 53: /* us1_fdivd */
+    case 56: /* us1_fgm_single */
+    case 57: /* us1_fgm_double */
+    case 58: /* us1_pdist */
 
       temp = ultrasparc_1_min_issue_delay [(ultrasparc_1_translate [insn_code] + chip->ultrasparc_1_automaton_state * 16) / 4];
-      temp = (temp >> (8 - ((ultrasparc_1_translate [insn_code] + chip->ultrasparc_1_automaton_state * 16) % 4 + 1) * 2)) & 3;
+      temp = (temp >> (8 - (ultrasparc_1_translate [insn_code] % 4 + 1) * 2)) & 3;
       res = temp;
 
       temp = ultrasparc_0_min_issue_delay [ultrasparc_0_translate [insn_code] + chip->ultrasparc_0_automaton_state * 5];
@@ -1755,35 +1715,35 @@ internal_min_issue_delay (int insn_code, struct DFA_chip *chip ATTRIBUTE_UNUSED)
         res = temp;
       break;
 
-    case 65: /* us3_single */
-    case 66: /* us3_integer */
-    case 67: /* us3_ialuX */
-    case 76: /* us3_fmov */
-    case 79: /* us3_faddsub */
-    case 80: /* us3_fpcmp */
-    case 86: /* us3_fga */
+    case 59: /* us3_single */
+    case 60: /* us3_integer */
+    case 61: /* us3_ialuX */
+    case 70: /* us3_fmov */
+    case 73: /* us3_faddsub */
+    case 74: /* us3_fpcmp */
+    case 80: /* us3_fga */
 
       temp = ultrasparc3_1_min_issue_delay [ultrasparc3_1_translate [insn_code] + chip->ultrasparc3_1_automaton_state * 11];
       res = temp;
       break;
 
-    case 68: /* us3_cmove */
-    case 69: /* us3_imul */
-    case 70: /* us3_idiv */
-    case 71: /* us3_2cycle_load */
-    case 72: /* us3_load_delayed */
-    case 73: /* us3_store */
-    case 74: /* us3_branch */
-    case 75: /* us3_call_jmpl */
-    case 77: /* us3_fcmov */
-    case 78: /* us3_fcrmov */
-    case 81: /* us3_fmult */
-    case 82: /* us3_fdivs */
-    case 83: /* us3_fsqrts */
-    case 84: /* us3_fdivd */
-    case 85: /* us3_fsqrtd */
-    case 87: /* us3_fgm */
-    case 88: /* us3_pdist */
+    case 62: /* us3_cmove */
+    case 63: /* us3_imul */
+    case 64: /* us3_idiv */
+    case 65: /* us3_2cycle_load */
+    case 66: /* us3_load_delayed */
+    case 67: /* us3_store */
+    case 68: /* us3_branch */
+    case 69: /* us3_call_jmpl */
+    case 71: /* us3_fcmov */
+    case 72: /* us3_fcrmov */
+    case 75: /* us3_fmult */
+    case 76: /* us3_fdivs */
+    case 77: /* us3_fsqrts */
+    case 78: /* us3_fdivd */
+    case 79: /* us3_fsqrtd */
+    case 81: /* us3_fgm */
+    case 82: /* us3_pdist */
 
       temp = ultrasparc3_1_min_issue_delay [ultrasparc3_1_translate [insn_code] + chip->ultrasparc3_1_automaton_state * 11];
       res = temp;
@@ -1793,46 +1753,46 @@ internal_min_issue_delay (int insn_code, struct DFA_chip *chip ATTRIBUTE_UNUSED)
         res = temp;
       break;
 
-    case 89: /* niag_5cycle */
-    case 90: /* niag_4cycle */
-    case 91: /* niag_ialu */
-    case 92: /* niag_imul */
-    case 93: /* niag_idiv */
-    case 94: /* niag_branch */
-    case 95: /* niag_3cycle_load */
-    case 96: /* niag_9cycle_load */
-    case 97: /* niag_1cycle_store */
-    case 98: /* niag_8cycle_store */
-    case 99: /* niag_fmov */
-    case 100: /* niag_fpcmp */
-    case 101: /* niag_fmult */
-    case 102: /* niag_fdivs */
-    case 103: /* niag_fdivd */
-    case 104: /* niag_vis */
+    case 83: /* niag_5cycle */
+    case 84: /* niag_4cycle */
+    case 85: /* niag_ialu */
+    case 86: /* niag_imul */
+    case 87: /* niag_idiv */
+    case 88: /* niag_branch */
+    case 89: /* niag_3cycle_load */
+    case 90: /* niag_9cycle_load */
+    case 91: /* niag_1cycle_store */
+    case 92: /* niag_8cycle_store */
+    case 93: /* niag_fmov */
+    case 94: /* niag_fpcmp */
+    case 95: /* niag_fmult */
+    case 96: /* niag_fdivs */
+    case 97: /* niag_fdivd */
+    case 98: /* niag_vis */
 
       temp = niagara_0_min_issue_delay [niagara_0_translate [insn_code] + chip->niagara_0_automaton_state * 14];
       res = temp;
       break;
 
-    case 105: /* niag2_25cycle */
-    case 106: /* niag2_5cycle */
-    case 107: /* niag2_6cycle */
-    case 108: /* niag2_ialu */
-    case 109: /* niag2_imul */
-    case 110: /* niag2_idiv */
-    case 111: /* niag2_branch */
-    case 112: /* niag2_3cycle_load */
-    case 113: /* niag2_1cycle_store */
-    case 114: /* niag2_fp */
-    case 115: /* niag2_fdivs */
-    case 116: /* niag2_fdivd */
-    case 117: /* niag2_vis */
+    case 99: /* niag2_25cycle */
+    case 100: /* niag2_5cycle */
+    case 101: /* niag2_6cycle */
+    case 102: /* niag2_ialu */
+    case 103: /* niag2_imul */
+    case 104: /* niag2_idiv */
+    case 105: /* niag2_branch */
+    case 106: /* niag2_3cycle_load */
+    case 107: /* niag2_1cycle_store */
+    case 108: /* niag2_fp */
+    case 109: /* niag2_fdivs */
+    case 110: /* niag2_fdivd */
+    case 111: /* niag2_vis */
 
       temp = niagara2_0_min_issue_delay [niagara2_0_translate [insn_code] + chip->niagara2_0_automaton_state * 11];
       res = temp;
       break;
 
-    case 118: /* $advance_cycle */
+    case 112: /* $advance_cycle */
 
       temp = niagara2_0_min_issue_delay [niagara2_0_translate [insn_code] + chip->niagara2_0_automaton_state * 11];
       res = temp;
@@ -1850,7 +1810,7 @@ internal_min_issue_delay (int insn_code, struct DFA_chip *chip ATTRIBUTE_UNUSED)
         res = temp;
 
       temp = ultrasparc_1_min_issue_delay [(ultrasparc_1_translate [insn_code] + chip->ultrasparc_1_automaton_state * 16) / 4];
-      temp = (temp >> (8 - ((ultrasparc_1_translate [insn_code] + chip->ultrasparc_1_automaton_state * 16) % 4 + 1) * 2)) & 3;
+      temp = (temp >> (8 - (ultrasparc_1_translate [insn_code] % 4 + 1) * 2)) & 3;
       if (temp > res)
         res = temp;
 
@@ -1859,42 +1819,37 @@ internal_min_issue_delay (int insn_code, struct DFA_chip *chip ATTRIBUTE_UNUSED)
         res = temp;
 
       temp = sparclet_min_issue_delay [(sparclet_translate [insn_code] + chip->sparclet_automaton_state * 5) / 2];
-      temp = (temp >> (8 - ((sparclet_translate [insn_code] + chip->sparclet_automaton_state * 5) % 2 + 1) * 4)) & 15;
-      if (temp > res)
-        res = temp;
-
-      temp = leon_min_issue_delay [(leon_translate [insn_code] + chip->leon_automaton_state * 5) / 8];
-      temp = (temp >> (8 - ((leon_translate [insn_code] + chip->leon_automaton_state * 5) % 8 + 1) * 1)) & 1;
+      temp = (temp >> (8 - (sparclet_translate [insn_code] % 2 + 1) * 4)) & 15;
       if (temp > res)
         res = temp;
 
       temp = hypersparc_1_min_issue_delay [(hypersparc_1_translate [insn_code] + chip->hypersparc_1_automaton_state * 6) / 2];
-      temp = (temp >> (8 - ((hypersparc_1_translate [insn_code] + chip->hypersparc_1_automaton_state * 6) % 2 + 1) * 4)) & 15;
+      temp = (temp >> (8 - (hypersparc_1_translate [insn_code] % 2 + 1) * 4)) & 15;
       if (temp > res)
         res = temp;
 
       temp = hypersparc_0_min_issue_delay [(hypersparc_0_translate [insn_code] + chip->hypersparc_0_automaton_state * 6) / 8];
-      temp = (temp >> (8 - ((hypersparc_0_translate [insn_code] + chip->hypersparc_0_automaton_state * 6) % 8 + 1) * 1)) & 1;
+      temp = (temp >> (8 - (hypersparc_0_translate [insn_code] % 8 + 1) * 1)) & 1;
       if (temp > res)
         res = temp;
 
       temp = supersparc_1_min_issue_delay [(supersparc_1_translate [insn_code] + chip->supersparc_1_automaton_state * 6) / 2];
-      temp = (temp >> (8 - ((supersparc_1_translate [insn_code] + chip->supersparc_1_automaton_state * 6) % 2 + 1) * 4)) & 15;
+      temp = (temp >> (8 - (supersparc_1_translate [insn_code] % 2 + 1) * 4)) & 15;
       if (temp > res)
         res = temp;
 
       temp = supersparc_0_min_issue_delay [(supersparc_0_translate [insn_code] + chip->supersparc_0_automaton_state * 6) / 8];
-      temp = (temp >> (8 - ((supersparc_0_translate [insn_code] + chip->supersparc_0_automaton_state * 6) % 8 + 1) * 1)) & 1;
+      temp = (temp >> (8 - (supersparc_0_translate [insn_code] % 8 + 1) * 1)) & 1;
       if (temp > res)
         res = temp;
 
       temp = cypress_1_min_issue_delay [(cypress_1_translate [insn_code] + chip->cypress_1_automaton_state * 3) / 8];
-      temp = (temp >> (8 - ((cypress_1_translate [insn_code] + chip->cypress_1_automaton_state * 3) % 8 + 1) * 1)) & 1;
+      temp = (temp >> (8 - (cypress_1_translate [insn_code] % 8 + 1) * 1)) & 1;
       if (temp > res)
         res = temp;
 
       temp = cypress_0_min_issue_delay [(cypress_0_translate [insn_code] + chip->cypress_0_automaton_state * 4) / 8];
-      temp = (temp >> (8 - ((cypress_0_translate [insn_code] + chip->cypress_0_automaton_state * 4) % 8 + 1) * 1)) & 1;
+      temp = (temp >> (8 - (cypress_0_translate [insn_code] % 8 + 1) * 1)) & 1;
       if (temp > res)
         res = temp;
       break;
@@ -1994,24 +1949,9 @@ internal_state_transition (int insn_code, struct DFA_chip *chip ATTRIBUTE_UNUSED
           chip->hypersparc_1_automaton_state = hypersparc_1_transitions [temp];
         return -1;
       }
-    case 26: /* leon_load */
-    case 27: /* leon_store */
-    case 28: /* leon_fp_alu */
-    case 29: /* leon_fp_mult */
-    case 30: /* leon_fp_div */
-    case 31: /* leon_fp_sqrt */
-      {
-
-        temp = leon_transitions [leon_translate [insn_code] + chip->leon_automaton_state * 5];
-        if (temp >= 8)
-          return internal_min_issue_delay (insn_code, chip);
-        else
-          chip->leon_automaton_state = temp;
-        return -1;
-      }
-    case 32: /* sl_ld */
-    case 33: /* sl_st */
-    case 34: /* sl_imul */
+    case 26: /* sl_ld */
+    case 27: /* sl_st */
+    case 28: /* sl_imul */
       {
 
         temp = sparclet_transitions [sparclet_translate [insn_code] + chip->sparclet_automaton_state * 5];
@@ -2021,29 +1961,29 @@ internal_state_transition (int insn_code, struct DFA_chip *chip ATTRIBUTE_UNUSED
           chip->sparclet_automaton_state = temp;
         return -1;
       }
-    case 35: /* us1_single */
-    case 36: /* us1_simple_ieuN */
-    case 37: /* us1_simple_ieu0 */
-    case 38: /* us1_simple_ieu1 */
-    case 39: /* us1_ialuX */
-    case 40: /* us1_cmove */
-    case 41: /* us1_imul */
-    case 42: /* us1_idiv */
-    case 43: /* us1_load */
-    case 44: /* us1_load_signed */
-    case 45: /* us1_store */
-    case 46: /* us1_branch */
-    case 47: /* us1_call_jmpl */
-    case 48: /* us1_fmov_single */
-    case 49: /* us1_fmov_double */
-    case 50: /* us1_fcmov_single */
-    case 51: /* us1_fcmov_double */
-    case 52: /* us1_faddsub_single */
-    case 53: /* us1_faddsub_double */
-    case 54: /* us1_fpcmp_single */
-    case 55: /* us1_fpcmp_double */
-    case 60: /* us1_fga_single */
-    case 61: /* us1_fga_double */
+    case 29: /* us1_single */
+    case 30: /* us1_simple_ieuN */
+    case 31: /* us1_simple_ieu0 */
+    case 32: /* us1_simple_ieu1 */
+    case 33: /* us1_ialuX */
+    case 34: /* us1_cmove */
+    case 35: /* us1_imul */
+    case 36: /* us1_idiv */
+    case 37: /* us1_load */
+    case 38: /* us1_load_signed */
+    case 39: /* us1_store */
+    case 40: /* us1_branch */
+    case 41: /* us1_call_jmpl */
+    case 42: /* us1_fmov_single */
+    case 43: /* us1_fmov_double */
+    case 44: /* us1_fcmov_single */
+    case 45: /* us1_fcmov_double */
+    case 46: /* us1_faddsub_single */
+    case 47: /* us1_faddsub_double */
+    case 48: /* us1_fpcmp_single */
+    case 49: /* us1_fpcmp_double */
+    case 54: /* us1_fga_single */
+    case 55: /* us1_fga_double */
       {
 
         temp = ultrasparc_1_transitions [ultrasparc_1_translate [insn_code] + chip->ultrasparc_1_automaton_state * 16];
@@ -2053,13 +1993,13 @@ internal_state_transition (int insn_code, struct DFA_chip *chip ATTRIBUTE_UNUSED
           chip->ultrasparc_1_automaton_state = temp;
         return -1;
       }
-    case 56: /* us1_fmult_single */
-    case 57: /* us1_fmult_double */
-    case 58: /* us1_fdivs */
-    case 59: /* us1_fdivd */
-    case 62: /* us1_fgm_single */
-    case 63: /* us1_fgm_double */
-    case 64: /* us1_pdist */
+    case 50: /* us1_fmult_single */
+    case 51: /* us1_fmult_double */
+    case 52: /* us1_fdivs */
+    case 53: /* us1_fdivd */
+    case 56: /* us1_fgm_single */
+    case 57: /* us1_fgm_double */
+    case 58: /* us1_pdist */
       {
         unsigned char _ultrasparc_1_automaton_state;
 
@@ -2077,13 +2017,13 @@ internal_state_transition (int insn_code, struct DFA_chip *chip ATTRIBUTE_UNUSED
         chip->ultrasparc_1_automaton_state = _ultrasparc_1_automaton_state;
         return -1;
       }
-    case 65: /* us3_single */
-    case 66: /* us3_integer */
-    case 67: /* us3_ialuX */
-    case 76: /* us3_fmov */
-    case 79: /* us3_faddsub */
-    case 80: /* us3_fpcmp */
-    case 86: /* us3_fga */
+    case 59: /* us3_single */
+    case 60: /* us3_integer */
+    case 61: /* us3_ialuX */
+    case 70: /* us3_fmov */
+    case 73: /* us3_faddsub */
+    case 74: /* us3_fpcmp */
+    case 80: /* us3_fga */
       {
 
         temp = ultrasparc3_1_transitions [ultrasparc3_1_translate [insn_code] + chip->ultrasparc3_1_automaton_state * 11];
@@ -2093,23 +2033,23 @@ internal_state_transition (int insn_code, struct DFA_chip *chip ATTRIBUTE_UNUSED
           chip->ultrasparc3_1_automaton_state = temp;
         return -1;
       }
-    case 68: /* us3_cmove */
-    case 69: /* us3_imul */
-    case 70: /* us3_idiv */
-    case 71: /* us3_2cycle_load */
-    case 72: /* us3_load_delayed */
-    case 73: /* us3_store */
-    case 74: /* us3_branch */
-    case 75: /* us3_call_jmpl */
-    case 77: /* us3_fcmov */
-    case 78: /* us3_fcrmov */
-    case 81: /* us3_fmult */
-    case 82: /* us3_fdivs */
-    case 83: /* us3_fsqrts */
-    case 84: /* us3_fdivd */
-    case 85: /* us3_fsqrtd */
-    case 87: /* us3_fgm */
-    case 88: /* us3_pdist */
+    case 62: /* us3_cmove */
+    case 63: /* us3_imul */
+    case 64: /* us3_idiv */
+    case 65: /* us3_2cycle_load */
+    case 66: /* us3_load_delayed */
+    case 67: /* us3_store */
+    case 68: /* us3_branch */
+    case 69: /* us3_call_jmpl */
+    case 71: /* us3_fcmov */
+    case 72: /* us3_fcrmov */
+    case 75: /* us3_fmult */
+    case 76: /* us3_fdivs */
+    case 77: /* us3_fsqrts */
+    case 78: /* us3_fdivd */
+    case 79: /* us3_fsqrtd */
+    case 81: /* us3_fgm */
+    case 82: /* us3_pdist */
       {
         unsigned char _ultrasparc3_1_automaton_state;
 
@@ -2127,22 +2067,22 @@ internal_state_transition (int insn_code, struct DFA_chip *chip ATTRIBUTE_UNUSED
         chip->ultrasparc3_1_automaton_state = _ultrasparc3_1_automaton_state;
         return -1;
       }
-    case 89: /* niag_5cycle */
-    case 90: /* niag_4cycle */
-    case 91: /* niag_ialu */
-    case 92: /* niag_imul */
-    case 93: /* niag_idiv */
-    case 94: /* niag_branch */
-    case 95: /* niag_3cycle_load */
-    case 96: /* niag_9cycle_load */
-    case 97: /* niag_1cycle_store */
-    case 98: /* niag_8cycle_store */
-    case 99: /* niag_fmov */
-    case 100: /* niag_fpcmp */
-    case 101: /* niag_fmult */
-    case 102: /* niag_fdivs */
-    case 103: /* niag_fdivd */
-    case 104: /* niag_vis */
+    case 83: /* niag_5cycle */
+    case 84: /* niag_4cycle */
+    case 85: /* niag_ialu */
+    case 86: /* niag_imul */
+    case 87: /* niag_idiv */
+    case 88: /* niag_branch */
+    case 89: /* niag_3cycle_load */
+    case 90: /* niag_9cycle_load */
+    case 91: /* niag_1cycle_store */
+    case 92: /* niag_8cycle_store */
+    case 93: /* niag_fmov */
+    case 94: /* niag_fpcmp */
+    case 95: /* niag_fmult */
+    case 96: /* niag_fdivs */
+    case 97: /* niag_fdivd */
+    case 98: /* niag_vis */
       {
 
         temp = niagara_0_base [chip->niagara_0_automaton_state] + niagara_0_translate [insn_code];
@@ -2152,19 +2092,19 @@ internal_state_transition (int insn_code, struct DFA_chip *chip ATTRIBUTE_UNUSED
           chip->niagara_0_automaton_state = niagara_0_transitions [temp];
         return -1;
       }
-    case 105: /* niag2_25cycle */
-    case 106: /* niag2_5cycle */
-    case 107: /* niag2_6cycle */
-    case 108: /* niag2_ialu */
-    case 109: /* niag2_imul */
-    case 110: /* niag2_idiv */
-    case 111: /* niag2_branch */
-    case 112: /* niag2_3cycle_load */
-    case 113: /* niag2_1cycle_store */
-    case 114: /* niag2_fp */
-    case 115: /* niag2_fdivs */
-    case 116: /* niag2_fdivd */
-    case 117: /* niag2_vis */
+    case 99: /* niag2_25cycle */
+    case 100: /* niag2_5cycle */
+    case 101: /* niag2_6cycle */
+    case 102: /* niag2_ialu */
+    case 103: /* niag2_imul */
+    case 104: /* niag2_idiv */
+    case 105: /* niag2_branch */
+    case 106: /* niag2_3cycle_load */
+    case 107: /* niag2_1cycle_store */
+    case 108: /* niag2_fp */
+    case 109: /* niag2_fdivs */
+    case 110: /* niag2_fdivd */
+    case 111: /* niag2_vis */
       {
 
         temp = niagara2_0_base [chip->niagara2_0_automaton_state] + niagara2_0_translate [insn_code];
@@ -2174,7 +2114,7 @@ internal_state_transition (int insn_code, struct DFA_chip *chip ATTRIBUTE_UNUSED
           chip->niagara2_0_automaton_state = niagara2_0_transitions [temp];
         return -1;
       }
-    case 118: /* $advance_cycle */
+    case 112: /* $advance_cycle */
       {
         unsigned char _niagara2_0_automaton_state;
         unsigned char _niagara_0_automaton_state;
@@ -2183,7 +2123,6 @@ internal_state_transition (int insn_code, struct DFA_chip *chip ATTRIBUTE_UNUSED
         unsigned char _ultrasparc_1_automaton_state;
         unsigned char _ultrasparc_0_automaton_state;
         unsigned char _sparclet_automaton_state;
-        unsigned char _leon_automaton_state;
         unsigned char _hypersparc_1_automaton_state;
         unsigned char _hypersparc_0_automaton_state;
         unsigned char _supersparc_1_automaton_state;
@@ -2232,12 +2171,6 @@ internal_state_transition (int insn_code, struct DFA_chip *chip ATTRIBUTE_UNUSED
         else
           _sparclet_automaton_state = temp;
 
-        temp = leon_transitions [leon_translate [insn_code] + chip->leon_automaton_state * 5];
-        if (temp >= 8)
-          return internal_min_issue_delay (insn_code, chip);
-        else
-          _leon_automaton_state = temp;
-
         temp = hypersparc_1_base [chip->hypersparc_1_automaton_state] + hypersparc_1_translate [insn_code];
         if (hypersparc_1_check [temp] != chip->hypersparc_1_automaton_state)
           return internal_min_issue_delay (insn_code, chip);
@@ -2280,7 +2213,6 @@ internal_state_transition (int insn_code, struct DFA_chip *chip ATTRIBUTE_UNUSED
         chip->ultrasparc_1_automaton_state = _ultrasparc_1_automaton_state;
         chip->ultrasparc_0_automaton_state = _ultrasparc_0_automaton_state;
         chip->sparclet_automaton_state = _sparclet_automaton_state;
-        chip->leon_automaton_state = _leon_automaton_state;
         chip->hypersparc_1_automaton_state = _hypersparc_1_automaton_state;
         chip->hypersparc_0_automaton_state = _hypersparc_0_automaton_state;
         chip->supersparc_1_automaton_state = _supersparc_1_automaton_state;
@@ -2429,18 +2361,17 @@ min_insn_conflict_delay (state_t state, rtx insn, rtx insn2)
         2,   5,   7,  37,  63,   1,   0,   1,
         1,   1,   3,   3,   6,   9,  12,   4,
         1,   2,   1,   1,   1,   1,   8,  12,
-       17,  17,   1,   1,   1,   1,  16,  23,
-        3,   3,   5,   1,   1,   1,   1,   1,
-        2,   1,   1,   2,   3,   1,   1,   1,
-        1,   1,   2,   2,   4,   4,   1,   1,
-        4,   4,  13,  23,   2,   2,   4,   4,
-        4,   1,   1,   5,   2,   7,  72,   2,
-        3,   1,   1,   1,   3,   3,   3,   4,
-        5,   4,  17,  20,  20,  29,   3,   4,
-        4,   5,   4,   1,  11,  72,   3,   3,
-        9,   1,   8,   8,  26,  29,  54,  83,
-        8,  25,   5,   4,   1,   5,  31,   5,
-        3,   1,   3,  19,  33,   6,
+       17,  17,   3,   3,   5,   1,   1,   1,
+        1,   1,   2,   1,   1,   2,   3,   1,
+        1,   1,   1,   1,   2,   2,   4,   4,
+        1,   1,   4,   4,  13,  23,   2,   2,
+        4,   4,   4,   1,   1,   5,   2,   7,
+       72,   2,   3,   1,   1,   1,   3,   3,
+        3,   4,   5,   4,  17,  20,  20,  29,
+        3,   4,   4,   5,   4,   1,  11,  72,
+        3,   3,   9,   1,   8,   8,  26,  29,
+       54,  83,   8,  25,   5,   4,   1,   5,
+       31,   5,   3,   1,   3,  19,  33,   6,
     };
 static int
 internal_insn_latency (int insn_code ATTRIBUTE_UNUSED,
@@ -2467,48 +2398,100 @@ internal_insn_latency (int insn_code ATTRIBUTE_UNUSED,
           return 0;
         }
       break;
-    case 36:
+    case 30:
       switch (insn2_code)
         {
-        case 45:
+        case 39:
           if (store_data_bypass_p (insn, insn2))
             return 0;
           break;
         }
       break;
-    case 37:
+    case 31:
       switch (insn2_code)
         {
-        case 45:
+        case 39:
           if (store_data_bypass_p (insn, insn2))
             return 0;
           break;
         }
       break;
-    case 38:
+    case 32:
       switch (insn2_code)
         {
-        case 45:
+        case 39:
           if (store_data_bypass_p (insn, insn2))
             return 0;
           break;
-        case 46:
+        case 40:
           return 0;
         }
       break;
-    case 48:
+    case 42:
       switch (insn2_code)
         {
-        case 45:
+        case 39:
           if (store_data_bypass_p (insn, insn2))
             return 0;
           break;
         }
       break;
-    case 49:
+    case 43:
       switch (insn2_code)
         {
-        case 45:
+        case 39:
+          if (store_data_bypass_p (insn, insn2))
+            return 0;
+          break;
+        }
+      break;
+    case 44:
+      switch (insn2_code)
+        {
+        case 39:
+          if (store_data_bypass_p (insn, insn2))
+            return 0;
+          break;
+        }
+      break;
+    case 45:
+      switch (insn2_code)
+        {
+        case 39:
+          if (store_data_bypass_p (insn, insn2))
+            return 0;
+          break;
+        }
+      break;
+    case 46:
+      switch (insn2_code)
+        {
+        case 46:
+          return 3;
+        case 47:
+          return 3;
+        case 50:
+          return 3;
+        case 51:
+          return 3;
+        case 39:
+          if (store_data_bypass_p (insn, insn2))
+            return 0;
+          break;
+        }
+      break;
+    case 47:
+      switch (insn2_code)
+        {
+        case 46:
+          return 3;
+        case 47:
+          return 3;
+        case 50:
+          return 3;
+        case 51:
+          return 3;
+        case 39:
           if (store_data_bypass_p (insn, insn2))
             return 0;
           break;
@@ -2517,7 +2500,15 @@ internal_insn_latency (int insn_code ATTRIBUTE_UNUSED,
     case 50:
       switch (insn2_code)
         {
-        case 45:
+        case 46:
+          return 3;
+        case 47:
+          return 3;
+        case 50:
+          return 3;
+        case 51:
+          return 3;
+        case 39:
           if (store_data_bypass_p (insn, insn2))
             return 0;
           break;
@@ -2526,7 +2517,15 @@ internal_insn_latency (int insn_code ATTRIBUTE_UNUSED,
     case 51:
       switch (insn2_code)
         {
-        case 45:
+        case 46:
+          return 3;
+        case 47:
+          return 3;
+        case 50:
+          return 3;
+        case 51:
+          return 3;
+        case 39:
           if (store_data_bypass_p (insn, insn2))
             return 0;
           break;
@@ -2535,194 +2534,126 @@ internal_insn_latency (int insn_code ATTRIBUTE_UNUSED,
     case 52:
       switch (insn2_code)
         {
-        case 52:
-          return 3;
-        case 53:
-          return 3;
-        case 56:
-          return 3;
-        case 57:
-          return 3;
-        case 45:
-          if (store_data_bypass_p (insn, insn2))
-            return 0;
-          break;
+        case 46:
+          return 12;
+        case 47:
+          return 12;
+        case 50:
+          return 12;
+        case 51:
+          return 12;
         }
       break;
     case 53:
       switch (insn2_code)
         {
-        case 52:
-          return 3;
-        case 53:
-          return 3;
-        case 56:
-          return 3;
-        case 57:
-          return 3;
-        case 45:
-          if (store_data_bypass_p (insn, insn2))
-            return 0;
-          break;
+        case 46:
+          return 22;
+        case 47:
+          return 22;
+        case 50:
+          return 22;
+        case 51:
+          return 22;
+        }
+      break;
+    case 54:
+      switch (insn2_code)
+        {
+        case 54:
+          return 1;
+        }
+      break;
+    case 55:
+      switch (insn2_code)
+        {
+        case 55:
+          return 1;
         }
       break;
     case 56:
       switch (insn2_code)
         {
-        case 52:
+        case 54:
           return 3;
-        case 53:
-          return 3;
-        case 56:
-          return 3;
-        case 57:
-          return 3;
-        case 45:
-          if (store_data_bypass_p (insn, insn2))
-            return 0;
-          break;
         }
       break;
     case 57:
       switch (insn2_code)
         {
-        case 52:
+        case 55:
           return 3;
-        case 53:
-          return 3;
-        case 56:
-          return 3;
-        case 57:
-          return 3;
-        case 45:
-          if (store_data_bypass_p (insn, insn2))
-            return 0;
-          break;
         }
       break;
     case 58:
       switch (insn2_code)
         {
-        case 52:
-          return 12;
-        case 53:
-          return 12;
-        case 56:
-          return 12;
-        case 57:
-          return 12;
-        }
-      break;
-    case 59:
-      switch (insn2_code)
-        {
-        case 52:
-          return 22;
-        case 53:
-          return 22;
-        case 56:
-          return 22;
-        case 57:
-          return 22;
+        case 55:
+          return 3;
+        case 54:
+          return 3;
+        case 58:
+          return 1;
         }
       break;
     case 60:
       switch (insn2_code)
         {
-        case 60:
-          return 1;
-        }
-      break;
-    case 61:
-      switch (insn2_code)
-        {
-        case 61:
-          return 1;
-        }
-      break;
-    case 62:
-      switch (insn2_code)
-        {
-        case 60:
-          return 3;
-        }
-      break;
-    case 63:
-      switch (insn2_code)
-        {
-        case 61:
-          return 3;
-        }
-      break;
-    case 64:
-      switch (insn2_code)
-        {
-        case 61:
-          return 3;
-        case 60:
-          return 3;
-        case 64:
-          return 1;
-        }
-      break;
-    case 66:
-      switch (insn2_code)
-        {
-        case 73:
+        case 67:
           if (store_data_bypass_p (insn, insn2))
             return 0;
           break;
-        case 74:
+        case 68:
           return 0;
         }
       break;
-    case 76:
+    case 70:
       switch (insn2_code)
         {
-        case 73:
+        case 67:
           if (store_data_bypass_p (insn, insn2))
             return 0;
           break;
         }
       break;
-    case 77:
+    case 71:
       switch (insn2_code)
         {
-        case 73:
+        case 67:
           if (store_data_bypass_p (insn, insn2))
             return 0;
           break;
         }
       break;
-    case 79:
+    case 73:
       switch (insn2_code)
         {
-        case 73:
+        case 67:
           if (store_data_bypass_p (insn, insn2))
             return 0;
           break;
         }
       break;
-    case 80:
+    case 74:
       switch (insn2_code)
         {
-        case 77:
+        case 71:
           return 1;
         }
       break;
-    case 81:
+    case 75:
       switch (insn2_code)
         {
-        case 73:
+        case 67:
           if (store_data_bypass_p (insn, insn2))
             return 0;
           break;
         }
       break;
-    case 88:
+    case 82:
       switch (insn2_code)
         {
-        case 88:
+        case 82:
           return 1;
         }
       break;
@@ -2765,55 +2696,55 @@ internal_maximal_insn_latency (int insn_code ATTRIBUTE_UNUSED,
     {
     case 6: { return 0; }
       break;
-    case 36: { return 1; }
+    case 30: { return 1; }
       break;
-    case 37: { return 1; }
+    case 31: { return 1; }
       break;
-    case 38: { return 1; }
+    case 32: { return 1; }
       break;
-    case 48: { return 1; }
+    case 42: { return 1; }
       break;
-    case 49: { return 1; }
+    case 43: { return 1; }
       break;
-    case 50: { return 2; }
+    case 44: { return 2; }
       break;
-    case 51: { return 2; }
+    case 45: { return 2; }
       break;
-    case 52: { return 4; }
+    case 46: { return 4; }
       break;
-    case 53: { return 4; }
+    case 47: { return 4; }
+      break;
+    case 50: { return 4; }
+      break;
+    case 51: { return 4; }
+      break;
+    case 52: { return 13; }
+      break;
+    case 53: { return 23; }
+      break;
+    case 54: { return 2; }
+      break;
+    case 55: { return 2; }
       break;
     case 56: { return 4; }
       break;
     case 57: { return 4; }
       break;
-    case 58: { return 13; }
+    case 58: { return 4; }
       break;
-    case 59: { return 23; }
+    case 60: { return 1; }
       break;
-    case 60: { return 2; }
+    case 70: { return 3; }
       break;
-    case 61: { return 2; }
+    case 71: { return 3; }
       break;
-    case 62: { return 4; }
+    case 73: { return 4; }
       break;
-    case 63: { return 4; }
+    case 74: { return 5; }
       break;
-    case 64: { return 4; }
+    case 75: { return 4; }
       break;
-    case 66: { return 1; }
-      break;
-    case 76: { return 3; }
-      break;
-    case 77: { return 3; }
-      break;
-    case 79: { return 4; }
-      break;
-    case 80: { return 5; }
-      break;
-    case 81: { return 4; }
-      break;
-    case 88: { return 4; }
+    case 82: { return 4; }
       break;
     }
   return default_latencies[insn_code];
@@ -2867,12 +2798,6 @@ print_reservation (FILE *f, rtx insn ATTRIBUTE_UNUSED)
       "hs_fpmds*10,nothing*2",
       "hs_fpmds*15,nothing*2",
       "hs_fpmds*15,nothing*2",
-      "leon_memory",
-      "(leon_memory+write_buf)",
-      "leon_fpalu,nothing",
-      "leon_fpmds,nothing",
-      "leon_fpmds,nothing*15",
-      "leon_fpmds,nothing*21",
       "sl_load_any,sl_load_any,sl_load_any",
       "((sl_store+sl_load_all))*3",
       "sl_imul*5",

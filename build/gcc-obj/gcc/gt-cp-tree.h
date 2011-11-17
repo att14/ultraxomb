@@ -79,7 +79,7 @@ gt_ggc_mx_saved_scope (void *x_p)
     {
       gt_ggc_m_24VEC_cxx_saved_binding_gc ((*x).old_bindings);
       gt_ggc_m_9tree_node ((*x).old_namespace);
-      gt_ggc_m_11VEC_tree_gc ((*x).decl_ns_list);
+      gt_ggc_m_9tree_node ((*x).decl_ns_list);
       gt_ggc_m_9tree_node ((*x).class_name);
       gt_ggc_m_9tree_node ((*x).class_type);
       gt_ggc_m_9tree_node ((*x).access_specifier);
@@ -392,18 +392,6 @@ gt_ggc_mx_lang_tree_node (void *x_p)
               gt_ggc_m_9tree_node ((*x).generic.function_decl.function_specific_target);
               gt_ggc_m_9tree_node ((*x).generic.function_decl.function_specific_optimization);
               break;
-            case TS_TRANSLATION_UNIT_DECL:
-              gt_ggc_m_9tree_node ((*x).generic.translation_unit_decl.common.common.common.chain);
-              gt_ggc_m_9tree_node ((*x).generic.translation_unit_decl.common.common.common.type);
-              gt_ggc_m_9tree_node ((*x).generic.translation_unit_decl.common.common.name);
-              gt_ggc_m_9tree_node ((*x).generic.translation_unit_decl.common.common.context);
-              gt_ggc_m_9tree_node ((*x).generic.translation_unit_decl.common.size);
-              gt_ggc_m_9tree_node ((*x).generic.translation_unit_decl.common.size_unit);
-              gt_ggc_m_9tree_node ((*x).generic.translation_unit_decl.common.initial);
-              gt_ggc_m_9tree_node ((*x).generic.translation_unit_decl.common.attributes);
-              gt_ggc_m_9tree_node ((*x).generic.translation_unit_decl.common.abstract_origin);
-              gt_ggc_m_9lang_decl ((*x).generic.translation_unit_decl.common.lang_specific);
-              break;
             case TS_TYPE:
               gt_ggc_m_9tree_node ((*x).generic.type.common.chain);
               gt_ggc_m_9tree_node ((*x).generic.type.common.type);
@@ -413,14 +401,14 @@ gt_ggc_mx_lang_tree_node (void *x_p)
               gt_ggc_m_9tree_node ((*x).generic.type.attributes);
               gt_ggc_m_9tree_node ((*x).generic.type.pointer_to);
               gt_ggc_m_9tree_node ((*x).generic.type.reference_to);
-              switch (debug_hooks->tree_type_symtab_field)
+              switch (debug_hooks == &sdb_debug_hooks ? 1 : debug_hooks == &dwarf2_debug_hooks ? 2 : 0)
                 {
-                case TYPE_SYMTAB_IS_ADDRESS:
+                case 0:
                   break;
-                case TYPE_SYMTAB_IS_POINTER:
+                case 1:
                   gt_ggc_m_S ((*x).generic.type.symtab.pointer);
                   break;
-                case TYPE_SYMTAB_IS_DIE:
+                case 2:
                   gt_ggc_m_10die_struct ((*x).generic.type.symtab.die);
                   break;
                 default:
@@ -551,6 +539,7 @@ gt_ggc_mx_lang_tree_node (void *x_p)
         case TS_CP_PTRMEM:
           gt_ggc_m_9tree_node ((*x).ptrmem.common.chain);
           gt_ggc_m_9tree_node ((*x).ptrmem.common.type);
+          gt_ggc_m_7rtx_def ((*x).ptrmem.rtl);
           gt_ggc_m_9tree_node ((*x).ptrmem.member);
           break;
         case TS_CP_OVERLOAD:
@@ -812,7 +801,7 @@ gt_pch_nx_saved_scope (void *x_p)
     {
       gt_pch_n_24VEC_cxx_saved_binding_gc ((*x).old_bindings);
       gt_pch_n_9tree_node ((*x).old_namespace);
-      gt_pch_n_11VEC_tree_gc ((*x).decl_ns_list);
+      gt_pch_n_9tree_node ((*x).decl_ns_list);
       gt_pch_n_9tree_node ((*x).class_name);
       gt_pch_n_9tree_node ((*x).class_type);
       gt_pch_n_9tree_node ((*x).access_specifier);
@@ -1125,18 +1114,6 @@ gt_pch_nx_lang_tree_node (void *x_p)
               gt_pch_n_9tree_node ((*x).generic.function_decl.function_specific_target);
               gt_pch_n_9tree_node ((*x).generic.function_decl.function_specific_optimization);
               break;
-            case TS_TRANSLATION_UNIT_DECL:
-              gt_pch_n_9tree_node ((*x).generic.translation_unit_decl.common.common.common.chain);
-              gt_pch_n_9tree_node ((*x).generic.translation_unit_decl.common.common.common.type);
-              gt_pch_n_9tree_node ((*x).generic.translation_unit_decl.common.common.name);
-              gt_pch_n_9tree_node ((*x).generic.translation_unit_decl.common.common.context);
-              gt_pch_n_9tree_node ((*x).generic.translation_unit_decl.common.size);
-              gt_pch_n_9tree_node ((*x).generic.translation_unit_decl.common.size_unit);
-              gt_pch_n_9tree_node ((*x).generic.translation_unit_decl.common.initial);
-              gt_pch_n_9tree_node ((*x).generic.translation_unit_decl.common.attributes);
-              gt_pch_n_9tree_node ((*x).generic.translation_unit_decl.common.abstract_origin);
-              gt_pch_n_9lang_decl ((*x).generic.translation_unit_decl.common.lang_specific);
-              break;
             case TS_TYPE:
               gt_pch_n_9tree_node ((*x).generic.type.common.chain);
               gt_pch_n_9tree_node ((*x).generic.type.common.type);
@@ -1146,14 +1123,14 @@ gt_pch_nx_lang_tree_node (void *x_p)
               gt_pch_n_9tree_node ((*x).generic.type.attributes);
               gt_pch_n_9tree_node ((*x).generic.type.pointer_to);
               gt_pch_n_9tree_node ((*x).generic.type.reference_to);
-              switch (debug_hooks->tree_type_symtab_field)
+              switch (debug_hooks == &sdb_debug_hooks ? 1 : debug_hooks == &dwarf2_debug_hooks ? 2 : 0)
                 {
-                case TYPE_SYMTAB_IS_ADDRESS:
+                case 0:
                   break;
-                case TYPE_SYMTAB_IS_POINTER:
+                case 1:
                   gt_pch_n_S ((*x).generic.type.symtab.pointer);
                   break;
-                case TYPE_SYMTAB_IS_DIE:
+                case 2:
                   gt_pch_n_10die_struct ((*x).generic.type.symtab.die);
                   break;
                 default:
@@ -1284,6 +1261,7 @@ gt_pch_nx_lang_tree_node (void *x_p)
         case TS_CP_PTRMEM:
           gt_pch_n_9tree_node ((*x).ptrmem.common.chain);
           gt_pch_n_9tree_node ((*x).ptrmem.common.type);
+          gt_pch_n_7rtx_def ((*x).ptrmem.rtl);
           gt_pch_n_9tree_node ((*x).ptrmem.member);
           break;
         case TS_CP_OVERLOAD:
@@ -1475,7 +1453,7 @@ void
 gt_pch_n_P16cxx_int_tree_map4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P16cxx_int_tree_map4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P16cxx_int_tree_map4htab, gt_e_P16cxx_int_tree_map4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;
@@ -2092,28 +2070,6 @@ gt_pch_p_14lang_tree_node (ATTRIBUTE_UNUSED void *this_obj,
           if ((void *)(x) == this_obj)
             op (&((*x).generic.function_decl.function_specific_optimization), cookie);
           break;
-        case TS_TRANSLATION_UNIT_DECL:
-          if ((void *)(x) == this_obj)
-            op (&((*x).generic.translation_unit_decl.common.common.common.chain), cookie);
-          if ((void *)(x) == this_obj)
-            op (&((*x).generic.translation_unit_decl.common.common.common.type), cookie);
-          if ((void *)(x) == this_obj)
-            op (&((*x).generic.translation_unit_decl.common.common.name), cookie);
-          if ((void *)(x) == this_obj)
-            op (&((*x).generic.translation_unit_decl.common.common.context), cookie);
-          if ((void *)(x) == this_obj)
-            op (&((*x).generic.translation_unit_decl.common.size), cookie);
-          if ((void *)(x) == this_obj)
-            op (&((*x).generic.translation_unit_decl.common.size_unit), cookie);
-          if ((void *)(x) == this_obj)
-            op (&((*x).generic.translation_unit_decl.common.initial), cookie);
-          if ((void *)(x) == this_obj)
-            op (&((*x).generic.translation_unit_decl.common.attributes), cookie);
-          if ((void *)(x) == this_obj)
-            op (&((*x).generic.translation_unit_decl.common.abstract_origin), cookie);
-          if ((void *)(x) == this_obj)
-            op (&((*x).generic.translation_unit_decl.common.lang_specific), cookie);
-          break;
         case TS_TYPE:
           if ((void *)(x) == this_obj)
             op (&((*x).generic.type.common.chain), cookie);
@@ -2131,15 +2087,15 @@ gt_pch_p_14lang_tree_node (ATTRIBUTE_UNUSED void *this_obj,
             op (&((*x).generic.type.pointer_to), cookie);
           if ((void *)(x) == this_obj)
             op (&((*x).generic.type.reference_to), cookie);
-          switch (debug_hooks->tree_type_symtab_field)
+          switch (debug_hooks == &sdb_debug_hooks ? 1 : debug_hooks == &dwarf2_debug_hooks ? 2 : 0)
             {
-            case TYPE_SYMTAB_IS_ADDRESS:
+            case 0:
               break;
-            case TYPE_SYMTAB_IS_POINTER:
+            case 1:
               if ((void *)(x) == this_obj)
                 op (&((*x).generic.type.symtab.pointer), cookie);
               break;
-            case TYPE_SYMTAB_IS_DIE:
+            case 2:
               if ((void *)(x) == this_obj)
                 op (&((*x).generic.type.symtab.die), cookie);
               break;
@@ -2337,6 +2293,8 @@ gt_pch_p_14lang_tree_node (ATTRIBUTE_UNUSED void *this_obj,
         op (&((*x).ptrmem.common.chain), cookie);
       if ((void *)(x) == this_obj)
         op (&((*x).ptrmem.common.type), cookie);
+      if ((void *)(x) == this_obj)
+        op (&((*x).ptrmem.rtl), cookie);
       if ((void *)(x) == this_obj)
         op (&((*x).ptrmem.member), cookie);
       break;
@@ -2648,15 +2606,15 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gt_cp_tree_h[] = {
   },
   {
     &assignment_operator_name_info[0].name,
-    1 * ((int) MAX_TREE_CODES),
-    sizeof (assignment_operator_name_info[0]),
+    1, 
+    sizeof (assignment_operator_name_info),
     (gt_pointer_walker) &gt_ggc_m_S,
     (gt_pointer_walker) &gt_pch_n_S
   },
   {
     &assignment_operator_name_info[0].mangled_name,
-    1 * ((int) MAX_TREE_CODES),
-    sizeof (assignment_operator_name_info[0]),
+    1, 
+    sizeof (assignment_operator_name_info),
     (gt_pointer_walker) &gt_ggc_m_S,
     (gt_pointer_walker) &gt_pch_n_S
   },
@@ -2669,15 +2627,15 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gt_cp_tree_h[] = {
   },
   {
     &operator_name_info[0].name,
-    1 * ((int) MAX_TREE_CODES),
-    sizeof (operator_name_info[0]),
+    1, 
+    sizeof (operator_name_info),
     (gt_pointer_walker) &gt_ggc_m_S,
     (gt_pointer_walker) &gt_pch_n_S
   },
   {
     &operator_name_info[0].mangled_name,
-    1 * ((int) MAX_TREE_CODES),
-    sizeof (operator_name_info[0]),
+    1, 
+    sizeof (operator_name_info),
     (gt_pointer_walker) &gt_ggc_m_S,
     (gt_pointer_walker) &gt_pch_n_S
   },
@@ -2694,6 +2652,13 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gt_cp_tree_h[] = {
     sizeof (local_classes),
     &gt_ggc_mx_VEC_tree_gc,
     &gt_pch_nx_VEC_tree_gc
+  },
+  {
+    &integer_three_node,
+    1,
+    sizeof (integer_three_node),
+    &gt_ggc_mx_tree_node,
+    &gt_pch_nx_tree_node
   },
   {
     &integer_two_node,

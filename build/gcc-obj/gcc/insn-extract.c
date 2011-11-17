@@ -8,7 +8,7 @@
 #include "rtl.h"
 #include "insn-config.h"
 #include "recog.h"
-#include "diagnostic-core.h"
+#include "toplev.h"
 
 /* This variable is used as the "location" of any missing operand
    whose numbers are skipped by a given pattern.  */
@@ -39,22 +39,22 @@ insn_extract (rtx insn)
       else
         fatal_insn ("insn with invalid code number:", insn);
 
-    case 423:  /* *ldstubsi */
-    case 422:  /* *ldstubhi */
+    case 422:  /* *ldstubsi */
+    case 421:  /* *ldstubhi */
       ro[0] = *(ro_loc[0] = &XEXP (XVECEXP (pat, 0, 0), 0));
       ro[1] = *(ro_loc[1] = &XVECEXP (XEXP (XEXP (XVECEXP (pat, 0, 0), 1), 0), 0, 0));
       recog_data.dup_loc[0] = &XEXP (XVECEXP (pat, 0, 1), 0);
       recog_data.dup_num[0] = 1;
       break;
 
-    case 421:  /* *ldstubqi */
+    case 420:  /* *ldstubqi */
       ro[0] = *(ro_loc[0] = &XEXP (XVECEXP (pat, 0, 0), 0));
       ro[1] = *(ro_loc[1] = &XVECEXP (XEXP (XVECEXP (pat, 0, 0), 1), 0, 0));
       recog_data.dup_loc[0] = &XEXP (XVECEXP (pat, 0, 1), 0);
       recog_data.dup_num[0] = 1;
       break;
 
-    case 420:  /* *swapsi */
+    case 419:  /* *swapsi */
       ro[0] = *(ro_loc[0] = &XEXP (XVECEXP (pat, 0, 0), 0));
       ro[1] = *(ro_loc[1] = &XVECEXP (XEXP (XVECEXP (pat, 0, 0), 1), 0, 0));
       ro[2] = *(ro_loc[2] = &XEXP (XVECEXP (pat, 0, 1), 1));
@@ -62,131 +62,130 @@ insn_extract (rtx insn)
       recog_data.dup_num[0] = 1;
       break;
 
-    case 419:  /* *sync_compare_and_swapdi_v8plus */
-    case 418:  /* *sync_compare_and_swapdi */
-    case 417:  /* *sync_compare_and_swapsi */
+    case 418:  /* *sync_compare_and_swapdi_v8plus */
+    case 417:  /* *sync_compare_and_swapdi */
+    case 416:  /* *sync_compare_and_swapsi */
       ro[0] = *(ro_loc[0] = &XEXP (XVECEXP (pat, 0, 0), 0));
-      ro[1] = *(ro_loc[1] = &XEXP (XEXP (XVECEXP (pat, 0, 0), 1), 0));
+      ro[1] = *(ro_loc[1] = &XEXP (XVECEXP (pat, 0, 0), 1));
       ro[2] = *(ro_loc[2] = &XVECEXP (XEXP (XVECEXP (pat, 0, 1), 1), 0, 0));
       ro[3] = *(ro_loc[3] = &XVECEXP (XEXP (XVECEXP (pat, 0, 1), 1), 0, 1));
-      recog_data.dup_loc[0] = &XEXP (XEXP (XVECEXP (pat, 0, 1), 0), 0);
+      recog_data.dup_loc[0] = &XEXP (XVECEXP (pat, 0, 1), 0);
       recog_data.dup_num[0] = 1;
       break;
 
-    case 416:  /* *membar */
-    case 415:  /* *stbar */
+    case 415:  /* *membar */
+    case 414:  /* *stbar */
       ro[0] = *(ro_loc[0] = &XEXP (pat, 0));
       recog_data.dup_loc[0] = &XVECEXP (XEXP (pat, 1), 0, 0);
       recog_data.dup_num[0] = 0;
       break;
 
-    case 383:  /* stack_protect_testdi */
+    case 412:  /* alignaddrdi_vis */
+    case 411:  /* faligndatav8qi_vis */
+    case 410:  /* faligndatav4hi_vis */
+    case 409:  /* faligndatav2si_vis */
+    case 408:  /* faligndatadi_vis */
+    case 407:  /* fmuld8ulx16_vis */
+    case 405:  /* fmul8ulx16_vis */
+    case 403:  /* fmul8x16al_vis */
+    case 400:  /* fpmerge_vis */
+    case 398:  /* fpack32_vis */
+      ro[0] = *(ro_loc[0] = &XEXP (pat, 0));
+      ro[1] = *(ro_loc[1] = &XVECEXP (XEXP (pat, 1), 0, 0));
+      ro[2] = *(ro_loc[2] = &XVECEXP (XEXP (pat, 1), 0, 1));
+      break;
+
+    case 382:  /* stack_protect_testdi */
       ro[0] = *(ro_loc[0] = &XEXP (XVECEXP (pat, 0, 0), 0));
       ro[1] = *(ro_loc[1] = &XVECEXP (XEXP (XVECEXP (pat, 0, 0), 1), 0, 0));
       ro[2] = *(ro_loc[2] = &XVECEXP (XEXP (XVECEXP (pat, 0, 0), 1), 0, 1));
       ro[3] = *(ro_loc[3] = &XEXP (XVECEXP (pat, 0, 1), 0));
       break;
 
-    case 382:  /* stack_protect_setdi */
+    case 381:  /* stack_protect_setdi */
       ro[0] = *(ro_loc[0] = &XEXP (XVECEXP (pat, 0, 0), 0));
       ro[1] = *(ro_loc[1] = &XVECEXP (XEXP (XVECEXP (pat, 0, 0), 1), 0, 0));
       ro[2] = *(ro_loc[2] = &XEXP (XVECEXP (pat, 0, 1), 0));
       break;
 
-    case 381:  /* *tldo_stx_sp64 */
-    case 380:  /* *tldo_stw_sp64 */
-    case 379:  /* *tldo_sth_sp64 */
-    case 378:  /* *tldo_stb_sp64 */
+    case 380:  /* *tldo_stx_sp64 */
+    case 379:  /* *tldo_stw_sp64 */
+    case 378:  /* *tldo_sth_sp64 */
+    case 377:  /* *tldo_stb_sp64 */
       ro[0] = *(ro_loc[0] = &XEXP (pat, 1));
       ro[1] = *(ro_loc[1] = &XEXP (XEXP (XEXP (pat, 0), 0), 1));
       ro[2] = *(ro_loc[2] = &XVECEXP (XEXP (XEXP (XEXP (pat, 0), 0), 0), 0, 0));
       ro[3] = *(ro_loc[3] = &XVECEXP (XEXP (XEXP (XEXP (pat, 0), 0), 0), 0, 1));
       break;
 
-    case 376:  /* *tldo_ldsw1_sp64 */
-    case 375:  /* *tldo_lduw1_sp64 */
-    case 373:  /* *tldo_ldsh2_sp64 */
-    case 372:  /* *tldo_ldsh1_sp64 */
-    case 371:  /* *tldo_lduh2_sp64 */
-    case 370:  /* *tldo_lduh1_sp64 */
-    case 368:  /* *tldo_ldsb3_sp64 */
-    case 367:  /* *tldo_ldsb2_sp64 */
-    case 366:  /* *tldo_ldsb1_sp64 */
-    case 365:  /* *tldo_ldub3_sp64 */
-    case 364:  /* *tldo_ldub2_sp64 */
-    case 363:  /* *tldo_ldub1_sp64 */
+    case 375:  /* *tldo_ldsw1_sp64 */
+    case 374:  /* *tldo_lduw1_sp64 */
+    case 372:  /* *tldo_ldsh2_sp64 */
+    case 371:  /* *tldo_ldsh1_sp64 */
+    case 370:  /* *tldo_lduh2_sp64 */
+    case 369:  /* *tldo_lduh1_sp64 */
+    case 367:  /* *tldo_ldsb3_sp64 */
+    case 366:  /* *tldo_ldsb2_sp64 */
+    case 365:  /* *tldo_ldsb1_sp64 */
+    case 364:  /* *tldo_ldub3_sp64 */
+    case 363:  /* *tldo_ldub2_sp64 */
+    case 362:  /* *tldo_ldub1_sp64 */
       ro[0] = *(ro_loc[0] = &XEXP (pat, 0));
       ro[1] = *(ro_loc[1] = &XEXP (XEXP (XEXP (XEXP (pat, 1), 0), 0), 1));
       ro[2] = *(ro_loc[2] = &XVECEXP (XEXP (XEXP (XEXP (XEXP (pat, 1), 0), 0), 0), 0, 0));
       ro[3] = *(ro_loc[3] = &XVECEXP (XEXP (XEXP (XEXP (XEXP (pat, 1), 0), 0), 0), 0, 1));
       break;
 
-    case 377:  /* *tldo_ldx_sp64 */
-    case 374:  /* *tldo_lduw_sp64 */
-    case 369:  /* *tldo_lduh_sp64 */
-    case 362:  /* *tldo_ldub_sp64 */
+    case 376:  /* *tldo_ldx_sp64 */
+    case 373:  /* *tldo_lduw_sp64 */
+    case 368:  /* *tldo_lduh_sp64 */
+    case 361:  /* *tldo_ldub_sp64 */
       ro[0] = *(ro_loc[0] = &XEXP (pat, 0));
       ro[1] = *(ro_loc[1] = &XEXP (XEXP (XEXP (pat, 1), 0), 1));
       ro[2] = *(ro_loc[2] = &XVECEXP (XEXP (XEXP (XEXP (pat, 1), 0), 0), 0, 0));
       ro[3] = *(ro_loc[3] = &XVECEXP (XEXP (XEXP (XEXP (pat, 1), 0), 0), 0, 1));
       break;
 
-    case 352:  /* tldm_call64 */
+    case 351:  /* tldm_call64 */
       ro[0] = *(ro_loc[0] = &XEXP (XVECEXP (pat, 0, 0), 0));
       ro[1] = *(ro_loc[1] = &XVECEXP (XEXP (XEXP (XEXP (XVECEXP (pat, 0, 0), 1), 0), 0), 0, 0));
       ro[2] = *(ro_loc[2] = &XEXP (XEXP (XVECEXP (pat, 0, 0), 1), 1));
       break;
 
-    case 348:  /* tgd_call64 */
+    case 347:  /* tgd_call64 */
       ro[0] = *(ro_loc[0] = &XEXP (XVECEXP (pat, 0, 0), 0));
       ro[1] = *(ro_loc[1] = &XVECEXP (XEXP (XEXP (XEXP (XVECEXP (pat, 0, 0), 1), 0), 0), 0, 0));
       ro[2] = *(ro_loc[2] = &XVECEXP (XEXP (XEXP (XEXP (XVECEXP (pat, 0, 0), 1), 0), 0), 0, 1));
       ro[3] = *(ro_loc[3] = &XEXP (XEXP (XVECEXP (pat, 0, 0), 1), 1));
       break;
 
-    case 341:  /* prefetch_32 */
-    case 340:  /* prefetch_64 */
+    case 340:  /* prefetch_32 */
+    case 339:  /* prefetch_64 */
       ro[0] = *(ro_loc[0] = &XEXP (pat, 0));
       ro[1] = *(ro_loc[1] = &XEXP (pat, 1));
       ro[2] = *(ro_loc[2] = &XEXP (pat, 2));
       break;
 
-    case 339:  /* ffssi2 */
+    case 338:  /* ffssi2 */
       ro[0] = *(ro_loc[0] = &XEXP (XVECEXP (pat, 0, 0), 0));
       ro[1] = *(ro_loc[1] = &XEXP (XEXP (XVECEXP (pat, 0, 0), 1), 0));
       ro[2] = *(ro_loc[2] = &XEXP (XVECEXP (pat, 0, 1), 0));
       break;
 
-    case 338:  /* flushdi */
-    case 337:  /* flush */
-    case 335:  /* goto_handler_and_restore */
+    case 337:  /* flushdi */
+    case 336:  /* flush */
+    case 334:  /* goto_handler_and_restore */
       ro[0] = *(ro_loc[0] = &XVECEXP (pat, 0, 0));
       break;
 
-    case 333:  /* *branch_sp64 */
+    case 332:  /* *branch_sp64 */
       ro[0] = *(ro_loc[0] = &XEXP (pat, 1));
       break;
 
-    case 413:  /* alignaddrdi_vis */
-    case 412:  /* faligndatav8qi_vis */
-    case 411:  /* faligndatav4hi_vis */
-    case 410:  /* faligndatav2si_vis */
-    case 409:  /* faligndatadi_vis */
-    case 408:  /* fmuld8ulx16_vis */
-    case 406:  /* fmul8ulx16_vis */
-    case 404:  /* fmul8x16al_vis */
-    case 401:  /* fpmerge_vis */
-    case 399:  /* fpack32_vis */
-    case 331:  /* probe_stack_rangedi */
-      ro[0] = *(ro_loc[0] = &XEXP (pat, 0));
-      ro[1] = *(ro_loc[1] = &XVECEXP (XEXP (pat, 1), 0, 0));
-      ro[2] = *(ro_loc[2] = &XVECEXP (XEXP (pat, 1), 0, 1));
-      break;
-
-    case 342:  /* trap */
-    case 336:  /* do_builtin_setjmp_setup */
-    case 334:  /* flush_register_windows */
-    case 332:  /* nop */
+    case 341:  /* trap */
+    case 335:  /* do_builtin_setjmp_setup */
+    case 333:  /* flush_register_windows */
+    case 331:  /* nop */
     case 330:  /* blockage */
     case 329:  /* *return_internal */
       break;
@@ -207,8 +206,8 @@ insn_extract (rtx insn)
       ro[1] = *(ro_loc[1] = &XEXP (XEXP (XVECEXP (pat, 0, 1), 0), 0));
       break;
 
-    case 319:  /* *sparc.md:5889 */
-    case 318:  /* *sparc.md:5873 */
+    case 319:  /* *sparc.md:5882 */
+    case 318:  /* *sparc.md:5866 */
     case 312:  /* *lshrsi3_extend */
       ro[0] = *(ro_loc[0] = &XEXP (pat, 0));
       ro[1] = *(ro_loc[1] = &XEXP (XEXP (XEXP (XEXP (pat, 1), 0), 0), 0));
@@ -216,8 +215,8 @@ insn_extract (rtx insn)
       ro[3] = *(ro_loc[3] = &XEXP (XEXP (pat, 1), 1));
       break;
 
-    case 317:  /* *sparc.md:5861 */
-    case 316:  /* *sparc.md:5849 */
+    case 317:  /* *sparc.md:5854 */
+    case 316:  /* *sparc.md:5842 */
     case 308:  /* *ashrsi3_extend2 */
       ro[0] = *(ro_loc[0] = &XEXP (pat, 0));
       ro[1] = *(ro_loc[1] = &XEXP (XEXP (XEXP (XEXP (pat, 1), 0), 0), 0));
@@ -335,7 +334,7 @@ insn_extract (rtx insn)
       break;
 
     case 189:  /* umulsi3_highpart_v8plus */
-    case 183:  /* *sparc.md:4082 */
+    case 183:  /* *sparc.md:4075 */
     case 182:  /* smulsi3_highpart_v8plus */
       ro[0] = *(ro_loc[0] = &XEXP (XVECEXP (pat, 0, 0), 0));
       ro[1] = *(ro_loc[1] = &XEXP (XEXP (XEXP (XEXP (XEXP (XVECEXP (pat, 0, 0), 1), 0), 0), 0), 0));
@@ -366,13 +365,13 @@ insn_extract (rtx insn)
       ro[2] = *(ro_loc[2] = &XEXP (XEXP (pat, 1), 1));
       break;
 
-    case 396:  /* *nandv4qi_vis */
-    case 395:  /* *nandv2hi_vis */
-    case 394:  /* *nandsf_vis */
-    case 393:  /* *nandv8qi_vis */
-    case 392:  /* *nandv4hi_vis */
-    case 391:  /* *nandv2si_vis */
-    case 390:  /* *nanddf_vis */
+    case 395:  /* *nandv4qi_vis */
+    case 394:  /* *nandv2hi_vis */
+    case 393:  /* *nandsf_vis */
+    case 392:  /* *nandv8qi_vis */
+    case 391:  /* *nandv4hi_vis */
+    case 390:  /* *nandv2si_vis */
+    case 389:  /* *nanddf_vis */
     case 283:  /* *multf3_extend */
     case 282:  /* *muldf3_extend */
     case 186:  /* *umulsidi3_sp64 */
@@ -507,17 +506,17 @@ insn_extract (rtx insn)
       ro[4] = *(ro_loc[4] = &XEXP (XEXP (pat, 1), 2));
       break;
 
-    case 400:  /* fexpand_vis */
-    case 398:  /* fpackfix_vis */
-    case 397:  /* fpack16_vis */
+    case 399:  /* fexpand_vis */
+    case 397:  /* fpackfix_vis */
+    case 396:  /* fpack16_vis */
     case 77:  /* embmedany_brsum */
       ro[0] = *(ro_loc[0] = &XEXP (pat, 0));
       ro[1] = *(ro_loc[1] = &XVECEXP (XEXP (pat, 1), 0, 0));
       break;
 
-    case 359:  /* tie_add64 */
-    case 355:  /* tldo_add64 */
-    case 347:  /* tgd_add64 */
+    case 358:  /* tie_add64 */
+    case 354:  /* tldo_add64 */
+    case 346:  /* tgd_add64 */
     case 61:  /* *movdi_lo_sum_pic_label_ref */
     case 57:  /* *movsi_lo_sum_pic_label_ref */
       ro[0] = *(ro_loc[0] = &XEXP (pat, 0));
@@ -533,8 +532,8 @@ insn_extract (rtx insn)
       ro[2] = *(ro_loc[2] = &XVECEXP (XEXP (XEXP (pat, 1), 0), 0, 1));
       break;
 
-    case 414:  /* pdist_vis */
-    case 358:  /* tie_ld64 */
+    case 413:  /* pdist_vis */
+    case 357:  /* tie_ld64 */
     case 64:  /* movdi_pic_gotdata_op */
     case 55:  /* movsi_pic_gotdata_op */
       ro[0] = *(ro_loc[0] = &XEXP (pat, 0));
@@ -543,10 +542,10 @@ insn_extract (rtx insn)
       ro[3] = *(ro_loc[3] = &XVECEXP (XEXP (pat, 1), 0, 2));
       break;
 
-    case 360:  /* tle_hix22_sp64 */
-    case 356:  /* tie_hi22 */
-    case 353:  /* tldo_hix22 */
-    case 345:  /* tgd_hi22 */
+    case 359:  /* tle_hix22_sp64 */
+    case 355:  /* tie_hi22 */
+    case 352:  /* tldo_hix22 */
+    case 344:  /* tgd_hi22 */
     case 79:  /* embmedany_texthi */
     case 78:  /* embmedany_textuhi */
     case 75:  /* embmedany_sethi */
@@ -559,11 +558,11 @@ insn_extract (rtx insn)
       ro[1] = *(ro_loc[1] = &XVECEXP (XEXP (XEXP (pat, 1), 0), 0, 0));
       break;
 
-    case 361:  /* tle_lox10_sp64 */
-    case 357:  /* tie_lo10 */
-    case 354:  /* tldo_lox10 */
-    case 351:  /* tldm_add64 */
-    case 346:  /* tgd_lo10 */
+    case 360:  /* tle_lox10_sp64 */
+    case 356:  /* tie_lo10 */
+    case 353:  /* tldo_lox10 */
+    case 350:  /* tldm_add64 */
+    case 345:  /* tgd_lo10 */
     case 80:  /* embmedany_textulo */
     case 73:  /* sethm */
     case 69:  /* setm44 */
@@ -574,8 +573,8 @@ insn_extract (rtx insn)
       ro[2] = *(ro_loc[2] = &XVECEXP (XEXP (XEXP (pat, 1), 1), 0, 0));
       break;
 
-    case 344:  /* *sparc.md:6906 */
-    case 343:  /* *sparc.md:6894 */
+    case 343:  /* *sparc.md:6885 */
+    case 342:  /* *sparc.md:6873 */
     case 97:  /* *movtf_insn_sp64_no_fpu */
     case 96:  /* *movtf_insn_sp64_hq */
     case 95:  /* *movtf_insn_sp64 */
@@ -683,7 +682,7 @@ insn_extract (rtx insn)
       ro[1] = *(ro_loc[1] = &XEXP (XEXP (pat, 1), 1));
       break;
 
-    case 349:  /* tldm_hi22 */
+    case 348:  /* tldm_hi22 */
     case 29:  /* *neg_sgeu_insn */
     case 28:  /* *sgeu_insn */
     case 25:  /* *neg_sltu_insn */
@@ -718,7 +717,7 @@ insn_extract (rtx insn)
       ro[1] = *(ro_loc[1] = &XEXP (XEXP (XEXP (pat, 1), 0), 0));
       break;
 
-    case 350:  /* tldm_lo10 */
+    case 349:  /* tldm_lo10 */
     case 300:  /* sqrtsf2 */
     case 299:  /* sqrtdf2 */
     case 298:  /* *sqrttf2_hq */
@@ -796,16 +795,16 @@ insn_extract (rtx insn)
       ro[1] = *(ro_loc[1] = &XEXP (XEXP (XVECEXP (pat, 0, 0), 1), 0));
       break;
 
-    case 407:  /* fmuld8sux16_vis */
-    case 405:  /* fmul8sux16_vis */
-    case 403:  /* fmul8x16au_vis */
-    case 402:  /* fmul8x16_vis */
-    case 389:  /* subv2hi3 */
-    case 388:  /* subv4hi3 */
-    case 387:  /* subv2si3 */
-    case 386:  /* addv2hi3 */
-    case 385:  /* addv4hi3 */
-    case 384:  /* addv2si3 */
+    case 406:  /* fmuld8sux16_vis */
+    case 404:  /* fmul8sux16_vis */
+    case 402:  /* fmul8x16au_vis */
+    case 401:  /* fmul8x16_vis */
+    case 388:  /* subv2hi3 */
+    case 387:  /* subv4hi3 */
+    case 386:  /* subv2si3 */
+    case 385:  /* addv2hi3 */
+    case 384:  /* addv4hi3 */
+    case 383:  /* addv2si3 */
     case 314:  /* *lshrdi3_sp64 */
     case 311:  /* lshrsi3 */
     case 309:  /* *ashrdi3_sp64 */

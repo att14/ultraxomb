@@ -35,7 +35,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = x86_64-unknown-linux-gnu
 host_triplet = x86_64-unknown-linux-gnu
-target_triplet = sparc64-pc-xomb
+target_triplet = sparc64-sun-xomb
 bin_PROGRAMS = $(am__EXEEXT_6) $(am__EXEEXT_7) $(am__EXEEXT_8) \
 	$(am__EXEEXT_9) $(am__EXEEXT_10) $(am__EXEEXT_11) \
 	    \
@@ -385,17 +385,17 @@ mkdir_p = /bin/mkdir -p
 oldincludedir = /usr/include
 pdfdir = ${docdir}
 prefix = /home/att14/ultraxomb/local
-program_transform_name = s&^&sparc64-pc-xomb-&
+program_transform_name = s&^&sparc64-sun-xomb-&
 psdir = ${docdir}
 sbindir = ${exec_prefix}/sbin
 sharedstatedir = ${prefix}/com
 srcdir = ../../binutils-2.21.1/binutils
 sysconfdir = ${prefix}/etc
-target = sparc64-pc-xomb
-target_alias = sparc64-pc-xomb
+target = sparc64-sun-xomb
+target_alias = sparc64-sun-xomb
 target_cpu = sparc64
 target_os = xomb
-target_vendor = pc
+target_vendor = sun
 top_build_prefix = 
 top_builddir = .
 top_srcdir = ../../binutils-2.21.1/binutils
@@ -500,7 +500,7 @@ CC_FOR_TARGET = ` \
       echo $$r/../gcc/xgcc -B$$r/../gcc/; \
     fi; \
   else \
-    if [ "x86_64-unknown-linux-gnu" = "sparc64-pc-xomb" ] ; then \
+    if [ "x86_64-unknown-linux-gnu" = "sparc64-sun-xomb" ] ; then \
       echo $(CC); \
     else \
       echo gcc | sed '$(transform)'; \

@@ -79,7 +79,7 @@ gt_ggc_mx_var_loc_node (void *x_p)
    xlimit = ((*xlimit).next);
   while (x != xlimit)
     {
-      gt_ggc_m_7rtx_def ((*x).loc);
+      gt_ggc_m_7rtx_def ((*x).var_loc_note);
       gt_ggc_m_S ((*x).label);
       gt_ggc_m_12var_loc_node ((*x).next);
       x = ((*x).next);
@@ -112,22 +112,6 @@ gt_ggc_mx_limbo_die_struct (void *x_p)
       gt_ggc_m_10die_struct ((*x).die);
       gt_ggc_m_9tree_node ((*x).created_for);
       gt_ggc_m_16limbo_die_struct ((*x).next);
-    }
-}
-
-void
-gt_ggc_mx_VEC_macinfo_entry_gc (void *x_p)
-{
-  struct VEC_macinfo_entry_gc * const x = (struct VEC_macinfo_entry_gc *)x_p;
-  if (ggc_test_and_set_mark (x))
-    {
-      {
-        size_t i0;
-        size_t l0 = (size_t)(((*x).base).num);
-        for (i0 = 0; i0 != l0; i0++) {
-          gt_ggc_m_S ((*x).base.vec[i0].info);
-        }
-      }
     }
 }
 
@@ -202,13 +186,6 @@ gt_ggc_mx_VEC_dw_attr_node_gc (void *x_p)
               gt_ggc_m_15dwarf_file_data ((*x).base.vec[i0].dw_attr_val.v.val_file);
               break;
             case dw_val_class_data8:
-              break;
-            case dw_val_class_decl_ref:
-              gt_ggc_m_9tree_node ((*x).base.vec[i0].dw_attr_val.v.val_decl_ref);
-              break;
-            case dw_val_class_vms_delta:
-              gt_ggc_m_S ((*x).base.vec[i0].dw_attr_val.v.val_vms_delta.lbl1);
-              gt_ggc_m_S ((*x).base.vec[i0].dw_attr_val.v.val_vms_delta.lbl2);
               break;
             }
         }
@@ -383,13 +360,6 @@ gt_ggc_mx_dw_loc_descr_struct (void *x_p)
           break;
         case dw_val_class_data8:
           break;
-        case dw_val_class_decl_ref:
-          gt_ggc_m_9tree_node ((*x).dw_loc_oprnd1.v.val_decl_ref);
-          break;
-        case dw_val_class_vms_delta:
-          gt_ggc_m_S ((*x).dw_loc_oprnd1.v.val_vms_delta.lbl1);
-          gt_ggc_m_S ((*x).dw_loc_oprnd1.v.val_vms_delta.lbl2);
-          break;
         }
       switch (((*x).dw_loc_oprnd2).val_class)
         {
@@ -436,13 +406,6 @@ gt_ggc_mx_dw_loc_descr_struct (void *x_p)
           break;
         case dw_val_class_data8:
           break;
-        case dw_val_class_decl_ref:
-          gt_ggc_m_9tree_node ((*x).dw_loc_oprnd2.v.val_decl_ref);
-          break;
-        case dw_val_class_vms_delta:
-          gt_ggc_m_S ((*x).dw_loc_oprnd2.v.val_vms_delta.lbl1);
-          gt_ggc_m_S ((*x).dw_loc_oprnd2.v.val_vms_delta.lbl2);
-          break;
         }
     }
 }
@@ -457,10 +420,10 @@ gt_ggc_mx_dw_fde_struct (void *x_p)
       gt_ggc_m_S ((*x).dw_fde_begin);
       gt_ggc_m_S ((*x).dw_fde_current_label);
       gt_ggc_m_S ((*x).dw_fde_end);
-      gt_ggc_m_S ((*x).dw_fde_vms_end_prologue);
-      gt_ggc_m_S ((*x).dw_fde_vms_begin_epilogue);
-      gt_ggc_m_S ((*x).dw_fde_second_begin);
-      gt_ggc_m_S ((*x).dw_fde_second_end);
+      gt_ggc_m_S ((*x).dw_fde_hot_section_label);
+      gt_ggc_m_S ((*x).dw_fde_hot_section_end_label);
+      gt_ggc_m_S ((*x).dw_fde_unlikely_section_label);
+      gt_ggc_m_S ((*x).dw_fde_unlikely_section_end_label);
       gt_ggc_m_13dw_cfi_struct ((*x).dw_fde_cfi);
       gt_ggc_m_13dw_cfi_struct ((*x).dw_fde_switch_cfi);
     }
@@ -679,7 +642,7 @@ gt_pch_nx_var_loc_node (void *x_p)
    xlimit = ((*xlimit).next);
   while (x != xlimit)
     {
-      gt_pch_n_7rtx_def ((*x).loc);
+      gt_pch_n_7rtx_def ((*x).var_loc_note);
       gt_pch_n_S ((*x).label);
       gt_pch_n_12var_loc_node ((*x).next);
       x = ((*x).next);
@@ -712,22 +675,6 @@ gt_pch_nx_limbo_die_struct (void *x_p)
       gt_pch_n_10die_struct ((*x).die);
       gt_pch_n_9tree_node ((*x).created_for);
       gt_pch_n_16limbo_die_struct ((*x).next);
-    }
-}
-
-void
-gt_pch_nx_VEC_macinfo_entry_gc (void *x_p)
-{
-  struct VEC_macinfo_entry_gc * const x = (struct VEC_macinfo_entry_gc *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_20VEC_macinfo_entry_gc, gt_ggc_e_20VEC_macinfo_entry_gc))
-    {
-      {
-        size_t i0;
-        size_t l0 = (size_t)(((*x).base).num);
-        for (i0 = 0; i0 != l0; i0++) {
-          gt_pch_n_S ((*x).base.vec[i0].info);
-        }
-      }
     }
 }
 
@@ -802,13 +749,6 @@ gt_pch_nx_VEC_dw_attr_node_gc (void *x_p)
               gt_pch_n_15dwarf_file_data ((*x).base.vec[i0].dw_attr_val.v.val_file);
               break;
             case dw_val_class_data8:
-              break;
-            case dw_val_class_decl_ref:
-              gt_pch_n_9tree_node ((*x).base.vec[i0].dw_attr_val.v.val_decl_ref);
-              break;
-            case dw_val_class_vms_delta:
-              gt_pch_n_S ((*x).base.vec[i0].dw_attr_val.v.val_vms_delta.lbl1);
-              gt_pch_n_S ((*x).base.vec[i0].dw_attr_val.v.val_vms_delta.lbl2);
               break;
             }
         }
@@ -983,13 +923,6 @@ gt_pch_nx_dw_loc_descr_struct (void *x_p)
           break;
         case dw_val_class_data8:
           break;
-        case dw_val_class_decl_ref:
-          gt_pch_n_9tree_node ((*x).dw_loc_oprnd1.v.val_decl_ref);
-          break;
-        case dw_val_class_vms_delta:
-          gt_pch_n_S ((*x).dw_loc_oprnd1.v.val_vms_delta.lbl1);
-          gt_pch_n_S ((*x).dw_loc_oprnd1.v.val_vms_delta.lbl2);
-          break;
         }
       switch (((*x).dw_loc_oprnd2).val_class)
         {
@@ -1036,13 +969,6 @@ gt_pch_nx_dw_loc_descr_struct (void *x_p)
           break;
         case dw_val_class_data8:
           break;
-        case dw_val_class_decl_ref:
-          gt_pch_n_9tree_node ((*x).dw_loc_oprnd2.v.val_decl_ref);
-          break;
-        case dw_val_class_vms_delta:
-          gt_pch_n_S ((*x).dw_loc_oprnd2.v.val_vms_delta.lbl1);
-          gt_pch_n_S ((*x).dw_loc_oprnd2.v.val_vms_delta.lbl2);
-          break;
         }
     }
 }
@@ -1057,10 +983,10 @@ gt_pch_nx_dw_fde_struct (void *x_p)
       gt_pch_n_S ((*x).dw_fde_begin);
       gt_pch_n_S ((*x).dw_fde_current_label);
       gt_pch_n_S ((*x).dw_fde_end);
-      gt_pch_n_S ((*x).dw_fde_vms_end_prologue);
-      gt_pch_n_S ((*x).dw_fde_vms_begin_epilogue);
-      gt_pch_n_S ((*x).dw_fde_second_begin);
-      gt_pch_n_S ((*x).dw_fde_second_end);
+      gt_pch_n_S ((*x).dw_fde_hot_section_label);
+      gt_pch_n_S ((*x).dw_fde_hot_section_end_label);
+      gt_pch_n_S ((*x).dw_fde_unlikely_section_label);
+      gt_pch_n_S ((*x).dw_fde_unlikely_section_end_label);
       gt_pch_n_13dw_cfi_struct ((*x).dw_fde_cfi);
       gt_pch_n_13dw_cfi_struct ((*x).dw_fde_switch_cfi);
     }
@@ -1143,7 +1069,7 @@ void
 gt_pch_n_P10vcall_insn4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P10vcall_insn4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P10vcall_insn4htab, gt_e_P10vcall_insn4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;
@@ -1159,7 +1085,7 @@ void
 gt_pch_n_P16var_loc_list_def4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P16var_loc_list_def4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P16var_loc_list_def4htab, gt_e_P16var_loc_list_def4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;
@@ -1175,7 +1101,7 @@ void
 gt_pch_n_P10die_struct4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P10die_struct4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P10die_struct4htab, gt_e_P10die_struct4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;
@@ -1191,7 +1117,7 @@ void
 gt_pch_n_P15dwarf_file_data4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P15dwarf_file_data4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P15dwarf_file_data4htab, gt_e_P15dwarf_file_data4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;
@@ -1207,7 +1133,7 @@ void
 gt_pch_n_P20indirect_string_node4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P20indirect_string_node4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P20indirect_string_node4htab, gt_e_P20indirect_string_node4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;
@@ -1281,7 +1207,7 @@ gt_pch_p_12var_loc_node (ATTRIBUTE_UNUSED void *this_obj,
 {
   struct var_loc_node * const x ATTRIBUTE_UNUSED = (struct var_loc_node *)x_p;
   if ((void *)(x) == this_obj)
-    op (&((*x).loc), cookie);
+    op (&((*x).var_loc_note), cookie);
   if ((void *)(x) == this_obj)
     op (&((*x).label), cookie);
   if ((void *)(x) == this_obj)
@@ -1320,23 +1246,6 @@ gt_pch_p_16limbo_die_struct (ATTRIBUTE_UNUSED void *this_obj,
     op (&((*x).created_for), cookie);
   if ((void *)(x) == this_obj)
     op (&((*x).next), cookie);
-}
-
-void
-gt_pch_p_20VEC_macinfo_entry_gc (ATTRIBUTE_UNUSED void *this_obj,
-	void *x_p,
-	ATTRIBUTE_UNUSED gt_pointer_operator op,
-	ATTRIBUTE_UNUSED void *cookie)
-{
-  struct VEC_macinfo_entry_gc * const x ATTRIBUTE_UNUSED = (struct VEC_macinfo_entry_gc *)x_p;
-  {
-    size_t i0;
-    size_t l0 = (size_t)(((*x).base).num);
-    for (i0 = 0; i0 != l0; i0++) {
-      if ((void *)(x) == this_obj)
-        op (&((*x).base.vec[i0].info), cookie);
-    }
-  }
 }
 
 void
@@ -1421,16 +1330,6 @@ gt_pch_p_19VEC_dw_attr_node_gc (ATTRIBUTE_UNUSED void *this_obj,
             op (&((*x).base.vec[i0].dw_attr_val.v.val_file), cookie);
           break;
         case dw_val_class_data8:
-          break;
-        case dw_val_class_decl_ref:
-          if ((void *)(x) == this_obj)
-            op (&((*x).base.vec[i0].dw_attr_val.v.val_decl_ref), cookie);
-          break;
-        case dw_val_class_vms_delta:
-          if ((void *)(x) == this_obj)
-            op (&((*x).base.vec[i0].dw_attr_val.v.val_vms_delta.lbl1), cookie);
-          if ((void *)(x) == this_obj)
-            op (&((*x).base.vec[i0].dw_attr_val.v.val_vms_delta.lbl2), cookie);
           break;
         }
     }
@@ -1633,16 +1532,6 @@ gt_pch_p_19dw_loc_descr_struct (ATTRIBUTE_UNUSED void *this_obj,
       break;
     case dw_val_class_data8:
       break;
-    case dw_val_class_decl_ref:
-      if ((void *)(x) == this_obj)
-        op (&((*x).dw_loc_oprnd1.v.val_decl_ref), cookie);
-      break;
-    case dw_val_class_vms_delta:
-      if ((void *)(x) == this_obj)
-        op (&((*x).dw_loc_oprnd1.v.val_vms_delta.lbl1), cookie);
-      if ((void *)(x) == this_obj)
-        op (&((*x).dw_loc_oprnd1.v.val_vms_delta.lbl2), cookie);
-      break;
     }
   switch (((*x).dw_loc_oprnd2).val_class)
     {
@@ -1697,16 +1586,6 @@ gt_pch_p_19dw_loc_descr_struct (ATTRIBUTE_UNUSED void *this_obj,
       break;
     case dw_val_class_data8:
       break;
-    case dw_val_class_decl_ref:
-      if ((void *)(x) == this_obj)
-        op (&((*x).dw_loc_oprnd2.v.val_decl_ref), cookie);
-      break;
-    case dw_val_class_vms_delta:
-      if ((void *)(x) == this_obj)
-        op (&((*x).dw_loc_oprnd2.v.val_vms_delta.lbl1), cookie);
-      if ((void *)(x) == this_obj)
-        op (&((*x).dw_loc_oprnd2.v.val_vms_delta.lbl2), cookie);
-      break;
     }
 }
 
@@ -1726,13 +1605,13 @@ gt_pch_p_13dw_fde_struct (ATTRIBUTE_UNUSED void *this_obj,
   if ((void *)(x) == this_obj)
     op (&((*x).dw_fde_end), cookie);
   if ((void *)(x) == this_obj)
-    op (&((*x).dw_fde_vms_end_prologue), cookie);
+    op (&((*x).dw_fde_hot_section_label), cookie);
   if ((void *)(x) == this_obj)
-    op (&((*x).dw_fde_vms_begin_epilogue), cookie);
+    op (&((*x).dw_fde_hot_section_end_label), cookie);
   if ((void *)(x) == this_obj)
-    op (&((*x).dw_fde_second_begin), cookie);
+    op (&((*x).dw_fde_unlikely_section_label), cookie);
   if ((void *)(x) == this_obj)
-    op (&((*x).dw_fde_second_end), cookie);
+    op (&((*x).dw_fde_unlikely_section_end_label), cookie);
   if ((void *)(x) == this_obj)
     op (&((*x).dw_fde_cfi), cookie);
   if ((void *)(x) == this_obj)
@@ -1996,6 +1875,50 @@ gt_pch_na_ranges_table (ATTRIBUTE_UNUSED void *x_p)
   }
 }
 
+static void gt_ggc_ma_arange_table (void *);
+static void
+gt_ggc_ma_arange_table (ATTRIBUTE_UNUSED void *x_p)
+{
+  if (arange_table != NULL) {
+    size_t i0;
+    for (i0 = 0; i0 != (size_t)(arange_table_allocated); i0++) {
+      gt_ggc_m_10die_struct (arange_table[i0]);
+    }
+    ggc_mark (arange_table);
+  }
+}
+
+static void gt_pch_pa_arange_table
+    (void *, void *, gt_pointer_operator, void *);
+static void gt_pch_pa_arange_table (ATTRIBUTE_UNUSED void *this_obj,
+      ATTRIBUTE_UNUSED void *x_p,
+      ATTRIBUTE_UNUSED gt_pointer_operator op,
+      ATTRIBUTE_UNUSED void * cookie)
+{
+  if (arange_table != NULL) {
+    size_t i0;
+    for (i0 = 0; i0 != (size_t)(arange_table_allocated); i0++) {
+      if ((void *)(arange_table) == this_obj)
+        op (&(arange_table[i0]), cookie);
+    }
+    if ((void *)(&arange_table) == this_obj)
+      op (&(arange_table), cookie);
+  }
+}
+
+static void gt_pch_na_arange_table (void *);
+static void
+gt_pch_na_arange_table (ATTRIBUTE_UNUSED void *x_p)
+{
+  if (arange_table != NULL) {
+    size_t i1;
+    for (i1 = 0; i1 != (size_t)(arange_table_allocated); i1++) {
+      gt_pch_n_10die_struct (arange_table[i1]);
+    }
+    gt_pch_note_object (arange_table, &arange_table, gt_pch_pa_arange_table, gt_types_enum_last);
+  }
+}
+
 static void gt_ggc_ma_separate_line_info_table (void *);
 static void
 gt_ggc_ma_separate_line_info_table (ATTRIBUTE_UNUSED void *x_p)
@@ -2131,10 +2054,10 @@ gt_ggc_ma_fde_table (ATTRIBUTE_UNUSED void *x_p)
       gt_ggc_m_S (fde_table[i0].dw_fde_begin);
       gt_ggc_m_S (fde_table[i0].dw_fde_current_label);
       gt_ggc_m_S (fde_table[i0].dw_fde_end);
-      gt_ggc_m_S (fde_table[i0].dw_fde_vms_end_prologue);
-      gt_ggc_m_S (fde_table[i0].dw_fde_vms_begin_epilogue);
-      gt_ggc_m_S (fde_table[i0].dw_fde_second_begin);
-      gt_ggc_m_S (fde_table[i0].dw_fde_second_end);
+      gt_ggc_m_S (fde_table[i0].dw_fde_hot_section_label);
+      gt_ggc_m_S (fde_table[i0].dw_fde_hot_section_end_label);
+      gt_ggc_m_S (fde_table[i0].dw_fde_unlikely_section_label);
+      gt_ggc_m_S (fde_table[i0].dw_fde_unlikely_section_end_label);
       gt_ggc_m_13dw_cfi_struct (fde_table[i0].dw_fde_cfi);
       gt_ggc_m_13dw_cfi_struct (fde_table[i0].dw_fde_switch_cfi);
     }
@@ -2161,13 +2084,13 @@ static void gt_pch_pa_fde_table (ATTRIBUTE_UNUSED void *this_obj,
       if ((void *)(fde_table) == this_obj)
         op (&(fde_table[i0].dw_fde_end), cookie);
       if ((void *)(fde_table) == this_obj)
-        op (&(fde_table[i0].dw_fde_vms_end_prologue), cookie);
+        op (&(fde_table[i0].dw_fde_hot_section_label), cookie);
       if ((void *)(fde_table) == this_obj)
-        op (&(fde_table[i0].dw_fde_vms_begin_epilogue), cookie);
+        op (&(fde_table[i0].dw_fde_hot_section_end_label), cookie);
       if ((void *)(fde_table) == this_obj)
-        op (&(fde_table[i0].dw_fde_second_begin), cookie);
+        op (&(fde_table[i0].dw_fde_unlikely_section_label), cookie);
       if ((void *)(fde_table) == this_obj)
-        op (&(fde_table[i0].dw_fde_second_end), cookie);
+        op (&(fde_table[i0].dw_fde_unlikely_section_end_label), cookie);
       if ((void *)(fde_table) == this_obj)
         op (&(fde_table[i0].dw_fde_cfi), cookie);
       if ((void *)(fde_table) == this_obj)
@@ -2189,10 +2112,10 @@ gt_pch_na_fde_table (ATTRIBUTE_UNUSED void *x_p)
       gt_pch_n_S (fde_table[i1].dw_fde_begin);
       gt_pch_n_S (fde_table[i1].dw_fde_current_label);
       gt_pch_n_S (fde_table[i1].dw_fde_end);
-      gt_pch_n_S (fde_table[i1].dw_fde_vms_end_prologue);
-      gt_pch_n_S (fde_table[i1].dw_fde_vms_begin_epilogue);
-      gt_pch_n_S (fde_table[i1].dw_fde_second_begin);
-      gt_pch_n_S (fde_table[i1].dw_fde_second_end);
+      gt_pch_n_S (fde_table[i1].dw_fde_hot_section_label);
+      gt_pch_n_S (fde_table[i1].dw_fde_hot_section_end_label);
+      gt_pch_n_S (fde_table[i1].dw_fde_unlikely_section_label);
+      gt_pch_n_S (fde_table[i1].dw_fde_unlikely_section_end_label);
       gt_pch_n_13dw_cfi_struct (fde_table[i1].dw_fde_cfi);
       gt_pch_n_13dw_cfi_struct (fde_table[i1].dw_fde_switch_cfi);
     }
@@ -2201,13 +2124,6 @@ gt_pch_na_fde_table (ATTRIBUTE_UNUSED void *x_p)
 }
 
 EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gt_dwarf2out_h[] = {
-  {
-    &generic_type_instances,
-    1,
-    sizeof (generic_type_instances),
-    &gt_ggc_mx_VEC_tree_gc,
-    &gt_pch_nx_VEC_tree_gc
-  },
   {
     &tmpl_value_parm_die_table,
     1,
@@ -2265,11 +2181,11 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gt_dwarf2out_h[] = {
     &gt_pch_na_ranges_table
   },
   {
-    &macinfo_table,
+    &arange_table,
     1,
-    sizeof (macinfo_table),
-    &gt_ggc_mx_VEC_macinfo_entry_gc,
-    &gt_pch_nx_VEC_macinfo_entry_gc
+    sizeof (arange_table),
+    &gt_ggc_ma_arange_table,
+    &gt_pch_na_arange_table
   },
   {
     &pubtype_table,
@@ -2356,9 +2272,9 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gt_dwarf2out_h[] = {
     &gt_pch_nx_comdat_type_struct
   },
   {
-    &single_comp_unit_die,
+    &comp_unit_die,
     1,
-    sizeof (single_comp_unit_die),
+    sizeof (comp_unit_die),
     &gt_ggc_mx_die_struct,
     &gt_pch_nx_die_struct
   },
@@ -2549,6 +2465,8 @@ EXPORTED_CONST struct ggc_root_tab gt_pch_rs_gt_dwarf2out_h[] = {
   { &ranges_by_label_allocated, 1, sizeof (ranges_by_label_allocated), NULL, NULL },
   { &ranges_table_in_use, 1, sizeof (ranges_table_in_use), NULL, NULL },
   { &ranges_table_allocated, 1, sizeof (ranges_table_allocated), NULL, NULL },
+  { &arange_table_in_use, 1, sizeof (arange_table_in_use), NULL, NULL },
+  { &arange_table_allocated, 1, sizeof (arange_table_allocated), NULL, NULL },
   { &separate_line_info_table_in_use, 1, sizeof (separate_line_info_table_in_use), NULL, NULL },
   { &separate_line_info_table_allocated, 1, sizeof (separate_line_info_table_allocated), NULL, NULL },
   { &line_info_table_in_use, 1, sizeof (line_info_table_in_use), NULL, NULL },

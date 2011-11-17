@@ -1,7 +1,7 @@
 # Makefile.  Generated from Makefile.in by configure.
 # Makefile for libcpp.  Run 'configure' to generate Makefile from Makefile.in
 
-# Copyright (C) 2004, 2008, 2009, 2010 Free Software Foundation, Inc.
+# Copyright (C) 2004, 2008, 2009 Free Software Foundation, Inc.
 
 #This file is part of libcpp.
 
@@ -21,9 +21,9 @@
 
 
 
-srcdir = ../../gcc-4.6.1/libcpp
+srcdir = ../../gcc-4.5.3/libcpp
 top_builddir = .
-VPATH = ../../gcc-4.6.1/libcpp
+VPATH = ../../gcc-4.5.3/libcpp
 INSTALL = /bin/install -c
 AR = ar
 ARFLAGS = cru
@@ -59,10 +59,10 @@ DEPDIR = .deps
 
 datarootdir = ${prefix}/share
 datadir = ${datarootdir}
-exec_prefix = /home/edf12/buildtools_cross/local
+exec_prefix = /home/att14/ultraxomb/local
 libdir = ${exec_prefix}/lib
 localedir = $(datadir)/locale
-prefix = /home/edf12/buildtools_cross/local
+prefix = /home/att14/ultraxomb/local
 
 MSGMERGE = msgmerge
 mkinstalldirs = $(SHELL) $(srcdir)/../mkinstalldirs
@@ -249,15 +249,8 @@ po/$(PACKAGE).pot: $(libcpp_a_SOURCES)
 	$(mkinstalldirs) $(srcdir)/po
 	$(XGETTEXT) --default-domain=$(PACKAGE) \
 	  --keyword=_ --keyword=N_ \
-	  --keyword=cpp_error:3 \
-	  --keyword=cpp_warning:3 \
-	  --keyword=cpp_pedwarning:3 \
-	  --keyword=cpp_warning_syshdr:3 \
+	  --keyword=cpp_error:3 --keyword=cpp_errno:3 \
 	  --keyword=cpp_error_with_line:5 \
-	  --keyword=cpp_warning_with_line:5 \
-	  --keyword=cpp_pedwarning_with_line:5 \
-	  --keyword=cpp_warning_with_line_syshdr:5 \
-	  --keyword=cpp_errno:3 \
 	  --keyword=SYNTAX_ERROR --keyword=SYNTAX_ERROR2 \
 	  --copyright-holder="Free Software Foundation, Inc." \
 	  --msgid-bugs-address="http://gcc.gnu.org/bugs.html" \

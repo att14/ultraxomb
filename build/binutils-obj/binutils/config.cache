@@ -34,7 +34,7 @@ ac_cv_env_build_alias_value=x86_64-unknown-linux-gnu
 ac_cv_env_host_alias_set=set
 ac_cv_env_host_alias_value=x86_64-unknown-linux-gnu
 ac_cv_env_target_alias_set=set
-ac_cv_env_target_alias_value=sparc64-pc-xomb
+ac_cv_env_target_alias_value=sparc64-sun-xomb
 ac_cv_func_alloca_works=${ac_cv_func_alloca_works=yes}
 ac_cv_func_getc_unlocked=${ac_cv_func_getc_unlocked=yes}
 ac_cv_func_mkdtemp=${ac_cv_func_mkdtemp=yes}
@@ -103,7 +103,7 @@ ac_cv_search_strerror=${ac_cv_search_strerror='none required'}
 ac_cv_search_zlibVersion=${ac_cv_search_zlibVersion=-lz}
 ac_cv_sys_file_offset_bits=${ac_cv_sys_file_offset_bits=no}
 ac_cv_sys_largefile_CC=${ac_cv_sys_largefile_CC=no}
-ac_cv_target=${ac_cv_target=sparc64-pc-xomb}
+ac_cv_target=${ac_cv_target=sparc64-sun-xomb}
 ac_cv_working_alloca_h=${ac_cv_working_alloca_h=yes}
 acl_cv_hardcode_direct=${acl_cv_hardcode_direct=no}
 test "${acl_cv_hardcode_libdir_flag_spec+set}" = set || acl_cv_hardcode_libdir_flag_spec='${wl}-rpath ${wl}$libdir'

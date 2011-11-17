@@ -1,0 +1,1 @@
+../../gcc/d/druntime/gcstub/gc.d

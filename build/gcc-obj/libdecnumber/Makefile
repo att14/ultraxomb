@@ -1,8 +1,7 @@
 # Makefile.  Generated from Makefile.in by configure.
 # Makefile for libdecnumber.  Run 'configure' to generate Makefile from Makefile.in
 
-# Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010
-# Free Software Foundation, Inc.
+# Copyright (C) 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 
 #This file is part of GCC.
 
@@ -22,9 +21,9 @@
 
 
 
-srcdir = ../../gcc-4.6.1/libdecnumber
+srcdir = ../../gcc-4.5.3/libdecnumber
 top_builddir = .
-VPATH = ../../gcc-4.6.1/libdecnumber
+VPATH = ../../gcc-4.5.3/libdecnumber
 INSTALL = @INSTALL@
 AR = ar
 ARFLAGS = cru
@@ -43,14 +42,13 @@ LIBICONV = @LIBICONV@
 PACKAGE = @PACKAGE@
 RANLIB = ranlib
 SHELL = /bin/sh
-objext = o
 
 datarootdir = ${prefix}/share
 datadir = ${datarootdir}
-exec_prefix = /home/edf12/buildtools_cross/local
+exec_prefix = /home/att14/ultraxomb/local
 libdir = ${exec_prefix}/lib
 localedir = $(datadir)/locale
-prefix = /home/edf12/buildtools_cross/local
+prefix = /home/att14/ultraxomb/local
 
 ADDITIONAL_OBJS = 
 
@@ -60,12 +58,10 @@ INCLUDES = -I$(srcdir) -I.
 
 ALL_CFLAGS = $(CFLAGS) $(WARN_CFLAGS) $(INCLUDES) $(CPPFLAGS)
 
-bid_OBJS = bid2dpd_dpd2bid.$(objext) host-ieee32.$(objext) \
-	host-ieee64.$(objext) host-ieee128.$(objext)
+bid_OBJS = bid2dpd_dpd2bid.o host-ieee32.o host-ieee64.o host-ieee128.o
 
-libdecnumber_a_OBJS = decNumber.$(objext) decContext.$(objext) \
-	decimal32.$(objext) decimal64.$(objext) decimal128.$(objext) \
-	$(ADDITIONAL_OBJS)
+libdecnumber_a_OBJS = decNumber.o decContext.o \
+	decimal32.o decimal64.o decimal128.o $(ADDITIONAL_OBJS)
 
 libdecnumber_a_SOURCES = decContext.c decContext.h decDPD.h \
 	decNumber.c decNumber.h decNumberLocal.h \
@@ -102,7 +98,6 @@ aclocal_deps = \
 	$(srcdir)/../config/stdint.m4 \
 	$(srcdir)/../config/warnings.m4 \
 	$(srcdir)/../config/override.m4 \
-	$(srcdir)/../config/dfp.m4 \
 	$(srcdir)/configure.ac
 
 $(srcdir)/aclocal.m4: # $(aclocal_deps)
@@ -121,38 +116,38 @@ $(srcdir)/config.in: # $(srcdir)/configure
 
 # Dependencies.
 
-decContext.$(objext): decContext.c decContext.h decNumberLocal.h \
+decContext.o: decContext.c decContext.h decNumberLocal.h \
 	decContextSymbols.h
-decNumber.$(objext):  decNumber.c decNumber.h decContext.h decNumberLocal.h \
+decNumber.o:  decNumber.c decNumber.h decContext.h decNumberLocal.h \
 	decNumberSymbols.h
-decimal32.$(objext):  $(srcdir)/$(enable_decimal_float)/decimal32.c \
+decimal32.o:  $(srcdir)/$(enable_decimal_float)/decimal32.c \
    $(srcdir)/$(enable_decimal_float)/decimal32.h \
    $(srcdir)/$(enable_decimal_float)/decimal32Symbols.h \
    decNumber.h decContext.h decNumberLocal.h
 	$(COMPILE) $(srcdir)/$(enable_decimal_float)/decimal32.c
-decimal64.$(objext):  $(srcdir)/$(enable_decimal_float)/decimal64.c \
+decimal64.o:  $(srcdir)/$(enable_decimal_float)/decimal64.c \
    $(srcdir)/$(enable_decimal_float)/decimal64.h \
    $(srcdir)/$(enable_decimal_float)/decimal64Symbols.h \
    decNumber.h decContext.h decNumberLocal.h
 	$(COMPILE) $(srcdir)/$(enable_decimal_float)/decimal64.c
-decimal128.$(objext):  $(srcdir)/$(enable_decimal_float)/decimal128.c \
+decimal128.o:  $(srcdir)/$(enable_decimal_float)/decimal128.c \
    $(srcdir)/$(enable_decimal_float)/decimal128.h \
    $(srcdir)/$(enable_decimal_float)/decimal128Symbols.h\
    $(srcdir)/$(enable_decimal_float)/decimal128Local.h\
    decNumber.h decContext.h decNumberLocal.h 
 	$(COMPILE) $(srcdir)/$(enable_decimal_float)/decimal128.c
-bid2dpd_dpd2bid.$(objext) : $(srcdir)/bid/bid2dpd_dpd2bid.c $(srcdir)/bid/bid2dpd_dpd2bid.h
+bid2dpd_dpd2bid.o : $(srcdir)/bid/bid2dpd_dpd2bid.c $(srcdir)/bid/bid2dpd_dpd2bid.h
 	$(COMPILE) $(srcdir)/bid/bid2dpd_dpd2bid.c
-host-ieee32.$(objext) : $(srcdir)/bid/host-ieee32.c $(srcdir)/bid/decimal32.h
+host-ieee32.o : $(srcdir)/bid/host-ieee32.c $(srcdir)/bid/decimal32.h
 	$(COMPILE) $(srcdir)/bid/host-ieee32.c
-host-ieee64.$(objext) : $(srcdir)/bid/host-ieee64.c $(srcdir)/bid/decimal64.h
+host-ieee64.o : $(srcdir)/bid/host-ieee64.c $(srcdir)/bid/decimal64.h
 	$(COMPILE) $(srcdir)/bid/host-ieee64.c
-host-ieee128.$(objext) : $(srcdir)/bid/host-ieee128.c $(srcdir)/bid/decimal128.h
+host-ieee128.o : $(srcdir)/bid/host-ieee128.c $(srcdir)/bid/decimal128.h
 	$(COMPILE) $(srcdir)/bid/host-ieee128.c
 # Other miscellaneous targets.
 
 mostlyclean:
-	-rm -f *.$(objext)
+	-rm -f *.o
 
 clean: mostlyclean
 	-rm -rf libdecnumber.a $(srcdir)/autom4te.cache
@@ -187,7 +182,7 @@ COMPILE = source='$<' object='$@' libtool=no $(CC) $(DEFS) $(INCLUDES) $(CPPFLAG
 
 # Implicit rules
 
-.c.$(objext):
+.c.o:
 	$(COMPILE) $<
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

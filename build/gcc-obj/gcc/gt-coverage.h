@@ -23,6 +23,13 @@ along with GCC; see the file COPYING3.  If not see
 
 EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gt_coverage_h[] = {
   {
+    &ctr_labels[0],
+    1 * (GCOV_COUNTERS),
+    sizeof (ctr_labels[0]),
+    &gt_ggc_mx_rtx_def,
+    &gt_pch_nx_rtx_def
+  },
+  {
     &tree_ctr_tables[0],
     1 * (GCOV_COUNTERS),
     sizeof (tree_ctr_tables[0]),

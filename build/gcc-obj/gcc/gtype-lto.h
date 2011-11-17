@@ -282,18 +282,6 @@ gt_ggc_mx_lang_tree_node (void *x_p)
               gt_ggc_m_9tree_node ((*x).generic.function_decl.function_specific_target);
               gt_ggc_m_9tree_node ((*x).generic.function_decl.function_specific_optimization);
               break;
-            case TS_TRANSLATION_UNIT_DECL:
-              gt_ggc_m_9tree_node ((*x).generic.translation_unit_decl.common.common.common.chain);
-              gt_ggc_m_9tree_node ((*x).generic.translation_unit_decl.common.common.common.type);
-              gt_ggc_m_9tree_node ((*x).generic.translation_unit_decl.common.common.name);
-              gt_ggc_m_9tree_node ((*x).generic.translation_unit_decl.common.common.context);
-              gt_ggc_m_9tree_node ((*x).generic.translation_unit_decl.common.size);
-              gt_ggc_m_9tree_node ((*x).generic.translation_unit_decl.common.size_unit);
-              gt_ggc_m_9tree_node ((*x).generic.translation_unit_decl.common.initial);
-              gt_ggc_m_9tree_node ((*x).generic.translation_unit_decl.common.attributes);
-              gt_ggc_m_9tree_node ((*x).generic.translation_unit_decl.common.abstract_origin);
-              gt_ggc_m_9lang_decl ((*x).generic.translation_unit_decl.common.lang_specific);
-              break;
             case TS_TYPE:
               gt_ggc_m_9tree_node ((*x).generic.type.common.chain);
               gt_ggc_m_9tree_node ((*x).generic.type.common.type);
@@ -303,14 +291,14 @@ gt_ggc_mx_lang_tree_node (void *x_p)
               gt_ggc_m_9tree_node ((*x).generic.type.attributes);
               gt_ggc_m_9tree_node ((*x).generic.type.pointer_to);
               gt_ggc_m_9tree_node ((*x).generic.type.reference_to);
-              switch (debug_hooks->tree_type_symtab_field)
+              switch (debug_hooks == &sdb_debug_hooks ? 1 : debug_hooks == &dwarf2_debug_hooks ? 2 : 0)
                 {
-                case TYPE_SYMTAB_IS_ADDRESS:
+                case 0:
                   break;
-                case TYPE_SYMTAB_IS_POINTER:
+                case 1:
                   gt_ggc_m_S ((*x).generic.type.symtab.pointer);
                   break;
-                case TYPE_SYMTAB_IS_DIE:
+                case 2:
                   gt_ggc_m_10die_struct ((*x).generic.type.symtab.die);
                   break;
                 default:
@@ -721,18 +709,6 @@ gt_pch_nx_lang_tree_node (void *x_p)
               gt_pch_n_9tree_node ((*x).generic.function_decl.function_specific_target);
               gt_pch_n_9tree_node ((*x).generic.function_decl.function_specific_optimization);
               break;
-            case TS_TRANSLATION_UNIT_DECL:
-              gt_pch_n_9tree_node ((*x).generic.translation_unit_decl.common.common.common.chain);
-              gt_pch_n_9tree_node ((*x).generic.translation_unit_decl.common.common.common.type);
-              gt_pch_n_9tree_node ((*x).generic.translation_unit_decl.common.common.name);
-              gt_pch_n_9tree_node ((*x).generic.translation_unit_decl.common.common.context);
-              gt_pch_n_9tree_node ((*x).generic.translation_unit_decl.common.size);
-              gt_pch_n_9tree_node ((*x).generic.translation_unit_decl.common.size_unit);
-              gt_pch_n_9tree_node ((*x).generic.translation_unit_decl.common.initial);
-              gt_pch_n_9tree_node ((*x).generic.translation_unit_decl.common.attributes);
-              gt_pch_n_9tree_node ((*x).generic.translation_unit_decl.common.abstract_origin);
-              gt_pch_n_9lang_decl ((*x).generic.translation_unit_decl.common.lang_specific);
-              break;
             case TS_TYPE:
               gt_pch_n_9tree_node ((*x).generic.type.common.chain);
               gt_pch_n_9tree_node ((*x).generic.type.common.type);
@@ -742,14 +718,14 @@ gt_pch_nx_lang_tree_node (void *x_p)
               gt_pch_n_9tree_node ((*x).generic.type.attributes);
               gt_pch_n_9tree_node ((*x).generic.type.pointer_to);
               gt_pch_n_9tree_node ((*x).generic.type.reference_to);
-              switch (debug_hooks->tree_type_symtab_field)
+              switch (debug_hooks == &sdb_debug_hooks ? 1 : debug_hooks == &dwarf2_debug_hooks ? 2 : 0)
                 {
-                case TYPE_SYMTAB_IS_ADDRESS:
+                case 0:
                   break;
-                case TYPE_SYMTAB_IS_POINTER:
+                case 1:
                   gt_pch_n_S ((*x).generic.type.symtab.pointer);
                   break;
-                case TYPE_SYMTAB_IS_DIE:
+                case 2:
                   gt_pch_n_10die_struct ((*x).generic.type.symtab.die);
                   break;
                 default:
@@ -1354,28 +1330,6 @@ gt_pch_p_14lang_tree_node (ATTRIBUTE_UNUSED void *this_obj,
           if ((void *)(x) == this_obj)
             op (&((*x).generic.function_decl.function_specific_optimization), cookie);
           break;
-        case TS_TRANSLATION_UNIT_DECL:
-          if ((void *)(x) == this_obj)
-            op (&((*x).generic.translation_unit_decl.common.common.common.chain), cookie);
-          if ((void *)(x) == this_obj)
-            op (&((*x).generic.translation_unit_decl.common.common.common.type), cookie);
-          if ((void *)(x) == this_obj)
-            op (&((*x).generic.translation_unit_decl.common.common.name), cookie);
-          if ((void *)(x) == this_obj)
-            op (&((*x).generic.translation_unit_decl.common.common.context), cookie);
-          if ((void *)(x) == this_obj)
-            op (&((*x).generic.translation_unit_decl.common.size), cookie);
-          if ((void *)(x) == this_obj)
-            op (&((*x).generic.translation_unit_decl.common.size_unit), cookie);
-          if ((void *)(x) == this_obj)
-            op (&((*x).generic.translation_unit_decl.common.initial), cookie);
-          if ((void *)(x) == this_obj)
-            op (&((*x).generic.translation_unit_decl.common.attributes), cookie);
-          if ((void *)(x) == this_obj)
-            op (&((*x).generic.translation_unit_decl.common.abstract_origin), cookie);
-          if ((void *)(x) == this_obj)
-            op (&((*x).generic.translation_unit_decl.common.lang_specific), cookie);
-          break;
         case TS_TYPE:
           if ((void *)(x) == this_obj)
             op (&((*x).generic.type.common.chain), cookie);
@@ -1393,15 +1347,15 @@ gt_pch_p_14lang_tree_node (ATTRIBUTE_UNUSED void *this_obj,
             op (&((*x).generic.type.pointer_to), cookie);
           if ((void *)(x) == this_obj)
             op (&((*x).generic.type.reference_to), cookie);
-          switch (debug_hooks->tree_type_symtab_field)
+          switch (debug_hooks == &sdb_debug_hooks ? 1 : debug_hooks == &dwarf2_debug_hooks ? 2 : 0)
             {
-            case TYPE_SYMTAB_IS_ADDRESS:
+            case 0:
               break;
-            case TYPE_SYMTAB_IS_POINTER:
+            case 1:
               if ((void *)(x) == this_obj)
                 op (&((*x).generic.type.symtab.pointer), cookie);
               break;
-            case TYPE_SYMTAB_IS_DIE:
+            case 2:
               if ((void *)(x) == this_obj)
                 op (&((*x).generic.type.symtab.die), cookie);
               break;
@@ -1608,6 +1562,20 @@ gt_pch_p_9lang_type (ATTRIBUTE_UNUSED void *this_obj,
 {
   struct lang_type * const x ATTRIBUTE_UNUSED = (struct lang_type *)x_p;
 }
+
+/* GC roots.  */
+
+EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gtype_lto_h[] = {
+  {
+    &lto_global_var_decls,
+    1,
+    sizeof (lto_global_var_decls),
+    &gt_ggc_mx_VEC_tree_gc,
+    &gt_pch_nx_VEC_tree_gc
+  },
+  LAST_GGC_ROOT_TAB
+};
+
 extern const struct ggc_root_tab gt_ggc_r_gt_coverage_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_caller_save_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_alias_h[];
@@ -1625,15 +1593,14 @@ extern const struct ggc_root_tab gt_ggc_r_gt_expr_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_function_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_except_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_gcse_h[];
-extern const struct ggc_root_tab gt_ggc_r_gt_godump_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_optabs_h[];
+extern const struct ggc_root_tab gt_ggc_r_gt_reginfo_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_cfglayout_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_sdbout_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_stor_layout_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_stringpool_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_tree_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_varasm_h[];
-extern const struct ggc_root_tab gt_ggc_r_gt_gimple_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_tree_mudflap_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_tree_ssa_address_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_gimplify_h[];
@@ -1648,7 +1615,9 @@ extern const struct ggc_root_tab gt_ggc_r_gt_sparc_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_passes_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_cgraphunit_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_tree_ssa_propagate_h[];
+extern const struct ggc_root_tab gt_ggc_r_gt_ipa_reference_h[];
 extern const struct ggc_root_tab gt_ggc_r_gtype_desc_c[];
+extern const struct ggc_root_tab gt_ggc_r_gtype_lto_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_lto_lto_lang_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_lto_lto_h[];
 EXPORTED_CONST struct ggc_root_tab * const gt_ggc_rtab[] = {
@@ -1669,15 +1638,14 @@ EXPORTED_CONST struct ggc_root_tab * const gt_ggc_rtab[] = {
   gt_ggc_r_gt_function_h,
   gt_ggc_r_gt_except_h,
   gt_ggc_r_gt_gcse_h,
-  gt_ggc_r_gt_godump_h,
   gt_ggc_r_gt_optabs_h,
+  gt_ggc_r_gt_reginfo_h,
   gt_ggc_r_gt_cfglayout_h,
   gt_ggc_r_gt_sdbout_h,
   gt_ggc_r_gt_stor_layout_h,
   gt_ggc_r_gt_stringpool_h,
   gt_ggc_r_gt_tree_h,
   gt_ggc_r_gt_varasm_h,
-  gt_ggc_r_gt_gimple_h,
   gt_ggc_r_gt_tree_mudflap_h,
   gt_ggc_r_gt_tree_ssa_address_h,
   gt_ggc_r_gt_gimplify_h,
@@ -1692,7 +1660,9 @@ EXPORTED_CONST struct ggc_root_tab * const gt_ggc_rtab[] = {
   gt_ggc_r_gt_passes_h,
   gt_ggc_r_gt_cgraphunit_h,
   gt_ggc_r_gt_tree_ssa_propagate_h,
+  gt_ggc_r_gt_ipa_reference_h,
   gt_ggc_r_gtype_desc_c,
+  gt_ggc_r_gtype_lto_h,
   gt_ggc_r_gt_lto_lto_lang_h,
   gt_ggc_r_gt_lto_lto_h,
   NULL
@@ -1717,14 +1687,14 @@ EXPORTED_CONST struct ggc_root_tab * const gt_ggc_deletable_rtab[] = {
 extern const struct ggc_cache_tab gt_ggc_rc_gt_emit_rtl_h[];
 extern const struct ggc_cache_tab gt_ggc_rc_gt_function_h[];
 extern const struct ggc_cache_tab gt_ggc_rc_gt_tree_h[];
-extern const struct ggc_cache_tab gt_ggc_rc_gt_gimple_h[];
+extern const struct ggc_cache_tab gt_ggc_rc_gt_varasm_h[];
 extern const struct ggc_cache_tab gt_ggc_rc_gt_tree_ssa_structalias_h[];
 extern const struct ggc_cache_tab gt_ggc_rc_gt_lto_symtab_h[];
 EXPORTED_CONST struct ggc_cache_tab * const gt_ggc_cache_rtab[] = {
   gt_ggc_rc_gt_emit_rtl_h,
   gt_ggc_rc_gt_function_h,
   gt_ggc_rc_gt_tree_h,
-  gt_ggc_rc_gt_gimple_h,
+  gt_ggc_rc_gt_varasm_h,
   gt_ggc_rc_gt_tree_ssa_structalias_h,
   gt_ggc_rc_gt_lto_symtab_h,
   NULL
@@ -1732,14 +1702,14 @@ EXPORTED_CONST struct ggc_cache_tab * const gt_ggc_cache_rtab[] = {
 extern const struct ggc_root_tab gt_pch_rc_gt_emit_rtl_h[];
 extern const struct ggc_root_tab gt_pch_rc_gt_function_h[];
 extern const struct ggc_root_tab gt_pch_rc_gt_tree_h[];
-extern const struct ggc_root_tab gt_pch_rc_gt_gimple_h[];
+extern const struct ggc_root_tab gt_pch_rc_gt_varasm_h[];
 extern const struct ggc_root_tab gt_pch_rc_gt_tree_ssa_structalias_h[];
 extern const struct ggc_root_tab gt_pch_rc_gt_lto_symtab_h[];
 EXPORTED_CONST struct ggc_root_tab * const gt_pch_cache_rtab[] = {
   gt_pch_rc_gt_emit_rtl_h,
   gt_pch_rc_gt_function_h,
   gt_pch_rc_gt_tree_h,
-  gt_pch_rc_gt_gimple_h,
+  gt_pch_rc_gt_varasm_h,
   gt_pch_rc_gt_tree_ssa_structalias_h,
   gt_pch_rc_gt_lto_symtab_h,
   NULL
@@ -1758,6 +1728,7 @@ extern const struct ggc_root_tab gt_pch_rs_gt_tree_h[];
 extern const struct ggc_root_tab gt_pch_rs_gt_varasm_h[];
 extern const struct ggc_root_tab gt_pch_rs_gt_gimplify_h[];
 extern const struct ggc_root_tab gt_pch_rs_gt_omp_low_h[];
+extern const struct ggc_root_tab gt_pch_rs_gt_sparc_h[];
 extern const struct ggc_root_tab gt_pch_rs_gtype_desc_c[];
 EXPORTED_CONST struct ggc_root_tab * const gt_pch_scalar_rtab[] = {
   gt_pch_rs_gt_alias_h,
@@ -1774,6 +1745,7 @@ EXPORTED_CONST struct ggc_root_tab * const gt_pch_scalar_rtab[] = {
   gt_pch_rs_gt_varasm_h,
   gt_pch_rs_gt_gimplify_h,
   gt_pch_rs_gt_omp_low_h,
+  gt_pch_rs_gt_sparc_h,
   gt_pch_rs_gtype_desc_c,
   NULL
 };

@@ -34,7 +34,7 @@ ac_cv_env_build_alias_value=x86_64-unknown-linux-gnu
 ac_cv_env_host_alias_set=set
 ac_cv_env_host_alias_value=x86_64-unknown-linux-gnu
 ac_cv_env_target_alias_set=set
-ac_cv_env_target_alias_value=sparc64-pc-xomb
+ac_cv_env_target_alias_value=sparc64-sun-xomb
 ac_cv_func___fsetlocking=${ac_cv_func___fsetlocking=yes}
 ac_cv_func__doprnt=${ac_cv_func__doprnt=no}
 ac_cv_func_asprintf=${ac_cv_func_asprintf=yes}

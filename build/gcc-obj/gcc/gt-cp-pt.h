@@ -34,15 +34,11 @@ gt_ggc_mx_spec_entry (void *x_p)
 void
 gt_ggc_mx_pending_template (void *x_p)
 {
-  struct pending_template * x = (struct pending_template *)x_p;
-  struct pending_template * xlimit = x;
-  while (ggc_test_and_set_mark (xlimit))
-   xlimit = ((*xlimit).next);
-  while (x != xlimit)
+  struct pending_template * const x = (struct pending_template *)x_p;
+  if (ggc_test_and_set_mark (x))
     {
       gt_ggc_m_16pending_template ((*x).next);
       gt_ggc_m_11tinst_level ((*x).tinst);
-      x = ((*x).next);
     }
 }
 
@@ -77,15 +73,11 @@ gt_pch_nx_spec_entry (void *x_p)
 void
 gt_pch_nx_pending_template (void *x_p)
 {
-  struct pending_template * x = (struct pending_template *)x_p;
-  struct pending_template * xlimit = x;
-  while (gt_pch_note_object (xlimit, xlimit, gt_pch_p_16pending_template, gt_ggc_e_16pending_template))
-   xlimit = ((*xlimit).next);
-  while (x != xlimit)
+  struct pending_template * const x = (struct pending_template *)x_p;
+  if (gt_pch_note_object (x, x, gt_pch_p_16pending_template, gt_ggc_e_16pending_template))
     {
       gt_pch_n_16pending_template ((*x).next);
       gt_pch_n_11tinst_level ((*x).tinst);
-      x = ((*x).next);
     }
 }
 
@@ -93,7 +85,7 @@ void
 gt_pch_n_P10spec_entry4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P10spec_entry4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P10spec_entry4htab, gt_e_P10spec_entry4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;

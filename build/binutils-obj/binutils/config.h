@@ -186,7 +186,7 @@
 #define STDC_HEADERS 1
 
 /* Configured target name. */
-#define TARGET "sparc64-pc-xomb"
+#define TARGET "sparc64-sun-xomb"
 
 /* Define to 1 if user symbol names have a leading underscore, 0 if not. */
 #define TARGET_PREPENDS_UNDERSCORE 0

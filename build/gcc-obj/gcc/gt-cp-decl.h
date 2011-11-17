@@ -20,35 +20,14 @@ along with GCC; see the file COPYING3.  If not see
 /* This file is machine generated.  Do not edit.  */
 
 void
-gt_ggc_mx_VEC_incomplete_var_gc (void *x_p)
-{
-  struct VEC_incomplete_var_gc * const x = (struct VEC_incomplete_var_gc *)x_p;
-  if (ggc_test_and_set_mark (x))
-    {
-      {
-        size_t i0;
-        size_t l0 = (size_t)(((*x).base).num);
-        for (i0 = 0; i0 != l0; i0++) {
-          gt_ggc_m_9tree_node ((*x).base.vec[i0].decl);
-          gt_ggc_m_9tree_node ((*x).base.vec[i0].incomplete_type);
-        }
-      }
-    }
-}
-
-void
 gt_ggc_mx_named_label_use_entry (void *x_p)
 {
-  struct named_label_use_entry * x = (struct named_label_use_entry *)x_p;
-  struct named_label_use_entry * xlimit = x;
-  while (ggc_test_and_set_mark (xlimit))
-   xlimit = ((*xlimit).next);
-  while (x != xlimit)
+  struct named_label_use_entry * const x = (struct named_label_use_entry *)x_p;
+  if (ggc_test_and_set_mark (x))
     {
       gt_ggc_m_21named_label_use_entry ((*x).next);
       gt_ggc_m_16cp_binding_level ((*x).binding_level);
       gt_ggc_m_9tree_node ((*x).names_in_scope);
-      x = ((*x).next);
     }
 }
 
@@ -61,7 +40,7 @@ gt_ggc_mx_named_label_entry (void *x_p)
       gt_ggc_m_9tree_node ((*x).label_decl);
       gt_ggc_m_16cp_binding_level ((*x).binding_level);
       gt_ggc_m_9tree_node ((*x).names_in_scope);
-      gt_ggc_m_11VEC_tree_gc ((*x).bad_decls);
+      gt_ggc_m_9tree_node ((*x).bad_decls);
       gt_ggc_m_21named_label_use_entry ((*x).uses);
     }
 }
@@ -83,35 +62,14 @@ gt_ggc_m_P17named_label_entry4htab (void *x_p)
 }
 
 void
-gt_pch_nx_VEC_incomplete_var_gc (void *x_p)
-{
-  struct VEC_incomplete_var_gc * const x = (struct VEC_incomplete_var_gc *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_21VEC_incomplete_var_gc, gt_ggc_e_21VEC_incomplete_var_gc))
-    {
-      {
-        size_t i0;
-        size_t l0 = (size_t)(((*x).base).num);
-        for (i0 = 0; i0 != l0; i0++) {
-          gt_pch_n_9tree_node ((*x).base.vec[i0].decl);
-          gt_pch_n_9tree_node ((*x).base.vec[i0].incomplete_type);
-        }
-      }
-    }
-}
-
-void
 gt_pch_nx_named_label_use_entry (void *x_p)
 {
-  struct named_label_use_entry * x = (struct named_label_use_entry *)x_p;
-  struct named_label_use_entry * xlimit = x;
-  while (gt_pch_note_object (xlimit, xlimit, gt_pch_p_21named_label_use_entry, gt_ggc_e_21named_label_use_entry))
-   xlimit = ((*xlimit).next);
-  while (x != xlimit)
+  struct named_label_use_entry * const x = (struct named_label_use_entry *)x_p;
+  if (gt_pch_note_object (x, x, gt_pch_p_21named_label_use_entry, gt_ggc_e_21named_label_use_entry))
     {
       gt_pch_n_21named_label_use_entry ((*x).next);
       gt_pch_n_16cp_binding_level ((*x).binding_level);
       gt_pch_n_9tree_node ((*x).names_in_scope);
-      x = ((*x).next);
     }
 }
 
@@ -124,7 +82,7 @@ gt_pch_nx_named_label_entry (void *x_p)
       gt_pch_n_9tree_node ((*x).label_decl);
       gt_pch_n_16cp_binding_level ((*x).binding_level);
       gt_pch_n_9tree_node ((*x).names_in_scope);
-      gt_pch_n_11VEC_tree_gc ((*x).bad_decls);
+      gt_pch_n_9tree_node ((*x).bad_decls);
       gt_pch_n_21named_label_use_entry ((*x).uses);
     }
 }
@@ -133,7 +91,7 @@ void
 gt_pch_n_P17named_label_entry4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P17named_label_entry4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P17named_label_entry4htab, gt_e_P17named_label_entry4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;
@@ -143,25 +101,6 @@ gt_pch_n_P17named_label_entry4htab (void *x_p)
         gt_pch_note_object ((*x).entries, x, gt_pch_p_P17named_label_entry4htab, gt_types_enum_last);
       }
     }
-}
-
-void
-gt_pch_p_21VEC_incomplete_var_gc (ATTRIBUTE_UNUSED void *this_obj,
-	void *x_p,
-	ATTRIBUTE_UNUSED gt_pointer_operator op,
-	ATTRIBUTE_UNUSED void *cookie)
-{
-  struct VEC_incomplete_var_gc * const x ATTRIBUTE_UNUSED = (struct VEC_incomplete_var_gc *)x_p;
-  {
-    size_t i0;
-    size_t l0 = (size_t)(((*x).base).num);
-    for (i0 = 0; i0 != l0; i0++) {
-      if ((void *)(x) == this_obj)
-        op (&((*x).base.vec[i0].decl), cookie);
-      if ((void *)(x) == this_obj)
-        op (&((*x).base.vec[i0].incomplete_type), cookie);
-    }
-  }
 }
 
 void
@@ -230,8 +169,8 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gt_cp_decl_h[] = {
     &incomplete_vars,
     1,
     sizeof (incomplete_vars),
-    &gt_ggc_mx_VEC_incomplete_var_gc,
-    &gt_pch_nx_VEC_incomplete_var_gc
+    &gt_ggc_mx_tree_node,
+    &gt_pch_nx_tree_node
   },
   LAST_GGC_ROOT_TAB
 };

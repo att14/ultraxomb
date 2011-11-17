@@ -22,6 +22,7 @@ along with GCC; see the file COPYING3.  If not see
 #include "system.h"
 #include "coretypes.h"
 #include "tm.h"
+#include "varray.h"
 #include "hashtab.h"
 #include "splay-tree.h"
 #include "obstack.h"
@@ -52,34 +53,9 @@ along with GCC; see the file COPYING3.  If not see
 #include "cfgloop.h"
 #include "target.h"
 #include "ipa-prop.h"
-#include "lto-streamer.h"
-#include "target-globals.h"
 
 /* See definition in function.h.  */
 #undef cfun
-
-void
-gt_ggc_mx_lto_in_decl_state (void *x_p)
-{
-  struct lto_in_decl_state * const x = (struct lto_in_decl_state *)x_p;
-  if (ggc_test_and_set_mark (x))
-    {
-      {
-        size_t i0;
-        size_t l0 = (size_t)(LTO_N_DECL_STREAMS);
-        for (i0 = 0; i0 != l0; i0++) {
-          if ((*x).streams[i0].trees != NULL) {
-            size_t i1;
-            for (i1 = 0; i1 != (size_t)(((*x).streams[i0]).size); i1++) {
-              gt_ggc_m_9tree_node ((*x).streams[i0].trees[i1]);
-            }
-            ggc_mark ((*x).streams[i0].trees);
-          }
-        }
-      }
-      gt_ggc_m_9tree_node ((*x).fn_decl);
-    }
-}
 
 void
 gt_ggc_mx_VEC_ipa_edge_args_t_gc (void *x_p)
@@ -96,21 +72,18 @@ gt_ggc_mx_VEC_ipa_edge_args_t_gc (void *x_p)
             for (i1 = 0; i1 != (size_t)(((*x).base.vec[i0]).argument_count); i1++) {
               switch (((*x).base.vec[i0].jump_functions[i1]).type)
                 {
-                case IPA_JF_KNOWN_TYPE:
-                  gt_ggc_m_9tree_node ((*x).base.vec[i0].jump_functions[i1].value.base_binfo);
-                  break;
                 case IPA_JF_CONST:
                   gt_ggc_m_9tree_node ((*x).base.vec[i0].jump_functions[i1].value.constant);
-                  break;
-                case IPA_JF_CONST_MEMBER_PTR:
-                  gt_ggc_m_9tree_node ((*x).base.vec[i0].jump_functions[i1].value.member_cst.pfn);
-                  gt_ggc_m_9tree_node ((*x).base.vec[i0].jump_functions[i1].value.member_cst.delta);
                   break;
                 case IPA_JF_PASS_THROUGH:
                   gt_ggc_m_9tree_node ((*x).base.vec[i0].jump_functions[i1].value.pass_through.operand);
                   break;
                 case IPA_JF_ANCESTOR:
                   gt_ggc_m_9tree_node ((*x).base.vec[i0].jump_functions[i1].value.ancestor.type);
+                  break;
+                case IPA_JF_CONST_MEMBER_PTR:
+                  gt_ggc_m_9tree_node ((*x).base.vec[i0].jump_functions[i1].value.member_cst.pfn);
+                  gt_ggc_m_9tree_node ((*x).base.vec[i0].jump_functions[i1].value.member_cst.delta);
                   break;
                 default:
                   break;
@@ -138,26 +111,18 @@ gt_ggc_mx_ssa_operand_memory_d (void *x_p)
 }
 
 void
-gt_ggc_mx_gimple_seq_node_d (void *x_p)
+gt_ggc_mx_VEC_gimple_gc (void *x_p)
 {
-  struct gimple_seq_node_d * x = (struct gimple_seq_node_d *)x_p;
-  struct gimple_seq_node_d * xlimit = x;
-  while (ggc_test_and_set_mark (xlimit))
-   xlimit = ((*xlimit).next);
-  if (x != xlimit)
-    for (;;)
-      {
-        struct gimple_seq_node_d * const xprev = ((*x).prev);
-        if (xprev == NULL) break;
-        x = xprev;
-        (void) ggc_test_and_set_mark (xprev);
-      }
-  while (x != xlimit)
+  struct VEC_gimple_gc * const x = (struct VEC_gimple_gc *)x_p;
+  if (ggc_test_and_set_mark (x))
     {
-      gt_ggc_m_18gimple_statement_d ((*x).stmt);
-      gt_ggc_m_17gimple_seq_node_d ((*x).prev);
-      gt_ggc_m_17gimple_seq_node_d ((*x).next);
-      x = ((*x).next);
+      {
+        size_t i0;
+        size_t l0 = (size_t)(((*x).base).num);
+        for (i0 = 0; i0 != l0; i0++) {
+          gt_ggc_m_18gimple_statement_d ((*x).base.vec[i0]);
+        }
+      }
     }
 }
 
@@ -284,47 +249,33 @@ gt_ggc_mx_cgraph_asm_node (void *x_p)
 }
 
 void
-gt_ggc_mx_cgraph_indirect_call_info (void *x_p)
+gt_ggc_mx_varpool_node (void *x_p)
 {
-  struct cgraph_indirect_call_info * const x = (struct cgraph_indirect_call_info *)x_p;
-  if (ggc_test_and_set_mark (x))
+  struct varpool_node * x = (struct varpool_node *)x_p;
+  struct varpool_node * xlimit = x;
+  while (ggc_test_and_set_mark (xlimit))
+   xlimit = ((*xlimit).next);
+  while (x != xlimit)
     {
-      gt_ggc_m_9tree_node ((*x).otr_type);
+      gt_ggc_m_9tree_node ((*x).decl);
+      gt_ggc_m_12varpool_node ((*x).next);
+      gt_ggc_m_12varpool_node ((*x).next_needed);
+      gt_ggc_m_12varpool_node ((*x).extra_name);
+      x = ((*x).next);
     }
 }
 
 void
-gt_ggc_mx_varpool_node_set_def (void *x_p)
+gt_ggc_mx_VEC_cgraph_node_set_gc (void *x_p)
 {
-  struct varpool_node_set_def * const x = (struct varpool_node_set_def *)x_p;
-  if (ggc_test_and_set_mark (x))
-    {
-      gt_ggc_m_P28varpool_node_set_element_def4htab ((*x).hashtab);
-      gt_ggc_m_23VEC_varpool_node_ptr_gc ((*x).nodes);
-    }
-}
-
-void
-gt_ggc_mx_varpool_node_set_element_def (void *x_p)
-{
-  struct varpool_node_set_element_def * const x = (struct varpool_node_set_element_def *)x_p;
-  if (ggc_test_and_set_mark (x))
-    {
-      gt_ggc_m_12varpool_node ((*x).node);
-    }
-}
-
-void
-gt_ggc_mx_VEC_varpool_node_ptr_gc (void *x_p)
-{
-  struct VEC_varpool_node_ptr_gc * const x = (struct VEC_varpool_node_ptr_gc *)x_p;
+  struct VEC_cgraph_node_set_gc * const x = (struct VEC_cgraph_node_set_gc *)x_p;
   if (ggc_test_and_set_mark (x))
     {
       {
         size_t i0;
         size_t l0 = (size_t)(((*x).base).num);
         for (i0 = 0; i0 != l0; i0++) {
-          gt_ggc_m_12varpool_node ((*x).base.vec[i0]);
+          gt_ggc_m_19cgraph_node_set_def ((*x).base.vec[i0]);
         }
       }
     }
@@ -391,7 +342,6 @@ gt_ggc_mx_cgraph_edge (void *x_p)
       gt_ggc_m_11cgraph_edge ((*x).prev_callee);
       gt_ggc_m_11cgraph_edge ((*x).next_callee);
       gt_ggc_m_18gimple_statement_d ((*x).call_stmt);
-      gt_ggc_m_25cgraph_indirect_call_info ((*x).indirect_info);
       x = ((*x).next_caller);
     }
 }
@@ -424,87 +374,6 @@ gt_ggc_mx_ipa_replace_map (void *x_p)
 }
 
 void
-gt_ggc_mx_lto_file_decl_data (void *x_p)
-{
-  struct lto_file_decl_data * const x = (struct lto_file_decl_data *)x_p;
-  if (ggc_test_and_set_mark (x))
-    {
-      gt_ggc_m_17lto_in_decl_state ((*x).current_decl_state);
-      gt_ggc_m_17lto_in_decl_state ((*x).global_decl_state);
-      gt_ggc_m_P17lto_in_decl_state4htab ((*x).function_decl_states);
-      gt_ggc_m_18lto_file_decl_data ((*x).next);
-    }
-}
-
-void
-gt_ggc_mx_VEC_ipa_ref_t_gc (void *x_p)
-{
-  struct VEC_ipa_ref_t_gc * const x = (struct VEC_ipa_ref_t_gc *)x_p;
-  if (ggc_test_and_set_mark (x))
-    {
-      {
-        size_t i0;
-        size_t l0 = (size_t)(((*x).base).num);
-        for (i0 = 0; i0 != l0; i0++) {
-          switch (((*x).base.vec[i0]).refering_type)
-            {
-            case IPA_REF_CGRAPH:
-              gt_ggc_m_11cgraph_node ((*x).base.vec[i0].refering.cgraph_node);
-              break;
-            case IPA_REF_VARPOOL:
-              gt_ggc_m_12varpool_node ((*x).base.vec[i0].refering.varpool_node);
-              break;
-            default:
-              break;
-            }
-          switch (((*x).base.vec[i0]).refered_type)
-            {
-            case IPA_REF_CGRAPH:
-              gt_ggc_m_11cgraph_node ((*x).base.vec[i0].refered.cgraph_node);
-              break;
-            case IPA_REF_VARPOOL:
-              gt_ggc_m_12varpool_node ((*x).base.vec[i0].refered.varpool_node);
-              break;
-            default:
-              break;
-            }
-          gt_ggc_m_18gimple_statement_d ((*x).base.vec[i0].stmt);
-        }
-      }
-    }
-}
-
-void
-gt_ggc_mx_varpool_node (void *x_p)
-{
-  struct varpool_node * x = (struct varpool_node *)x_p;
-  struct varpool_node * xlimit = x;
-  while (ggc_test_and_set_mark (xlimit))
-   xlimit = ((*xlimit).next);
-  if (x != xlimit)
-    for (;;)
-      {
-        struct varpool_node * const xprev = ((*x).prev);
-        if (xprev == NULL) break;
-        x = xprev;
-        (void) ggc_test_and_set_mark (xprev);
-      }
-  while (x != xlimit)
-    {
-      gt_ggc_m_9tree_node ((*x).decl);
-      gt_ggc_m_12varpool_node ((*x).next);
-      gt_ggc_m_12varpool_node ((*x).prev);
-      gt_ggc_m_12varpool_node ((*x).next_needed);
-      gt_ggc_m_12varpool_node ((*x).prev_needed);
-      gt_ggc_m_12varpool_node ((*x).extra_name);
-      gt_ggc_m_12varpool_node ((*x).same_comdat_group);
-      gt_ggc_m_16VEC_ipa_ref_t_gc ((*x).ref_list.references);
-      gt_ggc_m_18lto_file_decl_data ((*x).lto_file_data);
-      x = ((*x).next);
-    }
-}
-
-void
 gt_ggc_mx_cgraph_node (void *x_p)
 {
   struct cgraph_node * x = (struct cgraph_node *)x_p;
@@ -526,7 +395,6 @@ gt_ggc_mx_cgraph_node (void *x_p)
       gt_ggc_m_11cgraph_edge ((*x).callers);
       gt_ggc_m_11cgraph_node ((*x).next);
       gt_ggc_m_11cgraph_node ((*x).previous);
-      gt_ggc_m_11cgraph_edge ((*x).indirect_calls);
       gt_ggc_m_11cgraph_node ((*x).origin);
       gt_ggc_m_11cgraph_node ((*x).nested);
       gt_ggc_m_11cgraph_node ((*x).next_nested);
@@ -538,9 +406,6 @@ gt_ggc_mx_cgraph_node (void *x_p)
       gt_ggc_m_11cgraph_node ((*x).same_body);
       gt_ggc_m_11cgraph_node ((*x).same_comdat_group);
       gt_ggc_m_P11cgraph_edge4htab ((*x).call_site_hash);
-      gt_ggc_m_9tree_node ((*x).former_clone_of);
-      gt_ggc_m_16VEC_ipa_ref_t_gc ((*x).ref_list.references);
-      gt_ggc_m_18lto_file_decl_data ((*x).local.lto_file_data);
       gt_ggc_m_11cgraph_node ((*x).global.inlined_to);
       gt_ggc_m_24VEC_ipa_replace_map_p_gc ((*x).clone.tree_map);
       gt_ggc_m_15bitmap_head_def ((*x).clone.args_to_skip);
@@ -607,6 +472,31 @@ gt_ggc_mx_VEC_edge_gc (void *x_p)
 }
 
 void
+gt_ggc_mx_cselib_val_struct (void *x_p)
+{
+  struct cselib_val_struct * const x = (struct cselib_val_struct *)x_p;
+  if (ggc_test_and_set_mark (x))
+    {
+      gt_ggc_m_7rtx_def ((*x).val_rtx);
+      gt_ggc_m_12elt_loc_list ((*x).locs);
+      gt_ggc_m_8elt_list ((*x).addr_list);
+      gt_ggc_m_17cselib_val_struct ((*x).next_containing_mem);
+    }
+}
+
+void
+gt_ggc_mx_elt_loc_list (void *x_p)
+{
+  struct elt_loc_list * const x = (struct elt_loc_list *)x_p;
+  if (ggc_test_and_set_mark (x))
+    {
+      gt_ggc_m_12elt_loc_list ((*x).next);
+      gt_ggc_m_7rtx_def ((*x).loc);
+      gt_ggc_m_7rtx_def ((*x).setting_insn);
+    }
+}
+
+void
 gt_ggc_mx_VEC_loop_p_gc (void *x_p)
 {
   struct VEC_loop_p_gc * const x = (struct VEC_loop_p_gc *)x_p;
@@ -639,6 +529,7 @@ gt_ggc_mx_loop (void *x_p)
       gt_ggc_m_9tree_node ((*x).nb_iterations);
       gt_ggc_m_13nb_iter_bound ((*x).bounds);
       gt_ggc_m_9loop_exit ((*x).exits);
+      gt_ggc_m_9tree_node ((*x).single_iv);
       x = ((*x).next);
     }
 }
@@ -733,25 +624,6 @@ gt_ggc_mx_eh_status (void *x_p)
 }
 
 void
-gt_ggc_mx_stack_usage (void *x_p)
-{
-  struct stack_usage * const x = (struct stack_usage *)x_p;
-  if (ggc_test_and_set_mark (x))
-    {
-    }
-}
-
-void
-gt_ggc_mx_frame_space (void *x_p)
-{
-  struct frame_space * const x = (struct frame_space *)x_p;
-  if (ggc_test_and_set_mark (x))
-    {
-      gt_ggc_m_11frame_space ((*x).next);
-    }
-}
-
-void
 gt_ggc_mx_VEC_temp_slot_p_gc (void *x_p)
 {
   struct VEC_temp_slot_p_gc * const x = (struct VEC_temp_slot_p_gc *)x_p;
@@ -778,6 +650,7 @@ gt_ggc_mx_gimple_df (void *x_p)
       gt_ggc_m_11VEC_tree_gc ((*x).ssa_names);
       gt_ggc_m_9tree_node ((*x).vop);
       gt_ggc_m_15bitmap_head_def ((*x).escaped.vars);
+      gt_ggc_m_15bitmap_head_def ((*x).callused.vars);
       gt_ggc_m_9tree_node ((*x).free_ssanames);
       gt_ggc_m_P9tree_node4htab ((*x).default_defs);
       gt_ggc_m_15bitmap_head_def ((*x).syms_to_rename);
@@ -814,12 +687,13 @@ gt_ggc_mx_sequence_stack (void *x_p)
 }
 
 void
-gt_ggc_mx_libfunc_entry (void *x_p)
+gt_ggc_mx_elt_list (void *x_p)
 {
-  struct libfunc_entry * const x = (struct libfunc_entry *)x_p;
+  struct elt_list * const x = (struct elt_list *)x_p;
   if (ggc_test_and_set_mark (x))
     {
-      gt_ggc_m_7rtx_def ((*x).libfunc);
+      gt_ggc_m_8elt_list ((*x).next);
+      gt_ggc_m_17cselib_val_struct ((*x).elt);
     }
 }
 
@@ -834,19 +708,9 @@ gt_ggc_mx_tree_priority_map (void *x_p)
 }
 
 void
-gt_ggc_mx_tree_int_map (void *x_p)
+gt_ggc_mx_tree_map (void *x_p)
 {
-  struct tree_int_map * const x = (struct tree_int_map *)x_p;
-  if (ggc_test_and_set_mark (x))
-    {
-      gt_ggc_m_9tree_node ((*x).base.from);
-    }
-}
-
-void
-gt_ggc_mx_tree_decl_map (void *x_p)
-{
-  struct tree_decl_map * const x = (struct tree_decl_map *)x_p;
+  struct tree_map * const x = (struct tree_map *)x_p;
   if (ggc_test_and_set_mark (x))
     {
       gt_ggc_m_9tree_node ((*x).base.from);
@@ -885,6 +749,107 @@ gt_ggc_mx_var_ann_d (void *x_p)
   if (ggc_test_and_set_mark (x))
     {
       gt_ggc_m_9tree_node ((*x).current_def);
+    }
+}
+
+void
+gt_ggc_mx_varray_head_tag (void *x_p)
+{
+  struct varray_head_tag * const x = (struct varray_head_tag *)x_p;
+  if (ggc_test_and_set_mark (x))
+    {
+      gt_ggc_m_S ((*x).name);
+      switch ((*x).type)
+        {
+        case VARRAY_DATA_C:
+          break;
+        case VARRAY_DATA_UC:
+          break;
+        case VARRAY_DATA_S:
+          break;
+        case VARRAY_DATA_US:
+          break;
+        case VARRAY_DATA_I:
+          break;
+        case VARRAY_DATA_U:
+          break;
+        case VARRAY_DATA_L:
+          break;
+        case VARRAY_DATA_UL:
+          break;
+        case VARRAY_DATA_HINT:
+          break;
+        case VARRAY_DATA_UHINT:
+          break;
+        case VARRAY_DATA_GENERIC:
+          gcc_unreachable ();
+          break;
+        case VARRAY_DATA_CPTR:
+          {
+            size_t i10;
+            size_t l10 = (size_t)((*x).num_elements);
+            for (i10 = 0; i10 != l10; i10++) {
+              gt_ggc_m_S ((*x).data.vdt_cptr[i10]);
+            }
+          }
+          break;
+        case VARRAY_DATA_RTX:
+          {
+            size_t i11;
+            size_t l11 = (size_t)((*x).num_elements);
+            for (i11 = 0; i11 != l11; i11++) {
+              gt_ggc_m_7rtx_def ((*x).data.vdt_rtx[i11]);
+            }
+          }
+          break;
+        case VARRAY_DATA_RTVEC:
+          {
+            size_t i12;
+            size_t l12 = (size_t)((*x).num_elements);
+            for (i12 = 0; i12 != l12; i12++) {
+              gt_ggc_m_9rtvec_def ((*x).data.vdt_rtvec[i12]);
+            }
+          }
+          break;
+        case VARRAY_DATA_TREE:
+          {
+            size_t i13;
+            size_t l13 = (size_t)((*x).num_elements);
+            for (i13 = 0; i13 != l13; i13++) {
+              gt_ggc_m_9tree_node ((*x).data.vdt_tree[i13]);
+            }
+          }
+          break;
+        case VARRAY_DATA_BITMAP:
+          {
+            size_t i14;
+            size_t l14 = (size_t)((*x).num_elements);
+            for (i14 = 0; i14 != l14; i14++) {
+              gt_ggc_m_15bitmap_head_def ((*x).data.vdt_bitmap[i14]);
+            }
+          }
+          break;
+        case VARRAY_DATA_TE:
+          {
+            size_t i15;
+            size_t l15 = (size_t)((*x).num_elements);
+            for (i15 = 0; i15 != l15; i15++) {
+              gt_ggc_m_8elt_list ((*x).data.vdt_te[i15]);
+            }
+          }
+          break;
+        case VARRAY_DATA_EDGE:
+          {
+            size_t i16;
+            size_t l16 = (size_t)((*x).num_elements);
+            for (i16 = 0; i16 != l16; i16++) {
+              gt_ggc_m_8edge_def ((*x).data.vdt_e[i16]);
+            }
+          }
+          break;
+        default:
+          break;
+        }
     }
 }
 
@@ -933,6 +898,31 @@ gt_ggc_mx_VEC_alias_pair_gc (void *x_p)
 }
 
 void
+gt_ggc_mx_VEC_tree_gc (void *x_p)
+{
+  struct VEC_tree_gc * const x = (struct VEC_tree_gc *)x_p;
+  if (ggc_test_and_set_mark (x))
+    {
+      {
+        size_t i0;
+        size_t l0 = (size_t)(((*x).base).num);
+        for (i0 = 0; i0 != l0; i0++) {
+          gt_ggc_m_9tree_node ((*x).base.vec[i0]);
+        }
+      }
+    }
+}
+
+void
+gt_ggc_mx_VEC_uchar_gc (void *x_p)
+{
+  struct VEC_uchar_gc * const x = (struct VEC_uchar_gc *)x_p;
+  if (ggc_test_and_set_mark (x))
+    {
+    }
+}
+
+void
 gt_ggc_mx_function (void *x_p)
 {
   struct function * const x = (struct function *)x_p;
@@ -943,11 +933,10 @@ gt_ggc_mx_function (void *x_p)
       gt_ggc_m_12gimple_seq_d ((*x).gimple_body);
       gt_ggc_m_9gimple_df ((*x).gimple_df);
       gt_ggc_m_5loops ((*x).x_current_loops);
-      gt_ggc_m_11stack_usage ((*x).su);
       gt_ggc_m_9tree_node ((*x).decl);
       gt_ggc_m_9tree_node ((*x).static_chain_decl);
       gt_ggc_m_9tree_node ((*x).nonlocal_goto_save_area);
-      gt_ggc_m_11VEC_tree_gc ((*x).local_decls);
+      gt_ggc_m_9tree_node ((*x).local_decls);
       gt_ggc_m_16machine_function ((*x).machine);
       gt_ggc_m_17language_function ((*x).language);
       gt_ggc_m_P9tree_node4htab ((*x).used_types_hash);
@@ -969,6 +958,22 @@ gt_ggc_mx_real_value (void *x_p)
   struct real_value * const x = (struct real_value *)x_p;
   if (ggc_test_and_set_mark (x))
     {
+    }
+}
+
+void
+gt_ggc_mx_VEC_rtx_gc (void *x_p)
+{
+  struct VEC_rtx_gc * const x = (struct VEC_rtx_gc *)x_p;
+  if (ggc_test_and_set_mark (x))
+    {
+      {
+        size_t i0;
+        size_t l0 = (size_t)(((*x).base).num);
+        for (i0 = 0; i0 != l0; i0++) {
+          gt_ggc_m_7rtx_def ((*x).base.vec[i0]);
+        }
+      }
     }
 }
 
@@ -1029,63 +1034,6 @@ gt_ggc_mx_bitmap_element_def (void *x_p)
 }
 
 void
-gt_ggc_mx_VEC_rtx_gc (void *x_p)
-{
-  struct VEC_rtx_gc * const x = (struct VEC_rtx_gc *)x_p;
-  if (ggc_test_and_set_mark (x))
-    {
-      {
-        size_t i0;
-        size_t l0 = (size_t)(((*x).base).num);
-        for (i0 = 0; i0 != l0; i0++) {
-          gt_ggc_m_7rtx_def ((*x).base.vec[i0]);
-        }
-      }
-    }
-}
-
-void
-gt_ggc_mx_VEC_gimple_gc (void *x_p)
-{
-  struct VEC_gimple_gc * const x = (struct VEC_gimple_gc *)x_p;
-  if (ggc_test_and_set_mark (x))
-    {
-      {
-        size_t i0;
-        size_t l0 = (size_t)(((*x).base).num);
-        for (i0 = 0; i0 != l0; i0++) {
-          gt_ggc_m_18gimple_statement_d ((*x).base.vec[i0]);
-        }
-      }
-    }
-}
-
-void
-gt_ggc_mx_VEC_tree_gc (void *x_p)
-{
-  struct VEC_tree_gc * const x = (struct VEC_tree_gc *)x_p;
-  if (ggc_test_and_set_mark (x))
-    {
-      {
-        size_t i0;
-        size_t l0 = (size_t)(((*x).base).num);
-        for (i0 = 0; i0 != l0; i0++) {
-          gt_ggc_m_9tree_node ((*x).base.vec[i0]);
-        }
-      }
-    }
-}
-
-void
-gt_ggc_mx_VEC_uchar_gc (void *x_p)
-{
-  struct VEC_uchar_gc * const x = (struct VEC_uchar_gc *)x_p;
-  if (ggc_test_and_set_mark (x))
-    {
-    }
-}
-
-void
 gt_ggc_mx_basic_block_def (void *x_p)
 {
   struct basic_block_def * x = (struct basic_block_def *)x_p;
@@ -1142,6 +1090,30 @@ gt_ggc_mx_edge_def (void *x_p)
           break;
         }
       gt_ggc_m_9tree_node ((*x).goto_block);
+    }
+}
+
+void
+gt_ggc_mx_gimple_seq_node_d (void *x_p)
+{
+  struct gimple_seq_node_d * x = (struct gimple_seq_node_d *)x_p;
+  struct gimple_seq_node_d * xlimit = x;
+  while (ggc_test_and_set_mark (xlimit))
+   xlimit = ((*xlimit).next);
+  if (x != xlimit)
+    for (;;)
+      {
+        struct gimple_seq_node_d * const xprev = ((*x).prev);
+        if (xprev == NULL) break;
+        x = xprev;
+        (void) ggc_test_and_set_mark (xprev);
+      }
+  while (x != xlimit)
+    {
+      gt_ggc_m_18gimple_statement_d ((*x).stmt);
+      gt_ggc_m_17gimple_seq_node_d ((*x).prev);
+      gt_ggc_m_17gimple_seq_node_d ((*x).next);
+      x = ((*x).next);
     }
 }
 
@@ -1222,19 +1194,6 @@ gt_ggc_mx_gimple_statement_d (void *x_p)
             }
           }
           break;
-        case GSS_CALL:
-          gt_ggc_m_15basic_block_def ((*x).gimple_call.membase.opbase.gsbase.bb);
-          gt_ggc_m_9tree_node ((*x).gimple_call.membase.opbase.gsbase.block);
-          gt_ggc_m_15bitmap_head_def ((*x).gimple_call.call_used.vars);
-          gt_ggc_m_15bitmap_head_def ((*x).gimple_call.call_clobbered.vars);
-          {
-            size_t i2;
-            size_t l2 = (size_t)(((*x).gimple_call).membase.opbase.gsbase.num_ops);
-            for (i2 = 0; i2 != l2; i2++) {
-              gt_ggc_m_9tree_node ((*x).gimple_call.op[i2]);
-            }
-          }
-          break;
         case GSS_OMP:
           gt_ggc_m_15basic_block_def ((*x).omp.gsbase.bb);
           gt_ggc_m_9tree_node ((*x).omp.gsbase.block);
@@ -1269,10 +1228,10 @@ gt_ggc_mx_gimple_statement_d (void *x_p)
           gt_ggc_m_9tree_node ((*x).gimple_phi.gsbase.block);
           gt_ggc_m_9tree_node ((*x).gimple_phi.result);
           {
-            size_t i3;
-            size_t l3 = (size_t)(((*x).gimple_phi).nargs);
-            for (i3 = 0; i3 != l3; i3++) {
-              gt_ggc_m_9tree_node ((*x).gimple_phi.args[i3].def);
+            size_t i2;
+            size_t l2 = (size_t)(((*x).gimple_phi).nargs);
+            for (i2 = 0; i2 != l2; i2++) {
+              gt_ggc_m_9tree_node ((*x).gimple_phi.args[i2].def);
             }
           }
           break;
@@ -1296,10 +1255,10 @@ gt_ggc_mx_gimple_statement_d (void *x_p)
           gt_ggc_m_9tree_node ((*x).gimple_asm.membase.opbase.gsbase.block);
           gt_ggc_m_S ((*x).gimple_asm.string);
           {
-            size_t i4;
-            size_t l4 = (size_t)(((*x).gimple_asm).membase.opbase.gsbase.num_ops);
-            for (i4 = 0; i4 != l4; i4++) {
-              gt_ggc_m_9tree_node ((*x).gimple_asm.op[i4]);
+            size_t i3;
+            size_t l3 = (size_t)(((*x).gimple_asm).membase.opbase.gsbase.num_ops);
+            for (i3 = 0; i3 != l3; i3++) {
+              gt_ggc_m_9tree_node ((*x).gimple_asm.op[i3]);
             }
           }
           break;
@@ -1315,12 +1274,12 @@ gt_ggc_mx_gimple_statement_d (void *x_p)
           gt_ggc_m_12gimple_seq_d ((*x).gimple_omp_for.omp.body);
           gt_ggc_m_9tree_node ((*x).gimple_omp_for.clauses);
           if ((*x).gimple_omp_for.iter != NULL) {
-            size_t i5;
-            for (i5 = 0; i5 != (size_t)(((*x).gimple_omp_for).collapse); i5++) {
-              gt_ggc_m_9tree_node ((*x).gimple_omp_for.iter[i5].index);
-              gt_ggc_m_9tree_node ((*x).gimple_omp_for.iter[i5].initial);
-              gt_ggc_m_9tree_node ((*x).gimple_omp_for.iter[i5].final);
-              gt_ggc_m_9tree_node ((*x).gimple_omp_for.iter[i5].incr);
+            size_t i4;
+            for (i4 = 0; i4 != (size_t)(((*x).gimple_omp_for).collapse); i4++) {
+              gt_ggc_m_9tree_node ((*x).gimple_omp_for.iter[i4].index);
+              gt_ggc_m_9tree_node ((*x).gimple_omp_for.iter[i4].initial);
+              gt_ggc_m_9tree_node ((*x).gimple_omp_for.iter[i4].final);
+              gt_ggc_m_9tree_node ((*x).gimple_omp_for.iter[i4].incr);
             }
             ggc_mark ((*x).gimple_omp_for.iter);
           }
@@ -1416,17 +1375,9 @@ gt_ggc_mx_rtx_def (void *x_p)
     {
       switch (GET_CODE (&(*x)))
         {
-        case DEBUG_IMPLICIT_PTR:
-          gt_ggc_m_9tree_node ((*x).u.fld[0].rt_tree);
-          break;
         case VAR_LOCATION:
           gt_ggc_m_7rtx_def ((*x).u.fld[1].rt_rtx);
           gt_ggc_m_9tree_node ((*x).u.fld[0].rt_tree);
-          break;
-        case FMA:
-          gt_ggc_m_7rtx_def ((*x).u.fld[2].rt_rtx);
-          gt_ggc_m_7rtx_def ((*x).u.fld[1].rt_rtx);
-          gt_ggc_m_7rtx_def ((*x).u.fld[0].rt_rtx);
           break;
         case US_TRUNCATE:
           gt_ggc_m_7rtx_def ((*x).u.fld[0].rt_rtx);
@@ -1928,7 +1879,7 @@ gt_ggc_mx_rtx_def (void *x_p)
           break;
         case CODE_LABEL:
           gt_ggc_m_S ((*x).u.fld[7].rt_str);
-          gt_ggc_m_7rtx_def ((*x).u.fld[4].rt_rtx);
+          gt_ggc_m_7rtx_def ((*x).u.fld[5].rt_rtx);
           gt_ggc_m_15basic_block_def ((*x).u.fld[3].rt_bb);
           gt_ggc_m_7rtx_def ((*x).u.fld[2].rt_rtx);
           gt_ggc_m_7rtx_def ((*x).u.fld[1].rt_rtx);
@@ -1940,7 +1891,7 @@ gt_ggc_mx_rtx_def (void *x_p)
         case CALL_INSN:
           gt_ggc_m_7rtx_def ((*x).u.fld[8].rt_rtx);
           gt_ggc_m_7rtx_def ((*x).u.fld[7].rt_rtx);
-          gt_ggc_m_7rtx_def ((*x).u.fld[4].rt_rtx);
+          gt_ggc_m_7rtx_def ((*x).u.fld[5].rt_rtx);
           gt_ggc_m_15basic_block_def ((*x).u.fld[3].rt_bb);
           gt_ggc_m_7rtx_def ((*x).u.fld[2].rt_rtx);
           gt_ggc_m_7rtx_def ((*x).u.fld[1].rt_rtx);
@@ -1948,21 +1899,21 @@ gt_ggc_mx_rtx_def (void *x_p)
         case JUMP_INSN:
           gt_ggc_m_7rtx_def ((*x).u.fld[8].rt_rtx);
           gt_ggc_m_7rtx_def ((*x).u.fld[7].rt_rtx);
-          gt_ggc_m_7rtx_def ((*x).u.fld[4].rt_rtx);
+          gt_ggc_m_7rtx_def ((*x).u.fld[5].rt_rtx);
           gt_ggc_m_15basic_block_def ((*x).u.fld[3].rt_bb);
           gt_ggc_m_7rtx_def ((*x).u.fld[2].rt_rtx);
           gt_ggc_m_7rtx_def ((*x).u.fld[1].rt_rtx);
           break;
         case INSN:
           gt_ggc_m_7rtx_def ((*x).u.fld[7].rt_rtx);
-          gt_ggc_m_7rtx_def ((*x).u.fld[4].rt_rtx);
+          gt_ggc_m_7rtx_def ((*x).u.fld[5].rt_rtx);
           gt_ggc_m_15basic_block_def ((*x).u.fld[3].rt_bb);
           gt_ggc_m_7rtx_def ((*x).u.fld[2].rt_rtx);
           gt_ggc_m_7rtx_def ((*x).u.fld[1].rt_rtx);
           break;
         case DEBUG_INSN:
           gt_ggc_m_7rtx_def ((*x).u.fld[7].rt_rtx);
-          gt_ggc_m_7rtx_def ((*x).u.fld[4].rt_rtx);
+          gt_ggc_m_7rtx_def ((*x).u.fld[5].rt_rtx);
           gt_ggc_m_15basic_block_def ((*x).u.fld[3].rt_bb);
           gt_ggc_m_7rtx_def ((*x).u.fld[2].rt_rtx);
           gt_ggc_m_7rtx_def ((*x).u.fld[1].rt_rtx);
@@ -2194,18 +2145,24 @@ gt_ggc_m_P9tree_nodeP9tree_node17splay_tree_node_s (void *x_p)
 }
 
 void
-gt_ggc_m_P17lto_in_decl_state4htab (void *x_p)
+gt_ggc_m_IP9tree_node17splay_tree_node_s (void *x_p)
 {
-  struct htab * const x = (struct htab *)x_p;
+  struct splay_tree_node_s * const x = (struct splay_tree_node_s *)x_p;
   if (ggc_test_and_set_mark (x))
     {
-      if ((*x).entries != NULL) {
-        size_t i0;
-        for (i0 = 0; i0 != (size_t)(((*x)).size); i0++) {
-          gt_ggc_m_17lto_in_decl_state ((*x).entries[i0]);
-        }
-        ggc_mark ((*x).entries);
-      }
+      gt_ggc_m_9tree_node ((void *)(*x).value);
+      gt_ggc_m_IP9tree_node17splay_tree_node_s ((*x).left);
+      gt_ggc_m_IP9tree_node17splay_tree_node_s ((*x).right);
+    }
+}
+
+void
+gt_ggc_m_IP9tree_node12splay_tree_s (void *x_p)
+{
+  struct splay_tree_s * const x = (struct splay_tree_s *)x_p;
+  if (ggc_test_and_set_mark (x))
+    {
+      gt_ggc_m_IP9tree_node17splay_tree_node_s ((*x).root);
     }
 }
 
@@ -2229,22 +2186,6 @@ gt_ggc_m_P12varpool_node4htab (void *x_p)
         size_t i0;
         for (i0 = 0; i0 != (size_t)(((*x)).size); i0++) {
           gt_ggc_m_12varpool_node ((*x).entries[i0]);
-        }
-        ggc_mark ((*x).entries);
-      }
-    }
-}
-
-void
-gt_ggc_m_P12tree_int_map4htab (void *x_p)
-{
-  struct htab * const x = (struct htab *)x_p;
-  if (ggc_test_and_set_mark (x))
-    {
-      if ((*x).entries != NULL) {
-        size_t i0;
-        for (i0 = 0; i0 != (size_t)(((*x)).size); i0++) {
-          gt_ggc_m_12tree_int_map ((*x).entries[i0]);
         }
         ggc_mark ((*x).entries);
       }
@@ -2316,7 +2257,7 @@ gt_ggc_m_P17tree_priority_map4htab (void *x_p)
 }
 
 void
-gt_ggc_m_P13tree_decl_map4htab (void *x_p)
+gt_ggc_m_P8tree_map4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
   if (ggc_test_and_set_mark (x))
@@ -2324,7 +2265,7 @@ gt_ggc_m_P13tree_decl_map4htab (void *x_p)
       if ((*x).entries != NULL) {
         size_t i0;
         for (i0 = 0; i0 != (size_t)(((*x)).size); i0++) {
-          gt_ggc_m_13tree_decl_map ((*x).entries[i0]);
+          gt_ggc_m_8tree_map ((*x).entries[i0]);
         }
         ggc_mark ((*x).entries);
       }
@@ -2432,22 +2373,6 @@ gt_ggc_m_II12splay_tree_s (void *x_p)
 }
 
 void
-gt_ggc_m_P28varpool_node_set_element_def4htab (void *x_p)
-{
-  struct htab * const x = (struct htab *)x_p;
-  if (ggc_test_and_set_mark (x))
-    {
-      if ((*x).entries != NULL) {
-        size_t i0;
-        for (i0 = 0; i0 != (size_t)(((*x)).size); i0++) {
-          gt_ggc_m_28varpool_node_set_element_def ((*x).entries[i0]);
-        }
-        ggc_mark ((*x).entries);
-      }
-    }
-}
-
-void
 gt_ggc_m_P27cgraph_node_set_element_def4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
@@ -2528,45 +2453,6 @@ gt_ggc_m_P9tree_node4htab (void *x_p)
 }
 
 void
-gt_ggc_m_P13libfunc_entry4htab (void *x_p)
-{
-  struct htab * const x = (struct htab *)x_p;
-  if (ggc_test_and_set_mark (x))
-    {
-      if ((*x).entries != NULL) {
-        size_t i0;
-        for (i0 = 0; i0 != (size_t)(((*x)).size); i0++) {
-          gt_ggc_m_13libfunc_entry ((*x).entries[i0]);
-        }
-        ggc_mark ((*x).entries);
-      }
-    }
-}
-
-void
-gt_pch_nx_lto_in_decl_state (void *x_p)
-{
-  struct lto_in_decl_state * const x = (struct lto_in_decl_state *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_17lto_in_decl_state, gt_ggc_e_17lto_in_decl_state))
-    {
-      {
-        size_t i0;
-        size_t l0 = (size_t)(LTO_N_DECL_STREAMS);
-        for (i0 = 0; i0 != l0; i0++) {
-          if ((*x).streams[i0].trees != NULL) {
-            size_t i1;
-            for (i1 = 0; i1 != (size_t)(((*x).streams[i0]).size); i1++) {
-              gt_pch_n_9tree_node ((*x).streams[i0].trees[i1]);
-            }
-            gt_pch_note_object ((*x).streams[i0].trees, x, gt_pch_p_17lto_in_decl_state, gt_types_enum_last);
-          }
-        }
-      }
-      gt_pch_n_9tree_node ((*x).fn_decl);
-    }
-}
-
-void
 gt_pch_nx_VEC_ipa_edge_args_t_gc (void *x_p)
 {
   struct VEC_ipa_edge_args_t_gc * const x = (struct VEC_ipa_edge_args_t_gc *)x_p;
@@ -2581,21 +2467,18 @@ gt_pch_nx_VEC_ipa_edge_args_t_gc (void *x_p)
             for (i1 = 0; i1 != (size_t)(((*x).base.vec[i0]).argument_count); i1++) {
               switch (((*x).base.vec[i0].jump_functions[i1]).type)
                 {
-                case IPA_JF_KNOWN_TYPE:
-                  gt_pch_n_9tree_node ((*x).base.vec[i0].jump_functions[i1].value.base_binfo);
-                  break;
                 case IPA_JF_CONST:
                   gt_pch_n_9tree_node ((*x).base.vec[i0].jump_functions[i1].value.constant);
-                  break;
-                case IPA_JF_CONST_MEMBER_PTR:
-                  gt_pch_n_9tree_node ((*x).base.vec[i0].jump_functions[i1].value.member_cst.pfn);
-                  gt_pch_n_9tree_node ((*x).base.vec[i0].jump_functions[i1].value.member_cst.delta);
                   break;
                 case IPA_JF_PASS_THROUGH:
                   gt_pch_n_9tree_node ((*x).base.vec[i0].jump_functions[i1].value.pass_through.operand);
                   break;
                 case IPA_JF_ANCESTOR:
                   gt_pch_n_9tree_node ((*x).base.vec[i0].jump_functions[i1].value.ancestor.type);
+                  break;
+                case IPA_JF_CONST_MEMBER_PTR:
+                  gt_pch_n_9tree_node ((*x).base.vec[i0].jump_functions[i1].value.member_cst.pfn);
+                  gt_pch_n_9tree_node ((*x).base.vec[i0].jump_functions[i1].value.member_cst.delta);
                   break;
                 default:
                   break;
@@ -2623,26 +2506,18 @@ gt_pch_nx_ssa_operand_memory_d (void *x_p)
 }
 
 void
-gt_pch_nx_gimple_seq_node_d (void *x_p)
+gt_pch_nx_VEC_gimple_gc (void *x_p)
 {
-  struct gimple_seq_node_d * x = (struct gimple_seq_node_d *)x_p;
-  struct gimple_seq_node_d * xlimit = x;
-  while (gt_pch_note_object (xlimit, xlimit, gt_pch_p_17gimple_seq_node_d, gt_ggc_e_17gimple_seq_node_d))
-   xlimit = ((*xlimit).next);
-  if (x != xlimit)
-    for (;;)
-      {
-        struct gimple_seq_node_d * const xprev = ((*x).prev);
-        if (xprev == NULL) break;
-        x = xprev;
-        (void) gt_pch_note_object (xprev, xprev, gt_pch_p_17gimple_seq_node_d, gt_ggc_e_17gimple_seq_node_d);
-      }
-  while (x != xlimit)
+  struct VEC_gimple_gc * const x = (struct VEC_gimple_gc *)x_p;
+  if (gt_pch_note_object (x, x, gt_pch_p_13VEC_gimple_gc, gt_ggc_e_13VEC_gimple_gc))
     {
-      gt_pch_n_18gimple_statement_d ((*x).stmt);
-      gt_pch_n_17gimple_seq_node_d ((*x).prev);
-      gt_pch_n_17gimple_seq_node_d ((*x).next);
-      x = ((*x).next);
+      {
+        size_t i0;
+        size_t l0 = (size_t)(((*x).base).num);
+        for (i0 = 0; i0 != l0; i0++) {
+          gt_pch_n_18gimple_statement_d ((*x).base.vec[i0]);
+        }
+      }
     }
 }
 
@@ -2769,47 +2644,33 @@ gt_pch_nx_cgraph_asm_node (void *x_p)
 }
 
 void
-gt_pch_nx_cgraph_indirect_call_info (void *x_p)
+gt_pch_nx_varpool_node (void *x_p)
 {
-  struct cgraph_indirect_call_info * const x = (struct cgraph_indirect_call_info *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_25cgraph_indirect_call_info, gt_ggc_e_25cgraph_indirect_call_info))
+  struct varpool_node * x = (struct varpool_node *)x_p;
+  struct varpool_node * xlimit = x;
+  while (gt_pch_note_object (xlimit, xlimit, gt_pch_p_12varpool_node, gt_ggc_e_12varpool_node))
+   xlimit = ((*xlimit).next);
+  while (x != xlimit)
     {
-      gt_pch_n_9tree_node ((*x).otr_type);
+      gt_pch_n_9tree_node ((*x).decl);
+      gt_pch_n_12varpool_node ((*x).next);
+      gt_pch_n_12varpool_node ((*x).next_needed);
+      gt_pch_n_12varpool_node ((*x).extra_name);
+      x = ((*x).next);
     }
 }
 
 void
-gt_pch_nx_varpool_node_set_def (void *x_p)
+gt_pch_nx_VEC_cgraph_node_set_gc (void *x_p)
 {
-  struct varpool_node_set_def * const x = (struct varpool_node_set_def *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_20varpool_node_set_def, gt_ggc_e_20varpool_node_set_def))
-    {
-      gt_pch_n_P28varpool_node_set_element_def4htab ((*x).hashtab);
-      gt_pch_n_23VEC_varpool_node_ptr_gc ((*x).nodes);
-    }
-}
-
-void
-gt_pch_nx_varpool_node_set_element_def (void *x_p)
-{
-  struct varpool_node_set_element_def * const x = (struct varpool_node_set_element_def *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_28varpool_node_set_element_def, gt_ggc_e_28varpool_node_set_element_def))
-    {
-      gt_pch_n_12varpool_node ((*x).node);
-    }
-}
-
-void
-gt_pch_nx_VEC_varpool_node_ptr_gc (void *x_p)
-{
-  struct VEC_varpool_node_ptr_gc * const x = (struct VEC_varpool_node_ptr_gc *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_23VEC_varpool_node_ptr_gc, gt_ggc_e_23VEC_varpool_node_ptr_gc))
+  struct VEC_cgraph_node_set_gc * const x = (struct VEC_cgraph_node_set_gc *)x_p;
+  if (gt_pch_note_object (x, x, gt_pch_p_22VEC_cgraph_node_set_gc, gt_ggc_e_22VEC_cgraph_node_set_gc))
     {
       {
         size_t i0;
         size_t l0 = (size_t)(((*x).base).num);
         for (i0 = 0; i0 != l0; i0++) {
-          gt_pch_n_12varpool_node ((*x).base.vec[i0]);
+          gt_pch_n_19cgraph_node_set_def ((*x).base.vec[i0]);
         }
       }
     }
@@ -2876,7 +2737,6 @@ gt_pch_nx_cgraph_edge (void *x_p)
       gt_pch_n_11cgraph_edge ((*x).prev_callee);
       gt_pch_n_11cgraph_edge ((*x).next_callee);
       gt_pch_n_18gimple_statement_d ((*x).call_stmt);
-      gt_pch_n_25cgraph_indirect_call_info ((*x).indirect_info);
       x = ((*x).next_caller);
     }
 }
@@ -2909,87 +2769,6 @@ gt_pch_nx_ipa_replace_map (void *x_p)
 }
 
 void
-gt_pch_nx_lto_file_decl_data (void *x_p)
-{
-  struct lto_file_decl_data * const x = (struct lto_file_decl_data *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_18lto_file_decl_data, gt_ggc_e_18lto_file_decl_data))
-    {
-      gt_pch_n_17lto_in_decl_state ((*x).current_decl_state);
-      gt_pch_n_17lto_in_decl_state ((*x).global_decl_state);
-      gt_pch_n_P17lto_in_decl_state4htab ((*x).function_decl_states);
-      gt_pch_n_18lto_file_decl_data ((*x).next);
-    }
-}
-
-void
-gt_pch_nx_VEC_ipa_ref_t_gc (void *x_p)
-{
-  struct VEC_ipa_ref_t_gc * const x = (struct VEC_ipa_ref_t_gc *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_16VEC_ipa_ref_t_gc, gt_ggc_e_16VEC_ipa_ref_t_gc))
-    {
-      {
-        size_t i0;
-        size_t l0 = (size_t)(((*x).base).num);
-        for (i0 = 0; i0 != l0; i0++) {
-          switch (((*x).base.vec[i0]).refering_type)
-            {
-            case IPA_REF_CGRAPH:
-              gt_pch_n_11cgraph_node ((*x).base.vec[i0].refering.cgraph_node);
-              break;
-            case IPA_REF_VARPOOL:
-              gt_pch_n_12varpool_node ((*x).base.vec[i0].refering.varpool_node);
-              break;
-            default:
-              break;
-            }
-          switch (((*x).base.vec[i0]).refered_type)
-            {
-            case IPA_REF_CGRAPH:
-              gt_pch_n_11cgraph_node ((*x).base.vec[i0].refered.cgraph_node);
-              break;
-            case IPA_REF_VARPOOL:
-              gt_pch_n_12varpool_node ((*x).base.vec[i0].refered.varpool_node);
-              break;
-            default:
-              break;
-            }
-          gt_pch_n_18gimple_statement_d ((*x).base.vec[i0].stmt);
-        }
-      }
-    }
-}
-
-void
-gt_pch_nx_varpool_node (void *x_p)
-{
-  struct varpool_node * x = (struct varpool_node *)x_p;
-  struct varpool_node * xlimit = x;
-  while (gt_pch_note_object (xlimit, xlimit, gt_pch_p_12varpool_node, gt_ggc_e_12varpool_node))
-   xlimit = ((*xlimit).next);
-  if (x != xlimit)
-    for (;;)
-      {
-        struct varpool_node * const xprev = ((*x).prev);
-        if (xprev == NULL) break;
-        x = xprev;
-        (void) gt_pch_note_object (xprev, xprev, gt_pch_p_12varpool_node, gt_ggc_e_12varpool_node);
-      }
-  while (x != xlimit)
-    {
-      gt_pch_n_9tree_node ((*x).decl);
-      gt_pch_n_12varpool_node ((*x).next);
-      gt_pch_n_12varpool_node ((*x).prev);
-      gt_pch_n_12varpool_node ((*x).next_needed);
-      gt_pch_n_12varpool_node ((*x).prev_needed);
-      gt_pch_n_12varpool_node ((*x).extra_name);
-      gt_pch_n_12varpool_node ((*x).same_comdat_group);
-      gt_pch_n_16VEC_ipa_ref_t_gc ((*x).ref_list.references);
-      gt_pch_n_18lto_file_decl_data ((*x).lto_file_data);
-      x = ((*x).next);
-    }
-}
-
-void
 gt_pch_nx_cgraph_node (void *x_p)
 {
   struct cgraph_node * x = (struct cgraph_node *)x_p;
@@ -3011,7 +2790,6 @@ gt_pch_nx_cgraph_node (void *x_p)
       gt_pch_n_11cgraph_edge ((*x).callers);
       gt_pch_n_11cgraph_node ((*x).next);
       gt_pch_n_11cgraph_node ((*x).previous);
-      gt_pch_n_11cgraph_edge ((*x).indirect_calls);
       gt_pch_n_11cgraph_node ((*x).origin);
       gt_pch_n_11cgraph_node ((*x).nested);
       gt_pch_n_11cgraph_node ((*x).next_nested);
@@ -3023,9 +2801,6 @@ gt_pch_nx_cgraph_node (void *x_p)
       gt_pch_n_11cgraph_node ((*x).same_body);
       gt_pch_n_11cgraph_node ((*x).same_comdat_group);
       gt_pch_n_P11cgraph_edge4htab ((*x).call_site_hash);
-      gt_pch_n_9tree_node ((*x).former_clone_of);
-      gt_pch_n_16VEC_ipa_ref_t_gc ((*x).ref_list.references);
-      gt_pch_n_18lto_file_decl_data ((*x).local.lto_file_data);
       gt_pch_n_11cgraph_node ((*x).global.inlined_to);
       gt_pch_n_24VEC_ipa_replace_map_p_gc ((*x).clone.tree_map);
       gt_pch_n_15bitmap_head_def ((*x).clone.args_to_skip);
@@ -3092,6 +2867,31 @@ gt_pch_nx_VEC_edge_gc (void *x_p)
 }
 
 void
+gt_pch_nx_cselib_val_struct (void *x_p)
+{
+  struct cselib_val_struct * const x = (struct cselib_val_struct *)x_p;
+  if (gt_pch_note_object (x, x, gt_pch_p_17cselib_val_struct, gt_ggc_e_17cselib_val_struct))
+    {
+      gt_pch_n_7rtx_def ((*x).val_rtx);
+      gt_pch_n_12elt_loc_list ((*x).locs);
+      gt_pch_n_8elt_list ((*x).addr_list);
+      gt_pch_n_17cselib_val_struct ((*x).next_containing_mem);
+    }
+}
+
+void
+gt_pch_nx_elt_loc_list (void *x_p)
+{
+  struct elt_loc_list * const x = (struct elt_loc_list *)x_p;
+  if (gt_pch_note_object (x, x, gt_pch_p_12elt_loc_list, gt_ggc_e_12elt_loc_list))
+    {
+      gt_pch_n_12elt_loc_list ((*x).next);
+      gt_pch_n_7rtx_def ((*x).loc);
+      gt_pch_n_7rtx_def ((*x).setting_insn);
+    }
+}
+
+void
 gt_pch_nx_VEC_loop_p_gc (void *x_p)
 {
   struct VEC_loop_p_gc * const x = (struct VEC_loop_p_gc *)x_p;
@@ -3124,6 +2924,7 @@ gt_pch_nx_loop (void *x_p)
       gt_pch_n_9tree_node ((*x).nb_iterations);
       gt_pch_n_13nb_iter_bound ((*x).bounds);
       gt_pch_n_9loop_exit ((*x).exits);
+      gt_pch_n_9tree_node ((*x).single_iv);
       x = ((*x).next);
     }
 }
@@ -3218,25 +3019,6 @@ gt_pch_nx_eh_status (void *x_p)
 }
 
 void
-gt_pch_nx_stack_usage (void *x_p)
-{
-  struct stack_usage * const x = (struct stack_usage *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_11stack_usage, gt_ggc_e_11stack_usage))
-    {
-    }
-}
-
-void
-gt_pch_nx_frame_space (void *x_p)
-{
-  struct frame_space * const x = (struct frame_space *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_11frame_space, gt_ggc_e_11frame_space))
-    {
-      gt_pch_n_11frame_space ((*x).next);
-    }
-}
-
-void
 gt_pch_nx_VEC_temp_slot_p_gc (void *x_p)
 {
   struct VEC_temp_slot_p_gc * const x = (struct VEC_temp_slot_p_gc *)x_p;
@@ -3263,6 +3045,7 @@ gt_pch_nx_gimple_df (void *x_p)
       gt_pch_n_11VEC_tree_gc ((*x).ssa_names);
       gt_pch_n_9tree_node ((*x).vop);
       gt_pch_n_15bitmap_head_def ((*x).escaped.vars);
+      gt_pch_n_15bitmap_head_def ((*x).callused.vars);
       gt_pch_n_9tree_node ((*x).free_ssanames);
       gt_pch_n_P9tree_node4htab ((*x).default_defs);
       gt_pch_n_15bitmap_head_def ((*x).syms_to_rename);
@@ -3299,12 +3082,13 @@ gt_pch_nx_sequence_stack (void *x_p)
 }
 
 void
-gt_pch_nx_libfunc_entry (void *x_p)
+gt_pch_nx_elt_list (void *x_p)
 {
-  struct libfunc_entry * const x = (struct libfunc_entry *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_13libfunc_entry, gt_ggc_e_13libfunc_entry))
+  struct elt_list * const x = (struct elt_list *)x_p;
+  if (gt_pch_note_object (x, x, gt_pch_p_8elt_list, gt_ggc_e_8elt_list))
     {
-      gt_pch_n_7rtx_def ((*x).libfunc);
+      gt_pch_n_8elt_list ((*x).next);
+      gt_pch_n_17cselib_val_struct ((*x).elt);
     }
 }
 
@@ -3319,20 +3103,10 @@ gt_pch_nx_tree_priority_map (void *x_p)
 }
 
 void
-gt_pch_nx_tree_int_map (void *x_p)
+gt_pch_nx_tree_map (void *x_p)
 {
-  struct tree_int_map * const x = (struct tree_int_map *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_12tree_int_map, gt_ggc_e_12tree_int_map))
-    {
-      gt_pch_n_9tree_node ((*x).base.from);
-    }
-}
-
-void
-gt_pch_nx_tree_decl_map (void *x_p)
-{
-  struct tree_decl_map * const x = (struct tree_decl_map *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_13tree_decl_map, gt_ggc_e_13tree_decl_map))
+  struct tree_map * const x = (struct tree_map *)x_p;
+  if (gt_pch_note_object (x, x, gt_pch_p_8tree_map, gt_ggc_e_8tree_map))
     {
       gt_pch_n_9tree_node ((*x).base.from);
       gt_pch_n_9tree_node ((*x).to);
@@ -3370,6 +3144,107 @@ gt_pch_nx_var_ann_d (void *x_p)
   if (gt_pch_note_object (x, x, gt_pch_p_9var_ann_d, gt_ggc_e_9var_ann_d))
     {
       gt_pch_n_9tree_node ((*x).current_def);
+    }
+}
+
+void
+gt_pch_nx_varray_head_tag (void *x_p)
+{
+  struct varray_head_tag * const x = (struct varray_head_tag *)x_p;
+  if (gt_pch_note_object (x, x, gt_pch_p_15varray_head_tag, gt_ggc_e_15varray_head_tag))
+    {
+      gt_pch_n_S ((*x).name);
+      switch ((*x).type)
+        {
+        case VARRAY_DATA_C:
+          break;
+        case VARRAY_DATA_UC:
+          break;
+        case VARRAY_DATA_S:
+          break;
+        case VARRAY_DATA_US:
+          break;
+        case VARRAY_DATA_I:
+          break;
+        case VARRAY_DATA_U:
+          break;
+        case VARRAY_DATA_L:
+          break;
+        case VARRAY_DATA_UL:
+          break;
+        case VARRAY_DATA_HINT:
+          break;
+        case VARRAY_DATA_UHINT:
+          break;
+        case VARRAY_DATA_GENERIC:
+          gcc_unreachable ();
+          break;
+        case VARRAY_DATA_CPTR:
+          {
+            size_t i10;
+            size_t l10 = (size_t)((*x).num_elements);
+            for (i10 = 0; i10 != l10; i10++) {
+              gt_pch_n_S ((*x).data.vdt_cptr[i10]);
+            }
+          }
+          break;
+        case VARRAY_DATA_RTX:
+          {
+            size_t i11;
+            size_t l11 = (size_t)((*x).num_elements);
+            for (i11 = 0; i11 != l11; i11++) {
+              gt_pch_n_7rtx_def ((*x).data.vdt_rtx[i11]);
+            }
+          }
+          break;
+        case VARRAY_DATA_RTVEC:
+          {
+            size_t i12;
+            size_t l12 = (size_t)((*x).num_elements);
+            for (i12 = 0; i12 != l12; i12++) {
+              gt_pch_n_9rtvec_def ((*x).data.vdt_rtvec[i12]);
+            }
+          }
+          break;
+        case VARRAY_DATA_TREE:
+          {
+            size_t i13;
+            size_t l13 = (size_t)((*x).num_elements);
+            for (i13 = 0; i13 != l13; i13++) {
+              gt_pch_n_9tree_node ((*x).data.vdt_tree[i13]);
+            }
+          }
+          break;
+        case VARRAY_DATA_BITMAP:
+          {
+            size_t i14;
+            size_t l14 = (size_t)((*x).num_elements);
+            for (i14 = 0; i14 != l14; i14++) {
+              gt_pch_n_15bitmap_head_def ((*x).data.vdt_bitmap[i14]);
+            }
+          }
+          break;
+        case VARRAY_DATA_TE:
+          {
+            size_t i15;
+            size_t l15 = (size_t)((*x).num_elements);
+            for (i15 = 0; i15 != l15; i15++) {
+              gt_pch_n_8elt_list ((*x).data.vdt_te[i15]);
+            }
+          }
+          break;
+        case VARRAY_DATA_EDGE:
+          {
+            size_t i16;
+            size_t l16 = (size_t)((*x).num_elements);
+            for (i16 = 0; i16 != l16; i16++) {
+              gt_pch_n_8edge_def ((*x).data.vdt_e[i16]);
+            }
+          }
+          break;
+        default:
+          break;
+        }
     }
 }
 
@@ -3418,6 +3293,31 @@ gt_pch_nx_VEC_alias_pair_gc (void *x_p)
 }
 
 void
+gt_pch_nx_VEC_tree_gc (void *x_p)
+{
+  struct VEC_tree_gc * const x = (struct VEC_tree_gc *)x_p;
+  if (gt_pch_note_object (x, x, gt_pch_p_11VEC_tree_gc, gt_ggc_e_11VEC_tree_gc))
+    {
+      {
+        size_t i0;
+        size_t l0 = (size_t)(((*x).base).num);
+        for (i0 = 0; i0 != l0; i0++) {
+          gt_pch_n_9tree_node ((*x).base.vec[i0]);
+        }
+      }
+    }
+}
+
+void
+gt_pch_nx_VEC_uchar_gc (void *x_p)
+{
+  struct VEC_uchar_gc * const x = (struct VEC_uchar_gc *)x_p;
+  if (gt_pch_note_object (x, x, gt_pch_p_12VEC_uchar_gc, gt_ggc_e_12VEC_uchar_gc))
+    {
+    }
+}
+
+void
 gt_pch_nx_function (void *x_p)
 {
   struct function * const x = (struct function *)x_p;
@@ -3428,11 +3328,10 @@ gt_pch_nx_function (void *x_p)
       gt_pch_n_12gimple_seq_d ((*x).gimple_body);
       gt_pch_n_9gimple_df ((*x).gimple_df);
       gt_pch_n_5loops ((*x).x_current_loops);
-      gt_pch_n_11stack_usage ((*x).su);
       gt_pch_n_9tree_node ((*x).decl);
       gt_pch_n_9tree_node ((*x).static_chain_decl);
       gt_pch_n_9tree_node ((*x).nonlocal_goto_save_area);
-      gt_pch_n_11VEC_tree_gc ((*x).local_decls);
+      gt_pch_n_9tree_node ((*x).local_decls);
       gt_pch_n_16machine_function ((*x).machine);
       gt_pch_n_17language_function ((*x).language);
       gt_pch_n_P9tree_node4htab ((*x).used_types_hash);
@@ -3454,6 +3353,22 @@ gt_pch_nx_real_value (void *x_p)
   struct real_value * const x = (struct real_value *)x_p;
   if (gt_pch_note_object (x, x, gt_pch_p_10real_value, gt_ggc_e_10real_value))
     {
+    }
+}
+
+void
+gt_pch_nx_VEC_rtx_gc (void *x_p)
+{
+  struct VEC_rtx_gc * const x = (struct VEC_rtx_gc *)x_p;
+  if (gt_pch_note_object (x, x, gt_pch_p_10VEC_rtx_gc, gt_ggc_e_10VEC_rtx_gc))
+    {
+      {
+        size_t i0;
+        size_t l0 = (size_t)(((*x).base).num);
+        for (i0 = 0; i0 != l0; i0++) {
+          gt_pch_n_7rtx_def ((*x).base.vec[i0]);
+        }
+      }
     }
 }
 
@@ -3514,63 +3429,6 @@ gt_pch_nx_bitmap_element_def (void *x_p)
 }
 
 void
-gt_pch_nx_VEC_rtx_gc (void *x_p)
-{
-  struct VEC_rtx_gc * const x = (struct VEC_rtx_gc *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_10VEC_rtx_gc, gt_ggc_e_10VEC_rtx_gc))
-    {
-      {
-        size_t i0;
-        size_t l0 = (size_t)(((*x).base).num);
-        for (i0 = 0; i0 != l0; i0++) {
-          gt_pch_n_7rtx_def ((*x).base.vec[i0]);
-        }
-      }
-    }
-}
-
-void
-gt_pch_nx_VEC_gimple_gc (void *x_p)
-{
-  struct VEC_gimple_gc * const x = (struct VEC_gimple_gc *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_13VEC_gimple_gc, gt_ggc_e_13VEC_gimple_gc))
-    {
-      {
-        size_t i0;
-        size_t l0 = (size_t)(((*x).base).num);
-        for (i0 = 0; i0 != l0; i0++) {
-          gt_pch_n_18gimple_statement_d ((*x).base.vec[i0]);
-        }
-      }
-    }
-}
-
-void
-gt_pch_nx_VEC_tree_gc (void *x_p)
-{
-  struct VEC_tree_gc * const x = (struct VEC_tree_gc *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_11VEC_tree_gc, gt_ggc_e_11VEC_tree_gc))
-    {
-      {
-        size_t i0;
-        size_t l0 = (size_t)(((*x).base).num);
-        for (i0 = 0; i0 != l0; i0++) {
-          gt_pch_n_9tree_node ((*x).base.vec[i0]);
-        }
-      }
-    }
-}
-
-void
-gt_pch_nx_VEC_uchar_gc (void *x_p)
-{
-  struct VEC_uchar_gc * const x = (struct VEC_uchar_gc *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_12VEC_uchar_gc, gt_ggc_e_12VEC_uchar_gc))
-    {
-    }
-}
-
-void
 gt_pch_nx_basic_block_def (void *x_p)
 {
   struct basic_block_def * x = (struct basic_block_def *)x_p;
@@ -3627,6 +3485,30 @@ gt_pch_nx_edge_def (void *x_p)
           break;
         }
       gt_pch_n_9tree_node ((*x).goto_block);
+    }
+}
+
+void
+gt_pch_nx_gimple_seq_node_d (void *x_p)
+{
+  struct gimple_seq_node_d * x = (struct gimple_seq_node_d *)x_p;
+  struct gimple_seq_node_d * xlimit = x;
+  while (gt_pch_note_object (xlimit, xlimit, gt_pch_p_17gimple_seq_node_d, gt_ggc_e_17gimple_seq_node_d))
+   xlimit = ((*xlimit).next);
+  if (x != xlimit)
+    for (;;)
+      {
+        struct gimple_seq_node_d * const xprev = ((*x).prev);
+        if (xprev == NULL) break;
+        x = xprev;
+        (void) gt_pch_note_object (xprev, xprev, gt_pch_p_17gimple_seq_node_d, gt_ggc_e_17gimple_seq_node_d);
+      }
+  while (x != xlimit)
+    {
+      gt_pch_n_18gimple_statement_d ((*x).stmt);
+      gt_pch_n_17gimple_seq_node_d ((*x).prev);
+      gt_pch_n_17gimple_seq_node_d ((*x).next);
+      x = ((*x).next);
     }
 }
 
@@ -3707,19 +3589,6 @@ gt_pch_nx_gimple_statement_d (void *x_p)
             }
           }
           break;
-        case GSS_CALL:
-          gt_pch_n_15basic_block_def ((*x).gimple_call.membase.opbase.gsbase.bb);
-          gt_pch_n_9tree_node ((*x).gimple_call.membase.opbase.gsbase.block);
-          gt_pch_n_15bitmap_head_def ((*x).gimple_call.call_used.vars);
-          gt_pch_n_15bitmap_head_def ((*x).gimple_call.call_clobbered.vars);
-          {
-            size_t i2;
-            size_t l2 = (size_t)(((*x).gimple_call).membase.opbase.gsbase.num_ops);
-            for (i2 = 0; i2 != l2; i2++) {
-              gt_pch_n_9tree_node ((*x).gimple_call.op[i2]);
-            }
-          }
-          break;
         case GSS_OMP:
           gt_pch_n_15basic_block_def ((*x).omp.gsbase.bb);
           gt_pch_n_9tree_node ((*x).omp.gsbase.block);
@@ -3754,10 +3623,10 @@ gt_pch_nx_gimple_statement_d (void *x_p)
           gt_pch_n_9tree_node ((*x).gimple_phi.gsbase.block);
           gt_pch_n_9tree_node ((*x).gimple_phi.result);
           {
-            size_t i3;
-            size_t l3 = (size_t)(((*x).gimple_phi).nargs);
-            for (i3 = 0; i3 != l3; i3++) {
-              gt_pch_n_9tree_node ((*x).gimple_phi.args[i3].def);
+            size_t i2;
+            size_t l2 = (size_t)(((*x).gimple_phi).nargs);
+            for (i2 = 0; i2 != l2; i2++) {
+              gt_pch_n_9tree_node ((*x).gimple_phi.args[i2].def);
             }
           }
           break;
@@ -3781,10 +3650,10 @@ gt_pch_nx_gimple_statement_d (void *x_p)
           gt_pch_n_9tree_node ((*x).gimple_asm.membase.opbase.gsbase.block);
           gt_pch_n_S ((*x).gimple_asm.string);
           {
-            size_t i4;
-            size_t l4 = (size_t)(((*x).gimple_asm).membase.opbase.gsbase.num_ops);
-            for (i4 = 0; i4 != l4; i4++) {
-              gt_pch_n_9tree_node ((*x).gimple_asm.op[i4]);
+            size_t i3;
+            size_t l3 = (size_t)(((*x).gimple_asm).membase.opbase.gsbase.num_ops);
+            for (i3 = 0; i3 != l3; i3++) {
+              gt_pch_n_9tree_node ((*x).gimple_asm.op[i3]);
             }
           }
           break;
@@ -3800,12 +3669,12 @@ gt_pch_nx_gimple_statement_d (void *x_p)
           gt_pch_n_12gimple_seq_d ((*x).gimple_omp_for.omp.body);
           gt_pch_n_9tree_node ((*x).gimple_omp_for.clauses);
           if ((*x).gimple_omp_for.iter != NULL) {
-            size_t i5;
-            for (i5 = 0; i5 != (size_t)(((*x).gimple_omp_for).collapse); i5++) {
-              gt_pch_n_9tree_node ((*x).gimple_omp_for.iter[i5].index);
-              gt_pch_n_9tree_node ((*x).gimple_omp_for.iter[i5].initial);
-              gt_pch_n_9tree_node ((*x).gimple_omp_for.iter[i5].final);
-              gt_pch_n_9tree_node ((*x).gimple_omp_for.iter[i5].incr);
+            size_t i4;
+            for (i4 = 0; i4 != (size_t)(((*x).gimple_omp_for).collapse); i4++) {
+              gt_pch_n_9tree_node ((*x).gimple_omp_for.iter[i4].index);
+              gt_pch_n_9tree_node ((*x).gimple_omp_for.iter[i4].initial);
+              gt_pch_n_9tree_node ((*x).gimple_omp_for.iter[i4].final);
+              gt_pch_n_9tree_node ((*x).gimple_omp_for.iter[i4].incr);
             }
             gt_pch_note_object ((*x).gimple_omp_for.iter, x, gt_pch_p_18gimple_statement_d, gt_types_enum_last);
           }
@@ -3901,17 +3770,9 @@ gt_pch_nx_rtx_def (void *x_p)
     {
       switch (GET_CODE (&(*x)))
         {
-        case DEBUG_IMPLICIT_PTR:
-          gt_pch_n_9tree_node ((*x).u.fld[0].rt_tree);
-          break;
         case VAR_LOCATION:
           gt_pch_n_7rtx_def ((*x).u.fld[1].rt_rtx);
           gt_pch_n_9tree_node ((*x).u.fld[0].rt_tree);
-          break;
-        case FMA:
-          gt_pch_n_7rtx_def ((*x).u.fld[2].rt_rtx);
-          gt_pch_n_7rtx_def ((*x).u.fld[1].rt_rtx);
-          gt_pch_n_7rtx_def ((*x).u.fld[0].rt_rtx);
           break;
         case US_TRUNCATE:
           gt_pch_n_7rtx_def ((*x).u.fld[0].rt_rtx);
@@ -4413,7 +4274,7 @@ gt_pch_nx_rtx_def (void *x_p)
           break;
         case CODE_LABEL:
           gt_pch_n_S ((*x).u.fld[7].rt_str);
-          gt_pch_n_7rtx_def ((*x).u.fld[4].rt_rtx);
+          gt_pch_n_7rtx_def ((*x).u.fld[5].rt_rtx);
           gt_pch_n_15basic_block_def ((*x).u.fld[3].rt_bb);
           gt_pch_n_7rtx_def ((*x).u.fld[2].rt_rtx);
           gt_pch_n_7rtx_def ((*x).u.fld[1].rt_rtx);
@@ -4425,7 +4286,7 @@ gt_pch_nx_rtx_def (void *x_p)
         case CALL_INSN:
           gt_pch_n_7rtx_def ((*x).u.fld[8].rt_rtx);
           gt_pch_n_7rtx_def ((*x).u.fld[7].rt_rtx);
-          gt_pch_n_7rtx_def ((*x).u.fld[4].rt_rtx);
+          gt_pch_n_7rtx_def ((*x).u.fld[5].rt_rtx);
           gt_pch_n_15basic_block_def ((*x).u.fld[3].rt_bb);
           gt_pch_n_7rtx_def ((*x).u.fld[2].rt_rtx);
           gt_pch_n_7rtx_def ((*x).u.fld[1].rt_rtx);
@@ -4433,21 +4294,21 @@ gt_pch_nx_rtx_def (void *x_p)
         case JUMP_INSN:
           gt_pch_n_7rtx_def ((*x).u.fld[8].rt_rtx);
           gt_pch_n_7rtx_def ((*x).u.fld[7].rt_rtx);
-          gt_pch_n_7rtx_def ((*x).u.fld[4].rt_rtx);
+          gt_pch_n_7rtx_def ((*x).u.fld[5].rt_rtx);
           gt_pch_n_15basic_block_def ((*x).u.fld[3].rt_bb);
           gt_pch_n_7rtx_def ((*x).u.fld[2].rt_rtx);
           gt_pch_n_7rtx_def ((*x).u.fld[1].rt_rtx);
           break;
         case INSN:
           gt_pch_n_7rtx_def ((*x).u.fld[7].rt_rtx);
-          gt_pch_n_7rtx_def ((*x).u.fld[4].rt_rtx);
+          gt_pch_n_7rtx_def ((*x).u.fld[5].rt_rtx);
           gt_pch_n_15basic_block_def ((*x).u.fld[3].rt_bb);
           gt_pch_n_7rtx_def ((*x).u.fld[2].rt_rtx);
           gt_pch_n_7rtx_def ((*x).u.fld[1].rt_rtx);
           break;
         case DEBUG_INSN:
           gt_pch_n_7rtx_def ((*x).u.fld[7].rt_rtx);
-          gt_pch_n_7rtx_def ((*x).u.fld[4].rt_rtx);
+          gt_pch_n_7rtx_def ((*x).u.fld[5].rt_rtx);
           gt_pch_n_15basic_block_def ((*x).u.fld[3].rt_bb);
           gt_pch_n_7rtx_def ((*x).u.fld[2].rt_rtx);
           gt_pch_n_7rtx_def ((*x).u.fld[1].rt_rtx);
@@ -4679,18 +4540,24 @@ gt_pch_n_P9tree_nodeP9tree_node17splay_tree_node_s (void *x_p)
 }
 
 void
-gt_pch_n_P17lto_in_decl_state4htab (void *x_p)
+gt_pch_n_IP9tree_node17splay_tree_node_s (void *x_p)
 {
-  struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P17lto_in_decl_state4htab, gt_types_enum_last))
+  struct splay_tree_node_s * const x = (struct splay_tree_node_s *)x_p;
+  if (gt_pch_note_object (x, x, gt_pch_p_IP9tree_node17splay_tree_node_s, gt_types_enum_last))
     {
-      if ((*x).entries != NULL) {
-        size_t i0;
-        for (i0 = 0; i0 != (size_t)(((*x)).size); i0++) {
-          gt_pch_n_17lto_in_decl_state ((*x).entries[i0]);
-        }
-        gt_pch_note_object ((*x).entries, x, gt_pch_p_P17lto_in_decl_state4htab, gt_types_enum_last);
-      }
+      gt_pch_n_9tree_node ((void *)(*x).value);
+      gt_pch_n_IP9tree_node17splay_tree_node_s ((*x).left);
+      gt_pch_n_IP9tree_node17splay_tree_node_s ((*x).right);
+    }
+}
+
+void
+gt_pch_n_IP9tree_node12splay_tree_s (void *x_p)
+{
+  struct splay_tree_s * const x = (struct splay_tree_s *)x_p;
+  if (gt_pch_note_object (x, x, gt_pch_p_IP9tree_node12splay_tree_s, gt_types_enum_last))
+    {
+      gt_pch_n_IP9tree_node17splay_tree_node_s ((*x).root);
     }
 }
 
@@ -4708,7 +4575,7 @@ void
 gt_pch_n_P12varpool_node4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P12varpool_node4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P12varpool_node4htab, gt_e_P12varpool_node4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;
@@ -4721,26 +4588,10 @@ gt_pch_n_P12varpool_node4htab (void *x_p)
 }
 
 void
-gt_pch_n_P12tree_int_map4htab (void *x_p)
-{
-  struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P12tree_int_map4htab, gt_types_enum_last))
-    {
-      if ((*x).entries != NULL) {
-        size_t i0;
-        for (i0 = 0; i0 != (size_t)(((*x)).size); i0++) {
-          gt_pch_n_12tree_int_map ((*x).entries[i0]);
-        }
-        gt_pch_note_object ((*x).entries, x, gt_pch_p_P12tree_int_map4htab, gt_types_enum_last);
-      }
-    }
-}
-
-void
 gt_pch_n_P24constant_descriptor_tree4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P24constant_descriptor_tree4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P24constant_descriptor_tree4htab, gt_e_P24constant_descriptor_tree4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;
@@ -4756,7 +4607,7 @@ void
 gt_pch_n_P12object_block4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P12object_block4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P12object_block4htab, gt_e_P12object_block4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;
@@ -4772,7 +4623,7 @@ void
 gt_pch_n_P7section4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P7section4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P7section4htab, gt_e_P7section4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;
@@ -4788,7 +4639,7 @@ void
 gt_pch_n_P17tree_priority_map4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P17tree_priority_map4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P17tree_priority_map4htab, gt_e_P17tree_priority_map4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;
@@ -4801,17 +4652,17 @@ gt_pch_n_P17tree_priority_map4htab (void *x_p)
 }
 
 void
-gt_pch_n_P13tree_decl_map4htab (void *x_p)
+gt_pch_n_P8tree_map4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P13tree_decl_map4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P8tree_map4htab, gt_e_P8tree_map4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;
         for (i0 = 0; i0 != (size_t)(((*x)).size); i0++) {
-          gt_pch_n_13tree_decl_map ((*x).entries[i0]);
+          gt_pch_n_8tree_map ((*x).entries[i0]);
         }
-        gt_pch_note_object ((*x).entries, x, gt_pch_p_P13tree_decl_map4htab, gt_types_enum_last);
+        gt_pch_note_object ((*x).entries, x, gt_pch_p_P8tree_map4htab, gt_types_enum_last);
       }
     }
 }
@@ -4820,7 +4671,7 @@ void
 gt_pch_n_P15throw_stmt_node4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P15throw_stmt_node4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P15throw_stmt_node4htab, gt_e_P15throw_stmt_node4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;
@@ -4836,7 +4687,7 @@ void
 gt_pch_n_P9reg_attrs4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P9reg_attrs4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P9reg_attrs4htab, gt_e_P9reg_attrs4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;
@@ -4852,7 +4703,7 @@ void
 gt_pch_n_P9mem_attrs4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P9mem_attrs4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P9mem_attrs4htab, gt_e_P9mem_attrs4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;
@@ -4868,7 +4719,7 @@ void
 gt_pch_n_P7rtx_def4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P7rtx_def4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P7rtx_def4htab, gt_e_P7rtx_def4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;
@@ -4894,7 +4745,7 @@ void
 gt_pch_n_P11cgraph_node4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P11cgraph_node4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P11cgraph_node4htab, gt_e_P11cgraph_node4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;
@@ -4917,26 +4768,10 @@ gt_pch_n_II12splay_tree_s (void *x_p)
 }
 
 void
-gt_pch_n_P28varpool_node_set_element_def4htab (void *x_p)
-{
-  struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P28varpool_node_set_element_def4htab, gt_types_enum_last))
-    {
-      if ((*x).entries != NULL) {
-        size_t i0;
-        for (i0 = 0; i0 != (size_t)(((*x)).size); i0++) {
-          gt_pch_n_28varpool_node_set_element_def ((*x).entries[i0]);
-        }
-        gt_pch_note_object ((*x).entries, x, gt_pch_p_P28varpool_node_set_element_def4htab, gt_types_enum_last);
-      }
-    }
-}
-
-void
 gt_pch_n_P27cgraph_node_set_element_def4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P27cgraph_node_set_element_def4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P27cgraph_node_set_element_def4htab, gt_e_P27cgraph_node_set_element_def4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;
@@ -4952,7 +4787,7 @@ void
 gt_pch_n_P11cgraph_edge4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P11cgraph_edge4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P11cgraph_edge4htab, gt_e_P11cgraph_edge4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;
@@ -4968,7 +4803,7 @@ void
 gt_pch_n_P9loop_exit4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P9loop_exit4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P9loop_exit4htab, gt_e_P9loop_exit4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;
@@ -4984,7 +4819,7 @@ void
 gt_pch_n_P24types_used_by_vars_entry4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P24types_used_by_vars_entry4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P24types_used_by_vars_entry4htab, gt_e_P24types_used_by_vars_entry4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;
@@ -5000,7 +4835,7 @@ void
 gt_pch_n_P9tree_node4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P9tree_node4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P9tree_node4htab, gt_e_P9tree_node4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;
@@ -5010,48 +4845,6 @@ gt_pch_n_P9tree_node4htab (void *x_p)
         gt_pch_note_object ((*x).entries, x, gt_pch_p_P9tree_node4htab, gt_types_enum_last);
       }
     }
-}
-
-void
-gt_pch_n_P13libfunc_entry4htab (void *x_p)
-{
-  struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P13libfunc_entry4htab, gt_types_enum_last))
-    {
-      if ((*x).entries != NULL) {
-        size_t i0;
-        for (i0 = 0; i0 != (size_t)(((*x)).size); i0++) {
-          gt_pch_n_13libfunc_entry ((*x).entries[i0]);
-        }
-        gt_pch_note_object ((*x).entries, x, gt_pch_p_P13libfunc_entry4htab, gt_types_enum_last);
-      }
-    }
-}
-
-void
-gt_pch_p_17lto_in_decl_state (ATTRIBUTE_UNUSED void *this_obj,
-	void *x_p,
-	ATTRIBUTE_UNUSED gt_pointer_operator op,
-	ATTRIBUTE_UNUSED void *cookie)
-{
-  struct lto_in_decl_state * const x ATTRIBUTE_UNUSED = (struct lto_in_decl_state *)x_p;
-  {
-    size_t i0;
-    size_t l0 = (size_t)(LTO_N_DECL_STREAMS);
-    for (i0 = 0; i0 != l0; i0++) {
-      if ((*x).streams[i0].trees != NULL) {
-        size_t i1;
-        for (i1 = 0; i1 != (size_t)(((*x).streams[i0]).size); i1++) {
-          if ((void *)((*x).streams[i0].trees) == this_obj)
-            op (&((*x).streams[i0].trees[i1]), cookie);
-        }
-        if ((void *)(x) == this_obj)
-          op (&((*x).streams[i0].trees), cookie);
-      }
-    }
-  }
-  if ((void *)(x) == this_obj)
-    op (&((*x).fn_decl), cookie);
 }
 
 void
@@ -5070,19 +4863,9 @@ gt_pch_p_22VEC_ipa_edge_args_t_gc (ATTRIBUTE_UNUSED void *this_obj,
         for (i1 = 0; i1 != (size_t)(((*x).base.vec[i0]).argument_count); i1++) {
           switch (((*x).base.vec[i0].jump_functions[i1]).type)
             {
-            case IPA_JF_KNOWN_TYPE:
-              if ((void *)((*x).base.vec[i0].jump_functions) == this_obj)
-                op (&((*x).base.vec[i0].jump_functions[i1].value.base_binfo), cookie);
-              break;
             case IPA_JF_CONST:
               if ((void *)((*x).base.vec[i0].jump_functions) == this_obj)
                 op (&((*x).base.vec[i0].jump_functions[i1].value.constant), cookie);
-              break;
-            case IPA_JF_CONST_MEMBER_PTR:
-              if ((void *)((*x).base.vec[i0].jump_functions) == this_obj)
-                op (&((*x).base.vec[i0].jump_functions[i1].value.member_cst.pfn), cookie);
-              if ((void *)((*x).base.vec[i0].jump_functions) == this_obj)
-                op (&((*x).base.vec[i0].jump_functions[i1].value.member_cst.delta), cookie);
               break;
             case IPA_JF_PASS_THROUGH:
               if ((void *)((*x).base.vec[i0].jump_functions) == this_obj)
@@ -5091,6 +4874,12 @@ gt_pch_p_22VEC_ipa_edge_args_t_gc (ATTRIBUTE_UNUSED void *this_obj,
             case IPA_JF_ANCESTOR:
               if ((void *)((*x).base.vec[i0].jump_functions) == this_obj)
                 op (&((*x).base.vec[i0].jump_functions[i1].value.ancestor.type), cookie);
+              break;
+            case IPA_JF_CONST_MEMBER_PTR:
+              if ((void *)((*x).base.vec[i0].jump_functions) == this_obj)
+                op (&((*x).base.vec[i0].jump_functions[i1].value.member_cst.pfn), cookie);
+              if ((void *)((*x).base.vec[i0].jump_functions) == this_obj)
+                op (&((*x).base.vec[i0].jump_functions[i1].value.member_cst.delta), cookie);
               break;
             default:
               break;
@@ -5115,18 +4904,20 @@ gt_pch_p_20ssa_operand_memory_d (ATTRIBUTE_UNUSED void *this_obj,
 }
 
 void
-gt_pch_p_17gimple_seq_node_d (ATTRIBUTE_UNUSED void *this_obj,
+gt_pch_p_13VEC_gimple_gc (ATTRIBUTE_UNUSED void *this_obj,
 	void *x_p,
 	ATTRIBUTE_UNUSED gt_pointer_operator op,
 	ATTRIBUTE_UNUSED void *cookie)
 {
-  struct gimple_seq_node_d * const x ATTRIBUTE_UNUSED = (struct gimple_seq_node_d *)x_p;
-  if ((void *)(x) == this_obj)
-    op (&((*x).stmt), cookie);
-  if ((void *)(x) == this_obj)
-    op (&((*x).prev), cookie);
-  if ((void *)(x) == this_obj)
-    op (&((*x).next), cookie);
+  struct VEC_gimple_gc * const x ATTRIBUTE_UNUSED = (struct VEC_gimple_gc *)x_p;
+  {
+    size_t i0;
+    size_t l0 = (size_t)(((*x).base).num);
+    for (i0 = 0; i0 != l0; i0++) {
+      if ((void *)(x) == this_obj)
+        op (&((*x).base.vec[i0]), cookie);
+    }
+  }
 }
 
 void
@@ -5279,47 +5070,29 @@ gt_pch_p_15cgraph_asm_node (ATTRIBUTE_UNUSED void *this_obj,
 }
 
 void
-gt_pch_p_25cgraph_indirect_call_info (ATTRIBUTE_UNUSED void *this_obj,
+gt_pch_p_12varpool_node (ATTRIBUTE_UNUSED void *this_obj,
 	void *x_p,
 	ATTRIBUTE_UNUSED gt_pointer_operator op,
 	ATTRIBUTE_UNUSED void *cookie)
 {
-  struct cgraph_indirect_call_info * const x ATTRIBUTE_UNUSED = (struct cgraph_indirect_call_info *)x_p;
+  struct varpool_node * const x ATTRIBUTE_UNUSED = (struct varpool_node *)x_p;
   if ((void *)(x) == this_obj)
-    op (&((*x).otr_type), cookie);
+    op (&((*x).decl), cookie);
+  if ((void *)(x) == this_obj)
+    op (&((*x).next), cookie);
+  if ((void *)(x) == this_obj)
+    op (&((*x).next_needed), cookie);
+  if ((void *)(x) == this_obj)
+    op (&((*x).extra_name), cookie);
 }
 
 void
-gt_pch_p_20varpool_node_set_def (ATTRIBUTE_UNUSED void *this_obj,
+gt_pch_p_22VEC_cgraph_node_set_gc (ATTRIBUTE_UNUSED void *this_obj,
 	void *x_p,
 	ATTRIBUTE_UNUSED gt_pointer_operator op,
 	ATTRIBUTE_UNUSED void *cookie)
 {
-  struct varpool_node_set_def * const x ATTRIBUTE_UNUSED = (struct varpool_node_set_def *)x_p;
-  if ((void *)(x) == this_obj)
-    op (&((*x).hashtab), cookie);
-  if ((void *)(x) == this_obj)
-    op (&((*x).nodes), cookie);
-}
-
-void
-gt_pch_p_28varpool_node_set_element_def (ATTRIBUTE_UNUSED void *this_obj,
-	void *x_p,
-	ATTRIBUTE_UNUSED gt_pointer_operator op,
-	ATTRIBUTE_UNUSED void *cookie)
-{
-  struct varpool_node_set_element_def * const x ATTRIBUTE_UNUSED = (struct varpool_node_set_element_def *)x_p;
-  if ((void *)(x) == this_obj)
-    op (&((*x).node), cookie);
-}
-
-void
-gt_pch_p_23VEC_varpool_node_ptr_gc (ATTRIBUTE_UNUSED void *this_obj,
-	void *x_p,
-	ATTRIBUTE_UNUSED gt_pointer_operator op,
-	ATTRIBUTE_UNUSED void *cookie)
-{
-  struct VEC_varpool_node_ptr_gc * const x ATTRIBUTE_UNUSED = (struct VEC_varpool_node_ptr_gc *)x_p;
+  struct VEC_cgraph_node_set_gc * const x ATTRIBUTE_UNUSED = (struct VEC_cgraph_node_set_gc *)x_p;
   {
     size_t i0;
     size_t l0 = (size_t)(((*x).base).num);
@@ -5392,8 +5165,6 @@ gt_pch_p_11cgraph_edge (ATTRIBUTE_UNUSED void *this_obj,
     op (&((*x).next_callee), cookie);
   if ((void *)(x) == this_obj)
     op (&((*x).call_stmt), cookie);
-  if ((void *)(x) == this_obj)
-    op (&((*x).indirect_info), cookie);
 }
 
 void
@@ -5427,93 +5198,6 @@ gt_pch_p_15ipa_replace_map (ATTRIBUTE_UNUSED void *this_obj,
 }
 
 void
-gt_pch_p_18lto_file_decl_data (ATTRIBUTE_UNUSED void *this_obj,
-	void *x_p,
-	ATTRIBUTE_UNUSED gt_pointer_operator op,
-	ATTRIBUTE_UNUSED void *cookie)
-{
-  struct lto_file_decl_data * const x ATTRIBUTE_UNUSED = (struct lto_file_decl_data *)x_p;
-  if ((void *)(x) == this_obj)
-    op (&((*x).current_decl_state), cookie);
-  if ((void *)(x) == this_obj)
-    op (&((*x).global_decl_state), cookie);
-  if ((void *)(x) == this_obj)
-    op (&((*x).function_decl_states), cookie);
-  if ((void *)(x) == this_obj)
-    op (&((*x).next), cookie);
-}
-
-void
-gt_pch_p_16VEC_ipa_ref_t_gc (ATTRIBUTE_UNUSED void *this_obj,
-	void *x_p,
-	ATTRIBUTE_UNUSED gt_pointer_operator op,
-	ATTRIBUTE_UNUSED void *cookie)
-{
-  struct VEC_ipa_ref_t_gc * const x ATTRIBUTE_UNUSED = (struct VEC_ipa_ref_t_gc *)x_p;
-  {
-    size_t i0;
-    size_t l0 = (size_t)(((*x).base).num);
-    for (i0 = 0; i0 != l0; i0++) {
-      switch (((*x).base.vec[i0]).refering_type)
-        {
-        case IPA_REF_CGRAPH:
-          if ((void *)(x) == this_obj)
-            op (&((*x).base.vec[i0].refering.cgraph_node), cookie);
-          break;
-        case IPA_REF_VARPOOL:
-          if ((void *)(x) == this_obj)
-            op (&((*x).base.vec[i0].refering.varpool_node), cookie);
-          break;
-        default:
-          break;
-        }
-      switch (((*x).base.vec[i0]).refered_type)
-        {
-        case IPA_REF_CGRAPH:
-          if ((void *)(x) == this_obj)
-            op (&((*x).base.vec[i0].refered.cgraph_node), cookie);
-          break;
-        case IPA_REF_VARPOOL:
-          if ((void *)(x) == this_obj)
-            op (&((*x).base.vec[i0].refered.varpool_node), cookie);
-          break;
-        default:
-          break;
-        }
-      if ((void *)(x) == this_obj)
-        op (&((*x).base.vec[i0].stmt), cookie);
-    }
-  }
-}
-
-void
-gt_pch_p_12varpool_node (ATTRIBUTE_UNUSED void *this_obj,
-	void *x_p,
-	ATTRIBUTE_UNUSED gt_pointer_operator op,
-	ATTRIBUTE_UNUSED void *cookie)
-{
-  struct varpool_node * const x ATTRIBUTE_UNUSED = (struct varpool_node *)x_p;
-  if ((void *)(x) == this_obj)
-    op (&((*x).decl), cookie);
-  if ((void *)(x) == this_obj)
-    op (&((*x).next), cookie);
-  if ((void *)(x) == this_obj)
-    op (&((*x).prev), cookie);
-  if ((void *)(x) == this_obj)
-    op (&((*x).next_needed), cookie);
-  if ((void *)(x) == this_obj)
-    op (&((*x).prev_needed), cookie);
-  if ((void *)(x) == this_obj)
-    op (&((*x).extra_name), cookie);
-  if ((void *)(x) == this_obj)
-    op (&((*x).same_comdat_group), cookie);
-  if ((void *)(x) == this_obj)
-    op (&((*x).ref_list.references), cookie);
-  if ((void *)(x) == this_obj)
-    op (&((*x).lto_file_data), cookie);
-}
-
-void
 gt_pch_p_11cgraph_node (ATTRIBUTE_UNUSED void *this_obj,
 	void *x_p,
 	ATTRIBUTE_UNUSED gt_pointer_operator op,
@@ -5530,8 +5214,6 @@ gt_pch_p_11cgraph_node (ATTRIBUTE_UNUSED void *this_obj,
     op (&((*x).next), cookie);
   if ((void *)(x) == this_obj)
     op (&((*x).previous), cookie);
-  if ((void *)(x) == this_obj)
-    op (&((*x).indirect_calls), cookie);
   if ((void *)(x) == this_obj)
     op (&((*x).origin), cookie);
   if ((void *)(x) == this_obj)
@@ -5554,12 +5236,6 @@ gt_pch_p_11cgraph_node (ATTRIBUTE_UNUSED void *this_obj,
     op (&((*x).same_comdat_group), cookie);
   if ((void *)(x) == this_obj)
     op (&((*x).call_site_hash), cookie);
-  if ((void *)(x) == this_obj)
-    op (&((*x).former_clone_of), cookie);
-  if ((void *)(x) == this_obj)
-    op (&((*x).ref_list.references), cookie);
-  if ((void *)(x) == this_obj)
-    op (&((*x).local.lto_file_data), cookie);
   if ((void *)(x) == this_obj)
     op (&((*x).global.inlined_to), cookie);
   if ((void *)(x) == this_obj)
@@ -5637,6 +5313,38 @@ gt_pch_p_11VEC_edge_gc (ATTRIBUTE_UNUSED void *this_obj,
 }
 
 void
+gt_pch_p_17cselib_val_struct (ATTRIBUTE_UNUSED void *this_obj,
+	void *x_p,
+	ATTRIBUTE_UNUSED gt_pointer_operator op,
+	ATTRIBUTE_UNUSED void *cookie)
+{
+  struct cselib_val_struct * const x ATTRIBUTE_UNUSED = (struct cselib_val_struct *)x_p;
+  if ((void *)(x) == this_obj)
+    op (&((*x).val_rtx), cookie);
+  if ((void *)(x) == this_obj)
+    op (&((*x).locs), cookie);
+  if ((void *)(x) == this_obj)
+    op (&((*x).addr_list), cookie);
+  if ((void *)(x) == this_obj)
+    op (&((*x).next_containing_mem), cookie);
+}
+
+void
+gt_pch_p_12elt_loc_list (ATTRIBUTE_UNUSED void *this_obj,
+	void *x_p,
+	ATTRIBUTE_UNUSED gt_pointer_operator op,
+	ATTRIBUTE_UNUSED void *cookie)
+{
+  struct elt_loc_list * const x ATTRIBUTE_UNUSED = (struct elt_loc_list *)x_p;
+  if ((void *)(x) == this_obj)
+    op (&((*x).next), cookie);
+  if ((void *)(x) == this_obj)
+    op (&((*x).loc), cookie);
+  if ((void *)(x) == this_obj)
+    op (&((*x).setting_insn), cookie);
+}
+
+void
 gt_pch_p_13VEC_loop_p_gc (ATTRIBUTE_UNUSED void *this_obj,
 	void *x_p,
 	ATTRIBUTE_UNUSED gt_pointer_operator op,
@@ -5676,6 +5384,8 @@ gt_pch_p_4loop (ATTRIBUTE_UNUSED void *this_obj,
     op (&((*x).bounds), cookie);
   if ((void *)(x) == this_obj)
     op (&((*x).exits), cookie);
+  if ((void *)(x) == this_obj)
+    op (&((*x).single_iv), cookie);
 }
 
 void
@@ -5786,26 +5496,6 @@ gt_pch_p_9eh_status (ATTRIBUTE_UNUSED void *this_obj,
 }
 
 void
-gt_pch_p_11stack_usage (ATTRIBUTE_UNUSED void *this_obj,
-	void *x_p,
-	ATTRIBUTE_UNUSED gt_pointer_operator op,
-	ATTRIBUTE_UNUSED void *cookie)
-{
-  struct stack_usage * const x ATTRIBUTE_UNUSED = (struct stack_usage *)x_p;
-}
-
-void
-gt_pch_p_11frame_space (ATTRIBUTE_UNUSED void *this_obj,
-	void *x_p,
-	ATTRIBUTE_UNUSED gt_pointer_operator op,
-	ATTRIBUTE_UNUSED void *cookie)
-{
-  struct frame_space * const x ATTRIBUTE_UNUSED = (struct frame_space *)x_p;
-  if ((void *)(x) == this_obj)
-    op (&((*x).next), cookie);
-}
-
-void
 gt_pch_p_18VEC_temp_slot_p_gc (ATTRIBUTE_UNUSED void *this_obj,
 	void *x_p,
 	ATTRIBUTE_UNUSED gt_pointer_operator op,
@@ -5839,6 +5529,8 @@ gt_pch_p_9gimple_df (ATTRIBUTE_UNUSED void *this_obj,
     op (&((*x).vop), cookie);
   if ((void *)(x) == this_obj)
     op (&((*x).escaped.vars), cookie);
+  if ((void *)(x) == this_obj)
+    op (&((*x).callused.vars), cookie);
   if ((void *)(x) == this_obj)
     op (&((*x).free_ssanames), cookie);
   if ((void *)(x) == this_obj)
@@ -5882,14 +5574,16 @@ gt_pch_p_14sequence_stack (ATTRIBUTE_UNUSED void *this_obj,
 }
 
 void
-gt_pch_p_13libfunc_entry (ATTRIBUTE_UNUSED void *this_obj,
+gt_pch_p_8elt_list (ATTRIBUTE_UNUSED void *this_obj,
 	void *x_p,
 	ATTRIBUTE_UNUSED gt_pointer_operator op,
 	ATTRIBUTE_UNUSED void *cookie)
 {
-  struct libfunc_entry * const x ATTRIBUTE_UNUSED = (struct libfunc_entry *)x_p;
+  struct elt_list * const x ATTRIBUTE_UNUSED = (struct elt_list *)x_p;
   if ((void *)(x) == this_obj)
-    op (&((*x).libfunc), cookie);
+    op (&((*x).next), cookie);
+  if ((void *)(x) == this_obj)
+    op (&((*x).elt), cookie);
 }
 
 void
@@ -5904,23 +5598,12 @@ gt_pch_p_17tree_priority_map (ATTRIBUTE_UNUSED void *this_obj,
 }
 
 void
-gt_pch_p_12tree_int_map (ATTRIBUTE_UNUSED void *this_obj,
+gt_pch_p_8tree_map (ATTRIBUTE_UNUSED void *this_obj,
 	void *x_p,
 	ATTRIBUTE_UNUSED gt_pointer_operator op,
 	ATTRIBUTE_UNUSED void *cookie)
 {
-  struct tree_int_map * const x ATTRIBUTE_UNUSED = (struct tree_int_map *)x_p;
-  if ((void *)(x) == this_obj)
-    op (&((*x).base.from), cookie);
-}
-
-void
-gt_pch_p_13tree_decl_map (ATTRIBUTE_UNUSED void *this_obj,
-	void *x_p,
-	ATTRIBUTE_UNUSED gt_pointer_operator op,
-	ATTRIBUTE_UNUSED void *cookie)
-{
-  struct tree_decl_map * const x ATTRIBUTE_UNUSED = (struct tree_decl_map *)x_p;
+  struct tree_map * const x ATTRIBUTE_UNUSED = (struct tree_map *)x_p;
   if ((void *)(x) == this_obj)
     op (&((*x).base.from), cookie);
   if ((void *)(x) == this_obj)
@@ -5951,6 +5634,115 @@ gt_pch_p_9var_ann_d (ATTRIBUTE_UNUSED void *this_obj,
   struct var_ann_d * const x ATTRIBUTE_UNUSED = (struct var_ann_d *)x_p;
   if ((void *)(x) == this_obj)
     op (&((*x).current_def), cookie);
+}
+
+void
+gt_pch_p_15varray_head_tag (ATTRIBUTE_UNUSED void *this_obj,
+	void *x_p,
+	ATTRIBUTE_UNUSED gt_pointer_operator op,
+	ATTRIBUTE_UNUSED void *cookie)
+{
+  struct varray_head_tag * const x ATTRIBUTE_UNUSED = (struct varray_head_tag *)x_p;
+  if ((void *)(x) == this_obj)
+    op (&((*x).name), cookie);
+  switch ((*x).type)
+    {
+    case VARRAY_DATA_C:
+      break;
+    case VARRAY_DATA_UC:
+      break;
+    case VARRAY_DATA_S:
+      break;
+    case VARRAY_DATA_US:
+      break;
+    case VARRAY_DATA_I:
+      break;
+    case VARRAY_DATA_U:
+      break;
+    case VARRAY_DATA_L:
+      break;
+    case VARRAY_DATA_UL:
+      break;
+    case VARRAY_DATA_HINT:
+      break;
+    case VARRAY_DATA_UHINT:
+      break;
+    case VARRAY_DATA_GENERIC:
+      gcc_unreachable ();
+      break;
+    case VARRAY_DATA_CPTR:
+      {
+        size_t i10;
+        size_t l10 = (size_t)((*x).num_elements);
+        for (i10 = 0; i10 != l10; i10++) {
+          if ((void *)(x) == this_obj)
+            op (&((*x).data.vdt_cptr[i10]), cookie);
+        }
+      }
+      break;
+    case VARRAY_DATA_RTX:
+      {
+        size_t i11;
+        size_t l11 = (size_t)((*x).num_elements);
+        for (i11 = 0; i11 != l11; i11++) {
+          if ((void *)(x) == this_obj)
+            op (&((*x).data.vdt_rtx[i11]), cookie);
+        }
+      }
+      break;
+    case VARRAY_DATA_RTVEC:
+      {
+        size_t i12;
+        size_t l12 = (size_t)((*x).num_elements);
+        for (i12 = 0; i12 != l12; i12++) {
+          if ((void *)(x) == this_obj)
+            op (&((*x).data.vdt_rtvec[i12]), cookie);
+        }
+      }
+      break;
+    case VARRAY_DATA_TREE:
+      {
+        size_t i13;
+        size_t l13 = (size_t)((*x).num_elements);
+        for (i13 = 0; i13 != l13; i13++) {
+          if ((void *)(x) == this_obj)
+            op (&((*x).data.vdt_tree[i13]), cookie);
+        }
+      }
+      break;
+    case VARRAY_DATA_BITMAP:
+      {
+        size_t i14;
+        size_t l14 = (size_t)((*x).num_elements);
+        for (i14 = 0; i14 != l14; i14++) {
+          if ((void *)(x) == this_obj)
+            op (&((*x).data.vdt_bitmap[i14]), cookie);
+        }
+      }
+      break;
+    case VARRAY_DATA_TE:
+      {
+        size_t i15;
+        size_t l15 = (size_t)((*x).num_elements);
+        for (i15 = 0; i15 != l15; i15++) {
+          if ((void *)(x) == this_obj)
+            op (&((*x).data.vdt_te[i15]), cookie);
+        }
+      }
+      break;
+    case VARRAY_DATA_EDGE:
+      {
+        size_t i16;
+        size_t l16 = (size_t)((*x).num_elements);
+        for (i16 = 0; i16 != l16; i16++) {
+          if ((void *)(x) == this_obj)
+            op (&((*x).data.vdt_e[i16]), cookie);
+        }
+      }
+      break;
+    default:
+      break;
+    }
 }
 
 void
@@ -6003,6 +5795,32 @@ gt_pch_p_17VEC_alias_pair_gc (ATTRIBUTE_UNUSED void *this_obj,
 }
 
 void
+gt_pch_p_11VEC_tree_gc (ATTRIBUTE_UNUSED void *this_obj,
+	void *x_p,
+	ATTRIBUTE_UNUSED gt_pointer_operator op,
+	ATTRIBUTE_UNUSED void *cookie)
+{
+  struct VEC_tree_gc * const x ATTRIBUTE_UNUSED = (struct VEC_tree_gc *)x_p;
+  {
+    size_t i0;
+    size_t l0 = (size_t)(((*x).base).num);
+    for (i0 = 0; i0 != l0; i0++) {
+      if ((void *)(x) == this_obj)
+        op (&((*x).base.vec[i0]), cookie);
+    }
+  }
+}
+
+void
+gt_pch_p_12VEC_uchar_gc (ATTRIBUTE_UNUSED void *this_obj,
+	void *x_p,
+	ATTRIBUTE_UNUSED gt_pointer_operator op,
+	ATTRIBUTE_UNUSED void *cookie)
+{
+  struct VEC_uchar_gc * const x ATTRIBUTE_UNUSED = (struct VEC_uchar_gc *)x_p;
+}
+
+void
 gt_pch_p_8function (ATTRIBUTE_UNUSED void *this_obj,
 	void *x_p,
 	ATTRIBUTE_UNUSED gt_pointer_operator op,
@@ -6019,8 +5837,6 @@ gt_pch_p_8function (ATTRIBUTE_UNUSED void *this_obj,
     op (&((*x).gimple_df), cookie);
   if ((void *)(x) == this_obj)
     op (&((*x).x_current_loops), cookie);
-  if ((void *)(x) == this_obj)
-    op (&((*x).su), cookie);
   if ((void *)(x) == this_obj)
     op (&((*x).decl), cookie);
   if ((void *)(x) == this_obj)
@@ -6053,6 +5869,23 @@ gt_pch_p_10real_value (ATTRIBUTE_UNUSED void *this_obj,
 	ATTRIBUTE_UNUSED void *cookie)
 {
   struct real_value * const x ATTRIBUTE_UNUSED = (struct real_value *)x_p;
+}
+
+void
+gt_pch_p_10VEC_rtx_gc (ATTRIBUTE_UNUSED void *this_obj,
+	void *x_p,
+	ATTRIBUTE_UNUSED gt_pointer_operator op,
+	ATTRIBUTE_UNUSED void *cookie)
+{
+  struct VEC_rtx_gc * const x ATTRIBUTE_UNUSED = (struct VEC_rtx_gc *)x_p;
+  {
+    size_t i0;
+    size_t l0 = (size_t)(((*x).base).num);
+    for (i0 = 0; i0 != l0; i0++) {
+      if ((void *)(x) == this_obj)
+        op (&((*x).base.vec[i0]), cookie);
+    }
+  }
 }
 
 void
@@ -6123,66 +5956,6 @@ gt_pch_p_18bitmap_element_def (ATTRIBUTE_UNUSED void *this_obj,
 }
 
 void
-gt_pch_p_10VEC_rtx_gc (ATTRIBUTE_UNUSED void *this_obj,
-	void *x_p,
-	ATTRIBUTE_UNUSED gt_pointer_operator op,
-	ATTRIBUTE_UNUSED void *cookie)
-{
-  struct VEC_rtx_gc * const x ATTRIBUTE_UNUSED = (struct VEC_rtx_gc *)x_p;
-  {
-    size_t i0;
-    size_t l0 = (size_t)(((*x).base).num);
-    for (i0 = 0; i0 != l0; i0++) {
-      if ((void *)(x) == this_obj)
-        op (&((*x).base.vec[i0]), cookie);
-    }
-  }
-}
-
-void
-gt_pch_p_13VEC_gimple_gc (ATTRIBUTE_UNUSED void *this_obj,
-	void *x_p,
-	ATTRIBUTE_UNUSED gt_pointer_operator op,
-	ATTRIBUTE_UNUSED void *cookie)
-{
-  struct VEC_gimple_gc * const x ATTRIBUTE_UNUSED = (struct VEC_gimple_gc *)x_p;
-  {
-    size_t i0;
-    size_t l0 = (size_t)(((*x).base).num);
-    for (i0 = 0; i0 != l0; i0++) {
-      if ((void *)(x) == this_obj)
-        op (&((*x).base.vec[i0]), cookie);
-    }
-  }
-}
-
-void
-gt_pch_p_11VEC_tree_gc (ATTRIBUTE_UNUSED void *this_obj,
-	void *x_p,
-	ATTRIBUTE_UNUSED gt_pointer_operator op,
-	ATTRIBUTE_UNUSED void *cookie)
-{
-  struct VEC_tree_gc * const x ATTRIBUTE_UNUSED = (struct VEC_tree_gc *)x_p;
-  {
-    size_t i0;
-    size_t l0 = (size_t)(((*x).base).num);
-    for (i0 = 0; i0 != l0; i0++) {
-      if ((void *)(x) == this_obj)
-        op (&((*x).base.vec[i0]), cookie);
-    }
-  }
-}
-
-void
-gt_pch_p_12VEC_uchar_gc (ATTRIBUTE_UNUSED void *this_obj,
-	void *x_p,
-	ATTRIBUTE_UNUSED gt_pointer_operator op,
-	ATTRIBUTE_UNUSED void *cookie)
-{
-  struct VEC_uchar_gc * const x ATTRIBUTE_UNUSED = (struct VEC_uchar_gc *)x_p;
-}
-
-void
 gt_pch_p_15basic_block_def (ATTRIBUTE_UNUSED void *this_obj,
 	void *x_p,
 	ATTRIBUTE_UNUSED gt_pointer_operator op,
@@ -6240,6 +6013,21 @@ gt_pch_p_8edge_def (ATTRIBUTE_UNUSED void *this_obj,
     }
   if ((void *)(x) == this_obj)
     op (&((*x).goto_block), cookie);
+}
+
+void
+gt_pch_p_17gimple_seq_node_d (ATTRIBUTE_UNUSED void *this_obj,
+	void *x_p,
+	ATTRIBUTE_UNUSED gt_pointer_operator op,
+	ATTRIBUTE_UNUSED void *cookie)
+{
+  struct gimple_seq_node_d * const x ATTRIBUTE_UNUSED = (struct gimple_seq_node_d *)x_p;
+  if ((void *)(x) == this_obj)
+    op (&((*x).stmt), cookie);
+  if ((void *)(x) == this_obj)
+    op (&((*x).prev), cookie);
+  if ((void *)(x) == this_obj)
+    op (&((*x).next), cookie);
 }
 
 void
@@ -6332,24 +6120,6 @@ gt_pch_p_18gimple_statement_d (ATTRIBUTE_UNUSED void *this_obj,
         }
       }
       break;
-    case GSS_CALL:
-      if ((void *)(x) == this_obj)
-        op (&((*x).gimple_call.membase.opbase.gsbase.bb), cookie);
-      if ((void *)(x) == this_obj)
-        op (&((*x).gimple_call.membase.opbase.gsbase.block), cookie);
-      if ((void *)(x) == this_obj)
-        op (&((*x).gimple_call.call_used.vars), cookie);
-      if ((void *)(x) == this_obj)
-        op (&((*x).gimple_call.call_clobbered.vars), cookie);
-      {
-        size_t i2;
-        size_t l2 = (size_t)(((*x).gimple_call).membase.opbase.gsbase.num_ops);
-        for (i2 = 0; i2 != l2; i2++) {
-          if ((void *)(x) == this_obj)
-            op (&((*x).gimple_call.op[i2]), cookie);
-        }
-      }
-      break;
     case GSS_OMP:
       if ((void *)(x) == this_obj)
         op (&((*x).omp.gsbase.bb), cookie);
@@ -6406,11 +6176,11 @@ gt_pch_p_18gimple_statement_d (ATTRIBUTE_UNUSED void *this_obj,
       if ((void *)(x) == this_obj)
         op (&((*x).gimple_phi.result), cookie);
       {
-        size_t i3;
-        size_t l3 = (size_t)(((*x).gimple_phi).nargs);
-        for (i3 = 0; i3 != l3; i3++) {
+        size_t i2;
+        size_t l2 = (size_t)(((*x).gimple_phi).nargs);
+        for (i2 = 0; i2 != l2; i2++) {
           if ((void *)(x) == this_obj)
-            op (&((*x).gimple_phi.args[i3].def), cookie);
+            op (&((*x).gimple_phi.args[i2].def), cookie);
         }
       }
       break;
@@ -6446,11 +6216,11 @@ gt_pch_p_18gimple_statement_d (ATTRIBUTE_UNUSED void *this_obj,
       if ((void *)(x) == this_obj)
         op (&((*x).gimple_asm.string), cookie);
       {
-        size_t i4;
-        size_t l4 = (size_t)(((*x).gimple_asm).membase.opbase.gsbase.num_ops);
-        for (i4 = 0; i4 != l4; i4++) {
+        size_t i3;
+        size_t l3 = (size_t)(((*x).gimple_asm).membase.opbase.gsbase.num_ops);
+        for (i3 = 0; i3 != l3; i3++) {
           if ((void *)(x) == this_obj)
-            op (&((*x).gimple_asm.op[i4]), cookie);
+            op (&((*x).gimple_asm.op[i3]), cookie);
         }
       }
       break;
@@ -6474,16 +6244,16 @@ gt_pch_p_18gimple_statement_d (ATTRIBUTE_UNUSED void *this_obj,
       if ((void *)(x) == this_obj)
         op (&((*x).gimple_omp_for.clauses), cookie);
       if ((*x).gimple_omp_for.iter != NULL) {
-        size_t i5;
-        for (i5 = 0; i5 != (size_t)(((*x).gimple_omp_for).collapse); i5++) {
+        size_t i4;
+        for (i4 = 0; i4 != (size_t)(((*x).gimple_omp_for).collapse); i4++) {
           if ((void *)((*x).gimple_omp_for.iter) == this_obj)
-            op (&((*x).gimple_omp_for.iter[i5].index), cookie);
+            op (&((*x).gimple_omp_for.iter[i4].index), cookie);
           if ((void *)((*x).gimple_omp_for.iter) == this_obj)
-            op (&((*x).gimple_omp_for.iter[i5].initial), cookie);
+            op (&((*x).gimple_omp_for.iter[i4].initial), cookie);
           if ((void *)((*x).gimple_omp_for.iter) == this_obj)
-            op (&((*x).gimple_omp_for.iter[i5].final), cookie);
+            op (&((*x).gimple_omp_for.iter[i4].final), cookie);
           if ((void *)((*x).gimple_omp_for.iter) == this_obj)
-            op (&((*x).gimple_omp_for.iter[i5].incr), cookie);
+            op (&((*x).gimple_omp_for.iter[i4].incr), cookie);
         }
         if ((void *)(x) == this_obj)
           op (&((*x).gimple_omp_for.iter), cookie);
@@ -6606,23 +6376,11 @@ gt_pch_p_7rtx_def (ATTRIBUTE_UNUSED void *this_obj,
   struct rtx_def * const x ATTRIBUTE_UNUSED = (struct rtx_def *)x_p;
   switch (GET_CODE (&(*x)))
     {
-    case DEBUG_IMPLICIT_PTR:
-      if ((void *)(x) == this_obj)
-        op (&((*x).u.fld[0].rt_tree), cookie);
-      break;
     case VAR_LOCATION:
       if ((void *)(x) == this_obj)
         op (&((*x).u.fld[1].rt_rtx), cookie);
       if ((void *)(x) == this_obj)
         op (&((*x).u.fld[0].rt_tree), cookie);
-      break;
-    case FMA:
-      if ((void *)(x) == this_obj)
-        op (&((*x).u.fld[2].rt_rtx), cookie);
-      if ((void *)(x) == this_obj)
-        op (&((*x).u.fld[1].rt_rtx), cookie);
-      if ((void *)(x) == this_obj)
-        op (&((*x).u.fld[0].rt_rtx), cookie);
       break;
     case US_TRUNCATE:
       if ((void *)(x) == this_obj)
@@ -7329,7 +7087,7 @@ gt_pch_p_7rtx_def (ATTRIBUTE_UNUSED void *this_obj,
       if ((void *)(x) == this_obj)
         op (&((*x).u.fld[7].rt_str), cookie);
       if ((void *)(x) == this_obj)
-        op (&((*x).u.fld[4].rt_rtx), cookie);
+        op (&((*x).u.fld[5].rt_rtx), cookie);
       if ((void *)(x) == this_obj)
         op (&((*x).u.fld[3].rt_bb), cookie);
       if ((void *)(x) == this_obj)
@@ -7349,7 +7107,7 @@ gt_pch_p_7rtx_def (ATTRIBUTE_UNUSED void *this_obj,
       if ((void *)(x) == this_obj)
         op (&((*x).u.fld[7].rt_rtx), cookie);
       if ((void *)(x) == this_obj)
-        op (&((*x).u.fld[4].rt_rtx), cookie);
+        op (&((*x).u.fld[5].rt_rtx), cookie);
       if ((void *)(x) == this_obj)
         op (&((*x).u.fld[3].rt_bb), cookie);
       if ((void *)(x) == this_obj)
@@ -7363,7 +7121,7 @@ gt_pch_p_7rtx_def (ATTRIBUTE_UNUSED void *this_obj,
       if ((void *)(x) == this_obj)
         op (&((*x).u.fld[7].rt_rtx), cookie);
       if ((void *)(x) == this_obj)
-        op (&((*x).u.fld[4].rt_rtx), cookie);
+        op (&((*x).u.fld[5].rt_rtx), cookie);
       if ((void *)(x) == this_obj)
         op (&((*x).u.fld[3].rt_bb), cookie);
       if ((void *)(x) == this_obj)
@@ -7375,7 +7133,7 @@ gt_pch_p_7rtx_def (ATTRIBUTE_UNUSED void *this_obj,
       if ((void *)(x) == this_obj)
         op (&((*x).u.fld[7].rt_rtx), cookie);
       if ((void *)(x) == this_obj)
-        op (&((*x).u.fld[4].rt_rtx), cookie);
+        op (&((*x).u.fld[5].rt_rtx), cookie);
       if ((void *)(x) == this_obj)
         op (&((*x).u.fld[3].rt_bb), cookie);
       if ((void *)(x) == this_obj)
@@ -7387,7 +7145,7 @@ gt_pch_p_7rtx_def (ATTRIBUTE_UNUSED void *this_obj,
       if ((void *)(x) == this_obj)
         op (&((*x).u.fld[7].rt_rtx), cookie);
       if ((void *)(x) == this_obj)
-        op (&((*x).u.fld[4].rt_rtx), cookie);
+        op (&((*x).u.fld[5].rt_rtx), cookie);
       if ((void *)(x) == this_obj)
         op (&((*x).u.fld[3].rt_bb), cookie);
       if ((void *)(x) == this_obj)
@@ -7660,21 +7418,29 @@ gt_pch_p_P9tree_nodeP9tree_node17splay_tree_node_s (ATTRIBUTE_UNUSED void *this_
 }
 
 void
-gt_pch_p_P17lto_in_decl_state4htab (ATTRIBUTE_UNUSED void *this_obj,
+gt_pch_p_IP9tree_node17splay_tree_node_s (ATTRIBUTE_UNUSED void *this_obj,
 	void *x_p,
 	ATTRIBUTE_UNUSED gt_pointer_operator op,
 	ATTRIBUTE_UNUSED void *cookie)
 {
-  struct htab * const x ATTRIBUTE_UNUSED = (struct htab *)x_p;
-  if ((*x).entries != NULL) {
-    size_t i0;
-    for (i0 = 0; i0 != (size_t)(((*x)).size); i0++) {
-      if ((void *)((*x).entries) == this_obj)
-        op (&((*x).entries[i0]), cookie);
-    }
-    if ((void *)(x) == this_obj)
-      op (&((*x).entries), cookie);
-  }
+  struct splay_tree_node_s * const x ATTRIBUTE_UNUSED = (struct splay_tree_node_s *)x_p;
+  if ((void *)(x) == this_obj)
+    op (&((*x).value), cookie);
+  if ((void *)(x) == this_obj)
+    op (&((*x).left), cookie);
+  if ((void *)(x) == this_obj)
+    op (&((*x).right), cookie);
+}
+
+void
+gt_pch_p_IP9tree_node12splay_tree_s (ATTRIBUTE_UNUSED void *this_obj,
+	void *x_p,
+	ATTRIBUTE_UNUSED gt_pointer_operator op,
+	ATTRIBUTE_UNUSED void *cookie)
+{
+  struct splay_tree_s * const x ATTRIBUTE_UNUSED = (struct splay_tree_s *)x_p;
+  if ((void *)(x) == this_obj)
+    op (&((*x).root), cookie);
 }
 
 void
@@ -7690,24 +7456,6 @@ gt_pch_p_P9tree_nodeP9tree_node12splay_tree_s (ATTRIBUTE_UNUSED void *this_obj,
 
 void
 gt_pch_p_P12varpool_node4htab (ATTRIBUTE_UNUSED void *this_obj,
-	void *x_p,
-	ATTRIBUTE_UNUSED gt_pointer_operator op,
-	ATTRIBUTE_UNUSED void *cookie)
-{
-  struct htab * const x ATTRIBUTE_UNUSED = (struct htab *)x_p;
-  if ((*x).entries != NULL) {
-    size_t i0;
-    for (i0 = 0; i0 != (size_t)(((*x)).size); i0++) {
-      if ((void *)((*x).entries) == this_obj)
-        op (&((*x).entries[i0]), cookie);
-    }
-    if ((void *)(x) == this_obj)
-      op (&((*x).entries), cookie);
-  }
-}
-
-void
-gt_pch_p_P12tree_int_map4htab (ATTRIBUTE_UNUSED void *this_obj,
 	void *x_p,
 	ATTRIBUTE_UNUSED gt_pointer_operator op,
 	ATTRIBUTE_UNUSED void *cookie)
@@ -7797,7 +7545,7 @@ gt_pch_p_P17tree_priority_map4htab (ATTRIBUTE_UNUSED void *this_obj,
 }
 
 void
-gt_pch_p_P13tree_decl_map4htab (ATTRIBUTE_UNUSED void *this_obj,
+gt_pch_p_P8tree_map4htab (ATTRIBUTE_UNUSED void *this_obj,
 	void *x_p,
 	ATTRIBUTE_UNUSED gt_pointer_operator op,
 	ATTRIBUTE_UNUSED void *cookie)
@@ -7927,24 +7675,6 @@ gt_pch_p_II12splay_tree_s (ATTRIBUTE_UNUSED void *this_obj,
 }
 
 void
-gt_pch_p_P28varpool_node_set_element_def4htab (ATTRIBUTE_UNUSED void *this_obj,
-	void *x_p,
-	ATTRIBUTE_UNUSED gt_pointer_operator op,
-	ATTRIBUTE_UNUSED void *cookie)
-{
-  struct htab * const x ATTRIBUTE_UNUSED = (struct htab *)x_p;
-  if ((*x).entries != NULL) {
-    size_t i0;
-    for (i0 = 0; i0 != (size_t)(((*x)).size); i0++) {
-      if ((void *)((*x).entries) == this_obj)
-        op (&((*x).entries[i0]), cookie);
-    }
-    if ((void *)(x) == this_obj)
-      op (&((*x).entries), cookie);
-  }
-}
-
-void
 gt_pch_p_P27cgraph_node_set_element_def4htab (ATTRIBUTE_UNUSED void *this_obj,
 	void *x_p,
 	ATTRIBUTE_UNUSED gt_pointer_operator op,
@@ -8033,244 +7763,6 @@ gt_pch_p_P9tree_node4htab (ATTRIBUTE_UNUSED void *this_obj,
       op (&((*x).entries), cookie);
   }
 }
-
-void
-gt_pch_p_P13libfunc_entry4htab (ATTRIBUTE_UNUSED void *this_obj,
-	void *x_p,
-	ATTRIBUTE_UNUSED gt_pointer_operator op,
-	ATTRIBUTE_UNUSED void *cookie)
-{
-  struct htab * const x ATTRIBUTE_UNUSED = (struct htab *)x_p;
-  if ((*x).entries != NULL) {
-    size_t i0;
-    for (i0 = 0; i0 != (size_t)(((*x)).size); i0++) {
-      if ((void *)((*x).entries) == this_obj)
-        op (&((*x).entries[i0]), cookie);
-    }
-    if ((void *)(x) == this_obj)
-      op (&((*x).entries), cookie);
-  }
-}
-void * ggc_alloc_splay_tree_scalar_scalar_splay_tree_node_s (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_II17splay_tree_node_s, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_str_tree_node_splay_tree_node_s (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_SP9tree_node17splay_tree_node_s, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_tree_node_tree_node_splay_tree_node_s (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P9tree_nodeP9tree_node17splay_tree_node_s, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_module_htab_entry_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P17module_htab_entry4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_pending_abstract_type_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P21pending_abstract_type4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_constexpr_call_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P14constexpr_call4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_constexpr_fundef_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P16constexpr_fundef4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_spec_entry_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P10spec_entry4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_cxx_int_tree_map_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P16cxx_int_tree_map4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_named_label_entry_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P17named_label_entry4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_lto_in_decl_state_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P17lto_in_decl_state4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_lto_symtab_entry_def_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P20lto_symtab_entry_def4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_heapvar_map_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P11heapvar_map4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_tree_node_tree_node_splay_tree_s (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P9tree_nodeP9tree_node12splay_tree_s, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_varpool_node_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P12varpool_node4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_scev_info_str_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P13scev_info_str4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_tree_int_map_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P12tree_int_map4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_constant_descriptor_rtx_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P23constant_descriptor_rtx4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_constant_descriptor_tree_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P24constant_descriptor_tree4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_object_block_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P12object_block4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_section_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P7section4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_tree_priority_map_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P17tree_priority_map4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_tree_decl_map_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P13tree_decl_map4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_type_hash_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P9type_hash4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_temp_slot_address_entry_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P23temp_slot_address_entry4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_throw_stmt_node_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P15throw_stmt_node4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_reg_attrs_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P9reg_attrs4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_mem_attrs_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P9mem_attrs4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_rtx_def_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P7rtx_def4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_str_tree_node_splay_tree_s (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_SP9tree_node12splay_tree_s, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_vcall_insn_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P10vcall_insn4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_var_loc_list_def_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P16var_loc_list_def4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_die_struct_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P10die_struct4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_dwarf_file_data_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P15dwarf_file_data4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_indirect_string_node_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P20indirect_string_node4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_cgraph_node_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P11cgraph_node4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_scalar_scalar_splay_tree_s (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_II12splay_tree_s, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_varpool_node_set_element_def_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P28varpool_node_set_element_def4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_cgraph_node_set_element_def_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P27cgraph_node_set_element_def4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_cgraph_edge_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P11cgraph_edge4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_loop_exit_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P9loop_exit4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_types_used_by_vars_entry_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P24types_used_by_vars_entry4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_tree_node_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P9tree_node4htab, sz, nl);
-}
-
-void * ggc_alloc_splay_tree_libfunc_entry_htab (int sz, void * nl)
-{
-  return ggc_splay_alloc (gt_e_P13libfunc_entry4htab, sz, nl);
-}
-
 
 /* GC roots.  */
 
@@ -8364,25 +7856,11 @@ gt_pch_na_regno_reg_rtx (ATTRIBUTE_UNUSED void *x_p)
 
 EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gtype_desc_c[] = {
   {
-    &lto_global_var_decls,
-    1,
-    sizeof (lto_global_var_decls),
-    &gt_ggc_mx_VEC_tree_gc,
-    &gt_pch_nx_VEC_tree_gc
-  },
-  {
     &ipa_edge_args_vector,
     1,
     sizeof (ipa_edge_args_vector),
     &gt_ggc_mx_VEC_ipa_edge_args_t_gc,
     &gt_pch_nx_VEC_ipa_edge_args_t_gc
-  },
-  {
-    &ipa_escaped_pt.vars,
-    1,
-    sizeof (ipa_escaped_pt.vars),
-    &gt_ggc_mx_bitmap_head_def,
-    &gt_pch_nx_bitmap_head_def
   },
   {
     &chrec_known,
@@ -8584,8 +8062,8 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gtype_desc_c[] = {
     &types_used_by_cur_var_decl,
     1,
     sizeof (types_used_by_cur_var_decl),
-    &gt_ggc_mx_VEC_tree_gc,
-    &gt_pch_nx_VEC_tree_gc
+    &gt_ggc_mx_tree_node,
+    &gt_pch_nx_tree_node
   },
   {
     &types_used_by_vars_hash,
@@ -8604,245 +8082,245 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gtype_desc_c[] = {
   {
     &x_rtl.expr.x_saveregs_value,
     1,
-    sizeof (x_rtl.expr.x_saveregs_value),
+    sizeof (x_rtl),
     &gt_ggc_mx_rtx_def,
     &gt_pch_nx_rtx_def
   },
   {
     &x_rtl.expr.x_apply_args_value,
     1,
-    sizeof (x_rtl.expr.x_apply_args_value),
+    sizeof (x_rtl),
     &gt_ggc_mx_rtx_def,
     &gt_pch_nx_rtx_def
   },
   {
     &x_rtl.expr.x_forced_labels,
     1,
-    sizeof (x_rtl.expr.x_forced_labels),
+    sizeof (x_rtl),
     &gt_ggc_mx_rtx_def,
     &gt_pch_nx_rtx_def
   },
   {
     &x_rtl.emit.x_first_insn,
     1,
-    sizeof (x_rtl.emit.x_first_insn),
+    sizeof (x_rtl),
     &gt_ggc_mx_rtx_def,
     &gt_pch_nx_rtx_def
   },
   {
     &x_rtl.emit.x_last_insn,
     1,
-    sizeof (x_rtl.emit.x_last_insn),
+    sizeof (x_rtl),
     &gt_ggc_mx_rtx_def,
     &gt_pch_nx_rtx_def
   },
   {
     &x_rtl.emit.sequence_stack,
     1,
-    sizeof (x_rtl.emit.sequence_stack),
+    sizeof (x_rtl),
     &gt_ggc_mx_sequence_stack,
     &gt_pch_nx_sequence_stack
   },
   {
     &x_rtl.varasm.pool,
     1,
-    sizeof (x_rtl.varasm.pool),
+    sizeof (x_rtl),
     &gt_ggc_mx_rtx_constant_pool,
     &gt_pch_nx_rtx_constant_pool
   },
   {
     &x_rtl.args.arg_offset_rtx,
     1,
-    sizeof (x_rtl.args.arg_offset_rtx),
+    sizeof (x_rtl),
     &gt_ggc_mx_rtx_def,
     &gt_pch_nx_rtx_def
   },
   {
     &x_rtl.args.internal_arg_pointer,
     1,
-    sizeof (x_rtl.args.internal_arg_pointer),
+    sizeof (x_rtl),
     &gt_ggc_mx_rtx_def,
     &gt_pch_nx_rtx_def
   },
   {
     &x_rtl.subsections.hot_section_label,
-    1,
-    sizeof (x_rtl.subsections.hot_section_label),
+    1, 
+    sizeof (x_rtl),
     (gt_pointer_walker) &gt_ggc_m_S,
     (gt_pointer_walker) &gt_pch_n_S
   },
   {
     &x_rtl.subsections.cold_section_label,
-    1,
-    sizeof (x_rtl.subsections.cold_section_label),
+    1, 
+    sizeof (x_rtl),
     (gt_pointer_walker) &gt_ggc_m_S,
     (gt_pointer_walker) &gt_pch_n_S
   },
   {
     &x_rtl.subsections.hot_section_end_label,
-    1,
-    sizeof (x_rtl.subsections.hot_section_end_label),
+    1, 
+    sizeof (x_rtl),
     (gt_pointer_walker) &gt_ggc_m_S,
     (gt_pointer_walker) &gt_pch_n_S
   },
   {
     &x_rtl.subsections.cold_section_end_label,
-    1,
-    sizeof (x_rtl.subsections.cold_section_end_label),
+    1, 
+    sizeof (x_rtl),
+    (gt_pointer_walker) &gt_ggc_m_S,
+    (gt_pointer_walker) &gt_pch_n_S
+  },
+  {
+    &x_rtl.subsections.unlikely_text_section_name,
+    1, 
+    sizeof (x_rtl),
     (gt_pointer_walker) &gt_ggc_m_S,
     (gt_pointer_walker) &gt_pch_n_S
   },
   {
     &x_rtl.eh.ehr_stackadj,
     1,
-    sizeof (x_rtl.eh.ehr_stackadj),
+    sizeof (x_rtl),
     &gt_ggc_mx_rtx_def,
     &gt_pch_nx_rtx_def
   },
   {
     &x_rtl.eh.ehr_handler,
     1,
-    sizeof (x_rtl.eh.ehr_handler),
+    sizeof (x_rtl),
     &gt_ggc_mx_rtx_def,
     &gt_pch_nx_rtx_def
   },
   {
     &x_rtl.eh.ehr_label,
     1,
-    sizeof (x_rtl.eh.ehr_label),
+    sizeof (x_rtl),
     &gt_ggc_mx_rtx_def,
     &gt_pch_nx_rtx_def
   },
   {
     &x_rtl.eh.sjlj_fc,
     1,
-    sizeof (x_rtl.eh.sjlj_fc),
+    sizeof (x_rtl),
     &gt_ggc_mx_rtx_def,
     &gt_pch_nx_rtx_def
   },
   {
     &x_rtl.eh.sjlj_exit_after,
     1,
-    sizeof (x_rtl.eh.sjlj_exit_after),
+    sizeof (x_rtl),
     &gt_ggc_mx_rtx_def,
     &gt_pch_nx_rtx_def
   },
   {
     &x_rtl.eh.action_record_data,
     1,
-    sizeof (x_rtl.eh.action_record_data),
+    sizeof (x_rtl),
     &gt_ggc_mx_VEC_uchar_gc,
     &gt_pch_nx_VEC_uchar_gc
   },
   {
     &x_rtl.eh.call_site_record[0],
-    1 * (2),
-    sizeof (x_rtl.eh.call_site_record[0]),
+    1,
+    sizeof (x_rtl),
     &gt_ggc_mx_VEC_call_site_record_gc,
     &gt_pch_nx_VEC_call_site_record_gc
   },
   {
     &x_rtl.return_rtx,
     1,
-    sizeof (x_rtl.return_rtx),
+    sizeof (x_rtl),
     &gt_ggc_mx_rtx_def,
     &gt_pch_nx_rtx_def
   },
   {
     &x_rtl.hard_reg_initial_vals,
     1,
-    sizeof (x_rtl.hard_reg_initial_vals),
+    sizeof (x_rtl),
     &gt_ggc_mx_initial_value_struct,
     &gt_pch_nx_initial_value_struct
   },
   {
     &x_rtl.stack_protect_guard,
     1,
-    sizeof (x_rtl.stack_protect_guard),
+    sizeof (x_rtl),
     &gt_ggc_mx_tree_node,
     &gt_pch_nx_tree_node
   },
   {
     &x_rtl.x_nonlocal_goto_handler_labels,
     1,
-    sizeof (x_rtl.x_nonlocal_goto_handler_labels),
+    sizeof (x_rtl),
     &gt_ggc_mx_rtx_def,
     &gt_pch_nx_rtx_def
   },
   {
     &x_rtl.x_return_label,
     1,
-    sizeof (x_rtl.x_return_label),
+    sizeof (x_rtl),
     &gt_ggc_mx_rtx_def,
     &gt_pch_nx_rtx_def
   },
   {
     &x_rtl.x_naked_return_label,
     1,
-    sizeof (x_rtl.x_naked_return_label),
+    sizeof (x_rtl),
     &gt_ggc_mx_rtx_def,
     &gt_pch_nx_rtx_def
   },
   {
     &x_rtl.x_stack_slot_list,
     1,
-    sizeof (x_rtl.x_stack_slot_list),
+    sizeof (x_rtl),
     &gt_ggc_mx_rtx_def,
     &gt_pch_nx_rtx_def
   },
   {
-    &x_rtl.frame_space_list,
-    1,
-    sizeof (x_rtl.frame_space_list),
-    &gt_ggc_mx_frame_space,
-    &gt_pch_nx_frame_space
-  },
-  {
     &x_rtl.x_stack_check_probe_note,
     1,
-    sizeof (x_rtl.x_stack_check_probe_note),
+    sizeof (x_rtl),
     &gt_ggc_mx_rtx_def,
     &gt_pch_nx_rtx_def
   },
   {
     &x_rtl.x_arg_pointer_save_area,
     1,
-    sizeof (x_rtl.x_arg_pointer_save_area),
+    sizeof (x_rtl),
     &gt_ggc_mx_rtx_def,
     &gt_pch_nx_rtx_def
   },
   {
     &x_rtl.drap_reg,
     1,
-    sizeof (x_rtl.drap_reg),
+    sizeof (x_rtl),
     &gt_ggc_mx_rtx_def,
     &gt_pch_nx_rtx_def
   },
   {
     &x_rtl.x_parm_birth_insn,
     1,
-    sizeof (x_rtl.x_parm_birth_insn),
+    sizeof (x_rtl),
     &gt_ggc_mx_rtx_def,
     &gt_pch_nx_rtx_def
   },
   {
     &x_rtl.x_used_temp_slots,
     1,
-    sizeof (x_rtl.x_used_temp_slots),
+    sizeof (x_rtl),
     &gt_ggc_mx_VEC_temp_slot_p_gc,
     &gt_pch_nx_VEC_temp_slot_p_gc
   },
   {
     &x_rtl.x_avail_temp_slots,
     1,
-    sizeof (x_rtl.x_avail_temp_slots),
+    sizeof (x_rtl),
     &gt_ggc_mx_temp_slot,
     &gt_pch_nx_temp_slot
   },
   {
     &x_rtl.epilogue_delay_list,
     1,
-    sizeof (x_rtl.epilogue_delay_list),
+    sizeof (x_rtl),
     &gt_ggc_mx_rtx_def,
     &gt_pch_nx_rtx_def
   },
@@ -8854,22 +8332,22 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gtype_desc_c[] = {
     &gt_pch_na_regno_reg_rtx
   },
   {
-    &default_target_libfuncs.x_libfunc_table[0],
+    &libfunc_table[0],
     1 * (LTI_MAX),
-    sizeof (default_target_libfuncs.x_libfunc_table[0]),
+    sizeof (libfunc_table[0]),
     &gt_ggc_mx_rtx_def,
     &gt_pch_nx_rtx_def
   },
   {
-    &default_target_libfuncs.x_libfunc_hash,
+    &memory_identifier_string,
     1,
-    sizeof (default_target_libfuncs.x_libfunc_hash),
-    &gt_ggc_m_P13libfunc_entry4htab,
-    &gt_pch_n_P13libfunc_entry4htab
+    sizeof (memory_identifier_string),
+    &gt_ggc_mx_tree_node,
+    &gt_pch_nx_tree_node
   },
   {
     &current_function_func_begin_label,
-    1,
+    1, 
     sizeof (current_function_func_begin_label),
     (gt_pointer_walker) &gt_ggc_m_S,
     (gt_pointer_walker) &gt_pch_n_S
@@ -8903,13 +8381,6 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gtype_desc_c[] = {
     &gt_pch_nx_tree_node
   },
   {
-    &all_translation_units,
-    1,
-    sizeof (all_translation_units),
-    &gt_ggc_mx_VEC_tree_gc,
-    &gt_pch_nx_VEC_tree_gc
-  },
-  {
     &implicit_built_in_decls[0],
     1 * ((int) END_BUILTINS),
     sizeof (implicit_built_in_decls[0]),
@@ -8938,44 +8409,23 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gtype_desc_c[] = {
     &gt_pch_nx_rtx_def
   },
   {
-    &default_target_rtl.x_global_rtl[0],
+    &return_address_pointer_rtx,
+    1,
+    sizeof (return_address_pointer_rtx),
+    &gt_ggc_mx_rtx_def,
+    &gt_pch_nx_rtx_def
+  },
+  {
+    &pic_offset_table_rtx,
+    1,
+    sizeof (pic_offset_table_rtx),
+    &gt_ggc_mx_rtx_def,
+    &gt_pch_nx_rtx_def
+  },
+  {
+    &global_rtl[0],
     1 * (GR_MAX),
-    sizeof (default_target_rtl.x_global_rtl[0]),
-    &gt_ggc_mx_rtx_def,
-    &gt_pch_nx_rtx_def
-  },
-  {
-    &default_target_rtl.x_pic_offset_table_rtx,
-    1,
-    sizeof (default_target_rtl.x_pic_offset_table_rtx),
-    &gt_ggc_mx_rtx_def,
-    &gt_pch_nx_rtx_def
-  },
-  {
-    &default_target_rtl.x_return_address_pointer_rtx,
-    1,
-    sizeof (default_target_rtl.x_return_address_pointer_rtx),
-    &gt_ggc_mx_rtx_def,
-    &gt_pch_nx_rtx_def
-  },
-  {
-    &default_target_rtl.x_initial_regno_reg_rtx[0],
-    1 * (FIRST_PSEUDO_REGISTER),
-    sizeof (default_target_rtl.x_initial_regno_reg_rtx[0]),
-    &gt_ggc_mx_rtx_def,
-    &gt_pch_nx_rtx_def
-  },
-  {
-    &default_target_rtl.x_top_of_stack[0],
-    1 * (MAX_MACHINE_MODE),
-    sizeof (default_target_rtl.x_top_of_stack[0]),
-    &gt_ggc_mx_rtx_def,
-    &gt_pch_nx_rtx_def
-  },
-  {
-    &default_target_rtl.x_static_reg_base_value[0],
-    1 * (FIRST_PSEUDO_REGISTER),
-    sizeof (default_target_rtl.x_static_reg_base_value[0]),
+    sizeof (global_rtl[0]),
     &gt_ggc_mx_rtx_def,
     &gt_pch_nx_rtx_def
   },
@@ -9011,7 +8461,6 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gtype_desc_c[] = {
 };
 
 EXPORTED_CONST struct ggc_root_tab gt_pch_rs_gtype_desc_c[] = {
-  { &ipa_escaped_pt, 1, sizeof (ipa_escaped_pt), NULL, NULL },
   { &reg_equiv_init_size, 1, sizeof (reg_equiv_init_size), NULL, NULL },
   { &cgraph_order, 1, sizeof (cgraph_order), NULL, NULL },
   { &cgraph_max_pid, 1, sizeof (cgraph_max_pid), NULL, NULL },
@@ -9020,8 +8469,6 @@ EXPORTED_CONST struct ggc_root_tab gt_pch_rs_gtype_desc_c[] = {
   { &cgraph_n_nodes, 1, sizeof (cgraph_n_nodes), NULL, NULL },
   { &in_cold_section_p, 1, sizeof (in_cold_section_p), NULL, NULL },
   { &x_rtl, 1, sizeof (x_rtl), NULL, NULL },
-  { &default_target_libfuncs, 1, sizeof (default_target_libfuncs), NULL, NULL },
-  { &default_target_rtl, 1, sizeof (default_target_rtl), NULL, NULL },
   { &sparc_hard_reg_printed, 1, sizeof (sparc_hard_reg_printed), NULL, NULL },
   LAST_GGC_ROOT_TAB
 };
@@ -9167,7 +8614,5 @@ EXPORTED_CONST unsigned char rtx_next[NUM_RTX_CODE] = {
   RTX_HDR_SIZE + 0 * sizeof (rtunion),
   RTX_HDR_SIZE + 0 * sizeof (rtunion),
   RTX_HDR_SIZE + 0 * sizeof (rtunion),
-  RTX_HDR_SIZE + 0 * sizeof (rtunion),
   RTX_HDR_SIZE + 1 * sizeof (rtunion),
-  0,
 };

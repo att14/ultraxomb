@@ -1,0 +1,1 @@
+../../gcc/d/phobos/internal/dmain2.d

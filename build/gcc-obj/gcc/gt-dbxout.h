@@ -91,7 +91,7 @@ gt_pch_na_typevec (ATTRIBUTE_UNUSED void *x_p)
 EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gt_dbxout_h[] = {
   {
     &lastfile,
-    1,
+    1, 
     sizeof (lastfile),
     (gt_pointer_walker) &gt_ggc_m_S,
     (gt_pointer_walker) &gt_pch_n_S

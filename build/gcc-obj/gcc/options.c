@@ -7,735 +7,1465 @@
 #include "opts.h"
 #include "intl.h"
 
-#ifndef GCC_DRIVER
+#ifdef GCC_DRIVER
+int target_flags;
+#else
 #include "flags.h"
 #include "target.h"
 #endif /* GCC_DRIVER */
 
-#include "pretty-print.h"
+/* Set by -W.
+   This switch is deprecated; use -Wextra instead  */
+int extra_warnings;
 
-static const struct cl_enum_arg cl_enum_diagnostic_prefixing_rule_data[] = 
-{
-  { "every-line", DIAGNOSTICS_SHOW_PREFIX_EVERY_LINE, 0 },
-  { "once", DIAGNOSTICS_SHOW_PREFIX_ONCE, 0 },
-  { NULL, 0, 0 }
-};
+/* Set by -Wabi.
+   Warn about things that will change when compiling with an ABI-compliant compiler  */
+int warn_abi;
 
-static void
-cl_enum_diagnostic_prefixing_rule_set (void *var, int value)
-{
-  *((int *) var) = (int) value;
-}
+/* Set by -Waddress.
+   Warn about suspicious uses of memory addresses  */
+int warn_address;
 
-static int
-cl_enum_diagnostic_prefixing_rule_get (const void *var)
-{
-  return (int) *((const int *) var);
-}
+/* Set by -Waggregate-return.
+   Warn about returning structures, unions or arrays  */
+int warn_aggregate_return;
 
-static const struct cl_enum_arg cl_enum_excess_precision_data[] = 
-{
-  { "fast", EXCESS_PRECISION_FAST, 0 },
-  { "standard", EXCESS_PRECISION_STANDARD, 0 },
-  { NULL, 0, 0 }
-};
+/* Set by -Warray-bounds.
+   Warn if an array is accessed out of bounds  */
+int warn_array_bounds;
 
-static void
-cl_enum_excess_precision_set (void *var, int value)
-{
-  *((enum excess_precision *) var) = (enum excess_precision) value;
-}
+/* Set by -Wassign-intercept.
+   Warn whenever an Objective-C assignment is being intercepted by the garbage collector  */
+int warn_assign_intercept;
 
-static int
-cl_enum_excess_precision_get (const void *var)
-{
-  return (int) *((const enum excess_precision *) var);
-}
+/* Set by -Wattributes.
+   Warn about inappropriate attribute usage  */
+int warn_attributes = 1;
 
-static const struct cl_enum_arg cl_enum_fp_contract_mode_data[] = 
-{
-  { "fast", FP_CONTRACT_FAST, 0 },
-  { "off", FP_CONTRACT_OFF, 0 },
-  { "on", FP_CONTRACT_OFF, 0 },
-  { NULL, 0, 0 }
-};
+/* Set by -Wbad-function-cast.
+   Warn about casting functions to incompatible types  */
+int warn_bad_function_cast;
 
-static void
-cl_enum_fp_contract_mode_set (void *var, int value)
-{
-  *((enum fp_contract_mode *) var) = (enum fp_contract_mode) value;
-}
+/* Set by -Wc++-compat.
+   Warn about C constructs that are not in the common subset of C and C++  */
+int warn_cxx_compat;
 
-static int
-cl_enum_fp_contract_mode_get (const void *var)
-{
-  return (int) *((const enum fp_contract_mode *) var);
-}
+/* Set by -Wc++0x-compat.
+   Warn about C++ constructs whose meaning differs between ISO C++ 1998 and ISO C++ 200x  */
+int warn_cxx0x_compat;
 
-static const struct cl_enum_arg cl_enum_ira_algorithm_data[] = 
-{
-  { "CB", IRA_ALGORITHM_CB, 0 },
-  { "priority", IRA_ALGORITHM_PRIORITY, 0 },
-  { NULL, 0, 0 }
-};
+/* Set by -Wcast-align.
+   Warn about pointer casts which increase alignment  */
+int warn_cast_align;
 
-static void
-cl_enum_ira_algorithm_set (void *var, int value)
-{
-  *((enum ira_algorithm *) var) = (enum ira_algorithm) value;
-}
+/* Set by -Wcast-qual.
+   Warn about casts which discard qualifiers  */
+int warn_cast_qual;
 
-static int
-cl_enum_ira_algorithm_get (const void *var)
-{
-  return (int) *((const enum ira_algorithm *) var);
-}
+/* Set by -Wchar-subscripts.
+   Warn about subscripts whose type is \"char\"  */
+int warn_char_subscripts;
 
-static const struct cl_enum_arg cl_enum_ira_region_data[] = 
-{
-  { "all", IRA_REGION_ALL, 0 },
-  { "mixed", IRA_REGION_MIXED, 0 },
-  { "one", IRA_REGION_ONE, 0 },
-  { NULL, 0, 0 }
-};
+/* Set by -Wclobbered.
+   Warn about variables that might be changed by \"longjmp\" or \"vfork\"  */
+int warn_clobbered = -1;
 
-static void
-cl_enum_ira_region_set (void *var, int value)
-{
-  *((enum ira_region *) var) = (enum ira_region) value;
-}
+/* Set by -Wconversion.
+   Warn for implicit type conversions that may change a value  */
+int warn_conversion;
 
-static int
-cl_enum_ira_region_get (const void *var)
-{
-  return (int) *((const enum ira_region *) var);
-}
+/* Set by -Wconversion-null.
+   Warn for converting NULL from/to a non-pointer type  */
+int warn_conversion_null = 1;
 
-static const struct cl_enum_arg cl_enum_symbol_visibility_data[] = 
-{
-  { "default", VISIBILITY_DEFAULT, 0 },
-  { "hidden", VISIBILITY_HIDDEN, 0 },
-  { "internal", VISIBILITY_INTERNAL, 0 },
-  { "protected", VISIBILITY_PROTECTED, 0 },
-  { NULL, 0, 0 }
-};
+/* Set by -Wcoverage-mismatch.
+   Warn instead of error in case profiles in -fprofile-use do not match  */
+int warn_coverage_mismatch;
 
-static void
-cl_enum_symbol_visibility_set (void *var, int value)
-{
-  *((enum symbol_visibility *) var) = (enum symbol_visibility) value;
-}
+/* Set by -Wctor-dtor-privacy.
+   Warn when all constructors and destructors are private  */
+int warn_ctor_dtor_privacy;
 
-static int
-cl_enum_symbol_visibility_get (const void *var)
-{
-  return (int) *((const enum symbol_visibility *) var);
-}
+/* Set by -Wdeclaration-after-statement.
+   Warn when a declaration is found after a statement  */
+int warn_declaration_after_statement;
 
-static const struct cl_enum_arg cl_enum_tls_model_data[] = 
-{
-  { "global-dynamic", TLS_MODEL_GLOBAL_DYNAMIC, 0 },
-  { "initial-exec", TLS_MODEL_INITIAL_EXEC, 0 },
-  { "local-dynamic", TLS_MODEL_LOCAL_DYNAMIC, 0 },
-  { "local-exec", TLS_MODEL_LOCAL_EXEC, 0 },
-  { NULL, 0, 0 }
-};
+/* Set by -Wdeprecated.
+   Warn if a deprecated compiler feature, class, method, or field is used  */
+int warn_deprecated = 1;
 
-static void
-cl_enum_tls_model_set (void *var, int value)
-{
-  *((enum tls_model *) var) = (enum tls_model) value;
-}
+/* Set by -Wdeprecated-declarations.
+   Warn about uses of __attribute__((deprecated)) declarations  */
+int warn_deprecated_decl = 1;
 
-static int
-cl_enum_tls_model_get (const void *var)
-{
-  return (int) *((const enum tls_model *) var);
-}
+/* Set by -Wdisabled-optimization.
+   Warn when an optimization pass is disabled  */
+int warn_disabled_optimization;
 
-const struct cl_enum cl_enums[] =
-{
-  {
-    NULL,
-    NULL,
-    cl_enum_diagnostic_prefixing_rule_data,
-    sizeof (int),
-    cl_enum_diagnostic_prefixing_rule_set,
-    cl_enum_diagnostic_prefixing_rule_get
-  },
-  {
-    NULL,
-    "unknown excess precision style %qs",
-    cl_enum_excess_precision_data,
-    sizeof (enum excess_precision),
-    cl_enum_excess_precision_set,
-    cl_enum_excess_precision_get
-  },
-  {
-    NULL,
-    "unknown floating point contraction style %qs",
-    cl_enum_fp_contract_mode_data,
-    sizeof (enum fp_contract_mode),
-    cl_enum_fp_contract_mode_set,
-    cl_enum_fp_contract_mode_get
-  },
-  {
-    NULL,
-    "unknown IRA algorithm %qs",
-    cl_enum_ira_algorithm_data,
-    sizeof (enum ira_algorithm),
-    cl_enum_ira_algorithm_set,
-    cl_enum_ira_algorithm_get
-  },
-  {
-    NULL,
-    "unknown IRA region %qs",
-    cl_enum_ira_region_data,
-    sizeof (enum ira_region),
-    cl_enum_ira_region_set,
-    cl_enum_ira_region_get
-  },
-  {
-    NULL,
-    "unrecognized visibility value %qs",
-    cl_enum_symbol_visibility_data,
-    sizeof (enum symbol_visibility),
-    cl_enum_symbol_visibility_set,
-    cl_enum_symbol_visibility_get
-  },
-  {
-    NULL,
-    "unknown TLS model %qs",
-    cl_enum_tls_model_data,
-    sizeof (enum tls_model),
-    cl_enum_tls_model_set,
-    cl_enum_tls_model_get
-  },
-};
-const unsigned int cl_enums_count = 7;
+/* Set by -Wdiv-by-zero.
+   Warn about compile-time integer division by zero  */
+int warn_div_by_zero = 1;
 
-const struct gcc_options global_options_init =
-{
-  0, /* HOST_WIDE_INT frame_larger_than_size */
-  0, /* HOST_WIDE_INT larger_than_size */
-  0, /* bool exit_after_options */
-  0, /* bool flag_dump_all_passed */
-  0, /* bool flag_opts_finished */
-  false, /* flag_warn_unused_result */
-  0, /* bool use_gnu_debug_info_extensions */
-  0, /* bool warn_frame_larger_than */
-  0, /* bool warn_larger_than */
-  0, /* char *help_enum_printed */
-  0, /* char *help_printed */
-  0, /* const char *main_input_basename */
-  0, /* const char *main_input_filename */
-  DINFO_LEVEL_NONE, /* debug_info_level */
-  NO_DEBUG, /* write_symbols */
-  { DINFO_STRUCT_FILE_ANY, DINFO_STRUCT_FILE_ANY, DINFO_STRUCT_FILE_ANY }, /* debug_struct_generic */
-  { DINFO_STRUCT_FILE_ANY, DINFO_STRUCT_FILE_ANY, DINFO_STRUCT_FILE_ANY }, /* debug_struct_ordinary */
-  no_graph, /* graph_dump_format */
-  NO_STACK_CHECK, /* flag_stack_check */
-  MAX_VERBOSITY_LEVEL, /* user_vect_verbosity_level */
-  0, /* int *param_values */
-  1, /* flag_complex_method */
-  0, /* int flag_debug_asm */
-  0, /* int flag_dump_rtl_in_asm */
-  0, /* flag_evaluation_order */
-  0, /* flag_gen_aux_info */
-  0, /* int flag_generate_lto */
-  0, /* int flag_print_asm_name */
-  0, /* int flag_shlib */
-  0, /* int main_input_baselength */
-  0, /* int optimize */
-  0, /* int optimize_fast */
-  0, /* int optimize_size */
-  0, /* int rtl_dump_and_exit */
-  0, /* int target_flags */
-  0, /* unsigned int help_columns */
-  TARGET_DEFAULT_PACK_STRUCT, /* initial_max_fld_align */
-  0, /* void *flag_instrument_functions_exclude_files */
-  0, /* void *flag_instrument_functions_exclude_functions */
-  0, /* help_flag */
-  0, /* flag_preprocess_only */
-  0, /* warn_abi */
-  0, /* warn_address */
-  0, /* warn_aggregate_return */
-  0, /* warn_array_bounds */
-  0, /* warn_assign_intercept */
-  1, /* warn_attributes */
-  0, /* warn_bad_function_cast */
-  0, /* warn_cxx_compat */
-  0, /* warn_cxx0x_compat */
-  0, /* warn_cast_align */
-  0, /* warn_cast_qual */
-  0, /* warn_char_subscripts */
-  -1, /* warn_clobbered */
-  0, /* warn_conversion */
-  1, /* warn_conversion_null */
-  1, /* warn_coverage_mismatch */
-  1, /* warn_cpp */
-  0, /* warn_ctor_dtor_privacy */
-  0, /* warn_declaration_after_statement */
-  1, /* warn_deprecated */
-  1, /* warn_deprecated_decl */
-  0, /* warn_disabled_optimization */
-  1, /* warn_div_by_zero */
-  0, /* warn_double_promotion */
-  0, /* warn_ecpp */
-  -1, /* warn_empty_body */
-  -1, /* warn_enum_compare */
-  0, /* warnings_are_errors */
-  0, /* extra_warnings */
-  0, /* flag_fatal_errors */
-  0, /* warn_float_equal */
-  0, /* warn_format_contains_nul */
-  0, /* warn_format_extra_args */
-  0, /* warn_format_nonliteral */
-  0, /* warn_format_security */
-  0, /* warn_format_y2k */
-  0, /* warn_format_zero_length */
-  -1, /* warn_ignored_qualifiers */
-  -1, /* warn_implicit */
-  -1, /* warn_implicit_function_declaration */
-  -1, /* warn_implicit_int */
-  0, /* warn_init_self */
-  0, /* warn_inline */
-  1, /* warn_int_to_pointer_cast */
-  1, /* warn_invalid_offsetof */
-  -1, /* warn_jump_misses_init */
-  0, /* warn_logical_op */
-  -1, /* warn_long_long */
-  -1, /* warn_main */
-  0, /* warn_missing_braces */
-  0, /* warn_missing_declarations */
-  -1, /* warn_missing_field_initializers */
-  0, /* warn_missing_format_attribute */
-  0, /* warn_missing_noreturn */
-  -1, /* warn_missing_parameter_type */
-  0, /* warn_missing_prototypes */
-  1, /* warn_mudflap */
-  0, /* warn_nested_externs */
-  0, /* warn_noexcept */
-  1, /* warn_nontemplate_friend */
-  0, /* warn_nonvdtor */
-  0, /* warn_nonnull */
-  0, /* warn_old_style_cast */
-  -1, /* warn_old_style_declaration */
-  0, /* warn_old_style_definition */
-  1, /* warn_overflow */
-  -1, /* warn_overlength_strings */
-  0, /* warn_overloaded_virtual */
-  -1, /* warn_override_init */
-  0, /* warn_packed */
-  -1, /* warn_packed_bitfield_compat */
-  0, /* warn_padded */
-  0, /* warn_parentheses */
-  1, /* warn_pmf2ptr */
-  0, /* warn_pointer_arith */
-  -1, /* warn_pointer_sign */
-  1, /* warn_pointer_to_int_cast */
-  1, /* warn_pragmas */
-  1, /* warn_property_assign_default */
-  1, /* warn_protocol */
-  1, /* warn_psabi */
-  0, /* warn_redundant_decls */
-  0, /* warn_reorder */
-  0, /* warn_return_type */
-  0, /* warn_selector */
-  0, /* warn_sequence_point */
-  0, /* warn_shadow */
-  -1, /* warn_sign_compare */
-  -1, /* warn_sign_conversion */
-  0, /* warn_sign_promo */
-  0, /* warn_stack_protect */
-  -1, /* warn_strict_aliasing */
-  0, /* warn_strict_null_sentinel */
-  -1, /* warn_strict_overflow */
-  0, /* warn_strict_prototypes */
-  0, /* warn_strict_selector_match */
-  0, /* warn_suggest_attribute_const */
-  0, /* warn_suggest_attribute_noreturn */
-  0, /* warn_suggest_attribute_pure */
-  0, /* warn_switch */
-  0, /* warn_switch_default */
-  0, /* warn_switch_enum */
-  1, /* warn_sync_nand */
-  0, /* warn_synth */
-  0, /* warn_system_headers */
-  0, /* warn_traditional */
-  0, /* warn_traditional_conversion */
-  0, /* warn_trampolines */
-  -1, /* warn_type_limits */
-  0, /* warn_undeclared_selector */
-  -1, /* warn_uninitialized */
-  0, /* warn_unsafe_loop_optimizations */
-  0, /* warn_unsuffixed_float_constants */
-  0, /* warn_unused */
-  -1, /* warn_unused_but_set_parameter */
-  -1, /* warn_unused_but_set_variable */
-  -1, /* warn_unused_function */
-  -1, /* warn_unused_label */
-  -1, /* warn_unused_parameter */
-  1, /* warn_unused_result */
-  -1, /* warn_unused_value */
-  -1, /* warn_unused_variable */
-  -1, /* warn_vla */
-  0, /* warn_volatile_register_var */
-  0, /* warn_write_strings */
-  0, /* aux_info_file_name */
-  0, /* aux_base_name */
-  0, /* dump_base_name */
-  0, /* dump_dir_name */
-  0, /* flag_pic */
-  0, /* flag_pie */
-  2, /* flag_abi_version */
-  1, /* flag_access_control */
-  0, /* align_functions */
-  0, /* align_jumps */
-  0, /* align_labels */
-  0, /* align_loops */
-  0, /* flag_no_asm */
-  0, /* flag_associative_math */
-  0, /* flag_asynchronous_unwind_tables */
-  1, /* flag_auto_inc_dec */
-  0, /* flag_bounds_check */
-  1, /* flag_branch_on_count_reg */
-  0, /* flag_branch_probabilities */
-  0, /* flag_branch_target_load_optimize */
-  0, /* flag_branch_target_load_optimize2 */
-  0, /* flag_btr_bb_exclusive */
-  0, /* flag_no_builtin */
-  0, /* common_deferred_options */
-  0, /* flag_caller_saves */
-  0, /* flag_check_data_deps */
-  0, /* flag_check_new */
-  0, /* flag_combine_stack_adjustments */
-  0, /* flag_no_common */
-  0, /* flag_compare_debug */
-  0, /* flag_compare_debug_opt */
-  0, /* flag_compare_elim_after_reload */
-  0, /* flag_conserve_space */
-  0, /* flag_conserve_stack */
-  512, /* max_constexpr_depth */
-  0, /* flag_cprop_registers */
-  0, /* flag_crossjumping */
-  0, /* flag_cse_follow_jumps */
-  0, /* flag_cx_fortran_rules */
-  0, /* flag_cx_limited_range */
-  0, /* flag_data_sections */
-  1, /* flag_dce */
-  1, /* flag_deduce_init_list */
-  0, /* flag_defer_pop */
-  0, /* flag_delayed_branch */
-  1, /* flag_delete_null_pointer_checks */
-  0, /* flag_devirtualize */
-  1, /* flag_diagnostics_show_option */
-  1, /* flag_dse */
-  0, /* flag_dump_final_insns */
-  0, /* flag_dump_go_spec */
-  0, /* flag_dump_noaddr */
-  0, /* flag_dump_unnumbered */
-  0, /* flag_dump_unnumbered_links */
-  HAVE_GAS_CFI_DIRECTIVE, /* flag_dwarf2_cfi_asm */
-  1, /* flag_early_inlining */
-  1, /* flag_elide_constructors */
-  0, /* flag_eliminate_dwarf2_dups */
-  0, /* flag_debug_only_used_symbols */
-  1, /* flag_eliminate_unused_debug_types */
-  0, /* flag_emit_class_debug_always */
-  0, /* flag_enable_icf_debug */
-  1, /* flag_enforce_eh_specs */
-  0, /* flag_exceptions */
-  EXCESS_PRECISION_DEFAULT, /* flag_excess_precision_cmdline */
-  0, /* flag_expensive_optimizations */
-  0, /* flag_finite_math_only */
-  0, /* flag_float_store */
-  1, /* flag_new_for_scope */
-  0, /* flag_forward_propagate */
-  FP_CONTRACT_FAST, /* flag_fp_contract_mode */
-  0, /* flag_friend_injection */
-  0, /* flag_no_function_cse */
-  0, /* flag_function_sections */
-  0, /* flag_gcse */
-  0, /* flag_gcse_after_reload */
-  0, /* flag_gcse_las */
-  1, /* flag_gcse_lm */
-  0, /* flag_gcse_sm */
-  0, /* flag_no_gnu_keywords */
-  -1, /* flag_gnu89_inline */
-  0, /* flag_graphite */
-  0, /* flag_graphite_identity */
-  0, /* flag_guess_branch_prob */
-  0, /* flag_no_ident */
-  0, /* flag_if_conversion */
-  0, /* flag_if_conversion2 */
-  1, /* flag_implement_inlines */
-  1, /* flag_implicit_inline_templates */
-  1, /* flag_implicit_templates */
-  0, /* flag_indirect_inlining */
-  0, /* flag_inhibit_size_directive */
-  0, /* flag_no_inline */
-  0, /* flag_inline_functions */
-  1, /* flag_inline_functions_called_once */
-  0, /* flag_inline_small_functions */
-  0, /* flag_instrument_function_entry_exit */
-  0, /* flag_ipa_cp */
-  0, /* flag_ipa_cp_clone */
-  0, /* flag_ipa_matrix_reorg */
-  0, /* flag_ipa_profile */
-  0, /* flag_ipa_pta */
-  0, /* flag_ipa_pure_const */
-  0, /* flag_ipa_reference */
-  0, /* flag_ipa_sra */
-  0, /* flag_ipa_struct_reorg */
-  IRA_ALGORITHM_CB, /* flag_ira_algorithm */
-  0, /* flag_ira_loop_pressure */
-  IRA_REGION_MIXED, /* flag_ira_region */
-  1, /* flag_ira_share_save_slots */
-  1, /* flag_ira_share_spill_slots */
-  5, /* flag_ira_verbose */
-  1, /* flag_ivopts */
-  1, /* flag_jump_tables */
-  1, /* flag_keep_inline_dllexport */
-  0, /* flag_keep_inline_functions */
-  1, /* flag_keep_static_consts */
-  0, /* flag_lax_vector_conversions */
-  -1, /* flag_leading_underscore */
-  0, /* flag_loop_block */
-  0, /* flag_loop_flatten */
-  0, /* flag_loop_interchange */
-  0, /* flag_loop_parallelize_all */
-  0, /* flag_loop_strip_mine */
-  -1, /* flag_lto_compression_level */
-  0, /* flag_lto_partition_1to1 */
-  0, /* flag_lto_partition_balanced */
-  0, /* flag_lto_partition_none */
-  0, /* flag_lto_report */
-  0, /* flag_lto */
-  0, /* flag_ltrans */
-  0, /* ltrans_output_list */
-  1, /* flag_errno_math */
-  0, /* flag_max_errors */
-  0, /* mem_report */
-  1, /* flag_merge_constants */
-  1, /* flag_merge_debug_strings */
-  0, /* flag_modulo_sched */
-  0, /* flag_modulo_sched_allow_regmoves */
-  1, /* flag_move_loop_invariants */
-  0, /* flag_ms_extensions */
-  0, /* flag_mudflap */
-  0, /* flag_mudflap_ignore_reads */
-  1, /* flag_nil_receivers */
-  0, /* flag_non_call_exceptions */
-  0, /* flag_no_nonansi_builtin */
-  0, /* flag_nothrow_opt */
-  0, /* flag_objc_abi */
-  0, /* flag_objc_call_cxx_cdtors */
-  0, /* flag_objc_direct_dispatch */
-  0, /* flag_objc_exceptions */
-  0, /* flag_objc_gc */
-  0, /* flag_objc_nilcheck */
-  -1, /* flag_objc_sjlj_exceptions */
-  0, /* flag_objc1_only */
-  0, /* flag_omit_frame_pointer */
-  0, /* flag_openmp */
-  0, /* flag_regmove */
-  0, /* flag_optimize_sibling_calls */
-  0, /* flag_pack_struct */
-  0, /* flag_partial_inlining */
-  DEFAULT_PCC_STRUCT_RETURN, /* flag_pcc_struct_return */
-  0, /* flag_peel_loops */
-  0, /* flag_no_peephole */
-  0, /* flag_peephole2 */
-  0, /* flag_plan9_extensions */
-  0, /* post_ipa_mem_report */
-  0, /* pre_ipa_mem_report */
-  0, /* flag_predictive_commoning */
-  -1, /* flag_prefetch_loop_arrays */
-  1, /* flag_pretty_templates */
-  0, /* profile_flag */
-  0, /* profile_arc_flag */
-  0, /* flag_profile_correction */
-  0, /* profile_data_prefix */
-  0, /* flag_profile_use */
-  0, /* flag_profile_values */
-  0, /* flag_reciprocal_math */
-  0, /* flag_record_gcc_switches */
-  2, /* flag_rename_registers */
-  0, /* flag_reorder_blocks */
-  0, /* flag_reorder_blocks_and_partition */
-  0, /* flag_reorder_functions */
-  0, /* flag_replace_objc_classes */
-  0, /* flag_rerun_cse_after_loop */
-  0, /* flag_resched_modulo_sched */
-  0, /* flag_rounding_math */
-  1, /* flag_rtti */
-  1, /* flag_sched_critical_path_heuristic */
-  1, /* flag_sched_dep_count_heuristic */
-  1, /* flag_sched_group_heuristic */
-  1, /* flag_schedule_interblock */
-  1, /* flag_sched_last_insn_heuristic */
-  0, /* flag_sched_pressure */
-  1, /* flag_sched_rank_heuristic */
-  1, /* flag_schedule_speculative */
-  1, /* flag_sched_spec_insn_heuristic */
-  0, /* flag_schedule_speculative_load */
-  0, /* flag_schedule_speculative_load_dangerous */
-  0, /* flag_sched_stalled_insns */
-  1, /* flag_sched_stalled_insns_dep */
-  0, /* sched_verbose_param */
-  0, /* flag_sched2_use_superblocks */
-  0, /* flag_schedule_insns */
-  0, /* flag_schedule_insns_after_reload */
-  0, /* flag_section_anchors */
-  0, /* flag_sel_sched_pipelining */
-  0, /* flag_sel_sched_pipelining_outer_loops */
-  0, /* flag_sel_sched_reschedule_pipelined */
-  0, /* flag_selective_scheduling */
-  0, /* flag_selective_scheduling2 */
-  0, /* flag_short_double */
-  0, /* flag_short_enums */
-  0, /* flag_short_wchar */
-  1, /* flag_show_column */
-  0, /* flag_signaling_nans */
-  1, /* flag_signed_bitfields */
-  0, /* flag_signed_char */
-  1, /* flag_signed_zeros */
-  0, /* flag_single_precision_constant */
-  1, /* flag_split_ivs_in_unroller */
-  -1, /* flag_split_stack */
-  0, /* flag_split_wide_types */
-  0, /* flag_stack_protect */
-  0, /* flag_stack_usage */
-  0, /* flag_detailed_statistics */
-  0, /* flag_strict_aliasing */
-  0, /* flag_strict_enums */
-  0, /* flag_strict_overflow */
-  -1, /* flag_strict_volatile_bitfields */
-  0, /* flag_syntax_only */
-  0, /* flag_test_coverage */
-  0, /* flag_thread_jumps */
-  1, /* flag_threadsafe_statics */
-  0, /* time_report */
-  TLS_MODEL_GLOBAL_DYNAMIC, /* flag_tls_default */
-  2, /* flag_toplevel_reorder */
-  0, /* flag_tracer */
-  1, /* flag_trapping_math */
-  0, /* flag_trapv */
-  0, /* flag_tree_bit_ccp */
-  0, /* flag_tree_builtin_call_dce */
-  0, /* flag_tree_ccp */
-  0, /* flag_tree_ch */
-  0, /* flag_tree_copy_prop */
-  0, /* flag_tree_copyrename */
-  2, /* flag_tree_cselim */
-  0, /* flag_tree_dce */
-  0, /* flag_tree_dom */
-  0, /* flag_tree_dse */
-  1, /* flag_tree_forwprop */
-  0, /* flag_tree_fre */
-  0, /* flag_tree_loop_distribute_patterns */
-  0, /* flag_tree_loop_distribution */
-  -1, /* flag_tree_loop_if_convert */
-  0, /* flag_tree_loop_if_convert_stores */
-  1, /* flag_tree_loop_im */
-  1, /* flag_tree_loop_ivcanon */
-  1, /* flag_tree_loop_optimize */
-  0, /* flag_tree_live_range_split */
-  1, /* flag_tree_parallelize_loops */
-  1, /* flag_tree_phiprop */
-  0, /* flag_tree_pre */
-  1, /* flag_tree_pta */
-  1, /* flag_tree_reassoc */
-  1, /* flag_tree_scev_cprop */
-  0, /* flag_tree_sink */
-  2, /* flag_tree_slp_vectorize */
-  0, /* flag_tree_sra */
-  0, /* flag_tree_switch_conversion */
-  0, /* flag_tree_ter */
-  1, /* flag_tree_vect_loop_version */
-  0, /* flag_tree_vectorize */
-  0, /* flag_tree_vrp */
-  1, /* flag_unit_at_a_time */
-  0, /* flag_unroll_all_loops */
-  0, /* flag_unroll_loops */
-  0, /* flag_unsafe_loop_optimizations */
-  0, /* flag_unsafe_math_optimizations */
-  0, /* flag_unswitch_loops */
-  0, /* flag_unwind_tables */
-  DEFAULT_USE_CXA_ATEXIT, /* flag_use_cxa_atexit */
-  2, /* flag_use_cxa_get_exception_ptr */
-  2, /* flag_var_tracking */
-  2, /* flag_var_tracking_assignments */
-  0, /* flag_var_tracking_assignments_toggle */
-  0, /* flag_var_tracking_uninit */
-  0, /* flag_variable_expansion_in_unroller */
-  0, /* flag_vect_cost_model */
-  0, /* flag_verbose_asm */
-  0, /* flag_visibility_ms_compat */
-  VISIBILITY_DEFAULT, /* default_visibility */
-  0, /* flag_value_profile_transformations */
-  1, /* flag_weak */
-  2, /* flag_web */
-  0, /* flag_whole_program */
-  -1, /* flag_working_directory */
-  0, /* flag_wpa */
-  0, /* flag_wrapv */
-  0, /* flag_zee */
-  1, /* flag_zero_initialized_in_bss */
-  0, /* flag_zero_link */
-  2, /* dwarf_version */
-  0, /* flag_gen_declaration */
-  -1, /* dwarf_strict */
-  0, /* flag_gtoggle */
-  0, /* plugindir_string */
-  0, /* sparc_cmodel_string */
-  0, /* sparc_std_struct_return */
-  0, /* asm_file_name */
-  0, /* pass_exit_codes */
-  0, /* pedantic */
-  0, /* flag_pedantic_errors */
-  0, /* use_pipes */
-  0, /* print_file_name */
-  0, /* print_multi_directory */
-  0, /* print_multi_lib */
-  0, /* print_multi_os_directory */
-  0, /* print_prog_name */
-  0, /* print_search_dirs */
-  0, /* print_sysroot */
-  0, /* print_sysroot_headers_suffix */
-  0, /* quiet_flag */
-  0, /* report_times */
-  0, /* flag_undef */
-  0, /* verbose_flag */
-  0, /* version_flag */
-  0, /* inhibit_warnings */
-  0, /* wrapper_string */
-  0, /* VAR_mcpu_ (private state) */
-#undef x_VAR_mcpu_
-  0, /* VAR_mrelax (private state) */
-#undef x_VAR_mrelax
-  0, /* VAR_mtune_ (private state) */
-#undef x_VAR_mtune_
-  false, /* frontend_set_flag_associative_math */
-  false, /* frontend_set_flag_cx_limited_range */
-  false, /* frontend_set_flag_finite_math_only */
-  false, /* frontend_set_flag_errno_math */
-  false, /* frontend_set_flag_reciprocal_math */
-  false, /* frontend_set_flag_rounding_math */
-  false, /* frontend_set_flag_signaling_nans */
-  false, /* frontend_set_flag_signed_zeros */
-  false, /* frontend_set_flag_trapping_math */
-  false, /* frontend_set_flag_unsafe_math_optimizations */
-};
+/* Set by -Weffc++.
+   Warn about violations of Effective C++ style rules  */
+int warn_ecpp;
 
-struct gcc_options global_options;
-struct gcc_options global_options_set;
+/* Set by -Wempty-body.
+   Warn about an empty body in an if or else statement  */
+int warn_empty_body = -1;
+
+/* Set by -Wenum-compare.
+   Warn about comparison of different enum types  */
+int warn_enum_compare = -1;
+
+/* Set by -Werror.
+   Treat all warnings as errors  */
+int warnings_are_errors;
+
+/* Set by -Wfatal-errors.
+   Exit on the first error occurred  */
+int flag_fatal_errors;
+
+/* Set by -Wfloat-equal.
+   Warn if testing floating point numbers for equality  */
+int warn_float_equal;
+
+/* Set by -Wformat-contains-nul.
+   Warn about format strings that contain NUL bytes  */
+int warn_format_contains_nul;
+
+/* Set by -Wformat-extra-args.
+   Warn if passing too many arguments to a function for its format string  */
+int warn_format_extra_args;
+
+/* Set by -Wformat-nonliteral.
+   Warn about format strings that are not literals  */
+int warn_format_nonliteral;
+
+/* Set by -Wformat-security.
+   Warn about possible security problems with format functions  */
+int warn_format_security;
+
+/* Set by -Wformat-y2k.
+   Warn about strftime formats yielding 2-digit years  */
+int warn_format_y2k;
+
+/* Set by -Wformat-zero-length.
+   Warn about zero-length formats  */
+int warn_format_zero_length;
+
+/* Set by -Wignored-qualifiers.
+   Warn whenever type qualifiers are ignored.  */
+int warn_ignored_qualifiers = -1;
+
+/* Set by -Wimplicit-function-declaration.
+   Warn about implicit function declarations  */
+int warn_implicit_function_declaration = -1;
+
+/* Set by -Wimplicit-int.
+   Warn when a declaration does not specify a type  */
+int warn_implicit_int;
+
+/* Set by -Winit-self.
+   Warn about variables which are initialized to themselves  */
+int warn_init_self;
+
+/* Set by -Winline.
+   Warn when an inlined function cannot be inlined  */
+int warn_inline;
+
+/* Set by -Wint-to-pointer-cast.
+   Warn when there is a cast to a pointer from an integer of a different size  */
+int warn_int_to_pointer_cast = 1;
+
+/* Set by -Winvalid-offsetof.
+   Warn about invalid uses of the \"offsetof\" macro  */
+int warn_invalid_offsetof = 1;
+
+/* Set by -Wjump-misses-init.
+   Warn when a jump misses a variable initialization  */
+int warn_jump_misses_init = -1;
+
+/* Set by -Wlogical-op.
+   Warn when a logical operator is suspiciously always evaluating to true or false  */
+int warn_logical_op = 0;
+
+/* Set by -Wlong-long.
+   Do not warn about using \"long long\" when -pedantic  */
+int warn_long_long = -1;
+
+/* Set by -Wmain.
+   Warn about suspicious declarations of \"main\"  */
+int warn_main = -1;
+
+/* Set by -Wmissing-braces.
+   Warn about possibly missing braces around initializers  */
+int warn_missing_braces;
+
+/* Set by -Wmissing-declarations.
+   Warn about global functions without previous declarations  */
+int warn_missing_declarations;
+
+/* Set by -Wmissing-field-initializers.
+   Warn about missing fields in struct initializers  */
+int warn_missing_field_initializers = -1;
+
+/* Set by -Wmissing-format-attribute.
+   Warn about functions which might be candidates for format attributes  */
+int warn_missing_format_attribute;
+
+/* Set by -Wmissing-noreturn.
+   Warn about functions which might be candidates for __attribute__((noreturn))  */
+int warn_missing_noreturn;
+
+/* Set by -Wmissing-parameter-type.
+   Warn about function parameters declared without a type specifier in K&R-style functions  */
+int warn_missing_parameter_type = -1;
+
+/* Set by -Wmissing-prototypes.
+   Warn about global functions without prototypes  */
+int warn_missing_prototypes;
+
+/* Set by -Wmudflap.
+   Warn about constructs not instrumented by -fmudflap  */
+int warn_mudflap = 1;
+
+/* Set by -Wnested-externs.
+   Warn about \"extern\" declarations not at file scope  */
+int warn_nested_externs;
+
+/* Set by -Wnon-template-friend.
+   Warn when non-templatized friend functions are declared within a template  */
+int warn_nontemplate_friend = 1;
+
+/* Set by -Wnon-virtual-dtor.
+   Warn about non-virtual destructors  */
+int warn_nonvdtor;
+
+/* Set by -Wnonnull.
+   Warn about NULL being passed to argument slots marked as requiring non-NULL  */
+int warn_nonnull;
+
+/* Set by -Wold-style-cast.
+   Warn if a C-style cast is used in a program  */
+int warn_old_style_cast;
+
+/* Set by -Wold-style-declaration.
+   Warn for obsolescent usage in a declaration  */
+int warn_old_style_declaration = -1;
+
+/* Set by -Wold-style-definition.
+   Warn if an old-style parameter definition is used  */
+int warn_old_style_definition;
+
+/* Set by -Woverflow.
+   Warn about overflow in arithmetic expressions  */
+int warn_overflow = 1;
+
+/* Set by -Woverlength-strings.
+   Warn if a string is longer than the maximum portable length specified by the standard  */
+int warn_overlength_strings = -1;
+
+/* Set by -Woverloaded-virtual.
+   Warn about overloaded virtual function names  */
+int warn_overloaded_virtual;
+
+/* Set by -Woverride-init.
+   Warn about overriding initializers without side effects  */
+int warn_override_init = -1;
+
+/* Set by -Wpacked.
+   Warn when the packed attribute has no effect on struct layout  */
+int warn_packed;
+
+/* Set by -Wpacked-bitfield-compat.
+   Warn about packed bit-fields whose offset changed in GCC 4.4  */
+int warn_packed_bitfield_compat = -1;
+
+/* Set by -Wpadded.
+   Warn when padding is required to align structure members  */
+int warn_padded;
+
+/* Set by -Wparentheses.
+   Warn about possibly missing parentheses  */
+int warn_parentheses;
+
+/* Set by -Wpmf-conversions.
+   Warn when converting the type of pointers to member functions  */
+int warn_pmf2ptr = 1;
+
+/* Set by -Wpointer-arith.
+   Warn about function pointer arithmetic  */
+int warn_pointer_arith;
+
+/* Set by -Wpointer-sign.
+   Warn when a pointer differs in signedness in an assignment  */
+int warn_pointer_sign = -1;
+
+/* Set by -Wpointer-to-int-cast.
+   Warn when a pointer is cast to an integer of a different size  */
+int warn_pointer_to_int_cast = 1;
+
+/* Set by -Wpragmas.
+   Warn about misuses of pragmas  */
+int warn_pragmas = 1;
+
+/* Set by -Wprotocol.
+   Warn if inherited methods are unimplemented  */
+int warn_protocol = 1;
+
+/* Set by -Wpsabi.
+     */
+int warn_psabi = 1;
+
+/* Set by -Wredundant-decls.
+   Warn about multiple declarations of the same object  */
+int warn_redundant_decls;
+
+/* Set by -Wreorder.
+   Warn when the compiler reorders code  */
+int warn_reorder;
+
+/* Set by -Wreturn-type.
+   Warn whenever a function's return type defaults to \"int\" (C), or about inconsistent return types (C++)  */
+int warn_return_type;
+
+/* Set by -Wselector.
+   Warn if a selector has multiple methods  */
+int warn_selector;
+
+/* Set by -Wsequence-point.
+   Warn about possible violations of sequence point rules  */
+int warn_sequence_point;
+
+/* Set by -Wshadow.
+   Warn when one local variable shadows another  */
+int warn_shadow;
+
+/* Set by -Wsign-compare.
+   Warn about signed-unsigned comparisons  */
+int warn_sign_compare = -1;
+
+/* Set by -Wsign-conversion.
+   Warn for implicit type conversions between signed and unsigned integers  */
+int warn_sign_conversion = -1;
+
+/* Set by -Wsign-promo.
+   Warn when overload promotes from unsigned to signed  */
+int warn_sign_promo;
+
+/* Set by -Wstack-protector.
+   Warn when not issuing stack smashing protection for some reason  */
+int warn_stack_protect;
+
+/* Set by -Wstrict-aliasing=.
+   Warn about code which might break strict aliasing rules  */
+int warn_strict_aliasing = -1;
+
+/* Set by -Wstrict-overflow=.
+   Warn about optimizations that assume that signed overflow is undefined  */
+int warn_strict_overflow = -1;
+
+/* Set by -Wstrict-prototypes.
+   Warn about unprototyped function declarations  */
+int warn_strict_prototypes;
+
+/* Set by -Wstrict-selector-match.
+   Warn if type signatures of candidate methods do not match exactly  */
+int warn_strict_selector_match;
+
+/* Set by -Wswitch.
+   Warn about enumerated switches, with no default, missing a case  */
+int warn_switch;
+
+/* Set by -Wswitch-default.
+   Warn about enumerated switches missing a \"default:\" statement  */
+int warn_switch_default;
+
+/* Set by -Wswitch-enum.
+   Warn about all enumerated switches missing a specific case  */
+int warn_switch_enum;
+
+/* Set by -Wsync-nand.
+   Warn when __sync_fetch_and_nand and __sync_nand_and_fetch built-in functions are used  */
+int warn_sync_nand = 1;
+
+/* Set by -Wsynth.
+   Deprecated.  This switch has no effect  */
+int warn_synth;
+
+/* Set by -Wsystem-headers.
+   Do not suppress warnings from system headers  */
+int warn_system_headers;
+
+/* Set by -Wtraditional.
+   Warn about features not present in traditional C  */
+int warn_traditional;
+
+/* Set by -Wtraditional-conversion.
+   Warn of prototypes causing type conversions different from what would happen in the absence of prototype  */
+int warn_traditional_conversion;
+
+/* Set by -Wtype-limits.
+   Warn if a comparison is always true or always false due to the limited range of the data type  */
+int warn_type_limits = -1;
+
+/* Set by -Wundeclared-selector.
+   Warn about @selector()s without previously declared methods  */
+int warn_undeclared_selector;
+
+/* Set by -Wuninitialized.
+   Warn about uninitialized automatic variables  */
+int warn_uninitialized = -1;
+
+/* Set by -Wunsafe-loop-optimizations.
+   Warn if the loop cannot be optimized due to nontrivial assumptions.  */
+int warn_unsafe_loop_optimizations;
+
+/* Set by -Wunsuffixed-float-constants.
+   Warn about unsuffixed float constants  */
+int warn_unsuffixed_float_constants;
+
+/* Set by -Wunused.
+   Enable all -Wunused- warnings  */
+int warn_unused = 0;
+
+/* Set by -Wunused-function.
+   Warn when a function is unused  */
+int warn_unused_function = -1;
+
+/* Set by -Wunused-label.
+   Warn when a label is unused  */
+int warn_unused_label = -1;
+
+/* Set by -Wunused-parameter.
+   Warn when a function parameter is unused  */
+int warn_unused_parameter = -1;
+
+/* Set by -Wunused-result.
+   Warn if a caller of a function, marked with attribute warn_unused_result, does not use its return value  */
+int warn_unused_result = 1;
+
+/* Set by -Wunused-value.
+   Warn when an expression value is unused  */
+int warn_unused_value = -1;
+
+/* Set by -Wunused-variable.
+   Warn when a variable is unused  */
+int warn_unused_variable = -1;
+
+/* Set by -Wvla.
+   Warn if a variable length array is used  */
+int warn_vla = -1;
+
+/* Set by -Wvolatile-register-var.
+   Warn when a register variable is declared volatile  */
+int warn_volatile_register_var;
+
+/* Set by -Wwrite-strings.
+   In C++, nonzero means warn about deprecated conversion from string literals to `char *'.  In C, similar warning, except that the conversion is of course not deprecated by the ISO C standard.  */
+int warn_write_strings;
+
+/* Set by -fPIC.
+   Generate position-independent code if possible (large mode)  */
+int flag_pic;
+
+/* Set by -fPIE.
+   Generate position-independent code for executables if possible (large mode)  */
+int flag_pie;
+
+/* Set by -fabi-version=.
+     */
+int flag_abi_version = 2;
+
+/* Set by -falign-functions.
+   Align the start of functions  */
+int align_functions;
+
+/* Set by -falign-jumps.
+   Align labels which are only reached by jumping  */
+int align_jumps;
+
+/* Set by -falign-labels.
+   Align all labels  */
+int align_labels;
+
+/* Set by -falign-loops.
+   Align the start of loops  */
+int align_loops;
+
+/* Set by -fargument-alias.
+   Specify that arguments may alias each other and globals  */
+int flag_argument_noalias;
+
+/* Set by -fassociative-math.
+   Allow optimization for floating-point arithmetic which may change the result of the operation due to rounding.  */
+int flag_associative_math;
+
+/* Set by -fasynchronous-unwind-tables.
+   Generate unwind tables that are exact at each instruction boundary  */
+int flag_asynchronous_unwind_tables;
+
+/* Set by -fauto-inc-dec.
+   Generate auto-inc/dec instructions  */
+int flag_auto_inc_dec = 1;
+
+/* Set by -fbounds-check.
+   Generate code to check bounds before indexing arrays  */
+int flag_bounds_check;
+
+/* Set by -fbranch-count-reg.
+   Replace add, compare, branch with branch on count register  */
+int flag_branch_on_count_reg = 1;
+
+/* Set by -fbranch-probabilities.
+   Use profiling information for branch probabilities  */
+int flag_branch_probabilities;
+
+/* Set by -fbranch-target-load-optimize.
+   Perform branch target load optimization before prologue / epilogue threading  */
+int flag_branch_target_load_optimize;
+
+/* Set by -fbranch-target-load-optimize2.
+   Perform branch target load optimization after prologue / epilogue threading  */
+int flag_branch_target_load_optimize2;
+
+/* Set by -fbtr-bb-exclusive.
+   Restrict target load migration not to re-use registers in any basic block  */
+int flag_btr_bb_exclusive;
+
+/* Set by -fcaller-saves.
+   Save registers around function calls  */
+int flag_caller_saves;
+
+/* Set by -fcheck-data-deps.
+   Compare the results of several data dependence analyzers.  */
+int flag_check_data_deps;
+
+/* Set by -fcommon.
+   Do not put uninitialized globals in the common section  */
+int flag_no_common;
+
+/* Set by -fcompare-debug-second.
+   Run only the second compilation of -fcompare-debug  */
+int flag_compare_debug;
+
+/* Set by -fcompare-debug=.
+   -fcompare-debug[=<opts>]	Compile with and without e.g. -gtoggle, and compare the final-insns dump  */
+const char *flag_compare_debug_opt;
+
+/* Set by -fconserve-stack.
+   Do not perform optimizations increasing noticeably stack usage  */
+int flag_conserve_stack;
+
+/* Set by -fcprop-registers.
+   Perform a register copy-propagation optimization pass  */
+int flag_cprop_registers;
+
+/* Set by -fcrossjumping.
+   Perform cross-jumping optimization  */
+int flag_crossjumping;
+
+/* Set by -fcse-follow-jumps.
+   When running CSE, follow jumps to their targets  */
+int flag_cse_follow_jumps;
+
+/* Set by -fcx-fortran-rules.
+   Complex multiplication and division follow Fortran rules  */
+int flag_cx_fortran_rules;
+
+/* Set by -fcx-limited-range.
+   Omit range reduction step when performing complex division  */
+int flag_cx_limited_range;
+
+/* Set by -fdata-sections.
+   Place data items into their own section  */
+int flag_data_sections;
+
+/* Set by -fdce.
+   Use the RTL dead code elimination pass  */
+int flag_dce = 1;
+
+/* Set by -fdeduce-init-list.
+   -fno-deduce-init-list	disable deduction of std::initializer_list for a template type parameter from a brace-enclosed initializer-list  */
+int flag_deduce_init_list = 1;
+
+/* Set by -fdefer-pop.
+   Defer popping functions args from stack until later  */
+int flag_defer_pop;
+
+/* Set by -fdelayed-branch.
+   Attempt to fill delay slots of branch instructions  */
+int flag_delayed_branch;
+
+/* Set by -fdelete-null-pointer-checks.
+   Delete useless null pointer checks  */
+int flag_delete_null_pointer_checks = 1;
+
+/* Set by -fdse.
+   Use the RTL dead store elimination pass  */
+int flag_dse = 1;
+
+/* Set by -fdump-final-insns=.
+   -fdump-final-insns=filename	Dump to filename the insns at the end of translation  */
+const char *flag_dump_final_insns;
+
+/* Set by -fdump-noaddr.
+   Suppress output of addresses in debugging dumps  */
+int flag_dump_noaddr;
+
+#ifdef GCC_DRIVER
+/* Set by -fdump-unnumbered.
+   Suppress output of instruction numbers, line number notes and addresses in debugging dumps  */
+int flag_dump_unnumbered;
+#endif /* GCC_DRIVER */
+
+#ifdef GCC_DRIVER
+/* Set by -fdump-unnumbered-links.
+   Suppress output of previous and next insn numbers in debugging dumps  */
+int flag_dump_unnumbered_links;
+#endif /* GCC_DRIVER */
+
+/* Set by -fdwarf2-cfi-asm.
+   Enable CFI tables via GAS assembler directives.  */
+int flag_dwarf2_cfi_asm = HAVE_GAS_CFI_DIRECTIVE;
+
+/* Set by -fearly-inlining.
+   Perform early inlining  */
+int flag_early_inlining = 1;
+
+/* Set by -feliminate-dwarf2-dups.
+   Perform DWARF2 duplicate elimination  */
+int flag_eliminate_dwarf2_dups;
+
+/* Set by -feliminate-unused-debug-symbols.
+   Perform unused type elimination in debug info  */
+int flag_debug_only_used_symbols;
+
+/* Set by -feliminate-unused-debug-types.
+   Perform unused type elimination in debug info  */
+int flag_eliminate_unused_debug_types = 1;
+
+/* Set by -femit-class-debug-always.
+   Do not suppress C++ class debug information.  */
+int flag_emit_class_debug_always = 0;
+
+/* Set by -fenable-icf-debug.
+   Generate debug information to support Identical Code Folding (ICF)  */
+int flag_enable_icf_debug;
+
+/* Set by -fexceptions.
+   Enable exception handling  */
+int flag_exceptions;
+
+/* Set by -fexpensive-optimizations.
+   Perform a number of minor, expensive optimizations  */
+int flag_expensive_optimizations;
+
+/* Set by -ffinite-math-only.
+   Assume no NaNs or infinities are generated  */
+int flag_finite_math_only;
+
+/* Set by -ffloat-store.
+   Don't allocate floats and doubles in extended-precision registers  */
+int flag_float_store;
+
+/* Set by -fforward-propagate.
+   Perform a forward propagation pass on RTL  */
+int flag_forward_propagate;
+
+/* Set by -ffriend-injection.
+   Inject friend functions into enclosing namespace  */
+int flag_friend_injection;
+
+/* Set by -ffunction-cse.
+   Allow function addresses to be held in registers  */
+int flag_no_function_cse;
+
+/* Set by -ffunction-sections.
+   Place each function into its own section  */
+int flag_function_sections;
+
+/* Set by -fgcse.
+   Perform global common subexpression elimination  */
+int flag_gcse;
+
+/* Set by -fgcse-after-reload.
+   Perform global common subexpression elimination after register allocation has finished  */
+int flag_gcse_after_reload;
+
+/* Set by -fgcse-las.
+   Perform redundant load after store elimination in global common subexpression elimination  */
+int flag_gcse_las = 0;
+
+/* Set by -fgcse-lm.
+   Perform enhanced load motion during global common subexpression elimination  */
+int flag_gcse_lm = 1;
+
+/* Set by -fgcse-sm.
+   Perform store motion after global common subexpression elimination  */
+int flag_gcse_sm = 0;
+
+/* Set by -fgnu89-inline.
+   Use traditional GNU semantics for inline functions  */
+int flag_gnu89_inline = -1;
+
+/* Set by -fgraphite.
+   Enable in and out of Graphite representation  */
+int flag_graphite;
+
+/* Set by -fgraphite-identity.
+   Enable Graphite Identity transformation  */
+int flag_graphite_identity;
+
+/* Set by -fguess-branch-probability.
+   Enable guessing of branch probabilities  */
+int flag_guess_branch_prob;
+
+/* Set by -fhelp.
+     */
+int help_flag;
+
+/* Set by -fident.
+   Process #ident directives  */
+int flag_no_ident;
+
+/* Set by -fif-conversion.
+   Perform conversion of conditional jumps to branchless equivalents  */
+int flag_if_conversion;
+
+/* Set by -fif-conversion2.
+   Perform conversion of conditional jumps to conditional execution  */
+int flag_if_conversion2;
+
+/* Set by -findirect-inlining.
+   Perform indirect inlining  */
+int flag_indirect_inlining;
+
+/* Set by -finhibit-size-directive.
+   Do not generate .size directives  */
+int flag_inhibit_size_directive;
+
+/* Set by -finline.
+   Pay attention to the \"inline\" keyword  */
+int flag_no_inline = 0;
+
+/* Set by -finline-functions.
+   Integrate simple functions into their callers  */
+int flag_inline_functions;
+
+/* Set by -finline-functions-called-once.
+   Integrate functions called once into their callers  */
+int flag_inline_functions_called_once = 1;
+
+/* Set by -finline-small-functions.
+   Integrate simple functions into their callers when code size is known to not growth  */
+int flag_inline_small_functions;
+
+/* Set by -finstrument-functions.
+   Instrument function entry and exit with profiling calls  */
+int flag_instrument_function_entry_exit;
+
+/* Set by -fipa-cp.
+   Perform Interprocedural constant propagation  */
+int flag_ipa_cp;
+
+/* Set by -fipa-cp-clone.
+   Perform cloning to make Interprocedural constant propagation stronger  */
+int flag_ipa_cp_clone;
+
+/* Set by -fipa-matrix-reorg.
+   Perform matrix layout flattening and transposing based on profiling information.  */
+int flag_ipa_matrix_reorg;
+
+/* Set by -fipa-pta.
+   Perform interprocedural points-to analysis  */
+int flag_ipa_pta = 0;
+
+/* Set by -fipa-pure-const.
+   Discover pure and const functions  */
+int flag_ipa_pure_const = 0;
+
+/* Set by -fipa-reference.
+   Discover readonly and non addressable static variables  */
+int flag_ipa_reference = 0;
+
+/* Set by -fipa-sra.
+   Perform interprocedural reduction of aggregates  */
+int flag_ipa_sra = 0;
+
+/* Set by -fipa-struct-reorg.
+   Perform structure layout optimizations based on profiling information.  */
+int flag_ipa_struct_reorg;
+
+/* Set by -fipa-type-escape.
+   Type based escape and alias analysis  */
+int flag_ipa_type_escape = 0;
+
+/* Set by -fira-coalesce.
+   Do optimistic coalescing.  */
+int flag_ira_coalesce = 0;
+
+/* Set by -fira-loop-pressure.
+   Use IRA based register pressure calculation in RTL loop optimizations.  */
+int flag_ira_loop_pressure;
+
+/* Set by -fira-share-save-slots.
+   Share slots for saving different hard registers.  */
+int flag_ira_share_save_slots = 1;
+
+/* Set by -fira-share-spill-slots.
+   Share stack slots for spilled pseudo-registers.  */
+int flag_ira_share_spill_slots = 1;
+
+/* Set by -fivopts.
+   Optimize induction variables on trees  */
+int flag_ivopts = 1;
+
+/* Set by -fjump-tables.
+   Use jump tables for sufficiently large switch statements  */
+int flag_jump_tables = 1;
+
+/* Set by -fkeep-inline-functions.
+   Generate code for functions even if they are fully inlined  */
+int flag_keep_inline_functions;
+
+/* Set by -fkeep-static-consts.
+   Emit static const variables even if they are not used  */
+int flag_keep_static_consts = 1;
+
+/* Set by -fleading-underscore.
+   Give external symbols a leading underscore  */
+int flag_leading_underscore = -1;
+
+/* Set by -floop-block.
+   Enable Loop Blocking transformation  */
+int flag_loop_block;
+
+/* Set by -floop-interchange.
+   Enable Loop Interchange transformation  */
+int flag_loop_interchange;
+
+/* Set by -floop-parallelize-all.
+   Mark all loops as parallel  */
+int flag_loop_parallelize_all;
+
+/* Set by -floop-strip-mine.
+   Enable Loop Strip Mining transformation  */
+int flag_loop_strip_mine;
+
+/* Set by -flto.
+   Enable link-time optimization.  */
+int flag_lto;
+
+/* Set by -flto-compression-level=.
+   -flto-compression-level=<number>	Use zlib compression level <number> for IL  */
+int flag_lto_compression_level = -1;
+
+/* Set by -flto-report.
+   Report various link-time optimization statistics  */
+int flag_lto_report = 0;
+
+/* Set by -fltrans.
+   Run the link-time optimizer in local transformation (LTRANS) mode.  */
+int flag_ltrans;
+
+/* Set by -fltrans-output-list=.
+   Specify a file to which a list of files output by LTRANS is written.  */
+const char *ltrans_output_list;
+
+/* Set by -fmath-errno.
+   Set errno after built-in math functions  */
+int flag_errno_math = 1;
+
+/* Set by -fmem-report.
+   Report on permanent memory allocation  */
+int mem_report;
+
+/* Set by -fmerge-all-constants.
+   Attempt to merge identical constants and constant variables  */
+int flag_merge_constants = 1;
+
+/* Set by -fmerge-debug-strings.
+   Attempt to merge identical debug strings across compilation units  */
+int flag_merge_debug_strings = 1;
+
+/* Set by -fmodulo-sched.
+   Perform SMS based modulo scheduling before the first scheduling pass  */
+int flag_modulo_sched;
+
+/* Set by -fmodulo-sched-allow-regmoves.
+   Perform SMS based modulo scheduling with register moves allowed  */
+int flag_modulo_sched_allow_regmoves;
+
+/* Set by -fmove-loop-invariants.
+   Move loop invariant computations out of loops  */
+int flag_move_loop_invariants = 1;
+
+/* Set by -fmudflap.
+   Add mudflap bounds-checking instrumentation for single-threaded program  */
+int flag_mudflap;
+
+/* Set by -fmudflapir.
+   Ignore read operations when inserting mudflap instrumentation  */
+int flag_mudflap_ignore_reads;
+
+/* Set by -fnon-call-exceptions.
+   Support synchronous non-call exceptions  */
+int flag_non_call_exceptions;
+
+/* Set by -fobjc-call-cxx-cdtors.
+   Generate special Objective-C methods to initialize/destroy non-POD C++ ivars, if needed  */
+int flag_objc_call_cxx_cdtors;
+
+/* Set by -fobjc-direct-dispatch.
+   Allow fast jumps to the message dispatcher  */
+int flag_objc_direct_dispatch;
+
+/* Set by -fobjc-exceptions.
+   Enable Objective-C exception and synchronization syntax  */
+int flag_objc_exceptions;
+
+/* Set by -fobjc-gc.
+   Enable garbage collection (GC) in Objective-C/Objective-C++ programs  */
+int flag_objc_gc;
+
+/* Set by -fobjc-sjlj-exceptions.
+   Enable Objective-C setjmp exception handling runtime  */
+int flag_objc_sjlj_exceptions = -1;
+
+/* Set by -fomit-frame-pointer.
+   When possible do not generate stack frames  */
+int flag_omit_frame_pointer;
+
+/* Set by -fopenmp.
+   Enable OpenMP (implies -frecursive in Fortran)  */
+int flag_openmp;
+
+/* Set by -foptimize-register-move.
+   Do the full register move optimization pass  */
+int flag_regmove;
+
+/* Set by -foptimize-sibling-calls.
+   Optimize sibling and tail recursive calls  */
+int flag_optimize_sibling_calls;
+
+/* Set by -fpack-struct.
+   Pack structure members together without holes  */
+int flag_pack_struct;
+
+#ifdef GCC_DRIVER
+/* Set by -fpcc-struct-return.
+   Return small aggregates in memory, not registers  */
+int flag_pcc_struct_return;
+#endif /* GCC_DRIVER */
+
+/* Set by -fpeel-loops.
+   Perform loop peeling  */
+int flag_peel_loops;
+
+/* Set by -fpeephole.
+   Enable machine specific peephole optimizations  */
+int flag_no_peephole;
+
+/* Set by -fpeephole2.
+   Enable an RTL peephole pass before sched2  */
+int flag_peephole2;
+
+/* Set by -fpost-ipa-mem-report.
+   Report on memory allocation before interprocedural optimization  */
+int post_ipa_mem_report;
+
+/* Set by -fpre-ipa-mem-report.
+   Report on memory allocation before interprocedural optimization  */
+int pre_ipa_mem_report;
+
+/* Set by -fpredictive-commoning.
+   Run predictive commoning optimization.  */
+int flag_predictive_commoning;
+
+/* Set by -fprefetch-loop-arrays.
+   Generate prefetch instructions, if available, for arrays in loops  */
+int flag_prefetch_loop_arrays;
+
+/* Set by -fprofile.
+   Enable basic program profiling code  */
+int profile_flag;
+
+/* Set by -fprofile-arcs.
+   Insert arc-based program profiling code  */
+int profile_arc_flag;
+
+/* Set by -fprofile-correction.
+   Enable correction of flow inconsistent profile data input  */
+int flag_profile_correction;
+
+/* Set by -fprofile-use.
+   Enable common options for performing profile feedback directed optimizations  */
+int flag_profile_use;
+
+/* Set by -fprofile-values.
+   Insert code to profile values of expressions  */
+int flag_profile_values;
+
+/* Set by -freciprocal-math.
+   Same as -fassociative-math for expressions which include division.  */
+int flag_reciprocal_math;
+
+/* Set by -frecord-gcc-switches.
+   Record gcc command line switches in the object file.  */
+int flag_record_gcc_switches;
+
+/* Set by -frename-registers.
+   Perform a register renaming optimization pass  */
+int flag_rename_registers = 2;
+
+/* Set by -freorder-blocks.
+   Reorder basic blocks to improve code placement  */
+int flag_reorder_blocks;
+
+/* Set by -freorder-blocks-and-partition.
+   Reorder basic blocks and partition into hot and cold sections  */
+int flag_reorder_blocks_and_partition;
+
+/* Set by -freorder-functions.
+   Reorder functions to improve code placement  */
+int flag_reorder_functions;
+
+/* Set by -frerun-cse-after-loop.
+   Add a common subexpression elimination pass after loop optimizations  */
+int flag_rerun_cse_after_loop = 2;
+
+/* Set by -freschedule-modulo-scheduled-loops.
+   Enable/Disable the traditional scheduling in loops that already passed modulo scheduling  */
+int flag_resched_modulo_sched;
+
+/* Set by -frounding-math.
+   Disable optimizations that assume default FP rounding behavior  */
+int flag_rounding_math;
+
+/* Set by -fsched-critical-path-heuristic.
+   Enable the critical path heuristic in the scheduler  */
+int flag_sched_critical_path_heuristic = 1;
+
+/* Set by -fsched-dep-count-heuristic.
+   Enable the dependent count heuristic in the scheduler  */
+int flag_sched_dep_count_heuristic = 1;
+
+/* Set by -fsched-group-heuristic.
+   Enable the group heuristic in the scheduler  */
+int flag_sched_group_heuristic = 1;
+
+/* Set by -fsched-interblock.
+   Enable scheduling across basic blocks  */
+int flag_schedule_interblock = 1;
+
+/* Set by -fsched-last-insn-heuristic.
+   Enable the last instruction heuristic in the scheduler  */
+int flag_sched_last_insn_heuristic = 1;
+
+/* Set by -fsched-pressure.
+   Enable register pressure sensitive insn scheduling  */
+int flag_sched_pressure = 0;
+
+/* Set by -fsched-rank-heuristic.
+   Enable the rank heuristic in the scheduler  */
+int flag_sched_rank_heuristic = 1;
+
+/* Set by -fsched-spec.
+   Allow speculative motion of non-loads  */
+int flag_schedule_speculative = 1;
+
+/* Set by -fsched-spec-insn-heuristic.
+   Enable the speculative instruction heuristic in the scheduler  */
+int flag_sched_spec_insn_heuristic = 1;
+
+/* Set by -fsched-spec-load.
+   Allow speculative motion of some loads  */
+int flag_schedule_speculative_load;
+
+/* Set by -fsched-spec-load-dangerous.
+   Allow speculative motion of more loads  */
+int flag_schedule_speculative_load_dangerous;
+
+/* Set by -fsched-stalled-insns.
+   Allow premature scheduling of queued insns  */
+int flag_sched_stalled_insns;
+
+/* Set by -fsched-stalled-insns-dep.
+   Set dependence distance checking in premature scheduling of queued insns  */
+int flag_sched_stalled_insns_dep = 1;
+
+/* Set by -fsched2-use-superblocks.
+   If scheduling post reload, do superblock scheduling  */
+int flag_sched2_use_superblocks;
+
+/* Set by -fschedule-insns.
+   Reschedule instructions before register allocation  */
+int flag_schedule_insns;
+
+/* Set by -fschedule-insns2.
+   Reschedule instructions after register allocation  */
+int flag_schedule_insns_after_reload;
+
+/* Set by -fsection-anchors.
+   Access data in the same section from shared anchor points  */
+int flag_section_anchors;
+
+/* Set by -fsel-sched-pipelining.
+   Perform software pipelining of inner loops during selective scheduling  */
+int flag_sel_sched_pipelining = 0;
+
+/* Set by -fsel-sched-pipelining-outer-loops.
+   Perform software pipelining of outer loops during selective scheduling  */
+int flag_sel_sched_pipelining_outer_loops = 0;
+
+/* Set by -fsel-sched-reschedule-pipelined.
+   Reschedule pipelined regions without pipelining  */
+int flag_sel_sched_reschedule_pipelined = 0;
+
+/* Set by -fselective-scheduling.
+   Schedule instructions using selective scheduling algorithm  */
+int flag_selective_scheduling;
+
+/* Set by -fselective-scheduling2.
+   Run selective scheduling after reload  */
+int flag_selective_scheduling2;
+
+/* Set by -fshow-column.
+   Show column numbers in diagnostics, when available.  Default on  */
+int flag_show_column = 1;
+
+/* Set by -fsignaling-nans.
+   Disable optimizations observable by IEEE signaling NaNs  */
+int flag_signaling_nans;
+
+/* Set by -fsigned-zeros.
+   Disable floating point optimizations that ignore the IEEE signedness of zero  */
+int flag_signed_zeros = 1;
+
+/* Set by -fsingle-precision-constant.
+   Convert floating point constants to single precision constants  */
+int flag_single_precision_constant;
+
+/* Set by -fsplit-ivs-in-unroller.
+   Split lifetimes of induction variables when loops are unrolled  */
+int flag_split_ivs_in_unroller = 1;
+
+/* Set by -fsplit-wide-types.
+   Split wide types into independent registers  */
+int flag_split_wide_types;
+
+/* Set by -fstack-protector.
+   Use propolice as a stack protection method  */
+int flag_stack_protect;
+
+/* Set by -fstrict-aliasing.
+   Assume strict aliasing rules apply  */
+int flag_strict_aliasing;
+
+/* Set by -fstrict-overflow.
+   Treat signed overflow as undefined  */
+int flag_strict_overflow;
+
+/* Set by -fsyntax-only.
+   Check for syntax errors, then stop  */
+int flag_syntax_only;
+
+/* Set by -ftest-coverage.
+   Create data files needed by \"gcov\"  */
+int flag_test_coverage;
+
+/* Set by -fthread-jumps.
+   Perform jump threading optimizations  */
+int flag_thread_jumps;
+
+/* Set by -ftime-report.
+   Report the time taken by each compiler pass  */
+int time_report;
+
+/* Set by -ftoplevel-reorder.
+   Reorder top level functions, variables, and asms  */
+int flag_toplevel_reorder = 2;
+
+/* Set by -ftracer.
+   Perform superblock formation via tail duplication  */
+int flag_tracer;
+
+/* Set by -ftrapping-math.
+   Assume floating-point operations can trap  */
+int flag_trapping_math = 1;
+
+/* Set by -ftrapv.
+   Trap for signed overflow in addition, subtraction and multiplication  */
+int flag_trapv;
+
+/* Set by -ftree-builtin-call-dce.
+   Enable conditional dead code elimination for builtin calls  */
+int flag_tree_builtin_call_dce = 0;
+
+/* Set by -ftree-ccp.
+   Enable SSA-CCP optimization on trees  */
+int flag_tree_ccp;
+
+/* Set by -ftree-ch.
+   Enable loop header copying on trees  */
+int flag_tree_ch;
+
+/* Set by -ftree-copy-prop.
+   Enable copy propagation on trees  */
+int flag_tree_copy_prop;
+
+/* Set by -ftree-copyrename.
+   Replace SSA temporaries with better names in copies  */
+int flag_tree_copyrename;
+
+/* Set by -ftree-cselim.
+   Transform condition stores into unconditional ones  */
+int flag_tree_cselim = 2;
+
+/* Set by -ftree-dce.
+   Enable SSA dead code elimination optimization on trees  */
+int flag_tree_dce;
+
+/* Set by -ftree-dominator-opts.
+   Enable dominator optimizations  */
+int flag_tree_dom;
+
+/* Set by -ftree-dse.
+   Enable dead store elimination  */
+int flag_tree_dse;
+
+/* Set by -ftree-forwprop.
+   Enable forward propagation on trees  */
+int flag_tree_forwprop = 1;
+
+/* Set by -ftree-fre.
+   Enable Full Redundancy Elimination (FRE) on trees  */
+int flag_tree_fre;
+
+/* Set by -ftree-loop-distribution.
+   Enable loop distribution on trees  */
+int flag_tree_loop_distribution;
+
+/* Set by -ftree-loop-im.
+   Enable loop invariant motion on trees  */
+int flag_tree_loop_im = 1;
+
+/* Set by -ftree-loop-ivcanon.
+   Create canonical induction variables in loops  */
+int flag_tree_loop_ivcanon = 1;
+
+/* Set by -ftree-loop-linear.
+   Enable linear loop transforms on trees  */
+int flag_tree_loop_linear;
+
+/* Set by -ftree-loop-optimize.
+   Enable loop optimizations on tree level  */
+int flag_tree_loop_optimize = 1;
+
+/* Set by -ftree-lrs.
+   Perform live range splitting during the SSA->normal pass  */
+int flag_tree_live_range_split;
+
+/* Set by -ftree-parallelize-loops=.
+   Enable automatic parallelization of loops  */
+int flag_tree_parallelize_loops = 1;
+
+/* Set by -ftree-phiprop.
+   Enable hoisting loads from conditional pointers.  */
+int flag_tree_phiprop = 1;
+
+/* Set by -ftree-pre.
+   Enable SSA-PRE optimization on trees  */
+int flag_tree_pre;
+
+/* Set by -ftree-pta.
+   Perform function-local points-to analysis on trees.  */
+int flag_tree_pta = 1;
+
+/* Set by -ftree-reassoc.
+   Enable reassociation on tree level  */
+int flag_tree_reassoc = 1;
+
+/* Set by -ftree-scev-cprop.
+   Enable copy propagation of scalar-evolution information.  */
+int flag_tree_scev_cprop = 1;
+
+/* Set by -ftree-sink.
+   Enable SSA code sinking on trees  */
+int flag_tree_sink;
+
+/* Set by -ftree-slp-vectorize.
+   Enable basic block vectorization (SLP) on trees  */
+int flag_tree_slp_vectorize = 2;
+
+/* Set by -ftree-sra.
+   Perform scalar replacement of aggregates  */
+int flag_tree_sra;
+
+/* Set by -ftree-switch-conversion.
+   Perform conversions of switch initializations.  */
+int flag_tree_switch_conversion;
+
+/* Set by -ftree-ter.
+   Replace temporary expressions in the SSA->normal pass  */
+int flag_tree_ter = 1;
+
+/* Set by -ftree-vect-loop-version.
+   Enable loop versioning when doing loop vectorization on trees  */
+int flag_tree_vect_loop_version = 1;
+
+/* Set by -ftree-vectorize.
+   Enable loop vectorization on trees  */
+int flag_tree_vectorize;
+
+/* Set by -ftree-vrp.
+   Perform Value Range Propagation on trees  */
+int flag_tree_vrp = 0;
+
+/* Set by -funit-at-a-time.
+   Compile whole compilation unit at a time  */
+int flag_unit_at_a_time = 1;
+
+/* Set by -funroll-all-loops.
+   Perform loop unrolling for all loops  */
+int flag_unroll_all_loops;
+
+/* Set by -funroll-loops.
+   Perform loop unrolling when iteration count is known  */
+int flag_unroll_loops;
+
+/* Set by -funsafe-loop-optimizations.
+   Allow loop optimizations to assume that the loops behave in normal way  */
+int flag_unsafe_loop_optimizations;
+
+/* Set by -funsafe-math-optimizations.
+   Allow math optimizations that may violate IEEE or ISO standards  */
+int flag_unsafe_math_optimizations;
+
+/* Set by -funswitch-loops.
+   Perform loop unswitching  */
+int flag_unswitch_loops;
+
+/* Set by -funwind-tables.
+   Just generate unwind tables for exception handling  */
+int flag_unwind_tables;
+
+#ifdef GCC_DRIVER
+/* Set by -fvar-tracking.
+   Perform variable tracking  */
+int flag_var_tracking;
+#endif /* GCC_DRIVER */
+
+#ifdef GCC_DRIVER
+/* Set by -fvar-tracking-assignments.
+   Perform variable tracking by annotating assignments  */
+int flag_var_tracking_assignments;
+#endif /* GCC_DRIVER */
+
+#ifdef GCC_DRIVER
+/* Set by -fvar-tracking-assignments-toggle.
+   Toggle -fvar-tracking-assignments  */
+int flag_var_tracking_assignments_toggle;
+#endif /* GCC_DRIVER */
+
+/* Set by -fvar-tracking-uninit.
+   Perform variable tracking and also tag variables that are uninitialized  */
+int flag_var_tracking_uninit;
+
+/* Set by -fvariable-expansion-in-unroller.
+   Apply variable expansion when loops are unrolled  */
+int flag_variable_expansion_in_unroller;
+
+/* Set by -fvect-cost-model.
+   Enable use of cost model in vectorization  */
+int flag_vect_cost_model;
+
+/* Set by -fverbose-asm.
+   Add extra commentary to assembler output  */
+int flag_verbose_asm;
+
+/* Set by -fvisibility-ms-compat.
+   Changes visibility to match Microsoft Visual Studio by default  */
+int flag_visibility_ms_compat;
+
+/* Set by -fvpt.
+   Use expression value profiles in optimizations  */
+int flag_value_profile_transformations;
+
+/* Set by -fweb.
+   Construct webs and split unrelated uses of single variable  */
+int flag_web = 2;
+
+/* Set by -fwhole-program.
+   Perform whole program optimizations  */
+int flag_whole_program = 0;
+
+/* Set by -fwhopr.
+   Enable partitioned link-time optimization.  */
+int flag_whopr;
+
+/* Set by -fwpa.
+   Run the link-time optimizer in whole program analysis (WPA) mode.  */
+int flag_wpa;
+
+/* Set by -fwrapv.
+   Assume signed arithmetic overflow wraps around  */
+int flag_wrapv;
+
+/* Set by -fzero-initialized-in-bss.
+   Put zero initialized data in the bss section  */
+int flag_zero_initialized_in_bss = 1;
+
+/* Set by -gdwarf-.
+   Generate debug information in DWARF v2 (or later) format  */
+int dwarf_version = 2;
+
+/* Set by -gno-strict-dwarf.
+   Emit DWARF additions beyond selected version  */
+int dwarf_strict = -1;
+
+/* Set by -gtoggle.
+   Toggle debug information generation  */
+int flag_gtoggle;
+
+/* Set by -mcmodel=.
+   Use given SPARC-V9 code model  */
+const char *sparc_cmodel_string;
+
+/* Set by -mstd-struct-return.
+   Enable strict 32-bit psABI struct return checking.  */
+int sparc_std_struct_return;
+
+/* Set by -pedantic.
+   Issue warnings needed for strict compliance to the standard  */
+int pedantic;
+
+/* Set by -quiet.
+   Do not display functions compiled or elapsed time  */
+int quiet_flag;
+
+/* Set by -version.
+   Display the compiler's version  */
+int version_flag;
+
+/* Set by -w.
+   Suppress warnings  */
+int inhibit_warnings;
+
+
+/* Local state variables.  */
+static const char *VAR_mcpu_;
+static int VAR_mimpure_text;
+static int VAR_mrelax;
+static const char *VAR_mtune_;
 
 const char * const lang_names[] =
 {
   "C",
   "C++",
+  "D",
   "Fortran",
   "LTO",
   "ObjC",
@@ -745,7070 +1475,4258 @@ const char * const lang_names[] =
 
 const unsigned int cl_options_count = N_OPTS;
 
-const unsigned int cl_lang_count = 6;
+const unsigned int cl_lang_count = 7;
 
 const struct cl_option cl_options[] =
 {
-  { "-###",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 3, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--all-warnings",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_Wall, N_OPTS, 13, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--ansi",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_ansi, N_OPTS, 5, -1,
-    CL_C | CL_CXX | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--assemble",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_S, N_OPTS, 9, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--assert",
-    0,
-    "assertion missing after %qs",
-    0,
-    NULL, NULL, OPT_A, N_OPTS, 7, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--assert=",
-    0,
-    "assertion missing after %qs",
-    0,
-    NULL, NULL, OPT_A, N_OPTS, 8, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
-  { "--comments",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_C, N_OPTS, 9, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--comments-in-macros",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_CC, N_OPTS, 19, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--compile",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_c, N_OPTS, 8, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--coverage",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_coverage, N_OPTS, 9, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--debug",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_g, N_OPTS, 6, -1,
-    CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--define-macro",
-    0,
-    "macro name missing after %qs",
-    0,
-    NULL, NULL, OPT_D, N_OPTS, 13, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--define-macro=",
-    0,
-    "macro name missing after %qs",
-    0,
-    NULL, NULL, OPT_D, N_OPTS, 14, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
-  { "--dependencies",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_M, N_OPTS, 13, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--dump",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_d, N_OPTS, 5, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_COMMON | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--dump=",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_d, N_OPTS, 6, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_COMMON | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
-  { "--dumpbase",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_dumpbase, N_OPTS, 9, -1,
-    CL_COMMON | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--dumpdir",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_dumpdir, N_OPTS, 8, -1,
-    CL_COMMON | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--entry",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_e, N_OPTS, 6, -1,
-    CL_DRIVER | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--entry=",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_e, N_OPTS, 7, -1,
-    CL_DRIVER | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
-  { "--extra-warnings",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_Wextra, N_OPTS, 15, -1,
-    CL_COMMON | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--for-assembler",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_Xassembler, N_OPTS, 14, -1,
-    CL_DRIVER | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--for-assembler=",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_Xassembler, N_OPTS, 15, -1,
-    CL_DRIVER | CL_JOINED | CL_MISSING_OK,
-    -1, 0, CLVC_STRING, 0 },
-  { "--for-linker",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_Xlinker, N_OPTS, 11, -1,
-    CL_DRIVER | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--for-linker=",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_Xlinker, N_OPTS, 12, -1,
-    CL_DRIVER | CL_JOINED | CL_MISSING_OK,
-    -1, 0, CLVC_STRING, 0 },
-  { "--force-link",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_u, N_OPTS, 11, -1,
-    CL_DRIVER | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--force-link=",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_u, N_OPTS, 12, -1,
-    CL_DRIVER | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
   { "--help",
     "Display this information",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 5, -1,
-    CL_COMMON | CL_DRIVER,
-    offsetof (struct gcc_options, x_help_flag), 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 5, -1,
+    CL_COMMON,
+    0, CLVC_BOOLEAN, 0 },
   { "--help=",
     "--help=<class>	Display descriptions of a specific class of options.  <class> is one or more of optimizers, target, warnings, undocumented, params",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 6, -1,
-    CL_COMMON | CL_DRIVER | CL_JOINED | CL_REPORT,
-    -1, 0, CLVC_STRING, 0 },
-  { "--imacros",
-    0,
-    "missing filename after %qs",
-    0,
-    NULL, NULL, OPT_imacros, N_OPTS, 8, -1,
-    CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--imacros=",
-    0,
-    "missing filename after %qs",
-    0,
-    NULL, NULL, OPT_imacros, N_OPTS, 9, -1,
-    CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
-  { "--include",
-    0,
-    "missing filename after %qs",
-    0,
-    NULL, NULL, OPT_include, N_OPTS, 8, -1,
-    CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--include-barrier",
-    0,
-    0,
-    0,
-    "-", NULL, OPT_I, N_OPTS, 16, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--include-directory",
-    0,
-    "missing path after %qs",
-    0,
-    NULL, NULL, OPT_I, N_OPTS, 18, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--include-directory-after",
-    0,
-    "missing path after %qs",
-    0,
-    NULL, NULL, OPT_idirafter, N_OPTS, 24, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--include-directory-after=",
-    0,
-    "missing path after %qs",
-    0,
-    NULL, NULL, OPT_idirafter, N_OPTS, 25, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
-  { "--include-directory=",
-    0,
-    "missing path after %qs",
-    0,
-    NULL, NULL, OPT_I, N_OPTS, 19, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
-  { "--include-prefix",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_iprefix, N_OPTS, 15, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--include-prefix=",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_iprefix, N_OPTS, 16, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_MISSING_OK,
-    -1, 0, CLVC_STRING, 0 },
-  { "--include-with-prefix",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_iwithprefix, N_OPTS, 20, -1,
-    CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--include-with-prefix-after",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_iwithprefix, N_OPTS, 26, -1,
-    CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--include-with-prefix-after=",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_iwithprefix, N_OPTS, 27, -1,
-    CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_MISSING_OK,
-    -1, 0, CLVC_STRING, 0 },
-  { "--include-with-prefix-before",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_iwithprefixbefore, N_OPTS, 27, -1,
-    CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--include-with-prefix-before=",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_iwithprefixbefore, N_OPTS, 28, -1,
-    CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_MISSING_OK,
-    -1, 0, CLVC_STRING, 0 },
-  { "--include-with-prefix=",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_iwithprefix, N_OPTS, 21, -1,
-    CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_MISSING_OK,
-    -1, 0, CLVC_STRING, 0 },
-  { "--include=",
-    0,
-    "missing filename after %qs",
-    0,
-    NULL, NULL, OPT_include, N_OPTS, 9, -1,
-    CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
-  { "--language",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_x, N_OPTS, 9, -1,
-    CL_DRIVER | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--language=",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_x, N_OPTS, 10, -1,
-    CL_DRIVER | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
-  { "--library-directory",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_L, N_OPTS, 18, -1,
-    CL_DRIVER | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--library-directory=",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_L, N_OPTS, 19, -1,
-    CL_DRIVER | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
-  { "--no-canonical-prefixes",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_no_canonical_prefixes, N_OPTS, 22, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--no-integrated-cpp",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_no_integrated_cpp, N_OPTS, 18, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--no-line-commands",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_P, N_OPTS, 17, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--no-standard-includes",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_nostdinc, N_OPTS, 21, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--no-standard-libraries",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_nostdlib, N_OPTS, 22, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--no-warnings",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_w, N_OPTS, 12, -1,
-    CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--optimize",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_O, N_OPTS, 9, -1,
-    CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--output",
-    0,
-    "missing filename after %qs",
-    0,
-    NULL, NULL, OPT_o, N_OPTS, 7, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_COMMON | CL_DRIVER | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
+    N_OPTS, 6, -1,
+    CL_COMMON | CL_JOINED | CL_REPORT,
+    0, CLVC_STRING, 0 },
   { "--output-pch=",
     0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, -1,
+    N_OPTS, 12, -1,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--output=",
-    0,
-    "missing filename after %qs",
-    0,
-    NULL, NULL, OPT_o, N_OPTS, 8, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_COMMON | CL_DRIVER | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "--param",
     "--param <param>=<value>	Set parameter <param> to value.  See below for a complete list of parameters",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 6, -1,
+    N_OPTS, 6, -1,
     CL_COMMON | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--param=",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT__param, N_OPTS, 7, -1,
-    CL_COMMON | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
-  { "--pass-exit-codes",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_pass_exit_codes, N_OPTS, 16, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--pedantic",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_pedantic, N_OPTS, 9, -1,
-    CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--pedantic-errors",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_pedantic_errors, N_OPTS, 16, -1,
-    CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--pie",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_pie, N_OPTS, 4, -1,
-    CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--pipe",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_pipe, N_OPTS, 5, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--prefix",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_B, N_OPTS, 7, -1,
-    CL_DRIVER | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--prefix=",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_B, N_OPTS, 8, -1,
-    CL_DRIVER | CL_JOINED | CL_MISSING_OK,
-    -1, 0, CLVC_STRING, 0 },
-  { "--preprocess",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_E, N_OPTS, 11, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_DRIVER | CL_UNDOCUMENTED,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--print-file-name",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_print_file_name_, N_OPTS, 16, -1,
-    CL_DRIVER | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--print-file-name=",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_print_file_name_, N_OPTS, 17, -1,
-    CL_DRIVER | CL_JOINED | CL_MISSING_OK,
-    -1, 0, CLVC_STRING, 0 },
-  { "--print-libgcc-file-name",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_print_libgcc_file_name, N_OPTS, 23, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--print-missing-file-dependencies",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_MG, N_OPTS, 32, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--print-multi-directory",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_print_multi_directory, N_OPTS, 22, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--print-multi-lib",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_print_multi_lib, N_OPTS, 16, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--print-multi-os-directory",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_print_multi_os_directory, N_OPTS, 25, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--print-prog-name",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_print_prog_name_, N_OPTS, 16, -1,
-    CL_DRIVER | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--print-prog-name=",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_print_prog_name_, N_OPTS, 17, -1,
-    CL_DRIVER | CL_JOINED | CL_MISSING_OK,
-    -1, 0, CLVC_STRING, 0 },
-  { "--print-search-dirs",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_print_search_dirs, N_OPTS, 18, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--print-sysroot",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_print_sysroot, N_OPTS, 14, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--print-sysroot-headers-suffix",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_print_sysroot_headers_suffix, N_OPTS, 29, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--profile",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_p, N_OPTS, 8, -1,
-    CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--save-temps",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_save_temps, N_OPTS, 11, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--shared",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_shared, N_OPTS, 7, -1,
-    CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--specs",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_specs_, N_OPTS, 6, -1,
-    CL_DRIVER | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--specs=",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_specs_, N_OPTS, 7, -1,
-    CL_DRIVER | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
-  { "--static",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_static, N_OPTS, 7, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--symbolic",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_symbolic, N_OPTS, 9, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--sysroot",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT__sysroot_, N_OPTS, 8, -1,
-    CL_DRIVER | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--sysroot=",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, -1,
-    CL_DRIVER | CL_JOINED | CL_MISSING_OK,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "--target-help",
     "Alias for --help=target",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, -1,
-    CL_COMMON | CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--time",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_time, N_OPTS, 5, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--trace-includes",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_H, N_OPTS, 15, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--traditional",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_traditional, N_OPTS, 12, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--traditional-cpp",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_traditional_cpp, N_OPTS, 16, -1,
-    CL_C | CL_CXX | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--trigraphs",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_trigraphs, N_OPTS, 10, -1,
-    CL_C | CL_CXX | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--undefine-macro",
-    0,
-    "macro name missing after %qs",
-    0,
-    NULL, NULL, OPT_U, N_OPTS, 15, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--undefine-macro=",
-    0,
-    "macro name missing after %qs",
-    0,
-    NULL, NULL, OPT_U, N_OPTS, 16, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
-  { "--user-dependencies",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_MM, N_OPTS, 18, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--verbose",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_v, N_OPTS, 8, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_COMMON | CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 12, -1,
+    CL_COMMON,
+    0, CLVC_BOOLEAN, 0 },
   { "--version",
     0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 8, -1,
-    CL_COMMON | CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "--write-dependencies",
-    0,
-    "missing filename after %qs",
-    0,
-    NULL, NULL, OPT_MD, N_OPTS, 19, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_NO_DRIVER_ARG | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "--write-user-dependencies",
-    0,
-    "missing filename after %qs",
-    0,
-    NULL, NULL, OPT_MMD, N_OPTS, 24, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_NO_DRIVER_ARG | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
+    N_OPTS, 8, -1,
+    CL_COMMON,
+    0, CLVC_BOOLEAN, 0 },
   { "-A",
     "-A<question>=<answer>	Assert the <answer> to <question>.  Putting '-' before <question> disables the <answer> to <question>",
-    "assertion missing after %qs",
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
+    N_OPTS, 1, -1,
     CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "-B",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
-    CL_DRIVER | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-C",
     "Do not discard comments",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
+    N_OPTS, 1, -1,
     CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-CC",
     "Do not discard comments in macro expansions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 2, -1,
+    N_OPTS, 2, -1,
     CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-D",
     "-D<macro>[=<val>]	Define a <macro> with <val> as its value.  If just <macro> is given, <val> is taken to be 1",
-    "macro name missing after %qs",
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
+    N_OPTS, 1, -1,
     CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-E",
     0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_DRIVER | CL_UNDOCUMENTED,
-    offsetof (struct gcc_options, x_flag_preprocess_only), 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 1, -1,
+    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_UNDOCUMENTED,
+    0, CLVC_BOOLEAN, 0 },
   { "-F",
     "-F <dir>	Add <dir> to the end of the main framework include path",
-    "missing path after %qs",
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
+    N_OPTS, 1, -1,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
+  { "-G",
+    "-G<number>	Put global and static data smaller than <number> bytes into a special section (on some targets)",
+    N_OPTS, 1, -1,
+    CL_COMMON | CL_JOINED | CL_SEPARATE | CL_UINTEGER,
+    0, CLVC_BOOLEAN, 0 },
   { "-H",
     "Print the name of header files as they are used",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
+    N_OPTS, 1, -1,
     CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-I",
-    "-I <dir>	Add <dir> to the end of the main include path",
-    "missing path after %qs",
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
+    "-I <dir>	Add <dir> to the end of the main include path.",
+    N_OPTS, 1, -1,
+    CL_C | CL_CXX | CL_D | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_SEPARATE,
+    0, CLVC_STRING, 0 },
   { "-J",
     "-J<directory>	Put MODULE files in 'directory'",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
-    CL_Fortran | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "-L",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
-    CL_DRIVER | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
+    N_OPTS, 1, -1,
+    CL_D | CL_Fortran | CL_JOINED | CL_SEPARATE,
+    0, CLVC_STRING, 0 },
   { "-M",
     "Generate make dependencies",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
+    N_OPTS, 1, -1,
     CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-MD",
     "Generate make dependencies and compile",
-    "missing filename after %qs",
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 2, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_NO_DRIVER_ARG | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
+    N_OPTS, 2, -1,
+    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_SEPARATE,
+    0, CLVC_BOOLEAN, 0 },
   { "-MF",
     "-MF <file>	Write dependency output to the given file",
-    "missing filename after %qs",
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 2, -1,
+    N_OPTS, 2, -1,
     CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-MG",
     "Treat missing header files as generated files",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 2, -1,
+    N_OPTS, 2, -1,
     CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-MM",
     "Like -M but ignore system header files",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 2, -1,
+    N_OPTS, 2, -1,
     CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-MMD",
     "Like -MD but ignore system header files",
-    "missing filename after %qs",
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 3, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_NO_DRIVER_ARG | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
+    N_OPTS, 3, -1,
+    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_SEPARATE,
+    0, CLVC_BOOLEAN, 0 },
   { "-MP",
     "Generate phony targets for all headers",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 2, -1,
+    N_OPTS, 2, -1,
     CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-MQ",
     "-MQ <target>	Add a MAKE-quoted target",
-    "missing makefile target after %qs",
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 2, -1,
+    N_OPTS, 2, -1,
     CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-MT",
     "-MT <target>	Add an unquoted target",
-    "missing makefile target after %qs",
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 2, -1,
+    N_OPTS, 2, -1,
     CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "-N",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_STRING, 0 },
   { "-O",
     "-O<number>	Set optimization level to <number>",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
+    N_OPTS, 1, -1,
     CL_COMMON | CL_JOINED | CL_MISSING_OK | CL_OPTIMIZATION,
-    -1, 0, CLVC_STRING, 0 },
-  { "-Ofast",
-    "Optimize for speed disregarding exact standards compliance",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_O, 5, -1,
-    CL_COMMON | CL_OPTIMIZATION,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_STRING, 0 },
   { "-Os",
     "Optimize for space rather than speed",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_O, 2, -1,
+    OPT_O, 2, -1,
     CL_COMMON | CL_OPTIMIZATION,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-P",
     "Do not generate #line directives",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
+    N_OPTS, 1, -1,
     CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-Q",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-Qn",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 2, 131,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-Qy",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 2, 130,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-R",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
-    CL_DRIVER | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "-S",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-T",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
-    CL_DRIVER | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "-Tbss",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_T, 4, -1,
-    CL_DRIVER | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "-Tbss=",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_T, 5, -1,
-    CL_DRIVER | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
-  { "-Tdata",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_T, 5, -1,
-    CL_DRIVER | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "-Tdata=",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_T, 6, -1,
-    CL_DRIVER | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
-  { "-Ttext",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_T, 5, -1,
-    CL_DRIVER | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "-Ttext=",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_T, 6, -1,
-    CL_DRIVER | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-U",
     "-U<macro>	Undefine <macro>",
-    "macro name missing after %qs",
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
+    N_OPTS, 1, -1,
     CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-W",
     "This switch is deprecated; use -Wextra instead",
-    0,
-    0,
-    NULL, NULL, OPT_Wextra, N_OPTS, 1, -1,
+    N_OPTS, 1, -1,
     CL_COMMON | CL_REJECT_NEGATIVE | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-Wa,",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 3, 143,
-    CL_DRIVER | CL_JOINED | CL_MISSING_OK,
-    -1, 0, CLVC_STRING, 0 },
+    &extra_warnings, CLVC_BOOLEAN, 0 },
   { "-Wabi",
     "Warn about things that will change when compiling with an ABI-compliant compiler",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 4, 144,
+    N_OPTS, 4, 30,
     CL_C | CL_CXX | CL_LTO | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_abi), 0, CLVC_BOOLEAN, 0 },
+    &warn_abi, CLVC_BOOLEAN, 0 },
   { "-Waddress",
     "Warn about suspicious uses of memory addresses",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 8, 145,
+    N_OPTS, 8, 31,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_address), 0, CLVC_BOOLEAN, 0 },
+    &warn_address, CLVC_BOOLEAN, 0 },
   { "-Waggregate-return",
     "Warn about returning structures, unions or arrays",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 146,
+    N_OPTS, 17, 32,
     CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_aggregate_return), 0, CLVC_BOOLEAN, 0 },
+    &warn_aggregate_return, CLVC_BOOLEAN, 0 },
   { "-Waliasing",
     "Warn about possible aliasing of dummy arguments",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, 147,
+    N_OPTS, 9, 33,
     CL_Fortran | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Walign-commons",
     "Warn about alignment of COMMON blocks",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, 148,
+    N_OPTS, 14, 34,
     CL_Fortran | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wall",
     "Enable most warning messages",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 4, 149,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 4, 35,
+    CL_C | CL_CXX | CL_D | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_WARNING,
+    0, CLVC_BOOLEAN, 0 },
   { "-Wampersand",
     "Warn about missing ampersand in continued character constants",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, 150,
+    N_OPTS, 10, 36,
     CL_Fortran | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Warray-bounds",
     "Warn if an array is accessed out of bounds",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 151,
+    N_OPTS, 13, 37,
     CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_array_bounds), 0, CLVC_BOOLEAN, 0 },
+    &warn_array_bounds, CLVC_BOOLEAN, 0 },
   { "-Warray-temporaries",
     "Warn about creation of array temporaries",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, 152,
+    N_OPTS, 18, 38,
     CL_Fortran | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wassign-intercept",
     "Warn whenever an Objective-C assignment is being intercepted by the garbage collector",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 153,
+    N_OPTS, 17, 39,
     CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_assign_intercept), 0, CLVC_BOOLEAN, 0 },
+    &warn_assign_intercept, CLVC_BOOLEAN, 0 },
   { "-Wattributes",
     "Warn about inappropriate attribute usage",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, 154,
+    N_OPTS, 11, 40,
     CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_attributes), 0, CLVC_BOOLEAN, 0 },
+    &warn_attributes, CLVC_BOOLEAN, 0 },
   { "-Wbad-function-cast",
     "Warn about casting functions to incompatible types",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, 155,
+    N_OPTS, 18, 41,
     CL_C | CL_ObjC | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_bad_function_cast), 0, CLVC_BOOLEAN, 0 },
+    &warn_bad_function_cast, CLVC_BOOLEAN, 0 },
   { "-Wbuiltin-macro-redefined",
     "Warn when a built-in preprocessor macro is undefined or redefined",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 24, 156,
+    N_OPTS, 24, 42,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wc++-compat",
     "Warn about C constructs that are not in the common subset of C and C++",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, 157,
+    N_OPTS, 11, 43,
     CL_C | CL_ObjC | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_cxx_compat), 0, CLVC_BOOLEAN, 0 },
+    &warn_cxx_compat, CLVC_BOOLEAN, 0 },
   { "-Wc++0x-compat",
     "Warn about C++ constructs whose meaning differs between ISO C++ 1998 and ISO C++ 200x",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 158,
+    N_OPTS, 13, 44,
     CL_CXX | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_cxx0x_compat), 0, CLVC_BOOLEAN, 0 },
+    &warn_cxx0x_compat, CLVC_BOOLEAN, 0 },
   { "-Wcast-align",
     "Warn about pointer casts which increase alignment",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, 159,
+    N_OPTS, 11, 45,
     CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_cast_align), 0, CLVC_BOOLEAN, 0 },
+    &warn_cast_align, CLVC_BOOLEAN, 0 },
   { "-Wcast-qual",
     "Warn about casts which discard qualifiers",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, 160,
+    N_OPTS, 10, 46,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_cast_qual), 0, CLVC_BOOLEAN, 0 },
+    &warn_cast_qual, CLVC_BOOLEAN, 0 },
   { "-Wchar-subscripts",
     "Warn about subscripts whose type is \"char\"",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 161,
+    N_OPTS, 16, 47,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_char_subscripts), 0, CLVC_BOOLEAN, 0 },
+    &warn_char_subscripts, CLVC_BOOLEAN, 0 },
   { "-Wcharacter-truncation",
     "Warn about truncated character expressions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 21, 162,
+    N_OPTS, 21, 48,
     CL_Fortran | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wclobbered",
     "Warn about variables that might be changed by \"longjmp\" or \"vfork\"",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, 163,
+    N_OPTS, 10, 49,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_clobbered), 0, CLVC_BOOLEAN, 0 },
+    &warn_clobbered, CLVC_BOOLEAN, 0 },
   { "-Wcomment",
     "Warn about possibly nested block comments, and C++ comments spanning more than one physical line",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 8, 164,
+    N_OPTS, 8, 50,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wcomments",
     "Synonym for -Wcomment",
-    0,
-    0,
-    NULL, NULL, OPT_Wcomment, N_OPTS, 9, 165,
+    N_OPTS, 9, 51,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wconversion",
     "Warn for implicit type conversions that may change a value",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, 166,
+    N_OPTS, 11, 52,
     CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_conversion), 0, CLVC_BOOLEAN, 0 },
-  { "-Wconversion-extra",
-    "Warn about most implicit conversions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 167,
-    CL_Fortran | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    &warn_conversion, CLVC_BOOLEAN, 0 },
   { "-Wconversion-null",
     "Warn for converting NULL from/to a non-pointer type",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 168,
+    N_OPTS, 16, 53,
     CL_CXX | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_conversion_null), 0, CLVC_BOOLEAN, 0 },
+    &warn_conversion_null, CLVC_BOOLEAN, 0 },
   { "-Wcoverage-mismatch",
-    "Warn in case profiles in -fprofile-use do not match",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, 169,
-    CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_coverage_mismatch), 0, CLVC_BOOLEAN, 0 },
-  { "-Wcpp",
-    "Warn when a #warning directive is encountered",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 4, 170,
-    CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_cpp), 0, CLVC_BOOLEAN, 0 },
+    "Warn instead of error in case profiles in -fprofile-use do not match",
+    N_OPTS, 18, -1,
+    CL_COMMON | CL_REJECT_NEGATIVE | CL_WARNING,
+    &warn_coverage_mismatch, CLVC_BOOLEAN, 0 },
   { "-Wctor-dtor-privacy",
     "Warn when all constructors and destructors are private",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, 171,
+    N_OPTS, 18, 55,
     CL_CXX | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_ctor_dtor_privacy), 0, CLVC_BOOLEAN, 0 },
+    &warn_ctor_dtor_privacy, CLVC_BOOLEAN, 0 },
   { "-Wdeclaration-after-statement",
     "Warn when a declaration is found after a statement",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 28, 172,
+    N_OPTS, 28, 56,
     CL_C | CL_ObjC | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_declaration_after_statement), 0, CLVC_BOOLEAN, 0 },
+    &warn_declaration_after_statement, CLVC_BOOLEAN, 0 },
   { "-Wdeprecated",
     "Warn if a deprecated compiler feature, class, method, or field is used",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, 173,
+    N_OPTS, 11, 57,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_deprecated), 0, CLVC_BOOLEAN, 0 },
+    &warn_deprecated, CLVC_BOOLEAN, 0 },
   { "-Wdeprecated-declarations",
     "Warn about uses of __attribute__((deprecated)) declarations",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 24, 174,
+    N_OPTS, 24, 58,
     CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_deprecated_decl), 0, CLVC_BOOLEAN, 0 },
+    &warn_deprecated_decl, CLVC_BOOLEAN, 0 },
   { "-Wdisabled-optimization",
     "Warn when an optimization pass is disabled",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 22, 175,
+    N_OPTS, 22, 59,
     CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_disabled_optimization), 0, CLVC_BOOLEAN, 0 },
+    &warn_disabled_optimization, CLVC_BOOLEAN, 0 },
   { "-Wdiv-by-zero",
     "Warn about compile-time integer division by zero",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 176,
+    N_OPTS, 12, 60,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_div_by_zero), 0, CLVC_BOOLEAN, 0 },
-  { "-Wdouble-promotion",
-    "Warn about implicit conversions from \"float\" to \"double\"",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 177,
-    CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_double_promotion), 0, CLVC_BOOLEAN, 0 },
+    &warn_div_by_zero, CLVC_BOOLEAN, 0 },
   { "-Weffc++",
     "Warn about violations of Effective C++ style rules",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, 178,
+    N_OPTS, 7, 61,
     CL_CXX | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_ecpp), 0, CLVC_BOOLEAN, 0 },
+    &warn_ecpp, CLVC_BOOLEAN, 0 },
   { "-Wempty-body",
     "Warn about an empty body in an if or else statement",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, 179,
+    N_OPTS, 11, 62,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_empty_body), 0, CLVC_BOOLEAN, 0 },
+    &warn_empty_body, CLVC_BOOLEAN, 0 },
   { "-Wendif-labels",
     "Warn about stray tokens after #elif and #endif",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 180,
+    N_OPTS, 13, 63,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wenum-compare",
     "Warn about comparison of different enum types",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 181,
+    N_OPTS, 13, 64,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_enum_compare), 0, CLVC_BOOLEAN, 0 },
+    &warn_enum_compare, CLVC_BOOLEAN, 0 },
   { "-Werror",
-    "Treat all warnings as errors",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 6, 182,
-    CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_COMMON,
-    offsetof (struct gcc_options, x_warnings_are_errors), 0, CLVC_BOOLEAN, 0 },
+    "Error out the compiler on warnings",
+    N_OPTS, 6, 65,
+    CL_C | CL_CXX | CL_D | CL_ObjC | CL_ObjCXX | CL_COMMON,
+    &warnings_are_errors, CLVC_BOOLEAN, 0 },
   { "-Werror-implicit-function-declaration",
     "This switch is deprecated; use -Werror=implicit-function-declaration instead",
-    0,
-    0,
-    "implicit-function-declaration", NULL, OPT_Werror_, N_OPTS, 36, -1,
+    N_OPTS, 36, -1,
     CL_C | CL_ObjC | CL_REJECT_NEGATIVE | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Werror=",
     "Treat specified warning as error",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, 184,
+    N_OPTS, 7, 67,
     CL_COMMON | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-Wextra",
     "Print extra (possibly unwanted) warnings",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 6, 185,
+    N_OPTS, 6, 68,
     CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_extra_warnings), 0, CLVC_BOOLEAN, 0 },
+    &extra_warnings, CLVC_BOOLEAN, 0 },
   { "-Wfatal-errors",
     "Exit on the first error occurred",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 186,
+    N_OPTS, 13, 69,
     CL_COMMON,
-    offsetof (struct gcc_options, x_flag_fatal_errors), 0, CLVC_BOOLEAN, 0 },
+    &flag_fatal_errors, CLVC_BOOLEAN, 0 },
   { "-Wfloat-equal",
     "Warn if testing floating point numbers for equality",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 187,
+    N_OPTS, 12, 70,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_float_equal), 0, CLVC_BOOLEAN, 0 },
+    &warn_float_equal, CLVC_BOOLEAN, 0 },
   { "-Wformat",
     "Warn about printf/scanf/strftime/strfmon format string anomalies",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, 188,
+    N_OPTS, 7, 71,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wformat-contains-nul",
     "Warn about format strings that contain NUL bytes",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 20, 189,
+    N_OPTS, 20, 72,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_format_contains_nul), 0, CLVC_BOOLEAN, 0 },
+    &warn_format_contains_nul, CLVC_BOOLEAN, 0 },
   { "-Wformat-extra-args",
     "Warn if passing too many arguments to a function for its format string",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, 190,
+    N_OPTS, 18, 73,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_format_extra_args), 0, CLVC_BOOLEAN, 0 },
+    &warn_format_extra_args, CLVC_BOOLEAN, 0 },
   { "-Wformat-nonliteral",
     "Warn about format strings that are not literals",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, 191,
+    N_OPTS, 18, 74,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_format_nonliteral), 0, CLVC_BOOLEAN, 0 },
+    &warn_format_nonliteral, CLVC_BOOLEAN, 0 },
   { "-Wformat-security",
     "Warn about possible security problems with format functions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 192,
+    N_OPTS, 16, 75,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_format_security), 0, CLVC_BOOLEAN, 0 },
+    &warn_format_security, CLVC_BOOLEAN, 0 },
   { "-Wformat-y2k",
     "Warn about strftime formats yielding 2-digit years",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, 193,
+    N_OPTS, 11, 76,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_format_y2k), 0, CLVC_BOOLEAN, 0 },
+    &warn_format_y2k, CLVC_BOOLEAN, 0 },
   { "-Wformat-zero-length",
     "Warn about zero-length formats",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 19, 194,
+    N_OPTS, 19, 77,
     CL_C | CL_ObjC | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_format_zero_length), 0, CLVC_BOOLEAN, 0 },
+    &warn_format_zero_length, CLVC_BOOLEAN, 0 },
   { "-Wformat=",
     0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 8, 195,
+    N_OPTS, 8, 78,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_WARNING,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-Wframe-larger-than=",
     "-Wframe-larger-than=<number>	Warn if a function's stack frame requires more than <number> bytes",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 19, -1,
+    N_OPTS, 19, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wignored-qualifiers",
     "Warn whenever type qualifiers are ignored.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 19, 197,
+    N_OPTS, 19, 80,
     CL_C | CL_CXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_ignored_qualifiers), 0, CLVC_BOOLEAN, 0 },
+    &warn_ignored_qualifiers, CLVC_BOOLEAN, 0 },
   { "-Wimplicit",
-    "Warn about implicit declarations",
     0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, 198,
-    CL_C | CL_ObjC | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_implicit), 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 9, 81,
+    CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
+    0, CLVC_BOOLEAN, 0 },
   { "-Wimplicit-function-declaration",
     "Warn about implicit function declarations",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 30, 199,
+    N_OPTS, 30, 82,
     CL_C | CL_ObjC | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_implicit_function_declaration), 0, CLVC_BOOLEAN, 0 },
+    &warn_implicit_function_declaration, CLVC_BOOLEAN, 0 },
   { "-Wimplicit-int",
     "Warn when a declaration does not specify a type",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 200,
+    N_OPTS, 13, 83,
     CL_C | CL_ObjC | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_implicit_int), 0, CLVC_BOOLEAN, 0 },
+    &warn_implicit_int, CLVC_BOOLEAN, 0 },
   { "-Wimplicit-interface",
     "Warn about calls with implicit interface",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 19, 201,
+    N_OPTS, 19, 84,
     CL_Fortran | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wimplicit-procedure",
     "Warn about called procedures not explicitly declared",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 19, 202,
+    N_OPTS, 19, 85,
     CL_Fortran | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wimport",
     0,
-    0,
-    0,
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 7, 203,
+    N_OPTS, 7, 86,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_UNDOCUMENTED,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Winit-self",
     "Warn about variables which are initialized to themselves",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, 204,
+    N_OPTS, 10, 87,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_init_self), 0, CLVC_BOOLEAN, 0 },
+    &warn_init_self, CLVC_BOOLEAN, 0 },
   { "-Winline",
     "Warn when an inlined function cannot be inlined",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, 205,
+    N_OPTS, 7, 88,
     CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_inline), 0, CLVC_BOOLEAN, 0 },
+    &warn_inline, CLVC_BOOLEAN, 0 },
   { "-Wint-to-pointer-cast",
     "Warn when there is a cast to a pointer from an integer of a different size",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 20, 206,
-    CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_int_to_pointer_cast), 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 20, 89,
+    CL_C | CL_ObjC | CL_WARNING,
+    &warn_int_to_pointer_cast, CLVC_BOOLEAN, 0 },
   { "-Wintrinsic-shadow",
     "Warn if a user-procedure has the same name as an intrinsic",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 207,
+    N_OPTS, 17, 90,
     CL_Fortran | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wintrinsics-std",
     "Warn on intrinsics not part of the selected standard",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 208,
+    N_OPTS, 15, 91,
     CL_Fortran | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Winvalid-offsetof",
     "Warn about invalid uses of the \"offsetof\" macro",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 209,
+    N_OPTS, 17, 92,
     CL_CXX | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_invalid_offsetof), 0, CLVC_BOOLEAN, 0 },
+    &warn_invalid_offsetof, CLVC_BOOLEAN, 0 },
   { "-Winvalid-pch",
     "Warn about PCH files that are found but not used",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 210,
+    N_OPTS, 12, 93,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wjump-misses-init",
     "Warn when a jump misses a variable initialization",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 211,
+    N_OPTS, 17, 94,
     CL_C | CL_ObjC | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_jump_misses_init), 0, CLVC_BOOLEAN, 0 },
-  { "-Wl,",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 3, 212,
-    CL_DRIVER | CL_JOINED | CL_MISSING_OK,
-    -1, 0, CLVC_STRING, 0 },
+    &warn_jump_misses_init, CLVC_BOOLEAN, 0 },
   { "-Wlarger-than-",
     0,
-    0,
-    0,
-    NULL, NULL, OPT_Wlarger_than_, N_OPTS, 13, -1,
-    CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE | CL_UNDOCUMENTED | CL_WARNING,
-    -1, 0, CLVC_STRING, 0 },
+    N_OPTS, 13, -1,
+    CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER | CL_UNDOCUMENTED | CL_WARNING,
+    0, CLVC_BOOLEAN, 0 },
   { "-Wlarger-than=",
     "-Wlarger-than=<number>	Warn if an object is larger than <number> bytes",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, -1,
+    N_OPTS, 13, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wline-truncation",
     "Warn about truncated source lines",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 215,
+    N_OPTS, 16, 97,
     CL_Fortran | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wlogical-op",
     "Warn when a logical operator is suspiciously always evaluating to true or false",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, 216,
+    N_OPTS, 11, 98,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_logical_op), 0, CLVC_BOOLEAN, 0 },
+    &warn_logical_op, CLVC_BOOLEAN, 0 },
   { "-Wlong-long",
     "Do not warn about using \"long long\" when -pedantic",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, 217,
+    N_OPTS, 10, 99,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_long_long), 0, CLVC_BOOLEAN, 0 },
+    &warn_long_long, CLVC_BOOLEAN, 0 },
   { "-Wmain",
     "Warn about suspicious declarations of \"main\"",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 5, 218,
+    N_OPTS, 5, 100,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_main), 0, CLVC_BOOLEAN, 0 },
+    &warn_main, CLVC_BOOLEAN, 0 },
   { "-Wmissing-braces",
     "Warn about possibly missing braces around initializers",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 219,
+    N_OPTS, 15, 101,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_missing_braces), 0, CLVC_BOOLEAN, 0 },
+    &warn_missing_braces, CLVC_BOOLEAN, 0 },
   { "-Wmissing-declarations",
     "Warn about global functions without previous declarations",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 21, 220,
+    N_OPTS, 21, 102,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_missing_declarations), 0, CLVC_BOOLEAN, 0 },
+    &warn_missing_declarations, CLVC_BOOLEAN, 0 },
   { "-Wmissing-field-initializers",
     "Warn about missing fields in struct initializers",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 27, 221,
+    N_OPTS, 27, 103,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_missing_field_initializers), 0, CLVC_BOOLEAN, 0 },
+    &warn_missing_field_initializers, CLVC_BOOLEAN, 0 },
   { "-Wmissing-format-attribute",
     "Warn about functions which might be candidates for format attributes",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 25, 222,
+    N_OPTS, 25, 104,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_missing_format_attribute), 0, CLVC_BOOLEAN, 0 },
+    &warn_missing_format_attribute, CLVC_BOOLEAN, 0 },
   { "-Wmissing-include-dirs",
     "Warn about user-specified include directories that do not exist",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 21, 223,
+    N_OPTS, 21, 105,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wmissing-noreturn",
     "Warn about functions which might be candidates for __attribute__((noreturn))",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 224,
+    N_OPTS, 17, 106,
     CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_missing_noreturn), 0, CLVC_BOOLEAN, 0 },
+    &warn_missing_noreturn, CLVC_BOOLEAN, 0 },
   { "-Wmissing-parameter-type",
     "Warn about function parameters declared without a type specifier in K&R-style functions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 23, 225,
+    N_OPTS, 23, 107,
     CL_C | CL_ObjC | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_missing_parameter_type), 0, CLVC_BOOLEAN, 0 },
+    &warn_missing_parameter_type, CLVC_BOOLEAN, 0 },
   { "-Wmissing-prototypes",
     "Warn about global functions without prototypes",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 19, 226,
+    N_OPTS, 19, 108,
     CL_C | CL_ObjC | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_missing_prototypes), 0, CLVC_BOOLEAN, 0 },
+    &warn_missing_prototypes, CLVC_BOOLEAN, 0 },
   { "-Wmudflap",
     "Warn about constructs not instrumented by -fmudflap",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 8, 227,
+    N_OPTS, 8, 109,
     CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_mudflap), 0, CLVC_BOOLEAN, 0 },
+    &warn_mudflap, CLVC_BOOLEAN, 0 },
   { "-Wmultichar",
     "Warn about use of multi-character character constants",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, 228,
+    N_OPTS, 10, 110,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wnested-externs",
     "Warn about \"extern\" declarations not at file scope",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 229,
+    N_OPTS, 15, 111,
     CL_C | CL_ObjC | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_nested_externs), 0, CLVC_BOOLEAN, 0 },
-  { "-Wnoexcept",
-    "Warn when a noexcept expression evaluates to false even though the expression can't actually throw",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, 230,
-    CL_CXX | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_noexcept), 0, CLVC_BOOLEAN, 0 },
+    &warn_nested_externs, CLVC_BOOLEAN, 0 },
   { "-Wnon-template-friend",
     "Warn when non-templatized friend functions are declared within a template",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 20, 231,
+    N_OPTS, 20, 112,
     CL_CXX | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_nontemplate_friend), 0, CLVC_BOOLEAN, 0 },
+    &warn_nontemplate_friend, CLVC_BOOLEAN, 0 },
   { "-Wnon-virtual-dtor",
     "Warn about non-virtual destructors",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 232,
+    N_OPTS, 17, 113,
     CL_CXX | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_nonvdtor), 0, CLVC_BOOLEAN, 0 },
+    &warn_nonvdtor, CLVC_BOOLEAN, 0 },
   { "-Wnonnull",
     "Warn about NULL being passed to argument slots marked as requiring non-NULL",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 8, 233,
+    N_OPTS, 8, 114,
     CL_C | CL_ObjC | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_nonnull), 0, CLVC_BOOLEAN, 0 },
+    &warn_nonnull, CLVC_BOOLEAN, 0 },
   { "-Wnormalized=",
     "-Wnormalized=<id|nfc|nfkc>	Warn about non-normalised Unicode strings",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 234,
+    N_OPTS, 12, 115,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_WARNING,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-Wold-style-cast",
     "Warn if a C-style cast is used in a program",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 235,
+    N_OPTS, 15, 116,
     CL_CXX | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_old_style_cast), 0, CLVC_BOOLEAN, 0 },
+    &warn_old_style_cast, CLVC_BOOLEAN, 0 },
   { "-Wold-style-declaration",
     "Warn for obsolescent usage in a declaration",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 22, 236,
+    N_OPTS, 22, 117,
     CL_C | CL_ObjC | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_old_style_declaration), 0, CLVC_BOOLEAN, 0 },
+    &warn_old_style_declaration, CLVC_BOOLEAN, 0 },
   { "-Wold-style-definition",
     "Warn if an old-style parameter definition is used",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 21, 237,
+    N_OPTS, 21, 118,
     CL_C | CL_ObjC | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_old_style_definition), 0, CLVC_BOOLEAN, 0 },
+    &warn_old_style_definition, CLVC_BOOLEAN, 0 },
   { "-Woverflow",
     "Warn about overflow in arithmetic expressions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, 238,
+    N_OPTS, 9, 119,
     CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_overflow), 0, CLVC_BOOLEAN, 0 },
+    &warn_overflow, CLVC_BOOLEAN, 0 },
   { "-Woverlength-strings",
     "Warn if a string is longer than the maximum portable length specified by the standard",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 19, 239,
+    N_OPTS, 19, 120,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_overlength_strings), 0, CLVC_BOOLEAN, 0 },
+    &warn_overlength_strings, CLVC_BOOLEAN, 0 },
   { "-Woverloaded-virtual",
     "Warn about overloaded virtual function names",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 19, 240,
+    N_OPTS, 19, 121,
     CL_CXX | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_overloaded_virtual), 0, CLVC_BOOLEAN, 0 },
+    &warn_overloaded_virtual, CLVC_BOOLEAN, 0 },
   { "-Woverride-init",
     "Warn about overriding initializers without side effects",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, 241,
+    N_OPTS, 14, 122,
     CL_C | CL_ObjC | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_override_init), 0, CLVC_BOOLEAN, 0 },
-  { "-Wp,",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 3, 242,
-    CL_DRIVER | CL_JOINED | CL_MISSING_OK,
-    -1, 0, CLVC_STRING, 0 },
+    &warn_override_init, CLVC_BOOLEAN, 0 },
   { "-Wpacked",
     "Warn when the packed attribute has no effect on struct layout",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, 243,
+    N_OPTS, 7, 123,
     CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_packed), 0, CLVC_BOOLEAN, 0 },
+    &warn_packed, CLVC_BOOLEAN, 0 },
   { "-Wpacked-bitfield-compat",
     "Warn about packed bit-fields whose offset changed in GCC 4.4",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 23, 244,
+    N_OPTS, 23, 124,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_packed_bitfield_compat), 0, CLVC_BOOLEAN, 0 },
+    &warn_packed_bitfield_compat, CLVC_BOOLEAN, 0 },
   { "-Wpadded",
     "Warn when padding is required to align structure members",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, 245,
+    N_OPTS, 7, 125,
     CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_padded), 0, CLVC_BOOLEAN, 0 },
+    &warn_padded, CLVC_BOOLEAN, 0 },
   { "-Wparentheses",
     "Warn about possibly missing parentheses",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 246,
+    N_OPTS, 12, 126,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_parentheses), 0, CLVC_BOOLEAN, 0 },
+    &warn_parentheses, CLVC_BOOLEAN, 0 },
   { "-Wpmf-conversions",
     "Warn when converting the type of pointers to member functions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 247,
+    N_OPTS, 16, 127,
     CL_CXX | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_pmf2ptr), 0, CLVC_BOOLEAN, 0 },
+    &warn_pmf2ptr, CLVC_BOOLEAN, 0 },
   { "-Wpointer-arith",
     "Warn about function pointer arithmetic",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, 248,
+    N_OPTS, 14, 128,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_pointer_arith), 0, CLVC_BOOLEAN, 0 },
+    &warn_pointer_arith, CLVC_BOOLEAN, 0 },
   { "-Wpointer-sign",
     "Warn when a pointer differs in signedness in an assignment",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 249,
+    N_OPTS, 13, 129,
     CL_C | CL_ObjC | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_pointer_sign), 0, CLVC_BOOLEAN, 0 },
+    &warn_pointer_sign, CLVC_BOOLEAN, 0 },
   { "-Wpointer-to-int-cast",
     "Warn when a pointer is cast to an integer of a different size",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 20, 250,
+    N_OPTS, 20, 130,
     CL_C | CL_ObjC | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_pointer_to_int_cast), 0, CLVC_BOOLEAN, 0 },
+    &warn_pointer_to_int_cast, CLVC_BOOLEAN, 0 },
   { "-Wpragmas",
     "Warn about misuses of pragmas",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 8, 251,
+    N_OPTS, 8, 131,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_pragmas), 0, CLVC_BOOLEAN, 0 },
-  { "-Wproperty-assign-default",
-    "Warn if a property for an Objective-C object has no assign semantics specified",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 24, 252,
-    CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_property_assign_default), 0, CLVC_BOOLEAN, 0 },
+    &warn_pragmas, CLVC_BOOLEAN, 0 },
   { "-Wprotocol",
     "Warn if inherited methods are unimplemented",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, 253,
+    N_OPTS, 9, 132,
     CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_protocol), 0, CLVC_BOOLEAN, 0 },
+    &warn_protocol, CLVC_BOOLEAN, 0 },
   { "-Wpsabi",
     0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 6, 254,
+    N_OPTS, 6, 133,
     CL_C | CL_CXX | CL_LTO | CL_ObjC | CL_ObjCXX | CL_UNDOCUMENTED,
-    offsetof (struct gcc_options, x_warn_psabi), 0, CLVC_BOOLEAN, 0 },
-  { "-Wreal-q-constant",
-    "Warn about real-literal-constants with 'q' exponent-letter",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 255,
-    CL_Fortran | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    &warn_psabi, CLVC_BOOLEAN, 0 },
   { "-Wredundant-decls",
     "Warn about multiple declarations of the same object",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 256,
+    N_OPTS, 16, 134,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_redundant_decls), 0, CLVC_BOOLEAN, 0 },
+    &warn_redundant_decls, CLVC_BOOLEAN, 0 },
   { "-Wreorder",
     "Warn when the compiler reorders code",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 8, 257,
+    N_OPTS, 8, 135,
     CL_CXX | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_reorder), 0, CLVC_BOOLEAN, 0 },
+    &warn_reorder, CLVC_BOOLEAN, 0 },
   { "-Wreturn-type",
     "Warn whenever a function's return type defaults to \"int\" (C), or about inconsistent return types (C++)",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 258,
+    N_OPTS, 12, 136,
     CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_return_type), 0, CLVC_BOOLEAN, 0 },
+    &warn_return_type, CLVC_BOOLEAN, 0 },
   { "-Wselector",
     "Warn if a selector has multiple methods",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, 259,
+    N_OPTS, 9, 137,
     CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_selector), 0, CLVC_BOOLEAN, 0 },
+    &warn_selector, CLVC_BOOLEAN, 0 },
   { "-Wsequence-point",
     "Warn about possible violations of sequence point rules",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 260,
+    N_OPTS, 15, 138,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_sequence_point), 0, CLVC_BOOLEAN, 0 },
+    &warn_sequence_point, CLVC_BOOLEAN, 0 },
   { "-Wshadow",
     "Warn when one local variable shadows another",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, 261,
+    N_OPTS, 7, 139,
     CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_shadow), 0, CLVC_BOOLEAN, 0 },
+    &warn_shadow, CLVC_BOOLEAN, 0 },
   { "-Wsign-compare",
     "Warn about signed-unsigned comparisons",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 262,
-    CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_sign_compare), 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 13, 140,
+    CL_C | CL_CXX | CL_D | CL_ObjC | CL_ObjCXX | CL_WARNING,
+    &warn_sign_compare, CLVC_BOOLEAN, 0 },
   { "-Wsign-conversion",
     "Warn for implicit type conversions between signed and unsigned integers",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 263,
+    N_OPTS, 16, 141,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX,
-    offsetof (struct gcc_options, x_warn_sign_conversion), 0, CLVC_BOOLEAN, 0 },
+    &warn_sign_conversion, CLVC_BOOLEAN, 0 },
   { "-Wsign-promo",
     "Warn when overload promotes from unsigned to signed",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, 264,
+    N_OPTS, 11, 142,
     CL_CXX | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_sign_promo), 0, CLVC_BOOLEAN, 0 },
+    &warn_sign_promo, CLVC_BOOLEAN, 0 },
   { "-Wstack-protector",
     "Warn when not issuing stack smashing protection for some reason",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 265,
+    N_OPTS, 16, 143,
     CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_stack_protect), 0, CLVC_BOOLEAN, 0 },
+    &warn_stack_protect, CLVC_BOOLEAN, 0 },
   { "-Wstrict-aliasing",
     "Warn about code which might break strict aliasing rules",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 266,
+    N_OPTS, 16, 144,
     CL_COMMON | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wstrict-aliasing=",
     "Warn about code which might break strict aliasing rules",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, -1,
-    CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_strict_aliasing), 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 17, 145,
+    CL_COMMON | CL_JOINED | CL_UINTEGER | CL_WARNING,
+    &warn_strict_aliasing, CLVC_BOOLEAN, 0 },
   { "-Wstrict-null-sentinel",
     "Warn about uncasted NULL used as sentinel",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 21, 268,
+    N_OPTS, 21, 146,
     CL_CXX | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_strict_null_sentinel), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wstrict-overflow",
     "Warn about optimizations that assume that signed overflow is undefined",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 269,
+    N_OPTS, 16, 147,
     CL_COMMON | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wstrict-overflow=",
     "Warn about optimizations that assume that signed overflow is undefined",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, -1,
-    CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_strict_overflow), 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 17, 148,
+    CL_COMMON | CL_JOINED | CL_UINTEGER | CL_WARNING,
+    &warn_strict_overflow, CLVC_BOOLEAN, 0 },
   { "-Wstrict-prototypes",
     "Warn about unprototyped function declarations",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, 271,
+    N_OPTS, 18, 149,
     CL_C | CL_ObjC | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_strict_prototypes), 0, CLVC_BOOLEAN, 0 },
+    &warn_strict_prototypes, CLVC_BOOLEAN, 0 },
   { "-Wstrict-selector-match",
     "Warn if type signatures of candidate methods do not match exactly",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 22, 272,
+    N_OPTS, 22, 150,
     CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_strict_selector_match), 0, CLVC_BOOLEAN, 0 },
-  { "-Wsuggest-attribute=const",
-    "Warn about functions which might be candidates for __attribute__((const))",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 24, 273,
-    CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_suggest_attribute_const), 0, CLVC_BOOLEAN, 0 },
-  { "-Wsuggest-attribute=noreturn",
-    "Warn about functions which might be candidates for __attribute__((noreturn))",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 27, 274,
-    CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_suggest_attribute_noreturn), 0, CLVC_BOOLEAN, 0 },
-  { "-Wsuggest-attribute=pure",
-    "Warn about functions which might be candidates for __attribute__((pure))",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 23, 275,
-    CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_suggest_attribute_pure), 0, CLVC_BOOLEAN, 0 },
+    &warn_strict_selector_match, CLVC_BOOLEAN, 0 },
   { "-Wsurprising",
     "Warn about \"suspicious\" constructs",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, 276,
+    N_OPTS, 11, 151,
     CL_Fortran | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wswitch",
     "Warn about enumerated switches, with no default, missing a case",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, 277,
+    N_OPTS, 7, 152,
     CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_switch), 0, CLVC_BOOLEAN, 0 },
+    &warn_switch, CLVC_BOOLEAN, 0 },
   { "-Wswitch-default",
     "Warn about enumerated switches missing a \"default:\" statement",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 278,
+    N_OPTS, 15, 153,
     CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_switch_default), 0, CLVC_BOOLEAN, 0 },
+    &warn_switch_default, CLVC_BOOLEAN, 0 },
   { "-Wswitch-enum",
     "Warn about all enumerated switches missing a specific case",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 279,
+    N_OPTS, 12, 154,
     CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_switch_enum), 0, CLVC_BOOLEAN, 0 },
+    &warn_switch_enum, CLVC_BOOLEAN, 0 },
   { "-Wsync-nand",
     "Warn when __sync_fetch_and_nand and __sync_nand_and_fetch built-in functions are used",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, 280,
+    N_OPTS, 10, 155,
     CL_C | CL_CXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_sync_nand), 0, CLVC_BOOLEAN, 0 },
+    &warn_sync_nand, CLVC_BOOLEAN, 0 },
   { "-Wsynth",
     "Deprecated.  This switch has no effect",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 6, 281,
+    N_OPTS, 6, 156,
     CL_CXX | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_synth), 0, CLVC_BOOLEAN, 0 },
+    &warn_synth, CLVC_BOOLEAN, 0 },
   { "-Wsystem-headers",
     "Do not suppress warnings from system headers",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 282,
+    N_OPTS, 15, 157,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_system_headers), 0, CLVC_BOOLEAN, 0 },
+    &warn_system_headers, CLVC_BOOLEAN, 0 },
   { "-Wtabs",
     "Permit nonconforming uses of the tab character",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 5, 283,
+    N_OPTS, 5, 158,
     CL_Fortran | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wtraditional",
     "Warn about features not present in traditional C",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 284,
+    N_OPTS, 12, 159,
     CL_C | CL_ObjC | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_traditional), 0, CLVC_BOOLEAN, 0 },
+    &warn_traditional, CLVC_BOOLEAN, 0 },
   { "-Wtraditional-conversion",
     "Warn of prototypes causing type conversions different from what would happen in the absence of prototype",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 23, 285,
+    N_OPTS, 23, 160,
     CL_C | CL_ObjC | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_traditional_conversion), 0, CLVC_BOOLEAN, 0 },
-  { "-Wtrampolines",
-    "Warn whenever a trampoline is generated",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 286,
-    CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_trampolines), 0, CLVC_BOOLEAN, 0 },
+    &warn_traditional_conversion, CLVC_BOOLEAN, 0 },
   { "-Wtrigraphs",
     "Warn if trigraphs are encountered that might affect the meaning of the program",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, 287,
+    N_OPTS, 10, 161,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wtype-limits",
     "Warn if a comparison is always true or always false due to the limited range of the data type",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 288,
+    N_OPTS, 12, 162,
     CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_type_limits), 0, CLVC_BOOLEAN, 0 },
+    &warn_type_limits, CLVC_BOOLEAN, 0 },
   { "-Wundeclared-selector",
     "Warn about @selector()s without previously declared methods",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 20, 289,
+    N_OPTS, 20, 163,
     CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_undeclared_selector), 0, CLVC_BOOLEAN, 0 },
+    &warn_undeclared_selector, CLVC_BOOLEAN, 0 },
   { "-Wundef",
     "Warn if an undefined macro is used in an #if directive",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 6, 290,
+    N_OPTS, 6, 164,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wunderflow",
     "Warn about underflow of numerical constant expressions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, 291,
+    N_OPTS, 10, 165,
     CL_Fortran | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wuninitialized",
     "Warn about uninitialized automatic variables",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, 292,
+    N_OPTS, 14, 166,
     CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_uninitialized), 0, CLVC_BOOLEAN, 0 },
+    &warn_uninitialized, CLVC_BOOLEAN, 0 },
   { "-Wunknown-pragmas",
     "Warn about unrecognized pragmas",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 293,
+    N_OPTS, 16, 167,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wunreachable-code",
     "Does nothing. Preserved for backward compatibility.",
-    0,
-    0,
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 17, 294,
+    N_OPTS, 17, 168,
     CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wunsafe-loop-optimizations",
     "Warn if the loop cannot be optimized due to nontrivial assumptions.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 26, 295,
+    N_OPTS, 26, 169,
     CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_unsafe_loop_optimizations), 0, CLVC_BOOLEAN, 0 },
+    &warn_unsafe_loop_optimizations, CLVC_BOOLEAN, 0 },
   { "-Wunsuffixed-float-constants",
     "Warn about unsuffixed float constants",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 27, 296,
+    N_OPTS, 27, 170,
     CL_C | CL_ObjC | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_unsuffixed_float_constants), 0, CLVC_BOOLEAN, 0 },
+    &warn_unsuffixed_float_constants, CLVC_BOOLEAN, 0 },
   { "-Wunused",
     "Enable all -Wunused- warnings",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, 297,
+    N_OPTS, 7, 171,
     CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_unused), 0, CLVC_BOOLEAN, 0 },
-  { "-Wunused-but-set-parameter",
-    "Warn when a function parameter is only set, otherwise unused",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 25, 298,
-    CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_unused_but_set_parameter), 0, CLVC_BOOLEAN, 0 },
-  { "-Wunused-but-set-variable",
-    "Warn when a variable is only set, otherwise unused",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 24, 299,
-    CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_unused_but_set_variable), 0, CLVC_BOOLEAN, 0 },
-  { "-Wunused-dummy-argument",
-    "Warn about unused dummy arguments.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 22, 300,
-    CL_Fortran | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    &warn_unused, CLVC_BOOLEAN, 0 },
   { "-Wunused-function",
     "Warn when a function is unused",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 301,
+    N_OPTS, 16, 172,
     CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_unused_function), 0, CLVC_BOOLEAN, 0 },
+    &warn_unused_function, CLVC_BOOLEAN, 0 },
   { "-Wunused-label",
     "Warn when a label is unused",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 302,
+    N_OPTS, 13, 173,
     CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_unused_label), 0, CLVC_BOOLEAN, 0 },
+    &warn_unused_label, CLVC_BOOLEAN, 0 },
   { "-Wunused-macros",
     "Warn about macros defined in the main file that are not used",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, 303,
+    N_OPTS, 14, 174,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wunused-parameter",
     "Warn when a function parameter is unused",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 304,
+    N_OPTS, 17, 175,
     CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_unused_parameter), 0, CLVC_BOOLEAN, 0 },
+    &warn_unused_parameter, CLVC_BOOLEAN, 0 },
   { "-Wunused-result",
     "Warn if a caller of a function, marked with attribute warn_unused_result, does not use its return value",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, 305,
+    N_OPTS, 14, 176,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_unused_result), 0, CLVC_BOOLEAN, 0 },
+    &warn_unused_result, CLVC_BOOLEAN, 0 },
   { "-Wunused-value",
     "Warn when an expression value is unused",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 306,
+    N_OPTS, 13, 177,
     CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_unused_value), 0, CLVC_BOOLEAN, 0 },
+    &warn_unused_value, CLVC_BOOLEAN, 0 },
   { "-Wunused-variable",
     "Warn when a variable is unused",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 307,
+    N_OPTS, 16, 178,
     CL_COMMON | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_unused_variable), 0, CLVC_BOOLEAN, 0 },
+    &warn_unused_variable, CLVC_BOOLEAN, 0 },
   { "-Wvariadic-macros",
     "Do not warn about using variadic macros when -pedantic",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 308,
+    N_OPTS, 16, 179,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-Wvla",
     "Warn if a variable length array is used",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 4, 309,
+    N_OPTS, 4, 180,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_vla), 0, CLVC_BOOLEAN, 0 },
+    &warn_vla, CLVC_BOOLEAN, 0 },
   { "-Wvolatile-register-var",
     "Warn when a register variable is declared volatile",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 22, 310,
+    N_OPTS, 22, 181,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_volatile_register_var), 0, CLVC_BOOLEAN, 0 },
+    &warn_volatile_register_var, CLVC_BOOLEAN, 0 },
   { "-Wwrite-strings",
-    "In C++, nonzero means warn about deprecated conversion from string literals to 'char *'.  In C, similar warning, except that the conversion is of course not deprecated by the ISO C standard.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, 311,
+    "In C++, nonzero means warn about deprecated conversion from string literals to `char *'.  In C, similar warning, except that the conversion is of course not deprecated by the ISO C standard.",
+    N_OPTS, 14, 182,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_WARNING,
-    offsetof (struct gcc_options, x_warn_write_strings), 0, CLVC_BOOLEAN, 0 },
-  { "-Xassembler",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, -1,
-    CL_DRIVER | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "-Xlinker",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, -1,
-    CL_DRIVER | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "-Xpreprocessor",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, -1,
-    CL_DRIVER | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "-Z",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    &warn_write_strings, CLVC_BOOLEAN, 0 },
   { "-ansi",
     "A synonym for -std=c89 (for C) or -std=c++98 (for C++)",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 4, -1,
+    N_OPTS, 4, -1,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-aux-info",
     "-aux-info <file>	Emit declaration information into <file>",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 8, -1,
+    N_OPTS, 8, -1,
     CL_COMMON | CL_SEPARATE,
-    offsetof (struct gcc_options, x_aux_info_file_name), 0, CLVC_STRING, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-aux-info=",
     0,
-    0,
-    0,
-    NULL, NULL, OPT_aux_info, N_OPTS, 9, -1,
+    N_OPTS, 9, -1,
     CL_COMMON | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-auxbase",
     0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, -1,
-    CL_COMMON | CL_REJECT_DRIVER | CL_SEPARATE,
-    offsetof (struct gcc_options, x_aux_base_name), 0, CLVC_STRING, 0 },
+    N_OPTS, 7, -1,
+    CL_COMMON | CL_SEPARATE,
+    0, CLVC_BOOLEAN, 0 },
   { "-auxbase-strip",
     0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, -1,
-    CL_COMMON | CL_REJECT_DRIVER | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "-c",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-coverage",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 8, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 13, -1,
+    CL_COMMON | CL_SEPARATE,
+    0, CLVC_BOOLEAN, 0 },
   { "-cpp",
     "Enable preprocessing",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 3, 853,
-    CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-cpp=",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 4, 853,
-    CL_Fortran | CL_JOINED | CL_UNDOCUMENTED,
-    -1, 0, CLVC_STRING, 0 },
+    N_OPTS, 3, 707,
+    CL_Fortran | CL_JOINED | CL_SEPARATE,
+    0, CLVC_STRING, 0 },
   { "-d",
     "-d<letters>	Enable dumps from specific passes of the compiler",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
+    N_OPTS, 1, -1,
     CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_COMMON | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
+  { "-debuglib=",
+    "Debug library to use instead of phobos",
+    OPT_d, 9, -1,
+    CL_JOINED,
+    0, CLVC_STRING, 0 },
+  { "-defaultlib=",
+    "Default library to use instead of phobos",
+    OPT_d, 11, -1,
+    CL_JOINED,
+    0, CLVC_STRING, 0 },
   { "-dumpbase",
     "-dumpbase <file>	Set the file basename to be used for dumps",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_d, 8, -1,
+    OPT_d, 8, -1,
     CL_COMMON | CL_SEPARATE,
-    offsetof (struct gcc_options, x_dump_base_name), 0, CLVC_STRING, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-dumpdir",
     "-dumpdir <dir>	Set the directory name to be used for dumps",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_d, 7, -1,
+    OPT_d, 7, -1,
     CL_COMMON | CL_SEPARATE,
-    offsetof (struct gcc_options, x_dump_dir_name), 0, CLVC_STRING, 0 },
-  { "-dumpmachine",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_d, 11, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-dumpspecs",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_d, 9, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-dumpversion",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_d, 11, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-e",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
-    CL_DRIVER | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "-export-dynamic",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_e, 14, -1,
-    CL_DRIVER | CL_UNDOCUMENTED,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fPIC",
     "Generate position-independent code if possible (large mode)",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 4, 333,
+    N_OPTS, 4, 194,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_pic), 0, CLVC_EQUAL, 2 },
+    &flag_pic, CLVC_EQUAL, 2 },
   { "-fPIE",
     "Generate position-independent code for executables if possible (large mode)",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 4, 334,
+    N_OPTS, 4, 195,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_pie), 0, CLVC_EQUAL, 2 },
+    &flag_pie, CLVC_EQUAL, 2 },
+  { "-fXf=",
+    "-fXf=<filename> Write JSON file to <filename>",
+    N_OPTS, 4, -1,
+    CL_D | CL_JOINED | CL_REJECT_NEGATIVE,
+    0, CLVC_STRING, 0 },
   { "-fabi-version=",
     0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, -1,
-    CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
-    offsetof (struct gcc_options, x_flag_abi_version), 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 13, 197,
+    CL_COMMON | CL_JOINED | CL_UINTEGER,
+    &flag_abi_version, CLVC_BOOLEAN, 0 },
   { "-faccess-control",
     "Enforce class member access control semantics",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 336,
+    N_OPTS, 15, 198,
     CL_CXX | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_access_control), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-falign-commons",
     "Enable alignment of COMMON blocks",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, 337,
+    N_OPTS, 14, 199,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-falign-functions",
     "Align the start of functions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 338,
+    N_OPTS, 16, 200,
     CL_COMMON | CL_UINTEGER | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_align_functions), 0, CLVC_EQUAL, 0 },
+    &align_functions, CLVC_EQUAL, 0 },
   { "-falign-functions=",
     0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, -1,
+    N_OPTS, 17, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
-    offsetof (struct gcc_options, x_align_functions), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-falign-jumps",
     "Align labels which are only reached by jumping",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 340,
+    N_OPTS, 12, 202,
     CL_COMMON | CL_UINTEGER | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_align_jumps), 0, CLVC_EQUAL, 0 },
+    &align_jumps, CLVC_EQUAL, 0 },
   { "-falign-jumps=",
     0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, -1,
+    N_OPTS, 13, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
-    offsetof (struct gcc_options, x_align_jumps), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-falign-labels",
     "Align all labels",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 342,
+    N_OPTS, 13, 204,
     CL_COMMON | CL_UINTEGER | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_align_labels), 0, CLVC_EQUAL, 0 },
+    &align_labels, CLVC_EQUAL, 0 },
   { "-falign-labels=",
     0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, -1,
+    N_OPTS, 14, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
-    offsetof (struct gcc_options, x_align_labels), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-falign-loops",
     "Align the start of loops",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 344,
+    N_OPTS, 12, 206,
     CL_COMMON | CL_UINTEGER | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_align_loops), 0, CLVC_EQUAL, 0 },
+    &align_loops, CLVC_BOOLEAN, 0 },
   { "-falign-loops=",
     0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, -1,
+    N_OPTS, 13, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
-    offsetof (struct gcc_options, x_align_loops), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fall-intrinsics",
     "All intrinsics procedures are available regardless of selected standard",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, -1,
+    N_OPTS, 15, -1,
     CL_Fortran | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fall-virtual",
     0,
-    0,
-    "switch %qs is no longer supported",
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 12, 347,
+    N_OPTS, 12, 209,
     CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fallow-leading-underscore",
     0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 25, 348,
+    N_OPTS, 25, 210,
     CL_Fortran | CL_UNDOCUMENTED,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-falt-external-templates",
-    "No longer supported",
-    0,
-    "switch %qs is no longer supported",
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 23, 349,
+    "Change when template instances are emitted",
+    N_OPTS, 23, 211,
     CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fargument-alias",
-    "Does nothing. Preserved for backward compatibility.",
-    0,
-    0,
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 15, 350,
-    CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    "Specify that arguments may alias each other and globals",
+    N_OPTS, 15, 212,
+    CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
+    &flag_argument_noalias, CLVC_EQUAL, 0 },
   { "-fargument-noalias",
-    "Does nothing. Preserved for backward compatibility.",
-    0,
-    0,
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 17, 351,
-    CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    "Assume arguments may alias globals but not each other",
+    N_OPTS, 17, 213,
+    CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
+    &flag_argument_noalias, CLVC_EQUAL, 1 },
   { "-fargument-noalias-anything",
-    "Does nothing. Preserved for backward compatibility.",
-    0,
-    0,
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 26, 352,
-    CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    "Assume arguments alias no other storage",
+    N_OPTS, 26, 214,
+    CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
+    &flag_argument_noalias, CLVC_EQUAL, 3 },
   { "-fargument-noalias-global",
-    "Does nothing. Preserved for backward compatibility.",
-    0,
-    0,
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 24, 353,
-    CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    "Assume arguments alias neither each other nor globals",
+    N_OPTS, 24, 215,
+    CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
+    &flag_argument_noalias, CLVC_EQUAL, 2 },
   { "-fasm",
     "Recognize the \"asm\" keyword",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 4, 354,
-    CL_C | CL_CXX | CL_ObjC | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_no_asm), 0, CLVC_EQUAL, 0 },
+    N_OPTS, 4, 216,
+    CL_C | CL_CXX | CL_D | CL_ObjC | CL_ObjCXX,
+    0, CLVC_BOOLEAN, 0 },
+  { "-fassert",
+    "Generate runtime code for assert()'s",
+    N_OPTS, 7, 217,
+    CL_D,
+    0, CLVC_BOOLEAN, 0 },
   { "-fassociative-math",
     "Allow optimization for floating-point arithmetic which may change the result of the operation due to rounding.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 355,
+    N_OPTS, 17, 218,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_associative_math), 0, CLVC_BOOLEAN, 0 },
+    &flag_associative_math, CLVC_BOOLEAN, 0 },
   { "-fasynchronous-unwind-tables",
     "Generate unwind tables that are exact at each instruction boundary",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 27, 356,
+    N_OPTS, 27, 219,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_asynchronous_unwind_tables), 0, CLVC_BOOLEAN, 0 },
+    &flag_asynchronous_unwind_tables, CLVC_BOOLEAN, 0 },
   { "-fauto-inc-dec",
     "Generate auto-inc/dec instructions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 357,
+    N_OPTS, 13, 220,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_auto_inc_dec), 0, CLVC_BOOLEAN, 0 },
+    &flag_auto_inc_dec, CLVC_BOOLEAN, 0 },
   { "-fautomatic",
     "Do not treat local variables and COMMON blocks as if they were named in SAVE statements",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, 358,
+    N_OPTS, 10, 221,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fbackslash",
     "Specify that backslash in string introduces an escape character",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, 359,
+    N_OPTS, 10, 222,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fbacktrace",
     "Produce a backtrace when a runtime error is encountered",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, 360,
+    N_OPTS, 10, 223,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fblas-matmul-limit=",
     "-fblas-matmul-limit=<n>	Size of the smallest matrix for which matmul will use BLAS",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 19, -1,
+    N_OPTS, 19, -1,
     CL_Fortran | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fbounds-check",
     "Generate code to check bounds before indexing arrays",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 362,
-    CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_bounds_check), 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 13, 225,
+    CL_D | CL_COMMON | CL_REPORT,
+    &flag_bounds_check, CLVC_BOOLEAN, 0 },
   { "-fbranch-count-reg",
     "Replace add, compare, branch with branch on count register",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 363,
+    N_OPTS, 17, 226,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_branch_on_count_reg), 0, CLVC_BOOLEAN, 0 },
+    &flag_branch_on_count_reg, CLVC_BOOLEAN, 0 },
   { "-fbranch-probabilities",
     "Use profiling information for branch probabilities",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 21, 364,
+    N_OPTS, 21, 227,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_branch_probabilities), 0, CLVC_BOOLEAN, 0 },
+    &flag_branch_probabilities, CLVC_BOOLEAN, 0 },
   { "-fbranch-target-load-optimize",
     "Perform branch target load optimization before prologue / epilogue threading",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 28, 365,
+    N_OPTS, 28, 228,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_branch_target_load_optimize), 0, CLVC_BOOLEAN, 0 },
+    &flag_branch_target_load_optimize, CLVC_BOOLEAN, 0 },
   { "-fbranch-target-load-optimize2",
     "Perform branch target load optimization after prologue / epilogue threading",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 29, 366,
+    N_OPTS, 29, 229,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_branch_target_load_optimize2), 0, CLVC_BOOLEAN, 0 },
+    &flag_branch_target_load_optimize2, CLVC_BOOLEAN, 0 },
   { "-fbtr-bb-exclusive",
     "Restrict target load migration not to re-use registers in any basic block",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 367,
+    N_OPTS, 17, 230,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_btr_bb_exclusive), 0, CLVC_BOOLEAN, 0 },
+    &flag_btr_bb_exclusive, CLVC_BOOLEAN, 0 },
   { "-fbuiltin",
     "Recognize built-in functions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 8, 368,
-    CL_C | CL_CXX | CL_ObjC | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_no_builtin), 0, CLVC_EQUAL, 0 },
+    N_OPTS, 8, 231,
+    CL_C | CL_CXX | CL_D | CL_ObjC | CL_ObjCXX,
+    0, CLVC_BOOLEAN, 0 },
   { "-fbuiltin-",
     0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, 369,
+    N_OPTS, 9, 232,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-fcall-saved-",
     "-fcall-saved-<register>	Mark <register> as being preserved across functions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, -1,
+    N_OPTS, 12, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_common_deferred_options), 0, CLVC_DEFER, 0 },
+    0, CLVC_STRING, 0 },
   { "-fcall-used-",
     "-fcall-used-<register>	Mark <register> as being corrupted by function calls",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, -1,
+    N_OPTS, 11, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_common_deferred_options), 0, CLVC_DEFER, 0 },
+    0, CLVC_STRING, 0 },
   { "-fcaller-saves",
     "Save registers around function calls",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 372,
+    N_OPTS, 13, 235,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_caller_saves), 0, CLVC_BOOLEAN, 0 },
+    &flag_caller_saves, CLVC_BOOLEAN, 0 },
   { "-fcheck-array-temporaries",
     "Produce a warning at runtime if a array temporary has been created for a procedure argument",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 24, 373,
+    N_OPTS, 24, 236,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fcheck-data-deps",
     "Compare the results of several data dependence analyzers.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 374,
+    N_OPTS, 16, 237,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_check_data_deps), 0, CLVC_BOOLEAN, 0 },
+    &flag_check_data_deps, CLVC_BOOLEAN, 0 },
   { "-fcheck-new",
     "Check the return value of new",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, 375,
+    N_OPTS, 10, 238,
     CL_CXX | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_check_new), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fcheck=",
     "-fcheck=[...]	Specify which runtime checks are to be performed",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, -1,
+    N_OPTS, 7, -1,
     CL_Fortran | CL_JOINED | CL_MISSING_OK | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_STRING, 0 },
-  { "-fcoarray=",
-    "-fcoarray=[...]	Specify which coarray parallelization should be used",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, -1,
-    CL_Fortran | CL_JOINED | CL_MISSING_OK | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_STRING, 0 },
-  { "-fcombine-stack-adjustments",
-    "Looks for opportunities to reduce stack adjustments and stack references.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 26, 378,
-    CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_combine_stack_adjustments), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_STRING, 0 },
   { "-fcommon",
     "Do not put uninitialized globals in the common section",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, 379,
+    N_OPTS, 7, 240,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_no_common), 0, CLVC_EQUAL, 0 },
-  { "-fcompare-debug",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, 380,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    &flag_no_common, CLVC_EQUAL, 0 },
   { "-fcompare-debug-second",
     "Run only the second compilation of -fcompare-debug",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 21, -1,
-    CL_COMMON | CL_DRIVER | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_flag_compare_debug), 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 21, -1,
+    CL_COMMON | CL_REJECT_NEGATIVE,
+    &flag_compare_debug, CLVC_BOOLEAN, 0 },
   { "-fcompare-debug=",
     "-fcompare-debug[=<opts>]	Compile with and without e.g. -gtoggle, and compare the final-insns dump",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, -1,
-    CL_COMMON | CL_DRIVER | CL_JOINED | CL_MISSING_OK | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_flag_compare_debug_opt), 0, CLVC_STRING, 0 },
-  { "-fcompare-elim",
-    "Perform comparison elimination after register allocation has finished",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 383,
-    CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_compare_elim_after_reload), 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 15, -1,
+    CL_COMMON | CL_JOINED | CL_MISSING_OK | CL_REJECT_NEGATIVE,
+    &flag_compare_debug_opt, CLVC_STRING, 0 },
   { "-fcond-mismatch",
     "Allow the arguments of the '?' operator to have different types",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, 384,
+    N_OPTS, 14, 243,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fconserve-space",
     "Reduce the size of object files",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 385,
+    N_OPTS, 15, 244,
     CL_CXX | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_conserve_space), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fconserve-stack",
     "Do not perform optimizations increasing noticeably stack usage",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 386,
+    N_OPTS, 15, 245,
     CL_COMMON | CL_OPTIMIZATION,
-    offsetof (struct gcc_options, x_flag_conserve_stack), 0, CLVC_BOOLEAN, 0 },
+    &flag_conserve_stack, CLVC_BOOLEAN, 0 },
   { "-fconstant-string-class=",
     "-fconst-string-class=<name>	Use class <name> for constant strings",
-    "no class name specified with %qs",
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 23, 387,
+    N_OPTS, 23, 246,
     CL_ObjC | CL_ObjCXX | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
-  { "-fconstexpr-depth=",
-    "-fconstexpr-depth=<number>	Specify maximum constexpr recursion depth",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, -1,
-    CL_CXX | CL_ObjCXX | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
-    offsetof (struct gcc_options, x_max_constexpr_depth), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_STRING, 0 },
   { "-fconvert=big-endian",
     "Use big-endian format for unformatted files",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 19, -1,
+    N_OPTS, 19, -1,
     CL_Fortran | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fconvert=little-endian",
     "Use little-endian format for unformatted files",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 22, -1,
+    N_OPTS, 22, -1,
     CL_Fortran | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fconvert=native",
     "Use native format for unformatted files",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, -1,
+    N_OPTS, 15, -1,
     CL_Fortran | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fconvert=swap",
     "Swap endianness for unformatted files",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, -1,
+    N_OPTS, 13, -1,
     CL_Fortran | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fcprop-registers",
     "Perform a register copy-propagation optimization pass",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 393,
+    N_OPTS, 16, 251,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_cprop_registers), 0, CLVC_BOOLEAN, 0 },
+    &flag_cprop_registers, CLVC_BOOLEAN, 0 },
   { "-fcray-pointer",
     "Use the Cray Pointer extension",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 394,
+    N_OPTS, 13, 252,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fcrossjumping",
     "Perform cross-jumping optimization",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 395,
+    N_OPTS, 13, 253,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_crossjumping), 0, CLVC_BOOLEAN, 0 },
+    &flag_crossjumping, CLVC_BOOLEAN, 0 },
   { "-fcse-follow-jumps",
     "When running CSE, follow jumps to their targets",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 396,
+    N_OPTS, 17, 254,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_cse_follow_jumps), 0, CLVC_BOOLEAN, 0 },
+    &flag_cse_follow_jumps, CLVC_BOOLEAN, 0 },
   { "-fcse-skip-blocks",
     "Does nothing.  Preserved for backward compatibility.",
-    0,
-    0,
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 16, 397,
+    N_OPTS, 16, 255,
     CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fcx-fortran-rules",
     "Complex multiplication and division follow Fortran rules",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 398,
+    N_OPTS, 17, 256,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_cx_fortran_rules), 0, CLVC_BOOLEAN, 0 },
+    &flag_cx_fortran_rules, CLVC_BOOLEAN, 0 },
   { "-fcx-limited-range",
     "Omit range reduction step when performing complex division",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 399,
+    N_OPTS, 17, 257,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_cx_limited_range), 0, CLVC_BOOLEAN, 0 },
+    &flag_cx_limited_range, CLVC_BOOLEAN, 0 },
   { "-fd-lines-as-code",
     "Ignore 'D' in column one in fixed form",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, -1,
+    N_OPTS, 16, -1,
     CL_Fortran | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fd-lines-as-comments",
     "Treat lines with 'D' in column one as comments",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 20, -1,
+    N_OPTS, 20, -1,
     CL_Fortran | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
+  { "-fd-verbose",
+    "Print information about D language processing to stdout",
+    N_OPTS, 10, 260,
+    CL_D,
+    0, CLVC_BOOLEAN, 0 },
+  { "-fd-version=1",
+    "Compile as D language version 1",
+    N_OPTS, 12, -1,
+    CL_D | CL_REJECT_NEGATIVE,
+    0, CLVC_BOOLEAN, 0 },
+  { "-fd-vtls",
+    "List all variables going into thread local storage",
+    N_OPTS, 7, 262,
+    CL_D,
+    0, CLVC_BOOLEAN, 0 },
   { "-fdata-sections",
     "Place data items into their own section",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, 402,
+    N_OPTS, 14, 263,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_data_sections), 0, CLVC_BOOLEAN, 0 },
+    &flag_data_sections, CLVC_BOOLEAN, 0 },
   { "-fdbg-cnt-list",
     "List all available debugging counters with their limits and counts.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 403,
+    N_OPTS, 13, 264,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_common_deferred_options), 0, CLVC_DEFER, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fdbg-cnt=",
     "-fdbg-cnt=<counter>:<limit>[,<counter>:<limit>,...]	Set the debug counter limit.   ",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, -1,
+    N_OPTS, 9, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_common_deferred_options), 0, CLVC_DEFER, 0 },
+    0, CLVC_STRING, 0 },
   { "-fdce",
     "Use the RTL dead code elimination pass",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 4, 405,
+    N_OPTS, 4, 266,
     CL_COMMON | CL_OPTIMIZATION,
-    offsetof (struct gcc_options, x_flag_dce), 0, CLVC_BOOLEAN, 0 },
+    &flag_dce, CLVC_BOOLEAN, 0 },
+  { "-fdebug",
+    "Compile in debug code",
+    N_OPTS, 6, 267,
+    CL_D,
+    0, CLVC_BOOLEAN, 0 },
+  { "-fdebug-c",
+    "With -g, generate C debug information for debugger compatibility",
+    N_OPTS, 8, 268,
+    CL_D,
+    0, CLVC_BOOLEAN, 0 },
   { "-fdebug-prefix-map=",
     "Map one directory name to another in debug information",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, -1,
+    N_OPTS, 18, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_common_deferred_options), 0, CLVC_DEFER, 0 },
+    0, CLVC_STRING, 0 },
+  { "-fdebug=",
+    "-fdebug,-fdebug=<level>,-fdebug=<ident> Compile in debug code, code <= level, or code identified by ident",
+    N_OPTS, 7, -1,
+    CL_D | CL_JOINED | CL_REJECT_NEGATIVE,
+    0, CLVC_STRING, 0 },
   { "-fdeduce-init-list",
     "-fno-deduce-init-list	disable deduction of std::initializer_list for a template type parameter from a brace-enclosed initializer-list",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 407,
+    N_OPTS, 17, 271,
     CL_CXX | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_deduce_init_list), 0, CLVC_BOOLEAN, 0 },
+    &flag_deduce_init_list, CLVC_BOOLEAN, 0 },
   { "-fdefault-double-8",
     "Set the default double precision kind to an 8 byte wide type",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 408,
+    N_OPTS, 17, 272,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fdefault-inline",
-    "Does nothing.  Preserved for backward compatibility.",
-    0,
-    0,
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 15, 409,
+    "Inline member functions by default",
+    N_OPTS, 15, 273,
     CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fdefault-integer-8",
     "Set the default integer kind to an 8 byte wide type",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, 410,
+    N_OPTS, 18, 274,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fdefault-real-8",
     "Set the default real kind to an 8 byte wide type",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 411,
+    N_OPTS, 15, 275,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fdefer-pop",
     "Defer popping functions args from stack until later",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, 412,
+    N_OPTS, 10, 276,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_defer_pop), 0, CLVC_BOOLEAN, 0 },
+    &flag_defer_pop, CLVC_BOOLEAN, 0 },
   { "-fdelayed-branch",
     "Attempt to fill delay slots of branch instructions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 413,
+    N_OPTS, 15, 277,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_delayed_branch), 0, CLVC_BOOLEAN, 0 },
+    &flag_delayed_branch, CLVC_BOOLEAN, 0 },
   { "-fdelete-null-pointer-checks",
     "Delete useless null pointer checks",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 27, 414,
+    N_OPTS, 27, 278,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_delete_null_pointer_checks), 0, CLVC_BOOLEAN, 0 },
-  { "-fdevirtualize",
-    "Try to convert virtual calls to direct ones.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 415,
-    CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_devirtualize), 0, CLVC_BOOLEAN, 0 },
+    &flag_delete_null_pointer_checks, CLVC_BOOLEAN, 0 },
+  { "-fdeprecated",
+    "Allow use of deprecated features",
+    N_OPTS, 11, 279,
+    CL_D,
+    0, CLVC_BOOLEAN, 0 },
+  { "-fdeps=",
+    "-fdeps=<filename> Write module dependencies to filename",
+    N_OPTS, 6, -1,
+    CL_D | CL_JOINED | CL_REJECT_NEGATIVE,
+    0, CLVC_STRING, 0 },
   { "-fdiagnostics-show-location=",
     "-fdiagnostics-show-location=[once|every-line]	How often to emit source location at the beginning of line-wrapped diagnostics",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 27, -1,
+    N_OPTS, 27, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_ENUM, 0 },
+    0, CLVC_STRING, 0 },
   { "-fdiagnostics-show-option",
     "Amend appropriate diagnostic messages with the command line option that controls them",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 24, 417,
+    N_OPTS, 24, 282,
     CL_COMMON,
-    offsetof (struct gcc_options, x_flag_diagnostics_show_option), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fdirectives-only",
     "Preprocess directives only.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 418,
+    N_OPTS, 16, 283,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
+  { "-fdoc",
+    "Generate documentation",
+    N_OPTS, 4, 284,
+    CL_D,
+    0, CLVC_BOOLEAN, 0 },
+  { "-fdoc-dir=",
+    "-fdoc-dir=<docdir> Write documentation file to docdir directory",
+    N_OPTS, 9, -1,
+    CL_D | CL_JOINED | CL_REJECT_NEGATIVE,
+    0, CLVC_STRING, 0 },
+  { "-fdoc-file=",
+    "-fdoc-file=<filename> Write documentation file to filename",
+    N_OPTS, 10, -1,
+    CL_D | CL_JOINED | CL_REJECT_NEGATIVE,
+    0, CLVC_STRING, 0 },
+  { "-fdoc-inc=",
+    "-fdoc-inc=<filename> Include a Ddoc macro file",
+    N_OPTS, 9, -1,
+    CL_D | CL_JOINED | CL_REJECT_NEGATIVE,
+    0, CLVC_STRING, 0 },
   { "-fdollar-ok",
     "Allow dollar signs in entity names",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, 419,
+    N_OPTS, 10, 288,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fdollars-in-identifiers",
     "Permit '$' as an identifier character",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 23, 420,
+    N_OPTS, 23, 289,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fdse",
     "Use the RTL dead store elimination pass",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 4, 421,
+    N_OPTS, 4, 290,
     CL_COMMON | CL_OPTIMIZATION,
-    offsetof (struct gcc_options, x_flag_dse), 0, CLVC_BOOLEAN, 0 },
+    &flag_dse, CLVC_BOOLEAN, 0 },
   { "-fdump-",
     "-fdump-<type>	Dump various compiler internals to a file",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 6, -1,
+    N_OPTS, 6, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_common_deferred_options), 0, CLVC_DEFER, 0 },
+    0, CLVC_STRING, 0 },
   { "-fdump-core",
     "Dump a core file when a runtime error occurs",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_fdump_, 10, 423,
+    OPT_fdump_, 10, 292,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-fdump-final-insns",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_fdump_, 17, -1,
-    CL_DRIVER | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fdump-final-insns=",
     "-fdump-final-insns=filename	Dump to filename the insns at the end of translation",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_fdump_, 18, -1,
+    OPT_fdump_, 18, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_flag_dump_final_insns), 0, CLVC_STRING, 0 },
-  { "-fdump-fortran-optimized",
-    "Display the code tree after front end optimization",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_fdump_, 23, 426,
-    CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-fdump-fortran-original",
-    "Display the code tree after parsing",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_fdump_, 22, 427,
-    CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-fdump-go-spec=",
-    "-fdump-go-spec=filename	Write all declarations to file as Go code",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_fdump_, 14, -1,
-    CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_flag_dump_go_spec), 0, CLVC_STRING, 0 },
+    &flag_dump_final_insns, CLVC_STRING, 0 },
   { "-fdump-noaddr",
     "Suppress output of addresses in debugging dumps",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_fdump_, 12, 429,
+    OPT_fdump_, 12, 294,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_dump_noaddr), 0, CLVC_BOOLEAN, 0 },
+    &flag_dump_noaddr, CLVC_BOOLEAN, 0 },
   { "-fdump-parse-tree",
-    "Display the code tree after parsing; deprecated option",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_fdump_, 16, 430,
+    "Display the code tree after parsing",
+    OPT_fdump_, 16, 295,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
+  { "-fdump-source",
+    "Dump decoded UTF-8 text and source from HTML",
+    OPT_fdump_, 12, -1,
+    CL_D | CL_REJECT_NEGATIVE,
+    0, CLVC_BOOLEAN, 0 },
   { "-fdump-unnumbered",
     "Suppress output of instruction numbers, line number notes and addresses in debugging dumps",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_fdump_, 16, 431,
+    OPT_fdump_, 16, 297,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_dump_unnumbered), 0, CLVC_BOOLEAN, 0 },
+    &flag_dump_unnumbered, CLVC_BOOLEAN, 0 },
   { "-fdump-unnumbered-links",
     "Suppress output of previous and next insn numbers in debugging dumps",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_fdump_, 22, 432,
+    OPT_fdump_, 22, 298,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_dump_unnumbered_links), 0, CLVC_BOOLEAN, 0 },
+    &flag_dump_unnumbered_links, CLVC_BOOLEAN, 0 },
   { "-fdwarf2-cfi-asm",
     "Enable CFI tables via GAS assembler directives.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 433,
+    N_OPTS, 15, 299,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_dwarf2_cfi_asm), 0, CLVC_BOOLEAN, 0 },
+    &flag_dwarf2_cfi_asm, CLVC_BOOLEAN, 0 },
   { "-fearly-inlining",
     "Perform early inlining",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 434,
+    N_OPTS, 15, 300,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_early_inlining), 0, CLVC_BOOLEAN, 0 },
+    &flag_early_inlining, CLVC_BOOLEAN, 0 },
   { "-felide-constructors",
     0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 19, 435,
+    N_OPTS, 19, 301,
     CL_CXX | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_elide_constructors), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-feliminate-dwarf2-dups",
     "Perform DWARF2 duplicate elimination",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 22, 436,
+    N_OPTS, 22, 302,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_eliminate_dwarf2_dups), 0, CLVC_BOOLEAN, 0 },
+    &flag_eliminate_dwarf2_dups, CLVC_BOOLEAN, 0 },
   { "-feliminate-unused-debug-symbols",
     "Perform unused type elimination in debug info",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 31, 437,
+    N_OPTS, 31, 303,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_debug_only_used_symbols), 0, CLVC_BOOLEAN, 0 },
+    &flag_debug_only_used_symbols, CLVC_BOOLEAN, 0 },
   { "-feliminate-unused-debug-types",
     "Perform unused type elimination in debug info",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 29, 438,
+    N_OPTS, 29, 304,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_eliminate_unused_debug_types), 0, CLVC_BOOLEAN, 0 },
+    &flag_eliminate_unused_debug_types, CLVC_BOOLEAN, 0 },
   { "-femit-class-debug-always",
     "Do not suppress C++ class debug information.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 24, 439,
+    N_OPTS, 24, 305,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_emit_class_debug_always), 0, CLVC_BOOLEAN, 0 },
+    &flag_emit_class_debug_always, CLVC_BOOLEAN, 0 },
   { "-femit-struct-debug-baseonly",
     "-femit-struct-debug-baseonly	Aggressive reduced debug info for structs",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 27, 440,
+    N_OPTS, 27, 306,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-femit-struct-debug-detailed=",
     "-femit-struct-debug-detailed=<spec-list>	Detailed reduced debug info for structs",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 28, 441,
+    N_OPTS, 28, 307,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-femit-struct-debug-reduced",
     "-femit-struct-debug-reduced	Conservative reduced debug info for structs",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 26, 442,
+    N_OPTS, 26, 308,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
+  { "-femit-templates",
+    "-femit-templates Emit templates code and data even if the linker cannot merge multiple copies",
+    N_OPTS, 15, 309,
+    CL_D,
+    0, CLVC_BOOLEAN, 0 },
+  { "-femit-templates=",
+    "-femit-templates=[normal|private|all|none|auto]	Control template emission",
+    N_OPTS, 16, -1,
+    CL_D | CL_JOINED | CL_REJECT_NEGATIVE,
+    0, CLVC_STRING, 0 },
   { "-fenable-icf-debug",
     "Generate debug information to support Identical Code Folding (ICF)",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 443,
+    N_OPTS, 17, 311,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_enable_icf_debug), 0, CLVC_BOOLEAN, 0 },
+    &flag_enable_icf_debug, CLVC_BOOLEAN, 0 },
   { "-fenforce-eh-specs",
     "Generate code to check exception specifications",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 444,
+    N_OPTS, 17, 312,
     CL_CXX | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_enforce_eh_specs), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fenum-int-equiv",
     0,
-    0,
-    "switch %qs is no longer supported",
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 15, 445,
+    N_OPTS, 15, 313,
     CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fexceptions",
     "Enable exception handling",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, 446,
+    N_OPTS, 11, 314,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_exceptions), 0, CLVC_BOOLEAN, 0 },
+    &flag_exceptions, CLVC_BOOLEAN, 0 },
   { "-fexcess-precision=",
     "-fexcess-precision=[fast|standard]	Specify handling of excess floating-point precision",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, -1,
+    N_OPTS, 18, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_flag_excess_precision_cmdline), 1, CLVC_ENUM, 0 },
+    0, CLVC_STRING, 0 },
   { "-fexec-charset=",
     "-fexec-charset=<cset>	Convert all strings and character constants to character set <cset>",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, -1,
+    N_OPTS, 14, -1,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-fexpensive-optimizations",
     "Perform a number of minor, expensive optimizations",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 24, 449,
+    N_OPTS, 24, 317,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_expensive_optimizations), 0, CLVC_BOOLEAN, 0 },
+    &flag_expensive_optimizations, CLVC_BOOLEAN, 0 },
   { "-fextended-identifiers",
     "Permit universal character names (\\u and \\U) in identifiers",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 21, 450,
+    N_OPTS, 21, 318,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fexternal-blas",
     "Specify that an external BLAS library should be used for matmul calls on large-size arrays",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, 451,
+    N_OPTS, 14, 319,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fexternal-templates",
     0,
-    0,
-    "switch %qs is no longer supported",
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 19, 452,
+    N_OPTS, 19, 320,
     CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-ff2c",
     "Use f2c calling convention",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 4, 453,
+    N_OPTS, 4, 321,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-ffast-math",
     0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, 454,
+    N_OPTS, 10, 322,
     CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-ffinite-math-only",
     "Assume no NaNs or infinities are generated",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 455,
+    N_OPTS, 17, 323,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_finite_math_only), 0, CLVC_BOOLEAN, 0 },
+    &flag_finite_math_only, CLVC_BOOLEAN, 0 },
   { "-ffixed-",
     "-ffixed-<register>	Mark <register> as being unavailable to the compiler",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, -1,
+    N_OPTS, 7, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_common_deferred_options), 0, CLVC_DEFER, 0 },
+    0, CLVC_STRING, 0 },
   { "-ffixed-form",
     "Assume that the source file is fixed form",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_ffixed_, 11, -1,
+    OPT_ffixed_, 11, -1,
     CL_Fortran | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-ffixed-line-length-",
     "-ffixed-line-length-<n>	Use n as character line width in fixed mode",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_ffixed_, 19, -1,
+    OPT_ffixed_, 19, -1,
     CL_Fortran | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-ffixed-line-length-none",
     "Allow arbitrary character line width in fixed mode",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_ffixed_line_length_, 23, -1,
+    OPT_ffixed_line_length_, 23, -1,
     CL_Fortran | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-ffloat-store",
     "Don't allocate floats and doubles in extended-precision registers",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 460,
+    N_OPTS, 12, 328,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_float_store), 0, CLVC_BOOLEAN, 0 },
+    &flag_float_store, CLVC_BOOLEAN, 0 },
   { "-ffor-scope",
     "Scope of for-init-statement variables is local to the loop",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, 461,
+    N_OPTS, 10, 329,
     CL_CXX | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_new_for_scope), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fforce-addr",
     "Does nothing.  Preserved for backward compatibility.",
-    0,
-    0,
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 11, 462,
+    N_OPTS, 11, 330,
     CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fforward-propagate",
     "Perform a forward propagation pass on RTL",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, 463,
+    N_OPTS, 18, 331,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_forward_propagate), 0, CLVC_BOOLEAN, 0 },
-  { "-ffp-contract=",
-    "-ffp-contract=[off|on|fast] Perform floating-point expression contraction.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, -1,
-    CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_flag_fp_contract_mode), 2, CLVC_ENUM, 0 },
+    &flag_forward_propagate, CLVC_BOOLEAN, 0 },
   { "-ffpe-trap=",
     "-ffpe-trap=[...]	Stop on following floating point exceptions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, -1,
+    N_OPTS, 10, -1,
     CL_Fortran | CL_JOINED | CL_MISSING_OK | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-ffree-form",
     "Assume that the source file is free form",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, -1,
+    N_OPTS, 10, -1,
     CL_Fortran | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-ffree-line-length-",
     "-ffree-line-length-<n>	Use n as character line width in free mode",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, -1,
+    N_OPTS, 18, -1,
     CL_Fortran | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-ffree-line-length-none",
     "Allow arbitrary character line width in free mode",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_ffree_line_length_, 22, -1,
+    OPT_ffree_line_length_, 22, -1,
     CL_Fortran | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-ffreestanding",
     "Do not assume that standard C libraries and \"main\" exist",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 469,
+    N_OPTS, 13, 336,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-ffriend-injection",
     "Inject friend functions into enclosing namespace",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 470,
+    N_OPTS, 17, 337,
     CL_CXX | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_friend_injection), 0, CLVC_BOOLEAN, 0 },
+    &flag_friend_injection, CLVC_BOOLEAN, 0 },
   { "-ffunction-cse",
     "Allow function addresses to be held in registers",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 471,
+    N_OPTS, 13, 338,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_no_function_cse), 0, CLVC_EQUAL, 0 },
+    &flag_no_function_cse, CLVC_EQUAL, 0 },
   { "-ffunction-sections",
     "Place each function into its own section",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, 472,
+    N_OPTS, 18, 339,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_function_sections), 0, CLVC_BOOLEAN, 0 },
+    &flag_function_sections, CLVC_BOOLEAN, 0 },
   { "-fgcse",
     "Perform global common subexpression elimination",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 5, 473,
+    N_OPTS, 5, 340,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_gcse), 0, CLVC_BOOLEAN, 0 },
+    &flag_gcse, CLVC_BOOLEAN, 0 },
   { "-fgcse-after-reload",
     "Perform global common subexpression elimination after register allocation has finished",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, 474,
+    N_OPTS, 18, 341,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_gcse_after_reload), 0, CLVC_BOOLEAN, 0 },
+    &flag_gcse_after_reload, CLVC_BOOLEAN, 0 },
   { "-fgcse-las",
     "Perform redundant load after store elimination in global common subexpression elimination",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, 475,
+    N_OPTS, 9, 342,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_gcse_las), 0, CLVC_BOOLEAN, 0 },
+    &flag_gcse_las, CLVC_BOOLEAN, 0 },
   { "-fgcse-lm",
     "Perform enhanced load motion during global common subexpression elimination",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 8, 476,
+    N_OPTS, 8, 343,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_gcse_lm), 0, CLVC_BOOLEAN, 0 },
+    &flag_gcse_lm, CLVC_BOOLEAN, 0 },
   { "-fgcse-sm",
     "Perform store motion after global common subexpression elimination",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 8, 477,
+    N_OPTS, 8, 344,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_gcse_sm), 0, CLVC_BOOLEAN, 0 },
+    &flag_gcse_sm, CLVC_BOOLEAN, 0 },
   { "-fgnu-keywords",
     "Recognize GNU-defined keywords",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 478,
+    N_OPTS, 13, 345,
     CL_CXX | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_no_gnu_keywords), 0, CLVC_EQUAL, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fgnu-runtime",
     "Generate code for GNU runtime environment",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 479,
+    N_OPTS, 12, 346,
     CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fgnu89-inline",
     "Use traditional GNU semantics for inline functions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 480,
+    N_OPTS, 13, 347,
     CL_C | CL_ObjC,
-    offsetof (struct gcc_options, x_flag_gnu89_inline), 0, CLVC_BOOLEAN, 0 },
+    &flag_gnu89_inline, CLVC_BOOLEAN, 0 },
   { "-fgraphite",
     "Enable in and out of Graphite representation",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, 481,
+    N_OPTS, 9, 348,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_graphite), 0, CLVC_BOOLEAN, 0 },
+    &flag_graphite, CLVC_BOOLEAN, 0 },
   { "-fgraphite-identity",
     "Enable Graphite Identity transformation",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, 482,
+    N_OPTS, 18, 349,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_graphite_identity), 0, CLVC_BOOLEAN, 0 },
+    &flag_graphite_identity, CLVC_BOOLEAN, 0 },
   { "-fguess-branch-probability",
     "Enable guessing of branch probabilities",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 25, 483,
+    N_OPTS, 25, 350,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_guess_branch_prob), 0, CLVC_BOOLEAN, 0 },
+    &flag_guess_branch_prob, CLVC_BOOLEAN, 0 },
   { "-fguiding-decls",
     0,
-    0,
-    "switch %qs is no longer supported",
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 14, 484,
+    N_OPTS, 14, 351,
     CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fhandle-exceptions",
     0,
-    0,
-    "-fhandle-exceptions has been renamed -fexceptions (and is now on by default)",
-    NULL, NULL, OPT_fexceptions, N_OPTS, 18, 485,
+    N_OPTS, 18, 352,
     CL_CXX | CL_ObjCXX | CL_OPTIMIZATION,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fhelp",
     0,
-    0,
-    0,
-    NULL, NULL, OPT__help, N_OPTS, 5, 486,
-    CL_COMMON | CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 5, 353,
+    CL_COMMON,
+    &help_flag, CLVC_BOOLEAN, 0 },
   { "-fhelp=",
     0,
-    0,
-    0,
-    NULL, NULL, OPT__help_, N_OPTS, 6, 487,
-    CL_COMMON | CL_DRIVER | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
+    N_OPTS, 6, 354,
+    CL_COMMON | CL_JOINED,
+    0, CLVC_STRING, 0 },
   { "-fhonor-std",
     0,
-    0,
-    "switch %qs is no longer supported",
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 10, 488,
+    N_OPTS, 10, 355,
     CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fhosted",
     "Assume normal C execution environment",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, 489,
+    N_OPTS, 7, 356,
     CL_C | CL_ObjC,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fhuge-objects",
-    "No longer supported",
-    0,
-    "switch %qs is no longer supported",
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 13, 490,
+    "Enable support for huge objects",
+    N_OPTS, 13, 357,
     CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fident",
     "Process #ident directives",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 6, 491,
+    N_OPTS, 6, 358,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_no_ident), 0, CLVC_EQUAL, 0 },
+    &flag_no_ident, CLVC_EQUAL, 0 },
   { "-fif-conversion",
     "Perform conversion of conditional jumps to branchless equivalents",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, 492,
+    N_OPTS, 14, 359,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_if_conversion), 0, CLVC_BOOLEAN, 0 },
+    &flag_if_conversion, CLVC_BOOLEAN, 0 },
   { "-fif-conversion2",
     "Perform conversion of conditional jumps to conditional execution",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 493,
+    N_OPTS, 15, 360,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_if_conversion2), 0, CLVC_BOOLEAN, 0 },
+    &flag_if_conversion2, CLVC_BOOLEAN, 0 },
+  { "-fignore-unknown-pragmas",
+    "Ignore unsupported pragmas",
+    N_OPTS, 23, 361,
+    CL_D,
+    0, CLVC_BOOLEAN, 0 },
   { "-fimplement-inlines",
     "Export functions even if they can be inlined",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, 494,
+    N_OPTS, 18, 362,
     CL_CXX | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_implement_inlines), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fimplicit-inline-templates",
     "Emit implicit instantiations of inline templates",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 26, 495,
+    N_OPTS, 26, 363,
     CL_CXX | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_implicit_inline_templates), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fimplicit-none",
     "Specify that no implicit typing is allowed, unless overridden by explicit IMPLICIT statements",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, 496,
+    N_OPTS, 14, 364,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fimplicit-templates",
     "Emit implicit instantiations of templates",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 19, 497,
+    N_OPTS, 19, 365,
     CL_CXX | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_implicit_templates), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-findirect-inlining",
     "Perform indirect inlining",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, 498,
+    N_OPTS, 18, 366,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_indirect_inlining), 0, CLVC_BOOLEAN, 0 },
+    &flag_indirect_inlining, CLVC_BOOLEAN, 0 },
   { "-finhibit-size-directive",
     "Do not generate .size directives",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 23, 499,
+    N_OPTS, 23, 367,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_inhibit_size_directive), 0, CLVC_BOOLEAN, 0 },
+    &flag_inhibit_size_directive, CLVC_BOOLEAN, 0 },
   { "-finit-character=",
     "-finit-character=<n>	Initialize local character variables to ASCII value n",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, -1,
+    N_OPTS, 16, -1,
     CL_Fortran | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-finit-integer=",
     "-finit-integer=<n>	Initialize local integer variables to n",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, -1,
+    N_OPTS, 14, -1,
     CL_Fortran | CL_JOINED | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-finit-local-zero",
     "Initialize local variables to zero (from g77)",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 502,
+    N_OPTS, 16, 370,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-finit-logical=",
     "-finit-logical=<true|false>	Initialize local logical variables",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, -1,
+    N_OPTS, 14, -1,
     CL_Fortran | CL_JOINED | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-finit-real=",
     "-finit-real=<zero|nan|inf|-inf>	Initialize local real variables",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, -1,
+    N_OPTS, 11, -1,
     CL_Fortran | CL_JOINED | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-finline",
     "Pay attention to the \"inline\" keyword",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, 505,
+    N_OPTS, 7, 373,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_no_inline), 0, CLVC_EQUAL, 0 },
+    &flag_no_inline, CLVC_EQUAL, 0 },
   { "-finline-functions",
     "Integrate simple functions into their callers",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 506,
+    N_OPTS, 17, 374,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_inline_functions), 0, CLVC_BOOLEAN, 0 },
+    &flag_inline_functions, CLVC_BOOLEAN, 0 },
   { "-finline-functions-called-once",
     "Integrate functions called once into their callers",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 29, 507,
+    N_OPTS, 29, 375,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_inline_functions_called_once), 0, CLVC_BOOLEAN, 0 },
+    &flag_inline_functions_called_once, CLVC_BOOLEAN, 0 },
   { "-finline-limit-",
     0,
-    0,
-    0,
-    NULL, NULL, OPT_finline_limit_, N_OPTS, 14, -1,
-    CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_STRING, 0 },
+    N_OPTS, 14, -1,
+    CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
+    0, CLVC_BOOLEAN, 0 },
   { "-finline-limit=",
     "-finline-limit=<number>	Limit the size of inlined functions to <number>",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, -1,
+    N_OPTS, 14, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-finline-small-functions",
     "Integrate simple functions into their callers when code size is known to not growth",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 23, 510,
+    N_OPTS, 23, 378,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_inline_small_functions), 0, CLVC_BOOLEAN, 0 },
+    &flag_inline_small_functions, CLVC_BOOLEAN, 0 },
   { "-finput-charset=",
     "-finput-charset=<cset>	Specify the default character set for source files",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, -1,
+    N_OPTS, 15, -1,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-finstrument-functions",
     "Instrument function entry and exit with profiling calls",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 21, 512,
+    N_OPTS, 21, 380,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_instrument_function_entry_exit), 0, CLVC_BOOLEAN, 0 },
+    &flag_instrument_function_entry_exit, CLVC_BOOLEAN, 0 },
   { "-finstrument-functions-exclude-file-list=",
     "-finstrument-functions-exclude-file-list=filename,...  Do not instrument functions listed in files",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 40, -1,
+    N_OPTS, 40, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-finstrument-functions-exclude-function-list=",
     "-finstrument-functions-exclude-function-list=name,...  Do not instrument listed functions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 44, -1,
+    N_OPTS, 44, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
+  { "-fintfc",
+    0,
+    N_OPTS, 6, 383,
+    CL_D,
+    0, CLVC_BOOLEAN, 0 },
+  { "-fintfc-dir=",
+    "-fintfc-dir=<dir> Write D interface files to directory <dir>",
+    N_OPTS, 11, -1,
+    CL_D | CL_JOINED | CL_REJECT_NEGATIVE,
+    0, CLVC_STRING, 0 },
+  { "-fintfc-file=",
+    "-fintfc-file=<filename> Write D interface file to <filename>",
+    N_OPTS, 12, -1,
+    CL_D | CL_JOINED | CL_REJECT_NEGATIVE,
+    0, CLVC_STRING, 0 },
   { "-fintrinsic-modules-path",
     "Specify where to find the compiled intrinsic modules",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 23, -1,
+    N_OPTS, 23, -1,
     CL_Fortran | CL_JOINED | CL_SEPARATE | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-fipa-cp",
     "Perform Interprocedural constant propagation",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, 516,
+    N_OPTS, 7, 387,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_ipa_cp), 0, CLVC_BOOLEAN, 0 },
+    &flag_ipa_cp, CLVC_BOOLEAN, 0 },
   { "-fipa-cp-clone",
     "Perform cloning to make Interprocedural constant propagation stronger",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 517,
+    N_OPTS, 13, 388,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_ipa_cp_clone), 0, CLVC_BOOLEAN, 0 },
+    &flag_ipa_cp_clone, CLVC_BOOLEAN, 0 },
   { "-fipa-matrix-reorg",
     "Perform matrix layout flattening and transposing based on profiling information.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 518,
+    N_OPTS, 17, 389,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_ipa_matrix_reorg), 0, CLVC_BOOLEAN, 0 },
-  { "-fipa-profile",
-    "Perform interprocedural profile propagation",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 519,
-    CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_ipa_profile), 0, CLVC_BOOLEAN, 0 },
+    &flag_ipa_matrix_reorg, CLVC_BOOLEAN, 0 },
   { "-fipa-pta",
     "Perform interprocedural points-to analysis",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 8, 520,
+    N_OPTS, 8, 390,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_ipa_pta), 0, CLVC_BOOLEAN, 0 },
+    &flag_ipa_pta, CLVC_BOOLEAN, 0 },
   { "-fipa-pure-const",
     "Discover pure and const functions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 521,
+    N_OPTS, 15, 391,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_ipa_pure_const), 0, CLVC_BOOLEAN, 0 },
+    &flag_ipa_pure_const, CLVC_BOOLEAN, 0 },
   { "-fipa-reference",
     "Discover readonly and non addressable static variables",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, 522,
+    N_OPTS, 14, 392,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_ipa_reference), 0, CLVC_BOOLEAN, 0 },
+    &flag_ipa_reference, CLVC_BOOLEAN, 0 },
   { "-fipa-sra",
     "Perform interprocedural reduction of aggregates",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 8, 523,
+    N_OPTS, 8, 393,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_ipa_sra), 0, CLVC_BOOLEAN, 0 },
+    &flag_ipa_sra, CLVC_BOOLEAN, 0 },
   { "-fipa-struct-reorg",
     "Perform structure layout optimizations based on profiling information.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 524,
+    N_OPTS, 17, 394,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_ipa_struct_reorg), 0, CLVC_BOOLEAN, 0 },
+    &flag_ipa_struct_reorg, CLVC_BOOLEAN, 0 },
+  { "-fipa-type-escape",
+    "Type based escape and alias analysis",
+    N_OPTS, 16, 395,
+    CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
+    &flag_ipa_type_escape, CLVC_BOOLEAN, 0 },
   { "-fira-algorithm=",
     "-fira-algorithm=[CB|priority] Set the used IRA algorithm",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, -1,
+    N_OPTS, 15, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_flag_ira_algorithm), 3, CLVC_ENUM, 0 },
+    0, CLVC_STRING, 0 },
+  { "-fira-coalesce",
+    "Do optimistic coalescing.",
+    N_OPTS, 13, 397,
+    CL_COMMON | CL_REPORT,
+    &flag_ira_coalesce, CLVC_BOOLEAN, 0 },
   { "-fira-loop-pressure",
     "Use IRA based register pressure calculation in RTL loop optimizations.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, 526,
+    N_OPTS, 18, 398,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_ira_loop_pressure), 0, CLVC_BOOLEAN, 0 },
+    &flag_ira_loop_pressure, CLVC_BOOLEAN, 0 },
   { "-fira-region=",
     "-fira-region=[one|all|mixed] Set regions for IRA",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, -1,
+    N_OPTS, 12, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_flag_ira_region), 4, CLVC_ENUM, 0 },
+    0, CLVC_STRING, 0 },
   { "-fira-share-save-slots",
     "Share slots for saving different hard registers.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 21, 528,
+    N_OPTS, 21, 400,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_ira_share_save_slots), 0, CLVC_BOOLEAN, 0 },
+    &flag_ira_share_save_slots, CLVC_BOOLEAN, 0 },
   { "-fira-share-spill-slots",
     "Share stack slots for spilled pseudo-registers.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 22, 529,
+    N_OPTS, 22, 401,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_ira_share_spill_slots), 0, CLVC_BOOLEAN, 0 },
+    &flag_ira_share_spill_slots, CLVC_BOOLEAN, 0 },
   { "-fira-verbose=",
     "-fira-verbose=<number>	Control IRA's level of diagnostic messages.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, -1,
+    N_OPTS, 13, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
-    offsetof (struct gcc_options, x_flag_ira_verbose), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fivopts",
     "Optimize induction variables on trees",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, 531,
+    N_OPTS, 7, 403,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_ivopts), 0, CLVC_BOOLEAN, 0 },
+    &flag_ivopts, CLVC_BOOLEAN, 0 },
   { "-fjump-tables",
     "Use jump tables for sufficiently large switch statements",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 532,
+    N_OPTS, 12, 404,
     CL_COMMON | CL_OPTIMIZATION,
-    offsetof (struct gcc_options, x_flag_jump_tables), 0, CLVC_BOOLEAN, 0 },
-  { "-fkeep-inline-dllexport",
-    "Don't emit dllexported inline functions unless needed",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 22, 533,
-#if TARGET_DLLIMPORT_DECL_ATTRIBUTES
-    CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_REPORT,
-#else
-    CL_DISABLED,
-#endif
-    offsetof (struct gcc_options, x_flag_keep_inline_dllexport), 0, CLVC_BOOLEAN, 0 },
+    &flag_jump_tables, CLVC_BOOLEAN, 0 },
   { "-fkeep-inline-functions",
     "Generate code for functions even if they are fully inlined",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 22, 534,
+    N_OPTS, 22, 405,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_keep_inline_functions), 0, CLVC_BOOLEAN, 0 },
+    &flag_keep_inline_functions, CLVC_BOOLEAN, 0 },
   { "-fkeep-static-consts",
     "Emit static const variables even if they are not used",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 19, 535,
+    N_OPTS, 19, 406,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_keep_static_consts), 0, CLVC_BOOLEAN, 0 },
+    &flag_keep_static_consts, CLVC_BOOLEAN, 0 },
   { "-flabels-ok",
     0,
-    0,
-    "switch %qs is no longer supported",
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 10, 536,
+    N_OPTS, 10, 407,
     CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-flax-vector-conversions",
     "Allow implicit conversions between vectors with differing numbers of subparts and/or differing element types.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 23, 537,
+    N_OPTS, 23, 408,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_lax_vector_conversions), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fleading-underscore",
     "Give external symbols a leading underscore",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 19, 538,
+    N_OPTS, 19, 409,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_leading_underscore), 0, CLVC_BOOLEAN, 0 },
+    &flag_leading_underscore, CLVC_BOOLEAN, 0 },
   { "-floop-block",
     "Enable Loop Blocking transformation",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, 539,
+    N_OPTS, 11, 410,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_loop_block), 0, CLVC_BOOLEAN, 0 },
-  { "-floop-flatten",
-    "Enable Loop Flattening transformation",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 540,
-    CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_loop_flatten), 0, CLVC_BOOLEAN, 0 },
+    &flag_loop_block, CLVC_BOOLEAN, 0 },
   { "-floop-interchange",
     "Enable Loop Interchange transformation",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 541,
+    N_OPTS, 17, 411,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_loop_interchange), 0, CLVC_BOOLEAN, 0 },
+    &flag_loop_interchange, CLVC_BOOLEAN, 0 },
   { "-floop-optimize",
     "Does nothing.  Preserved for backward compatibility.",
-    0,
-    0,
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 14, 542,
+    N_OPTS, 14, 412,
     CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-floop-parallelize-all",
     "Mark all loops as parallel",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 21, 543,
+    N_OPTS, 21, 413,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_loop_parallelize_all), 0, CLVC_BOOLEAN, 0 },
+    &flag_loop_parallelize_all, CLVC_BOOLEAN, 0 },
   { "-floop-strip-mine",
     "Enable Loop Strip Mining transformation",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 544,
+    N_OPTS, 16, 414,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_loop_strip_mine), 0, CLVC_BOOLEAN, 0 },
+    &flag_loop_strip_mine, CLVC_BOOLEAN, 0 },
   { "-flto",
     "Enable link-time optimization.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 4, 545,
+    N_OPTS, 4, 415,
     CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    &flag_lto, CLVC_BOOLEAN, 0 },
   { "-flto-compression-level=",
     "-flto-compression-level=<number>	Use zlib compression level <number> for IL",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 23, -1,
-    CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
-    offsetof (struct gcc_options, x_flag_lto_compression_level), 0, CLVC_BOOLEAN, 0 },
-  { "-flto-partition=1to1",
-    "Partition functions and vars at linktime based on object files they originate from",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 19, 547,
-    CL_COMMON,
-    offsetof (struct gcc_options, x_flag_lto_partition_1to1), 0, CLVC_BOOLEAN, 0 },
-  { "-flto-partition=balanced",
-    "Partition functions and vars at linktime into approximately same sized buckets",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 23, 548,
-    CL_COMMON,
-    offsetof (struct gcc_options, x_flag_lto_partition_balanced), 0, CLVC_BOOLEAN, 0 },
-  { "-flto-partition=none",
-    "Disable partioning and streaming",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 19, 549,
-    CL_COMMON,
-    offsetof (struct gcc_options, x_flag_lto_partition_none), 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 23, 416,
+    CL_COMMON | CL_JOINED | CL_UINTEGER,
+    &flag_lto_compression_level, CLVC_BOOLEAN, 0 },
   { "-flto-report",
     "Report various link-time optimization statistics",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, 550,
+    N_OPTS, 11, 417,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_lto_report), 0, CLVC_BOOLEAN, 0 },
-  { "-flto=",
-    "Link-time optimization with number of parallel jobs or jobserver.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 5, -1,
-    CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_flag_lto), 0, CLVC_STRING, 0 },
+    &flag_lto_report, CLVC_BOOLEAN, 0 },
   { "-fltrans",
     "Run the link-time optimizer in local transformation (LTRANS) mode.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, 552,
+    N_OPTS, 7, 418,
     CL_LTO | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_ltrans), 0, CLVC_BOOLEAN, 0 },
+    &flag_ltrans, CLVC_BOOLEAN, 0 },
   { "-fltrans-output-list=",
     "Specify a file to which a list of files output by LTRANS is written.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 20, 553,
+    N_OPTS, 20, 419,
     CL_LTO | CL_JOINED,
-    offsetof (struct gcc_options, x_ltrans_output_list), 0, CLVC_STRING, 0 },
+    &ltrans_output_list, CLVC_STRING, 0 },
   { "-fmath-errno",
     "Set errno after built-in math functions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, 554,
+    N_OPTS, 11, 420,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_errno_math), 0, CLVC_BOOLEAN, 0 },
+    &flag_errno_math, CLVC_BOOLEAN, 0 },
   { "-fmax-array-constructor=",
     "-fmax-array-constructor=<n>	Maximum number of objects in an array constructor",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 23, -1,
+    N_OPTS, 23, -1,
     CL_Fortran | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fmax-errors=",
-    "-fmax-errors=<number>	Maximum number of errors to report",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, -1,
-    CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
-    offsetof (struct gcc_options, x_flag_max_errors), 0, CLVC_BOOLEAN, 0 },
+    "-fmax-errors=<n>	Maximum number of errors to report",
+    N_OPTS, 12, -1,
+    CL_Fortran | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
+    0, CLVC_BOOLEAN, 0 },
   { "-fmax-identifier-length=",
     "-fmax-identifier-length=<n>	Maximum identifier length",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 23, -1,
+    N_OPTS, 23, -1,
     CL_Fortran | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fmax-stack-var-size=",
     "-fmax-stack-var-size=<n>	Size in bytes of the largest array that will be put on the stack",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 20, -1,
+    N_OPTS, 20, -1,
     CL_Fortran | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fmax-subrecord-length=",
     "-fmax-subrecord-length=<n>	Maximum length for subrecords",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 22, -1,
+    N_OPTS, 22, -1,
     CL_Fortran | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fmem-report",
     "Report on permanent memory allocation",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, 560,
+    N_OPTS, 11, 426,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_mem_report), 0, CLVC_BOOLEAN, 0 },
+    &mem_report, CLVC_BOOLEAN, 0 },
   { "-fmerge-all-constants",
     "Attempt to merge identical constants and constant variables",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 20, 561,
+    N_OPTS, 20, 427,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_merge_constants), 0, CLVC_EQUAL, 2 },
+    &flag_merge_constants, CLVC_EQUAL, 2 },
   { "-fmerge-constants",
     "Attempt to merge identical constants across compilation units",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 562,
+    N_OPTS, 16, 428,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_merge_constants), 0, CLVC_EQUAL, 1 },
+    &flag_merge_constants, CLVC_EQUAL, 1 },
   { "-fmerge-debug-strings",
     "Attempt to merge identical debug strings across compilation units",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 20, 563,
+    N_OPTS, 20, 429,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_merge_debug_strings), 0, CLVC_BOOLEAN, 0 },
+    &flag_merge_debug_strings, CLVC_BOOLEAN, 0 },
   { "-fmessage-length=",
     "-fmessage-length=<number>	Limit diagnostics to <number> characters per line.  0 suppresses line-wrapping",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, -1,
+    N_OPTS, 16, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fmodule-private",
     "Set default accessibility of module entities to PRIVATE.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 565,
+    N_OPTS, 15, 431,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fmodulo-sched",
     "Perform SMS based modulo scheduling before the first scheduling pass",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 566,
+    N_OPTS, 13, 432,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_modulo_sched), 0, CLVC_BOOLEAN, 0 },
+    &flag_modulo_sched, CLVC_BOOLEAN, 0 },
   { "-fmodulo-sched-allow-regmoves",
     "Perform SMS based modulo scheduling with register moves allowed",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 28, 567,
+    N_OPTS, 28, 433,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_modulo_sched_allow_regmoves), 0, CLVC_BOOLEAN, 0 },
+    &flag_modulo_sched_allow_regmoves, CLVC_BOOLEAN, 0 },
   { "-fmove-loop-invariants",
     "Move loop invariant computations out of loops",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 21, 568,
+    N_OPTS, 21, 434,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_move_loop_invariants), 0, CLVC_BOOLEAN, 0 },
+    &flag_move_loop_invariants, CLVC_BOOLEAN, 0 },
   { "-fms-extensions",
     "Don't warn about uses of Microsoft extensions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, 569,
+    N_OPTS, 14, 435,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_ms_extensions), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fmudflap",
     "Add mudflap bounds-checking instrumentation for single-threaded program",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 8, -1,
+    N_OPTS, 8, -1,
     CL_COMMON | CL_REJECT_NEGATIVE | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_mudflap), 0, CLVC_BOOLEAN, 0 },
+    &flag_mudflap, CLVC_BOOLEAN, 0 },
   { "-fmudflapir",
     "Ignore read operations when inserting mudflap instrumentation",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, -1,
+    N_OPTS, 10, -1,
     CL_COMMON | CL_REJECT_NEGATIVE | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_mudflap_ignore_reads), 0, CLVC_BOOLEAN, 0 },
+    &flag_mudflap_ignore_reads, CLVC_BOOLEAN, 0 },
   { "-fmudflapth",
     "Add mudflap bounds-checking instrumentation for multi-threaded program",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, -1,
+    N_OPTS, 10, -1,
     CL_COMMON | CL_REJECT_NEGATIVE | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_mudflap), 0, CLVC_EQUAL, 2 },
+    &flag_mudflap, CLVC_EQUAL, 2 },
   { "-fname-mangling-version-",
     0,
-    0,
-    "switch %qs is no longer supported",
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 23, 573,
+    N_OPTS, 23, 439,
     CL_CXX | CL_ObjCXX | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-fnew-abi",
     0,
-    0,
-    "switch %qs is no longer supported",
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 8, 574,
+    N_OPTS, 8, 440,
     CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fnext-runtime",
     "Generate code for NeXT (Apple Mac OS X) runtime environment",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 575,
+    N_OPTS, 13, 441,
     CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fnil-receivers",
     "Assume that receivers of Objective-C messages may be nil",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, 576,
+    N_OPTS, 14, 442,
     CL_ObjC | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_nil_receivers), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fnon-call-exceptions",
     "Support synchronous non-call exceptions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 20, 577,
+    N_OPTS, 20, 443,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_non_call_exceptions), 0, CLVC_BOOLEAN, 0 },
+    &flag_non_call_exceptions, CLVC_BOOLEAN, 0 },
   { "-fnonansi-builtins",
     0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 578,
+    N_OPTS, 17, 444,
     CL_CXX | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_no_nonansi_builtin), 0, CLVC_EQUAL, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fnonnull-objects",
     0,
-    0,
-    "switch %qs is no longer supported",
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 16, 579,
+    N_OPTS, 16, 445,
     CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-fnothrow-opt",
-    "Treat a throw() exception specification as noexcept to improve code size",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 580,
-    CL_CXX | CL_ObjCXX | CL_OPTIMIZATION,
-    offsetof (struct gcc_options, x_flag_nothrow_opt), 0, CLVC_BOOLEAN, 0 },
-  { "-fobjc-abi-version=",
-    "Specify which ABI to use for Objective-C family code and meta-data generation.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, -1,
-    CL_ObjC | CL_ObjCXX | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_objc_abi), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fobjc-call-cxx-cdtors",
     "Generate special Objective-C methods to initialize/destroy non-POD C++ ivars, if needed",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 21, 582,
+    N_OPTS, 21, 446,
     CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_objc_call_cxx_cdtors), 0, CLVC_BOOLEAN, 0 },
+    &flag_objc_call_cxx_cdtors, CLVC_BOOLEAN, 0 },
   { "-fobjc-direct-dispatch",
     "Allow fast jumps to the message dispatcher",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 21, 583,
+    N_OPTS, 21, 447,
     CL_ObjC | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_objc_direct_dispatch), 0, CLVC_BOOLEAN, 0 },
+    &flag_objc_direct_dispatch, CLVC_BOOLEAN, 0 },
   { "-fobjc-exceptions",
     "Enable Objective-C exception and synchronization syntax",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 584,
+    N_OPTS, 16, 448,
     CL_ObjC | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_objc_exceptions), 0, CLVC_BOOLEAN, 0 },
+    &flag_objc_exceptions, CLVC_BOOLEAN, 0 },
   { "-fobjc-gc",
     "Enable garbage collection (GC) in Objective-C/Objective-C++ programs",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 8, 585,
+    N_OPTS, 8, 449,
     CL_ObjC | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_objc_gc), 0, CLVC_BOOLEAN, 0 },
-  { "-fobjc-nilcheck",
-    "Enable inline checks for nil receivers with the NeXT runtime and ABI version 2.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, 586,
-    CL_ObjC | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_objc_nilcheck), 0, CLVC_EQUAL, 1 },
+    &flag_objc_gc, CLVC_BOOLEAN, 0 },
   { "-fobjc-sjlj-exceptions",
     "Enable Objective-C setjmp exception handling runtime",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 21, 587,
+    N_OPTS, 21, 450,
     CL_ObjC | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_objc_sjlj_exceptions), 0, CLVC_BOOLEAN, 0 },
-  { "-fobjc-std=objc1",
-    "Conform to the Objective-C 1.0 language as implemented in GCC 4.0",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 588,
-    CL_ObjC | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_objc1_only), 0, CLVC_BOOLEAN, 0 },
+    &flag_objc_sjlj_exceptions, CLVC_BOOLEAN, 0 },
+  { "-fod=",
+    "-fod=<directory> Specify the object output directory.",
+    N_OPTS, 4, 451,
+    CL_JOINED,
+    0, CLVC_STRING, 0 },
   { "-fomit-frame-pointer",
     "When possible do not generate stack frames",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 19, 589,
+    N_OPTS, 19, 452,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_omit_frame_pointer), 0, CLVC_BOOLEAN, 0 },
+    &flag_omit_frame_pointer, CLVC_BOOLEAN, 0 },
+  { "-fonly=",
+    "Process all modules specified on the command line, but only generate code for the module specified by the argument.",
+    N_OPTS, 6, -1,
+    CL_D | CL_JOINED | CL_REJECT_NEGATIVE,
+    0, CLVC_STRING, 0 },
+  { "-fop",
+    "Specify that the source file's parent directories should be appended to the object output directory.",
+    N_OPTS, 3, 454,
+    0,
+    0, CLVC_BOOLEAN, 0 },
   { "-fopenmp",
     "Enable OpenMP (implies -frecursive in Fortran)",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, 590,
+    N_OPTS, 7, 455,
     CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_openmp), 0, CLVC_BOOLEAN, 0 },
+    &flag_openmp, CLVC_BOOLEAN, 0 },
   { "-foperator-names",
     "Recognize C++ keywords like \"compl\" and \"xor\"",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 591,
+    N_OPTS, 15, 456,
     CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-foptimize-register-move",
     "Do the full register move optimization pass",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 23, 592,
+    N_OPTS, 23, 457,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_regmove), 0, CLVC_BOOLEAN, 0 },
+    &flag_regmove, CLVC_BOOLEAN, 0 },
   { "-foptimize-sibling-calls",
     "Optimize sibling and tail recursive calls",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 23, 593,
+    N_OPTS, 23, 458,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_optimize_sibling_calls), 0, CLVC_BOOLEAN, 0 },
+    &flag_optimize_sibling_calls, CLVC_BOOLEAN, 0 },
   { "-foptional-diags",
-    "Does nothing.  Preserved for backward compatibility.",
-    0,
-    0,
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 15, 594,
+    "Enable optional diagnostics",
+    N_OPTS, 15, 459,
     CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fpack-derived",
     "Try to lay out derived types as compactly as possible",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 595,
+    N_OPTS, 13, 460,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fpack-struct",
     "Pack structure members together without holes",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 596,
+    N_OPTS, 12, 461,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_pack_struct), 0, CLVC_BOOLEAN, 0 },
+    &flag_pack_struct, CLVC_BOOLEAN, 0 },
   { "-fpack-struct=",
     "-fpack-struct=<number>	Set initial maximum structure member alignment",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, -1,
+    N_OPTS, 13, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER | CL_OPTIMIZATION,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-fpartial-inlining",
-    "Perform partial inlining",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 598,
-    CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_partial_inlining), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fpcc-struct-return",
     "Return small aggregates in memory, not registers",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, 599,
+    N_OPTS, 18, 463,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_pcc_struct_return), 0, CLVC_EQUAL, 1 },
+    &flag_pcc_struct_return, CLVC_EQUAL, 1 },
   { "-fpch-deps",
     0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, 600,
+    N_OPTS, 9, 464,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fpch-preprocess",
     "Look for and use PCH files even when preprocessing",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 601,
+    N_OPTS, 15, 465,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fpeel-loops",
     "Perform loop peeling",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, 602,
+    N_OPTS, 11, 466,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_peel_loops), 0, CLVC_BOOLEAN, 0 },
+    &flag_peel_loops, CLVC_BOOLEAN, 0 },
   { "-fpeephole",
     "Enable machine specific peephole optimizations",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, 603,
+    N_OPTS, 9, 467,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_no_peephole), 0, CLVC_EQUAL, 0 },
+    &flag_no_peephole, CLVC_EQUAL, 0 },
   { "-fpeephole2",
     "Enable an RTL peephole pass before sched2",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, 604,
+    N_OPTS, 10, 468,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_peephole2), 0, CLVC_BOOLEAN, 0 },
+    &flag_peephole2, CLVC_BOOLEAN, 0 },
   { "-fpermissive",
     "Downgrade conformance errors to warnings",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, 605,
+    N_OPTS, 11, 469,
     CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fpic",
     "Generate position-independent code if possible (small mode)",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 4, 606,
+    N_OPTS, 4, 470,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_pic), 0, CLVC_EQUAL, 1 },
+    &flag_pic, CLVC_EQUAL, 1 },
   { "-fpie",
     "Generate position-independent code for executables if possible (small mode)",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 4, 607,
+    N_OPTS, 4, 471,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_pie), 0, CLVC_EQUAL, 1 },
-  { "-fplan9-extensions",
-    "Enable Plan 9 language extensions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 608,
-    CL_C | CL_ObjC,
-    offsetof (struct gcc_options, x_flag_plan9_extensions), 0, CLVC_BOOLEAN, 0 },
+    &flag_pie, CLVC_EQUAL, 1 },
   { "-fplugin-arg-",
     "-fplugin-arg-<name>-<key>[=<value>]	Specify argument <key>=<value> for plugin <name>",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, -1,
+    N_OPTS, 12, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_common_deferred_options), 0, CLVC_DEFER, 0 },
+    0, CLVC_STRING, 0 },
   { "-fplugin=",
     "Specify a plugin to load",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 8, -1,
+    N_OPTS, 8, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_common_deferred_options), 0, CLVC_DEFER, 0 },
+    0, CLVC_STRING, 0 },
   { "-fpost-ipa-mem-report",
     "Report on memory allocation before interprocedural optimization",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 20, 611,
+    N_OPTS, 20, 474,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_post_ipa_mem_report), 0, CLVC_BOOLEAN, 0 },
+    &post_ipa_mem_report, CLVC_BOOLEAN, 0 },
   { "-fpre-ipa-mem-report",
     "Report on memory allocation before interprocedural optimization",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 19, 612,
+    N_OPTS, 19, 475,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_pre_ipa_mem_report), 0, CLVC_BOOLEAN, 0 },
+    &pre_ipa_mem_report, CLVC_BOOLEAN, 0 },
   { "-fpredictive-commoning",
     "Run predictive commoning optimization.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 21, 613,
+    N_OPTS, 21, 476,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_predictive_commoning), 0, CLVC_BOOLEAN, 0 },
+    &flag_predictive_commoning, CLVC_BOOLEAN, 0 },
   { "-fprefetch-loop-arrays",
     "Generate prefetch instructions, if available, for arrays in loops",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 21, 614,
+    N_OPTS, 21, 477,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_prefetch_loop_arrays), 0, CLVC_BOOLEAN, 0 },
+    &flag_prefetch_loop_arrays, CLVC_BOOLEAN, 0 },
   { "-fpreprocessed",
     "Treat the input file as already preprocessed",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 615,
+    N_OPTS, 13, 478,
     CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fpretty-templates",
     "-fno-pretty-templates Do not pretty-print template specializations as the template signature followed by the arguments",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 616,
+    N_OPTS, 17, 479,
     CL_CXX | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_pretty_templates), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fprofile",
     "Enable basic program profiling code",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 8, 617,
+    N_OPTS, 8, 480,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_profile_flag), 0, CLVC_BOOLEAN, 0 },
+    &profile_flag, CLVC_BOOLEAN, 0 },
   { "-fprofile-arcs",
     "Insert arc-based program profiling code",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 618,
+    N_OPTS, 13, 481,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_profile_arc_flag), 0, CLVC_BOOLEAN, 0 },
+    &profile_arc_flag, CLVC_BOOLEAN, 0 },
   { "-fprofile-correction",
     "Enable correction of flow inconsistent profile data input",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 19, 619,
+    N_OPTS, 19, 482,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_profile_correction), 0, CLVC_BOOLEAN, 0 },
+    &flag_profile_correction, CLVC_BOOLEAN, 0 },
   { "-fprofile-dir=",
     "Set the top-level directory for storing the profile data. The default is 'pwd'.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, -1,
+    N_OPTS, 13, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_profile_data_prefix), 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-fprofile-generate",
     "Enable common options for generating profile info for profile feedback directed optimizations",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 621,
+    N_OPTS, 17, 484,
     CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fprofile-generate=",
     "Enable common options for generating profile info for profile feedback directed optimizations, and set -fprofile-dir=",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, -1,
+    N_OPTS, 18, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-fprofile-use",
     "Enable common options for performing profile feedback directed optimizations",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 623,
+    N_OPTS, 12, 486,
     CL_COMMON,
-    offsetof (struct gcc_options, x_flag_profile_use), 0, CLVC_BOOLEAN, 0 },
+    &flag_profile_use, CLVC_BOOLEAN, 0 },
   { "-fprofile-use=",
     "Enable common options for performing profile feedback directed optimizations, and set -fprofile-dir=",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, -1,
+    N_OPTS, 13, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-fprofile-values",
     "Insert code to profile values of expressions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 625,
+    N_OPTS, 15, 488,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_profile_values), 0, CLVC_BOOLEAN, 0 },
+    &flag_profile_values, CLVC_BOOLEAN, 0 },
+  { "-fproperty",
+    "Enforce property syntax",
+    N_OPTS, 9, 489,
+    CL_D,
+    0, CLVC_BOOLEAN, 0 },
   { "-fprotect-parens",
     "Protect parentheses in expressions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 626,
+    N_OPTS, 15, 490,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-frandom-seed",
     0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 627,
+    N_OPTS, 12, 491,
     CL_COMMON,
-    offsetof (struct gcc_options, x_common_deferred_options), 0, CLVC_DEFER, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-frandom-seed=",
     "-frandom-seed=<string>	Make compile reproducible using <string>",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, -1,
+    N_OPTS, 13, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_common_deferred_options), 0, CLVC_DEFER, 0 },
+    0, CLVC_STRING, 0 },
   { "-frange-check",
     "Enable range checking during compilation",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 629,
+    N_OPTS, 12, 493,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-frealloc-lhs",
-    "Reallocate the LHS in assignments",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 630,
-    CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-freciprocal-math",
     "Same as -fassociative-math for expressions which include division.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 631,
+    N_OPTS, 16, 494,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_reciprocal_math), 0, CLVC_BOOLEAN, 0 },
+    &flag_reciprocal_math, CLVC_BOOLEAN, 0 },
   { "-frecord-gcc-switches",
     "Record gcc command line switches in the object file.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 20, 632,
+    N_OPTS, 20, 495,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_record_gcc_switches), 0, CLVC_BOOLEAN, 0 },
+    &flag_record_gcc_switches, CLVC_BOOLEAN, 0 },
   { "-frecord-marker=4",
     "Use a 4-byte record marker for unformatted files",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, -1,
+    N_OPTS, 16, -1,
     CL_Fortran | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-frecord-marker=8",
     "Use an 8-byte record marker for unformatted files",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, -1,
+    N_OPTS, 16, -1,
     CL_Fortran | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-frecursive",
     "Allocate local variables on the stack to allow indirect recursion",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, 635,
+    N_OPTS, 10, 498,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-freg-struct-return",
     "Return small aggregates in registers",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, 636,
+    N_OPTS, 18, 499,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_pcc_struct_return), 0, CLVC_EQUAL, 0 },
+    &flag_pcc_struct_return, CLVC_EQUAL, 0 },
   { "-fregmove",
     "Enables a register move optimization",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 8, 637,
+    N_OPTS, 8, 500,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_regmove), 0, CLVC_BOOLEAN, 0 },
+    &flag_regmove, CLVC_BOOLEAN, 0 },
+  { "-frelease",
+    "Compile release version",
+    N_OPTS, 8, 501,
+    CL_D,
+    0, CLVC_BOOLEAN, 0 },
   { "-frename-registers",
     "Perform a register renaming optimization pass",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 638,
+    N_OPTS, 17, 502,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_rename_registers), 0, CLVC_BOOLEAN, 0 },
+    &flag_rename_registers, CLVC_BOOLEAN, 0 },
   { "-freorder-blocks",
     "Reorder basic blocks to improve code placement",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 639,
+    N_OPTS, 15, 503,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_reorder_blocks), 0, CLVC_BOOLEAN, 0 },
+    &flag_reorder_blocks, CLVC_BOOLEAN, 0 },
   { "-freorder-blocks-and-partition",
     "Reorder basic blocks and partition into hot and cold sections",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 29, 640,
+    N_OPTS, 29, 504,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_reorder_blocks_and_partition), 0, CLVC_BOOLEAN, 0 },
+    &flag_reorder_blocks_and_partition, CLVC_BOOLEAN, 0 },
   { "-freorder-functions",
     "Reorder functions to improve code placement",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, 641,
+    N_OPTS, 18, 505,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_reorder_functions), 0, CLVC_BOOLEAN, 0 },
+    &flag_reorder_functions, CLVC_BOOLEAN, 0 },
   { "-frepack-arrays",
     "Copy array sections into a contiguous block on procedure entry",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, 642,
+    N_OPTS, 14, 506,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-freplace-objc-classes",
     "Used in Fix-and-Continue mode to indicate that object files may be swapped in at runtime",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 21, 643,
+    N_OPTS, 21, 507,
     CL_ObjC | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_replace_objc_classes), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-frepo",
     "Enable automatic template instantiation",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 5, 644,
+    N_OPTS, 5, 508,
     CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-frerun-cse-after-loop",
     "Add a common subexpression elimination pass after loop optimizations",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 21, 645,
+    N_OPTS, 21, 509,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_rerun_cse_after_loop), 0, CLVC_BOOLEAN, 0 },
+    &flag_rerun_cse_after_loop, CLVC_BOOLEAN, 0 },
   { "-frerun-loop-opt",
     "Does nothing.  Preserved for backward compatibility.",
-    0,
-    0,
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 15, 646,
+    N_OPTS, 15, 510,
     CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-freschedule-modulo-scheduled-loops",
     "Enable/Disable the traditional scheduling in loops that already passed modulo scheduling",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 34, 647,
+    N_OPTS, 34, 511,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_resched_modulo_sched), 0, CLVC_BOOLEAN, 0 },
-  { "-fresolution=",
+    &flag_resched_modulo_sched, CLVC_BOOLEAN, 0 },
+  { "-fresolution",
     "The resolution file",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 648,
-    CL_LTO | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
+    N_OPTS, 11, 512,
+    CL_LTO | CL_SEPARATE,
+    0, CLVC_BOOLEAN, 0 },
   { "-frounding-math",
     "Disable optimizations that assume default FP rounding behavior",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, 649,
+    N_OPTS, 14, 513,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_rounding_math), 0, CLVC_BOOLEAN, 0 },
+    &flag_rounding_math, CLVC_BOOLEAN, 0 },
   { "-frtti",
     "Generate run time type descriptor information",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 5, 650,
+    N_OPTS, 5, 514,
     CL_CXX | CL_ObjCXX | CL_OPTIMIZATION,
-    offsetof (struct gcc_options, x_flag_rtti), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fsched-critical-path-heuristic",
     "Enable the critical path heuristic in the scheduler",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 30, 651,
+    N_OPTS, 30, 515,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_sched_critical_path_heuristic), 0, CLVC_BOOLEAN, 0 },
+    &flag_sched_critical_path_heuristic, CLVC_BOOLEAN, 0 },
   { "-fsched-dep-count-heuristic",
     "Enable the dependent count heuristic in the scheduler",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 26, 652,
+    N_OPTS, 26, 516,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_sched_dep_count_heuristic), 0, CLVC_BOOLEAN, 0 },
+    &flag_sched_dep_count_heuristic, CLVC_BOOLEAN, 0 },
   { "-fsched-group-heuristic",
     "Enable the group heuristic in the scheduler",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 22, 653,
+    N_OPTS, 22, 517,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_sched_group_heuristic), 0, CLVC_BOOLEAN, 0 },
+    &flag_sched_group_heuristic, CLVC_BOOLEAN, 0 },
   { "-fsched-interblock",
     "Enable scheduling across basic blocks",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 654,
+    N_OPTS, 17, 518,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_schedule_interblock), 0, CLVC_BOOLEAN, 0 },
+    &flag_schedule_interblock, CLVC_BOOLEAN, 0 },
   { "-fsched-last-insn-heuristic",
     "Enable the last instruction heuristic in the scheduler",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 26, 655,
+    N_OPTS, 26, 519,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_sched_last_insn_heuristic), 0, CLVC_BOOLEAN, 0 },
+    &flag_sched_last_insn_heuristic, CLVC_BOOLEAN, 0 },
   { "-fsched-pressure",
     "Enable register pressure sensitive insn scheduling",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 656,
+    N_OPTS, 15, 520,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_sched_pressure), 0, CLVC_BOOLEAN, 0 },
+    &flag_sched_pressure, CLVC_BOOLEAN, 0 },
   { "-fsched-rank-heuristic",
     "Enable the rank heuristic in the scheduler",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 21, 657,
+    N_OPTS, 21, 521,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_sched_rank_heuristic), 0, CLVC_BOOLEAN, 0 },
+    &flag_sched_rank_heuristic, CLVC_BOOLEAN, 0 },
   { "-fsched-spec",
     "Allow speculative motion of non-loads",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, 658,
+    N_OPTS, 11, 522,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_schedule_speculative), 0, CLVC_BOOLEAN, 0 },
+    &flag_schedule_speculative, CLVC_BOOLEAN, 0 },
   { "-fsched-spec-insn-heuristic",
     "Enable the speculative instruction heuristic in the scheduler",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 26, 659,
+    N_OPTS, 26, 523,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_sched_spec_insn_heuristic), 0, CLVC_BOOLEAN, 0 },
+    &flag_sched_spec_insn_heuristic, CLVC_BOOLEAN, 0 },
   { "-fsched-spec-load",
     "Allow speculative motion of some loads",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 660,
+    N_OPTS, 16, 524,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_schedule_speculative_load), 0, CLVC_BOOLEAN, 0 },
+    &flag_schedule_speculative_load, CLVC_BOOLEAN, 0 },
   { "-fsched-spec-load-dangerous",
     "Allow speculative motion of more loads",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 26, 661,
+    N_OPTS, 26, 525,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_schedule_speculative_load_dangerous), 0, CLVC_BOOLEAN, 0 },
+    &flag_schedule_speculative_load_dangerous, CLVC_BOOLEAN, 0 },
   { "-fsched-stalled-insns",
     "Allow premature scheduling of queued insns",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 20, 662,
+    N_OPTS, 20, 526,
     CL_COMMON | CL_UINTEGER | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_sched_stalled_insns), 0, CLVC_BOOLEAN, 0 },
+    &flag_sched_stalled_insns, CLVC_BOOLEAN, 0 },
   { "-fsched-stalled-insns-dep",
     "Set dependence distance checking in premature scheduling of queued insns",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 24, 663,
+    N_OPTS, 24, 527,
     CL_COMMON | CL_UINTEGER | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_sched_stalled_insns_dep), 0, CLVC_EQUAL, 1 },
+    &flag_sched_stalled_insns_dep, CLVC_EQUAL, 1 },
   { "-fsched-stalled-insns-dep=",
     "-fsched-stalled-insns-dep=<number>	Set dependence distance checking in premature scheduling of queued insns",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 25, -1,
+    N_OPTS, 25, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fsched-stalled-insns=",
     "-fsched-stalled-insns=<number>	Set number of queued insns that can be prematurely scheduled",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 21, -1,
+    N_OPTS, 21, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fsched-verbose=",
     "-fsched-verbose=<number>	Set the verbosity level of the scheduler",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, -1,
-    CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
-    offsetof (struct gcc_options, x_sched_verbose_param), 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 15, -1,
+    CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
+    0, CLVC_STRING, 0 },
   { "-fsched2-use-superblocks",
     "If scheduling post reload, do superblock scheduling",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 23, 667,
+    N_OPTS, 23, 531,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_sched2_use_superblocks), 0, CLVC_BOOLEAN, 0 },
+    &flag_sched2_use_superblocks, CLVC_BOOLEAN, 0 },
   { "-fsched2-use-traces",
     "Does nothing.  Preserved for backward compatibility.",
-    0,
-    0,
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 18, 668,
+    N_OPTS, 18, 532,
     CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fschedule-insns",
     "Reschedule instructions before register allocation",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 669,
+    N_OPTS, 15, 533,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_schedule_insns), 0, CLVC_BOOLEAN, 0 },
+    &flag_schedule_insns, CLVC_BOOLEAN, 0 },
   { "-fschedule-insns2",
     "Reschedule instructions after register allocation",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 670,
+    N_OPTS, 16, 534,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_schedule_insns_after_reload), 0, CLVC_BOOLEAN, 0 },
+    &flag_schedule_insns_after_reload, CLVC_BOOLEAN, 0 },
   { "-fsecond-underscore",
     "Append a second underscore if the name already contains an underscore",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, 671,
+    N_OPTS, 18, 535,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fsection-anchors",
     "Access data in the same section from shared anchor points",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 672,
+    N_OPTS, 16, 536,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_section_anchors), 0, CLVC_BOOLEAN, 0 },
+    &flag_section_anchors, CLVC_BOOLEAN, 0 },
   { "-fsee",
     "Does nothing.  Preserved for backward compatibility.",
-    0,
-    0,
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 4, 673,
+    N_OPTS, 4, 537,
     CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fsel-sched-pipelining",
     "Perform software pipelining of inner loops during selective scheduling",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 21, 674,
+    N_OPTS, 21, 538,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_sel_sched_pipelining), 0, CLVC_BOOLEAN, 0 },
+    &flag_sel_sched_pipelining, CLVC_BOOLEAN, 0 },
   { "-fsel-sched-pipelining-outer-loops",
     "Perform software pipelining of outer loops during selective scheduling",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 33, 675,
+    N_OPTS, 33, 539,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_sel_sched_pipelining_outer_loops), 0, CLVC_BOOLEAN, 0 },
+    &flag_sel_sched_pipelining_outer_loops, CLVC_BOOLEAN, 0 },
   { "-fsel-sched-reschedule-pipelined",
     "Reschedule pipelined regions without pipelining",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 31, 676,
+    N_OPTS, 31, 540,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_sel_sched_reschedule_pipelined), 0, CLVC_BOOLEAN, 0 },
+    &flag_sel_sched_reschedule_pipelined, CLVC_BOOLEAN, 0 },
   { "-fselective-scheduling",
     "Schedule instructions using selective scheduling algorithm",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 21, 677,
+    N_OPTS, 21, 541,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_selective_scheduling), 0, CLVC_BOOLEAN, 0 },
+    &flag_selective_scheduling, CLVC_BOOLEAN, 0 },
   { "-fselective-scheduling2",
     "Run selective scheduling after reload",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 22, 678,
+    N_OPTS, 22, 542,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_selective_scheduling2), 0, CLVC_BOOLEAN, 0 },
+    &flag_selective_scheduling2, CLVC_BOOLEAN, 0 },
   { "-fshort-double",
     "Use the same size for double as for float",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 679,
+    N_OPTS, 13, 543,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_OPTIMIZATION,
-    offsetof (struct gcc_options, x_flag_short_double), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fshort-enums",
     "Use the narrowest integer type possible for enumeration types",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 680,
+    N_OPTS, 12, 544,
     CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_OPTIMIZATION,
-    offsetof (struct gcc_options, x_flag_short_enums), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fshort-wchar",
     "Force the underlying type for \"wchar_t\" to be \"unsigned short\"",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 681,
+    N_OPTS, 12, 545,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_OPTIMIZATION,
-    offsetof (struct gcc_options, x_flag_short_wchar), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fshow-column",
     "Show column numbers in diagnostics, when available.  Default on",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 682,
-    CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_show_column), 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 12, 546,
+    CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_COMMON | CL_REPORT,
+    &flag_show_column, CLVC_BOOLEAN, 0 },
   { "-fsign-zero",
     "Apply negative sign to zero values",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, 683,
+    N_OPTS, 10, 547,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fsignaling-nans",
     "Disable optimizations observable by IEEE signaling NaNs",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 684,
+    N_OPTS, 15, 548,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_signaling_nans), 0, CLVC_BOOLEAN, 0 },
+    &flag_signaling_nans, CLVC_BOOLEAN, 0 },
   { "-fsigned-bitfields",
     "When \"signed\" or \"unsigned\" is not given make the bitfield signed",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 685,
+    N_OPTS, 17, 549,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_signed_bitfields), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fsigned-char",
     "Make \"char\" signed by default",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 686,
+    N_OPTS, 12, 550,
     CL_C | CL_CXX | CL_LTO | CL_ObjC | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_signed_char), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fsigned-zeros",
     "Disable floating point optimizations that ignore the IEEE signedness of zero",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 687,
+    N_OPTS, 13, 551,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_signed_zeros), 0, CLVC_BOOLEAN, 0 },
+    &flag_signed_zeros, CLVC_BOOLEAN, 0 },
   { "-fsingle-precision-constant",
     "Convert floating point constants to single precision constants",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 26, 688,
+    N_OPTS, 26, 552,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_single_precision_constant), 0, CLVC_BOOLEAN, 0 },
+    &flag_single_precision_constant, CLVC_BOOLEAN, 0 },
   { "-fsplit-ivs-in-unroller",
     "Split lifetimes of induction variables when loops are unrolled",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 22, 689,
+    N_OPTS, 22, 553,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_split_ivs_in_unroller), 0, CLVC_BOOLEAN, 0 },
-  { "-fsplit-stack",
-    "Generate discontiguous stack frames",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 690,
-    CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_split_stack), 0, CLVC_BOOLEAN, 0 },
+    &flag_split_ivs_in_unroller, CLVC_BOOLEAN, 0 },
   { "-fsplit-wide-types",
     "Split wide types into independent registers",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 691,
+    N_OPTS, 17, 554,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_split_wide_types), 0, CLVC_BOOLEAN, 0 },
+    &flag_split_wide_types, CLVC_BOOLEAN, 0 },
   { "-fsquangle",
     0,
-    0,
-    "switch %qs is no longer supported",
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 9, 692,
+    N_OPTS, 9, 555,
     CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fstack-check",
     "Insert stack checking code into the program.  Same as -fstack-check=specific",
-    0,
-    0,
-    "specific", "no", OPT_fstack_check_, N_OPTS, 12, 693,
-    CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 12, 556,
+    CL_COMMON | CL_REPORT,
+    0, CLVC_BOOLEAN, 0 },
   { "-fstack-check=",
     "-fstack-check=[no|generic|specific]	Insert stack checking code into the program",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, -1,
+    N_OPTS, 13, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE | CL_REPORT,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-fstack-limit",
     0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 695,
+    N_OPTS, 12, 558,
     CL_COMMON,
-    offsetof (struct gcc_options, x_common_deferred_options), 0, CLVC_DEFER, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fstack-limit-register=",
     "-fstack-limit-register=<register>	Trap if the stack goes past <register>",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 22, -1,
+    N_OPTS, 22, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_common_deferred_options), 0, CLVC_DEFER, 0 },
+    0, CLVC_STRING, 0 },
   { "-fstack-limit-symbol=",
     "-fstack-limit-symbol=<name>	Trap if the stack goes past symbol <name>",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 20, -1,
+    N_OPTS, 20, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_common_deferred_options), 0, CLVC_DEFER, 0 },
+    0, CLVC_STRING, 0 },
   { "-fstack-protector",
     "Use propolice as a stack protection method",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 698,
+    N_OPTS, 16, 561,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_stack_protect), 0, CLVC_EQUAL, 1 },
+    &flag_stack_protect, CLVC_EQUAL, 1 },
   { "-fstack-protector-all",
     "Use a stack protection method for every function",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 20, -1,
+    N_OPTS, 20, -1,
     CL_COMMON | CL_REJECT_NEGATIVE | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_stack_protect), 0, CLVC_EQUAL, 2 },
-  { "-fstack-usage",
-    "Output stack usage information on a per-function basis",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, -1,
-    CL_COMMON | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_flag_stack_usage), 0, CLVC_BOOLEAN, 0 },
+    &flag_stack_protect, CLVC_EQUAL, 2 },
   { "-fstats",
     "Display statistics accumulated during compilation",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 6, 701,
+    N_OPTS, 6, 563,
     CL_CXX | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_detailed_statistics), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fstrength-reduce",
     "Does nothing.  Preserved for backward compatibility.",
-    0,
-    0,
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 16, 702,
+    N_OPTS, 16, 564,
     CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fstrict-aliasing",
     "Assume strict aliasing rules apply",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 703,
+    N_OPTS, 16, 565,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_strict_aliasing), 0, CLVC_BOOLEAN, 0 },
-  { "-fstrict-enums",
-    "Assume that values of enumeration type are always within the minimum range of that type",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 704,
-    CL_CXX | CL_ObjCXX | CL_OPTIMIZATION,
-    offsetof (struct gcc_options, x_flag_strict_enums), 0, CLVC_BOOLEAN, 0 },
+    &flag_strict_aliasing, CLVC_BOOLEAN, 0 },
   { "-fstrict-overflow",
     "Treat signed overflow as undefined",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 705,
+    N_OPTS, 16, 566,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_strict_overflow), 0, CLVC_BOOLEAN, 0 },
+    &flag_strict_overflow, CLVC_BOOLEAN, 0 },
   { "-fstrict-prototype",
     0,
-    0,
-    "switch %qs is no longer supported",
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 17, 706,
+    N_OPTS, 17, 567,
     CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-fstrict-volatile-bitfields",
-    "Force bitfield accesses to match their type width",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 26, 707,
-    CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_strict_volatile_bitfields), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fsyntax-only",
     "Check for syntax errors, then stop",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 708,
+    N_OPTS, 12, 568,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_syntax_only), 0, CLVC_BOOLEAN, 0 },
+    &flag_syntax_only, CLVC_BOOLEAN, 0 },
   { "-ftabstop=",
     "-ftabstop=<number>	Distance between tab stops for column reporting",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, -1,
+    N_OPTS, 9, -1,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-ftarget-help",
     0,
-    0,
-    0,
-    NULL, NULL, OPT__target_help, N_OPTS, 12, 710,
-    CL_COMMON | CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 12, 570,
+    CL_COMMON,
+    0, CLVC_BOOLEAN, 0 },
   { "-ftemplate-depth-",
     0,
-    0,
-    0,
-    NULL, NULL, OPT_ftemplate_depth_, N_OPTS, 16, -1,
-    CL_CXX | CL_ObjCXX | CL_JOINED | CL_REJECT_NEGATIVE | CL_UNDOCUMENTED,
-    -1, 0, CLVC_STRING, 0 },
+    N_OPTS, 16, -1,
+    CL_CXX | CL_ObjCXX | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER | CL_UNDOCUMENTED,
+    0, CLVC_BOOLEAN, 0 },
   { "-ftemplate-depth=",
     "-ftemplate-depth=<number>	Specify maximum template instantiation depth",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, -1,
+    N_OPTS, 16, -1,
     CL_CXX | CL_ObjCXX | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-ftest-coverage",
     "Create data files needed by \"gcov\"",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, 713,
+    N_OPTS, 14, 573,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_test_coverage), 0, CLVC_BOOLEAN, 0 },
+    &flag_test_coverage, CLVC_BOOLEAN, 0 },
   { "-fthis-is-variable",
     0,
-    0,
-    "switch %qs is no longer supported",
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 17, 714,
+    N_OPTS, 17, 574,
     CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fthread-jumps",
     "Perform jump threading optimizations",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 715,
+    N_OPTS, 13, 575,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_thread_jumps), 0, CLVC_BOOLEAN, 0 },
+    &flag_thread_jumps, CLVC_BOOLEAN, 0 },
   { "-fthreadsafe-statics",
     "-fno-threadsafe-statics	Do not generate thread-safe code for initializing local statics",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 19, 716,
+    N_OPTS, 19, 576,
     CL_CXX | CL_ObjCXX | CL_OPTIMIZATION,
-    offsetof (struct gcc_options, x_flag_threadsafe_statics), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-ftime-report",
     "Report the time taken by each compiler pass",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 717,
+    N_OPTS, 12, 577,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_time_report), 0, CLVC_BOOLEAN, 0 },
+    &time_report, CLVC_BOOLEAN, 0 },
   { "-ftls-model=",
     "-ftls-model=[global-dynamic|local-dynamic|initial-exec|local-exec]	Set the default thread-local storage code generation model",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, -1,
+    N_OPTS, 11, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_flag_tls_default), 6, CLVC_ENUM, 0 },
+    0, CLVC_STRING, 0 },
   { "-ftoplevel-reorder",
     "Reorder top level functions, variables, and asms",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 719,
+    N_OPTS, 17, 579,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_toplevel_reorder), 0, CLVC_BOOLEAN, 0 },
+    &flag_toplevel_reorder, CLVC_BOOLEAN, 0 },
   { "-ftracer",
     "Perform superblock formation via tail duplication",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, 720,
+    N_OPTS, 7, 580,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tracer), 0, CLVC_BOOLEAN, 0 },
+    &flag_tracer, CLVC_BOOLEAN, 0 },
   { "-ftrapping-math",
     "Assume floating-point operations can trap",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, 721,
+    N_OPTS, 14, 581,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_trapping_math), 0, CLVC_BOOLEAN, 0 },
+    &flag_trapping_math, CLVC_BOOLEAN, 0 },
   { "-ftrapv",
     "Trap for signed overflow in addition, subtraction and multiplication",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 6, 722,
+    N_OPTS, 6, 582,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_trapv), 0, CLVC_BOOLEAN, 0 },
-  { "-ftree-bit-ccp",
-    "Enable SSA-BIT-CCP optimization on trees",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 723,
-    CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_bit_ccp), 0, CLVC_BOOLEAN, 0 },
+    &flag_trapv, CLVC_BOOLEAN, 0 },
   { "-ftree-builtin-call-dce",
     "Enable conditional dead code elimination for builtin calls",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 22, 724,
+    N_OPTS, 22, 583,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_builtin_call_dce), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_builtin_call_dce, CLVC_BOOLEAN, 0 },
   { "-ftree-ccp",
     "Enable SSA-CCP optimization on trees",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, 725,
+    N_OPTS, 9, 584,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_ccp), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_ccp, CLVC_BOOLEAN, 0 },
   { "-ftree-ch",
     "Enable loop header copying on trees",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 8, 726,
+    N_OPTS, 8, 585,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_ch), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_ch, CLVC_BOOLEAN, 0 },
   { "-ftree-copy-prop",
     "Enable copy propagation on trees",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 727,
+    N_OPTS, 15, 586,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_copy_prop), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_copy_prop, CLVC_BOOLEAN, 0 },
   { "-ftree-copyrename",
     "Replace SSA temporaries with better names in copies",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 728,
+    N_OPTS, 16, 587,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_copyrename), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_copyrename, CLVC_BOOLEAN, 0 },
   { "-ftree-cselim",
     "Transform condition stores into unconditional ones",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 729,
+    N_OPTS, 12, 588,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_cselim), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_cselim, CLVC_BOOLEAN, 0 },
   { "-ftree-dce",
     "Enable SSA dead code elimination optimization on trees",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, 730,
+    N_OPTS, 9, 589,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_dce), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_dce, CLVC_BOOLEAN, 0 },
   { "-ftree-dominator-opts",
     "Enable dominator optimizations",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 20, 731,
+    N_OPTS, 20, 590,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_dom), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_dom, CLVC_BOOLEAN, 0 },
   { "-ftree-dse",
     "Enable dead store elimination",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, 732,
+    N_OPTS, 9, 591,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_dse), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_dse, CLVC_BOOLEAN, 0 },
   { "-ftree-forwprop",
     "Enable forward propagation on trees",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, 733,
+    N_OPTS, 14, 592,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_forwprop), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_forwprop, CLVC_BOOLEAN, 0 },
   { "-ftree-fre",
     "Enable Full Redundancy Elimination (FRE) on trees",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, 734,
+    N_OPTS, 9, 593,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_fre), 0, CLVC_BOOLEAN, 0 },
-  { "-ftree-loop-distribute-patterns",
-    "Enable loop distribution for patterns transformed into a library call",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 30, 735,
-    CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_loop_distribute_patterns), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_fre, CLVC_BOOLEAN, 0 },
   { "-ftree-loop-distribution",
     "Enable loop distribution on trees",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 23, 736,
+    N_OPTS, 23, 594,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_loop_distribution), 0, CLVC_BOOLEAN, 0 },
-  { "-ftree-loop-if-convert",
-    "Convert conditional jumps in innermost loops to branchless equivalents",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 21, 737,
-    CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_loop_if_convert), 0, CLVC_BOOLEAN, 0 },
-  { "-ftree-loop-if-convert-stores",
-    "Also if-convert conditional jumps containing memory writes",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 28, 738,
-    CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_loop_if_convert_stores), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_loop_distribution, CLVC_BOOLEAN, 0 },
   { "-ftree-loop-im",
     "Enable loop invariant motion on trees",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 739,
+    N_OPTS, 13, 595,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_loop_im), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_loop_im, CLVC_BOOLEAN, 0 },
   { "-ftree-loop-ivcanon",
     "Create canonical induction variables in loops",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, 740,
+    N_OPTS, 18, 596,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_loop_ivcanon), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_loop_ivcanon, CLVC_BOOLEAN, 0 },
   { "-ftree-loop-linear",
-    "Enable loop interchange transforms.  Same as -floop-interchange",
-    0,
-    0,
-    NULL, NULL, OPT_floop_interchange, N_OPTS, 17, 741,
-    CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    "Enable linear loop transforms on trees",
+    N_OPTS, 17, 597,
+    CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
+    &flag_tree_loop_linear, CLVC_BOOLEAN, 0 },
   { "-ftree-loop-optimize",
     "Enable loop optimizations on tree level",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 19, 742,
+    N_OPTS, 19, 598,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_loop_optimize), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_loop_optimize, CLVC_BOOLEAN, 0 },
   { "-ftree-lrs",
     "Perform live range splitting during the SSA->normal pass",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, 743,
+    N_OPTS, 9, 599,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_live_range_split), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_live_range_split, CLVC_BOOLEAN, 0 },
   { "-ftree-parallelize-loops=",
     "Enable automatic parallelization of loops",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 24, -1,
-    CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_parallelize_loops), 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 24, 600,
+    CL_COMMON | CL_JOINED | CL_UINTEGER | CL_REPORT,
+    &flag_tree_parallelize_loops, CLVC_BOOLEAN, 0 },
   { "-ftree-phiprop",
     "Enable hoisting loads from conditional pointers.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 745,
+    N_OPTS, 13, 601,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_phiprop), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_phiprop, CLVC_BOOLEAN, 0 },
   { "-ftree-pre",
     "Enable SSA-PRE optimization on trees",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, 746,
+    N_OPTS, 9, 602,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_pre), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_pre, CLVC_BOOLEAN, 0 },
   { "-ftree-pta",
     "Perform function-local points-to analysis on trees.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, 747,
+    N_OPTS, 9, 603,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_pta), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_pta, CLVC_BOOLEAN, 0 },
   { "-ftree-reassoc",
     "Enable reassociation on tree level",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 748,
+    N_OPTS, 13, 604,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_reassoc), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_reassoc, CLVC_BOOLEAN, 0 },
   { "-ftree-salias",
     "Does nothing.  Preserved for backward compatibility.",
-    0,
-    0,
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 12, 749,
+    N_OPTS, 12, 605,
     CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-ftree-scev-cprop",
     "Enable copy propagation of scalar-evolution information.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 750,
+    N_OPTS, 16, 606,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_scev_cprop), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_scev_cprop, CLVC_BOOLEAN, 0 },
   { "-ftree-sink",
     "Enable SSA code sinking on trees",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, 751,
+    N_OPTS, 10, 607,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_sink), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_sink, CLVC_BOOLEAN, 0 },
   { "-ftree-slp-vectorize",
     "Enable basic block vectorization (SLP) on trees",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 19, 752,
+    N_OPTS, 19, 608,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_slp_vectorize), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_slp_vectorize, CLVC_BOOLEAN, 0 },
   { "-ftree-sra",
     "Perform scalar replacement of aggregates",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, 753,
+    N_OPTS, 9, 609,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_sra), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_sra, CLVC_BOOLEAN, 0 },
   { "-ftree-store-ccp",
     "Does nothing.  Preserved for backward compatibility.",
-    0,
-    0,
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 15, 754,
+    N_OPTS, 15, 610,
     CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-ftree-store-copy-prop",
     "Does nothing.  Preserved for backward compatibility.",
-    0,
-    0,
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 21, 755,
+    N_OPTS, 21, 611,
     CL_COMMON,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-ftree-switch-conversion",
     "Perform conversions of switch initializations.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 23, 756,
+    N_OPTS, 23, 612,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_switch_conversion), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_switch_conversion, CLVC_BOOLEAN, 0 },
   { "-ftree-ter",
     "Replace temporary expressions in the SSA->normal pass",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, 757,
+    N_OPTS, 9, 613,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_ter), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_ter, CLVC_BOOLEAN, 0 },
   { "-ftree-vect-loop-version",
     "Enable loop versioning when doing loop vectorization on trees",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 23, 758,
+    N_OPTS, 23, 614,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_vect_loop_version), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_vect_loop_version, CLVC_BOOLEAN, 0 },
   { "-ftree-vectorize",
     "Enable loop vectorization on trees",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 759,
+    N_OPTS, 15, 615,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_vectorize), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_vectorize, CLVC_BOOLEAN, 0 },
   { "-ftree-vectorizer-verbose=",
     "-ftree-vectorizer-verbose=<number>	Set the verbosity level of the vectorizer",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 25, -1,
-    CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE | CL_UINTEGER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 25, -1,
+    CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
+    0, CLVC_STRING, 0 },
   { "-ftree-vrp",
     "Perform Value Range Propagation on trees",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, 761,
+    N_OPTS, 9, 617,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_tree_vrp), 0, CLVC_BOOLEAN, 0 },
+    &flag_tree_vrp, CLVC_BOOLEAN, 0 },
   { "-funderscoring",
     "Append underscores to externally visible names",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 762,
+    N_OPTS, 13, 618,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-funit-at-a-time",
     "Compile whole compilation unit at a time",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 763,
+    N_OPTS, 15, 619,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_unit_at_a_time), 0, CLVC_BOOLEAN, 0 },
+    &flag_unit_at_a_time, CLVC_BOOLEAN, 0 },
+  { "-funittest",
+    "Compile in unittest code",
+    N_OPTS, 9, 620,
+    CL_D,
+    0, CLVC_BOOLEAN, 0 },
   { "-funroll-all-loops",
     "Perform loop unrolling for all loops",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, 764,
+    N_OPTS, 17, 621,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_unroll_all_loops), 0, CLVC_BOOLEAN, 0 },
+    &flag_unroll_all_loops, CLVC_BOOLEAN, 0 },
   { "-funroll-loops",
     "Perform loop unrolling when iteration count is known",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 765,
+    N_OPTS, 13, 622,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_unroll_loops), 0, CLVC_BOOLEAN, 0 },
+    &flag_unroll_loops, CLVC_BOOLEAN, 0 },
   { "-funsafe-loop-optimizations",
     "Allow loop optimizations to assume that the loops behave in normal way",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 26, 766,
+    N_OPTS, 26, 623,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_unsafe_loop_optimizations), 0, CLVC_BOOLEAN, 0 },
+    &flag_unsafe_loop_optimizations, CLVC_BOOLEAN, 0 },
   { "-funsafe-math-optimizations",
     "Allow math optimizations that may violate IEEE or ISO standards",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 26, 767,
+    N_OPTS, 26, 624,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_unsafe_math_optimizations), 0, CLVC_BOOLEAN, 0 },
+    &flag_unsafe_math_optimizations, CLVC_BOOLEAN, 0 },
   { "-funsigned-bitfields",
     "When \"signed\" or \"unsigned\" is not given make the bitfield unsigned",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 19, 768,
+    N_OPTS, 19, 625,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_signed_bitfields), 0, CLVC_EQUAL, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-funsigned-char",
     "Make \"char\" unsigned by default",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, 769,
+    N_OPTS, 14, 626,
     CL_C | CL_CXX | CL_LTO | CL_ObjC | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_signed_char), 0, CLVC_EQUAL, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-funswitch-loops",
     "Perform loop unswitching",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 770,
+    N_OPTS, 15, 627,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_unswitch_loops), 0, CLVC_BOOLEAN, 0 },
+    &flag_unswitch_loops, CLVC_BOOLEAN, 0 },
   { "-funwind-tables",
     "Just generate unwind tables for exception handling",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, 771,
+    N_OPTS, 14, 628,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_unwind_tables), 0, CLVC_BOOLEAN, 0 },
+    &flag_unwind_tables, CLVC_BOOLEAN, 0 },
   { "-fuse-cxa-atexit",
     "Use __cxa_atexit to register destructors",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 772,
+    N_OPTS, 15, 629,
     CL_CXX | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_use_cxa_atexit), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fuse-cxa-get-exception-ptr",
     "Use __cxa_get_exception_ptr in exception handling",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 26, 773,
+    N_OPTS, 26, 630,
     CL_CXX | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_use_cxa_get_exception_ptr), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fuse-linker-plugin",
     0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, 774,
+    N_OPTS, 18, 631,
     CL_COMMON | CL_UNDOCUMENTED,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fvar-tracking",
     "Perform variable tracking",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, 775,
+    N_OPTS, 13, 632,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_var_tracking), 0, CLVC_BOOLEAN, 0 },
+    &flag_var_tracking, CLVC_BOOLEAN, 0 },
   { "-fvar-tracking-assignments",
     "Perform variable tracking by annotating assignments",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 25, 776,
+    N_OPTS, 25, 633,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_var_tracking_assignments), 0, CLVC_BOOLEAN, 0 },
+    &flag_var_tracking_assignments, CLVC_BOOLEAN, 0 },
   { "-fvar-tracking-assignments-toggle",
     "Toggle -fvar-tracking-assignments",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 32, 777,
+    N_OPTS, 32, 634,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_var_tracking_assignments_toggle), 0, CLVC_BOOLEAN, 0 },
+    &flag_var_tracking_assignments_toggle, CLVC_BOOLEAN, 0 },
   { "-fvar-tracking-uninit",
     "Perform variable tracking and also tag variables that are uninitialized",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 20, 778,
+    N_OPTS, 20, 635,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_var_tracking_uninit), 0, CLVC_BOOLEAN, 0 },
+    &flag_var_tracking_uninit, CLVC_BOOLEAN, 0 },
   { "-fvariable-expansion-in-unroller",
     "Apply variable expansion when loops are unrolled",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 31, 779,
+    N_OPTS, 31, 636,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_variable_expansion_in_unroller), 0, CLVC_BOOLEAN, 0 },
+    &flag_variable_expansion_in_unroller, CLVC_BOOLEAN, 0 },
   { "-fvect-cost-model",
     "Enable use of cost model in vectorization",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, 780,
+    N_OPTS, 16, 637,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_vect_cost_model), 0, CLVC_BOOLEAN, 0 },
+    &flag_vect_cost_model, CLVC_BOOLEAN, 0 },
   { "-fverbose-asm",
     "Add extra commentary to assembler output",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, 781,
+    N_OPTS, 12, 638,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_verbose_asm), 0, CLVC_BOOLEAN, 0 },
+    &flag_verbose_asm, CLVC_BOOLEAN, 0 },
   { "-fversion",
     0,
-    0,
-    0,
-    NULL, NULL, OPT__version, N_OPTS, 8, 782,
-    CL_COMMON | CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 8, 639,
+    CL_COMMON,
+    0, CLVC_BOOLEAN, 0 },
+  { "-fversion=",
+    "-fversion=<level|ident> Compile in version code >= <level> or identified by <ident>",
+    N_OPTS, 9, -1,
+    CL_D | CL_JOINED | CL_REJECT_NEGATIVE,
+    0, CLVC_STRING, 0 },
   { "-fvisibility-inlines-hidden",
     "Marks all inlined methods as having hidden visibility",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 26, 783,
+    N_OPTS, 26, 641,
     CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fvisibility-ms-compat",
     "Changes visibility to match Microsoft Visual Studio by default",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 21, 784,
+    N_OPTS, 21, 642,
     CL_CXX | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_visibility_ms_compat), 0, CLVC_BOOLEAN, 0 },
+    &flag_visibility_ms_compat, CLVC_BOOLEAN, 0 },
   { "-fvisibility=",
     "-fvisibility=[default|internal|hidden|protected]	Set the default symbol visibility",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, -1,
+    N_OPTS, 12, -1,
     CL_COMMON | CL_JOINED | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_default_visibility), 5, CLVC_ENUM, 0 },
+    0, CLVC_STRING, 0 },
   { "-fvpt",
     "Use expression value profiles in optimizations",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 4, 786,
+    N_OPTS, 4, 644,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_value_profile_transformations), 0, CLVC_BOOLEAN, 0 },
+    &flag_value_profile_transformations, CLVC_BOOLEAN, 0 },
   { "-fvtable-gc",
-    "No longer supported",
-    0,
-    "switch %qs is no longer supported",
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 10, 787,
+    "Discard unused virtual functions",
+    N_OPTS, 10, 645,
     CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fvtable-thunks",
-    "No longer supported",
-    0,
-    "switch %qs is no longer supported",
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 14, 788,
+    "Implement vtables using thunks",
+    N_OPTS, 14, 646,
     CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fweak",
     "Emit common-like symbols as weak symbols",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 5, 789,
+    N_OPTS, 5, 647,
     CL_CXX | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_weak), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fweb",
     "Construct webs and split unrelated uses of single variable",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 4, 790,
+    N_OPTS, 4, 648,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_web), 0, CLVC_BOOLEAN, 0 },
+    &flag_web, CLVC_BOOLEAN, 0 },
   { "-fwhole-file",
     "Compile all program units at once and check all interfaces",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, 791,
+    N_OPTS, 11, 649,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fwhole-program",
     "Perform whole program optimizations",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, 792,
+    N_OPTS, 14, 650,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_whole_program), 0, CLVC_BOOLEAN, 0 },
+    &flag_whole_program, CLVC_BOOLEAN, 0 },
+  { "-fwhopr",
+    "Enable partitioned link-time optimization.",
+    N_OPTS, 6, 651,
+    CL_COMMON,
+    &flag_whopr, CLVC_BOOLEAN, 0 },
   { "-fwide-exec-charset=",
     "-fwide-exec-charset=<cset>	Convert all wide strings and character constants to character set <cset>",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 19, -1,
+    N_OPTS, 19, -1,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-fworking-directory",
     "Generate a #line directive pointing at the current working directory",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, 794,
+    N_OPTS, 18, 653,
     CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_working_directory), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fwpa",
     "Run the link-time optimizer in whole program analysis (WPA) mode.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 4, 795,
-    CL_LTO | CL_DRIVER | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_wpa), 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 4, 654,
+    CL_LTO | CL_OPTIMIZATION | CL_REPORT,
+    &flag_wpa, CLVC_BOOLEAN, 0 },
   { "-fwrapv",
     "Assume signed arithmetic overflow wraps around",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 6, 796,
+    N_OPTS, 6, 655,
     CL_COMMON | CL_OPTIMIZATION | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_wrapv), 0, CLVC_BOOLEAN, 0 },
+    &flag_wrapv, CLVC_BOOLEAN, 0 },
   { "-fxref",
-    "No longer supported",
-    0,
-    "switch %qs is no longer supported",
-    NULL, NULL, OPT_SPECIAL_ignore, N_OPTS, 5, 797,
+    "Emit cross referencing information",
+    N_OPTS, 5, 656,
     CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-fzee",
-    "Eliminate redundant zero extensions on targets that support implicit extensions.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 4, 798,
-    CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_zee), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-fzero-initialized-in-bss",
     "Put zero initialized data in the bss section",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 24, 799,
+    N_OPTS, 24, 657,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_zero_initialized_in_bss), 0, CLVC_BOOLEAN, 0 },
+    &flag_zero_initialized_in_bss, CLVC_BOOLEAN, 0 },
   { "-fzero-link",
     "Generate lazy class lookup (via objc_getClass()) for use in Zero-Link mode",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, 800,
+    N_OPTS, 10, 658,
     CL_ObjC | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_zero_link), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-g",
     "Generate debug information in default format",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
+    N_OPTS, 1, -1,
     CL_COMMON | CL_JOINED | CL_MISSING_OK,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-gcoff",
     "Generate debug information in COFF format",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_g, 5, 803,
+    OPT_g, 5, 661,
     CL_COMMON | CL_JOINED | CL_MISSING_OK,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-gdwarf-",
     "Generate debug information in DWARF v2 (or later) format",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_g, 7, 807,
+    OPT_g, 7, 665,
     CL_COMMON | CL_JOINED | CL_UINTEGER,
-    offsetof (struct gcc_options, x_dwarf_version), 0, CLVC_BOOLEAN, 0 },
+    &dwarf_version, CLVC_BOOLEAN, 0 },
   { "-gen-decls",
     "Dump declarations to a .decl file",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_g, 9, -1,
+    OPT_g, 9, -1,
     CL_ObjC | CL_ObjCXX,
-    offsetof (struct gcc_options, x_flag_gen_declaration), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-ggdb",
     "Generate debug information in default extended format",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_g, 4, -1,
+    OPT_g, 4, -1,
     CL_COMMON | CL_JOINED | CL_MISSING_OK,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-gno-strict-dwarf",
     "Emit DWARF additions beyond selected version",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_g, 16, -1,
+    OPT_g, 16, -1,
     CL_COMMON | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_dwarf_strict), 0, CLVC_EQUAL, 0 },
+    &dwarf_strict, CLVC_EQUAL, 0 },
   { "-gstabs",
     "Generate debug information in STABS format",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_g, 6, 808,
+    OPT_g, 6, 666,
     CL_COMMON | CL_JOINED | CL_MISSING_OK,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-gstabs+",
     "Generate debug information in extended STABS format",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_gstabs, 7, 811,
+    OPT_gstabs, 7, 669,
     CL_COMMON | CL_JOINED | CL_MISSING_OK,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-gstrict-dwarf",
     "Don't emit DWARF additions beyond selected version",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_g, 13, -1,
+    OPT_g, 13, -1,
     CL_COMMON | CL_REJECT_NEGATIVE | CL_REPORT,
-    offsetof (struct gcc_options, x_dwarf_strict), 0, CLVC_EQUAL, 1 },
+    &dwarf_strict, CLVC_EQUAL, 1 },
   { "-gtoggle",
     "Toggle debug information generation",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_g, 7, -1,
+    OPT_g, 7, -1,
     CL_COMMON | CL_REPORT,
-    offsetof (struct gcc_options, x_flag_gtoggle), 0, CLVC_BOOLEAN, 0 },
+    &flag_gtoggle, CLVC_BOOLEAN, 0 },
   { "-gvms",
     "Generate debug information in VMS format",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_g, 4, 812,
+    OPT_g, 4, 670,
     CL_COMMON | CL_JOINED | CL_MISSING_OK,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-gxcoff",
     "Generate debug information in XCOFF format",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_g, 6, 813,
+    OPT_g, 6, 671,
     CL_COMMON | CL_JOINED | CL_MISSING_OK,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-gxcoff+",
     "Generate debug information in extended XCOFF format",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_gxcoff, 7, 802,
+    OPT_gxcoff, 7, 660,
     CL_COMMON | CL_JOINED | CL_MISSING_OK,
-    -1, 0, CLVC_STRING, 0 },
-  { "-h",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
-    CL_DRIVER | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-idirafter",
     "-idirafter <dir>	Add <dir> to the end of the system include path",
-    "missing path after %qs",
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, -1,
+    N_OPTS, 9, -1,
     CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-imacros",
     "-imacros <file>	Accept definition of macros in <file>",
-    "missing filename after %qs",
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, -1,
+    N_OPTS, 7, -1,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-imultilib",
-    "-imultilib <dir>	Set <dir> to be the multilib include subdirectory",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
+    "-imultilib <dir> Set <dir> to be the multilib include subdirectory",
+    N_OPTS, 9, -1,
+    CL_C | CL_CXX | CL_D | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_SEPARATE,
+    0, CLVC_STRING, 0 },
   { "-include",
     "-include <file>	Include the contents of <file> before other files",
-    "missing filename after %qs",
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, -1,
+    N_OPTS, 7, -1,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "-iplugindir=",
-    "-iplugindir=<dir>	Set <dir> to be the default plugin directory",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, -1,
-    CL_COMMON | CL_JOINED,
-    offsetof (struct gcc_options, x_plugindir_string), 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-iprefix",
     "-iprefix <path>	Specify <path> as a prefix for next two options",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
+    N_OPTS, 7, -1,
+    CL_C | CL_CXX | CL_D | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_SEPARATE,
+    0, CLVC_STRING, 0 },
   { "-iquote",
     "-iquote <dir>	Add <dir> to the end of the quote include path",
-    "missing path after %qs",
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 6, -1,
+    N_OPTS, 6, -1,
     CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-isysroot",
     "-isysroot <dir>	Set <dir> to be the system root directory",
-    "missing path after %qs",
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 8, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
+    N_OPTS, 8, -1,
+    CL_C | CL_CXX | CL_D | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_SEPARATE,
+    0, CLVC_STRING, 0 },
   { "-isystem",
     "-isystem <dir>	Add <dir> to the start of the system include path",
-    "missing path after %qs",
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
+    N_OPTS, 7, -1,
+    CL_C | CL_CXX | CL_D | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_SEPARATE,
+    0, CLVC_STRING, 0 },
   { "-iwithprefix",
     "-iwithprefix <dir>	Add <dir> to the end of the system include path",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, -1,
+    N_OPTS, 11, -1,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-iwithprefixbefore",
     "-iwithprefixbefore <dir>	Add <dir> to the end of the main include path",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_iwithprefix, 17, -1,
+    OPT_iwithprefix, 17, -1,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "-l",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
-    CL_DRIVER | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_STRING, 0 },
   { "-lang-asm",
     0,
+    N_OPTS, 8, -1,
+    CL_C | CL_UNDOCUMENTED,
+    0, CLVC_BOOLEAN, 0 },
+  { "-lang-objc",
     0,
-    0,
-    NULL, NULL, N_OPTS, OPT_l, 8, -1,
-    CL_C | CL_REJECT_DRIVER | CL_UNDOCUMENTED,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 9, -1,
+    CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_UNDOCUMENTED,
+    0, CLVC_BOOLEAN, 0 },
   { "-m32",
     "Use 32-bit ABI",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 3, -1,
+    N_OPTS, 3, -1,
     CL_TARGET | CL_REJECT_NEGATIVE | CL_REPORT,
-    offsetof (struct gcc_options, x_target_flags), 0, CLVC_BIT_CLEAR, MASK_64BIT },
+    &target_flags, CLVC_BIT_CLEAR, MASK_64BIT },
   { "-m64",
     "Use 64-bit ABI",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 3, -1,
+    N_OPTS, 3, -1,
     CL_TARGET | CL_REJECT_NEGATIVE | CL_REPORT,
-    offsetof (struct gcc_options, x_target_flags), 0, CLVC_BIT_SET, MASK_64BIT },
+    &target_flags, CLVC_BIT_SET, MASK_64BIT },
   { "-mapp-regs",
     "Use ABI reserved registers",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, 830,
+    N_OPTS, 9, 686,
     CL_TARGET | CL_REPORT,
-    offsetof (struct gcc_options, x_target_flags), 0, CLVC_BIT_SET, MASK_APP_REGS },
+    &target_flags, CLVC_BIT_SET, MASK_APP_REGS },
   { "-mbig-endian",
     "Generate code for big-endian",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, -1,
+    N_OPTS, 11, -1,
     CL_TARGET | CL_REJECT_NEGATIVE | CL_REPORT,
-    offsetof (struct gcc_options, x_target_flags), 0, CLVC_BIT_CLEAR, MASK_LITTLE_ENDIAN },
+    &target_flags, CLVC_BIT_CLEAR, MASK_LITTLE_ENDIAN },
   { "-mcmodel=",
     "Use given SPARC-V9 code model",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 8, -1,
+    N_OPTS, 8, -1,
     CL_TARGET | CL_JOINED | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_sparc_cmodel_string), 0, CLVC_STRING, 0 },
+    &sparc_cmodel_string, CLVC_STRING, 0 },
   { "-mcpu=",
     "Use features of and schedule code for given CPU",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 5, -1,
+    N_OPTS, 5, -1,
     CL_TARGET | CL_JOINED | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_VAR_mcpu_), 0, CLVC_STRING, 0 },
+    &VAR_mcpu_, CLVC_STRING, 0 },
   { "-mfaster-structs",
     "Use structs on stronger alignment for double-word copies",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, 834,
+    N_OPTS, 15, 690,
     CL_TARGET | CL_REPORT,
-    offsetof (struct gcc_options, x_target_flags), 0, CLVC_BIT_SET, MASK_FASTER_STRUCTS },
+    &target_flags, CLVC_BIT_SET, MASK_FASTER_STRUCTS },
   { "-mfpu",
     "Use hardware FP",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 4, 835,
+    N_OPTS, 4, 691,
     CL_TARGET | CL_REPORT,
-    offsetof (struct gcc_options, x_target_flags), 0, CLVC_BIT_SET, MASK_FPU },
+    &target_flags, CLVC_BIT_SET, MASK_FPU },
   { "-mhard-float",
     "Use hardware FP",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, -1,
+    N_OPTS, 11, -1,
     CL_TARGET | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_target_flags), 0, CLVC_BIT_SET, MASK_FPU },
+    &target_flags, CLVC_BIT_SET, MASK_FPU },
   { "-mhard-quad-float",
     "Use hardware quad FP instructions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, -1,
+    N_OPTS, 16, -1,
     CL_TARGET | CL_REJECT_NEGATIVE | CL_REPORT,
-    offsetof (struct gcc_options, x_target_flags), 0, CLVC_BIT_SET, MASK_HARD_QUAD },
+    &target_flags, CLVC_BIT_SET, MASK_HARD_QUAD },
+  { "-mimpure-text",
+    "Pass -assert pure-text to linker",
+    N_OPTS, 12, 694,
+    CL_TARGET | CL_REPORT,
+    &VAR_mimpure_text, CLVC_BOOLEAN, 0 },
   { "-mlittle-endian",
     "Generate code for little-endian",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 14, -1,
+    N_OPTS, 14, -1,
     CL_TARGET | CL_REJECT_NEGATIVE | CL_REPORT,
-    offsetof (struct gcc_options, x_target_flags), 0, CLVC_BIT_SET, MASK_LITTLE_ENDIAN },
+    &target_flags, CLVC_BIT_SET, MASK_LITTLE_ENDIAN },
   { "-mptr32",
     "Pointers are 32-bit",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 6, -1,
+    N_OPTS, 6, -1,
     CL_TARGET | CL_REJECT_NEGATIVE | CL_REPORT,
-    offsetof (struct gcc_options, x_target_flags), 0, CLVC_BIT_CLEAR, MASK_PTR64 },
+    &target_flags, CLVC_BIT_CLEAR, MASK_PTR64 },
   { "-mptr64",
     "Pointers are 64-bit",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 6, -1,
+    N_OPTS, 6, -1,
     CL_TARGET | CL_REJECT_NEGATIVE | CL_REPORT,
-    offsetof (struct gcc_options, x_target_flags), 0, CLVC_BIT_SET, MASK_PTR64 },
+    &target_flags, CLVC_BIT_SET, MASK_PTR64 },
   { "-mrelax",
     "Optimize tail call instructions in assembler and linker",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 6, 841,
+    N_OPTS, 6, 698,
     CL_TARGET,
-    offsetof (struct gcc_options, x_VAR_mrelax), 0, CLVC_BOOLEAN, 0 },
+    &VAR_mrelax, CLVC_BOOLEAN, 0 },
   { "-msoft-float",
     "Do not use hardware FP",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, -1,
+    N_OPTS, 11, -1,
     CL_TARGET | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_target_flags), 0, CLVC_BIT_CLEAR, MASK_FPU },
+    &target_flags, CLVC_BIT_CLEAR, MASK_FPU },
   { "-msoft-quad-float",
     "Do not use hardware quad fp instructions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, -1,
+    N_OPTS, 16, -1,
     CL_TARGET | CL_REJECT_NEGATIVE | CL_REPORT,
-    offsetof (struct gcc_options, x_target_flags), 0, CLVC_BIT_CLEAR, MASK_HARD_QUAD },
+    &target_flags, CLVC_BIT_CLEAR, MASK_HARD_QUAD },
   { "-mstack-bias",
     "Use stack bias",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, 844,
+    N_OPTS, 11, 701,
     CL_TARGET | CL_REPORT,
-    offsetof (struct gcc_options, x_target_flags), 0, CLVC_BIT_SET, MASK_STACK_BIAS },
+    &target_flags, CLVC_BIT_SET, MASK_STACK_BIAS },
   { "-mstd-struct-return",
     "Enable strict 32-bit psABI struct return checking.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, -1,
+    N_OPTS, 18, -1,
     CL_TARGET | CL_REJECT_NEGATIVE | CL_REPORT,
-    offsetof (struct gcc_options, x_sparc_std_struct_return), 0, CLVC_BOOLEAN, 0 },
+    &sparc_std_struct_return, CLVC_BOOLEAN, 0 },
   { "-mtune=",
     "Schedule code for given CPU",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 6, -1,
+    N_OPTS, 6, -1,
     CL_TARGET | CL_JOINED | CL_REJECT_NEGATIVE,
-    offsetof (struct gcc_options, x_VAR_mtune_), 0, CLVC_STRING, 0 },
+    &VAR_mtune_, CLVC_STRING, 0 },
   { "-munaligned-doubles",
     "Assume possible double misalignment",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, 847,
+    N_OPTS, 18, 704,
     CL_TARGET | CL_REPORT,
-    offsetof (struct gcc_options, x_target_flags), 0, CLVC_BIT_SET, MASK_UNALIGNED_DOUBLES },
+    &target_flags, CLVC_BIT_SET, MASK_UNALIGNED_DOUBLES },
   { "-mv8plus",
     "Compile for V8+ ABI",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, 848,
+    N_OPTS, 7, 705,
     CL_TARGET | CL_REPORT,
-    offsetof (struct gcc_options, x_target_flags), 0, CLVC_BIT_SET, MASK_V8PLUS },
+    &target_flags, CLVC_BIT_SET, MASK_V8PLUS },
   { "-mvis",
     "Use UltraSPARC Visual Instruction Set extensions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 4, 849,
+    N_OPTS, 4, 706,
     CL_TARGET | CL_REPORT,
-    offsetof (struct gcc_options, x_target_flags), 0, CLVC_BIT_SET, MASK_VIS },
-  { "-n",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-no-canonical-prefixes",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 21, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-no-integrated-cpp",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    &target_flags, CLVC_BIT_SET, MASK_VIS },
   { "-nocpp",
     "Disable preprocessing",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 5, 323,
+    N_OPTS, 5, 188,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-nodefaultlibs",
+    0, CLVC_BOOLEAN, 0 },
+  { "-nophoboslib",
     0,
+    N_OPTS, 11, -1,
     0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-nostartfiles",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-nostdinc",
-    "Do not search standard system include directories (those specified with -isystem will still be used)",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 8, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    "Do not search standard system include directories",
+    N_OPTS, 8, -1,
+    CL_C | CL_CXX | CL_D | CL_Fortran | CL_ObjC | CL_ObjCXX,
+    0, CLVC_BOOLEAN, 0 },
   { "-nostdinc++",
     "Do not search standard system include directories for C++",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, -1,
+    N_OPTS, 10, -1,
     CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-nostdlib",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 8, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-o",
     "-o <file>	Place output into <file>",
-    "missing filename after %qs",
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_COMMON | CL_DRIVER | CL_JOINED | CL_SEPARATE,
-    offsetof (struct gcc_options, x_asm_file_name), 0, CLVC_STRING, 0 },
+    N_OPTS, 1, -1,
+    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_COMMON | CL_JOINED | CL_SEPARATE,
+    0, CLVC_STRING, 0 },
   { "-p",
     "Enable function profiling",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
+    N_OPTS, 1, -1,
     CL_COMMON,
-    offsetof (struct gcc_options, x_profile_flag), 0, CLVC_BOOLEAN, 0 },
-  { "-pass-exit-codes",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, -1,
-    CL_DRIVER,
-    offsetof (struct gcc_options, x_pass_exit_codes), 0, CLVC_BOOLEAN, 0 },
+    &profile_flag, CLVC_BOOLEAN, 0 },
   { "-pedantic",
     "Issue warnings needed for strict compliance to the standard",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 8, -1,
+    N_OPTS, 8, -1,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_COMMON,
-    offsetof (struct gcc_options, x_pedantic), 0, CLVC_BOOLEAN, 0 },
+    &pedantic, CLVC_BOOLEAN, 0 },
   { "-pedantic-errors",
     "Like -pedantic but issue them as errors",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, -1,
+    N_OPTS, 15, -1,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_COMMON,
-    offsetof (struct gcc_options, x_flag_pedantic_errors), 0, CLVC_BOOLEAN, 0 },
-  { "-pg",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 2, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-pie",
     "Create a position independent executable",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 3, 883,
+    N_OPTS, 3, 720,
     CL_COMMON | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-pipe",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 4, -1,
-    CL_DRIVER,
-    offsetof (struct gcc_options, x_use_pipes), 0, CLVC_BOOLEAN, 0 },
-  { "-print-file-name=",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, -1,
-    CL_DRIVER | CL_JOINED | CL_MISSING_OK,
-    offsetof (struct gcc_options, x_print_file_name), 0, CLVC_STRING, 0 },
-  { "-print-libgcc-file-name",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 22, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-print-multi-directory",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 21, -1,
-    CL_DRIVER,
-    offsetof (struct gcc_options, x_print_multi_directory), 0, CLVC_BOOLEAN, 0 },
-  { "-print-multi-lib",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, -1,
-    CL_DRIVER,
-    offsetof (struct gcc_options, x_print_multi_lib), 0, CLVC_BOOLEAN, 0 },
-  { "-print-multi-os-directory",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 24, -1,
-    CL_DRIVER,
-    offsetof (struct gcc_options, x_print_multi_os_directory), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-print-objc-runtime-info",
     "Generate C header of platform-specific features",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 23, -1,
+    N_OPTS, 23, -1,
     CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-print-prog-name=",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, -1,
-    CL_DRIVER | CL_JOINED | CL_MISSING_OK,
-    offsetof (struct gcc_options, x_print_prog_name), 0, CLVC_STRING, 0 },
-  { "-print-search-dirs",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 17, -1,
-    CL_DRIVER,
-    offsetof (struct gcc_options, x_print_search_dirs), 0, CLVC_BOOLEAN, 0 },
-  { "-print-sysroot",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, -1,
-    CL_DRIVER,
-    offsetof (struct gcc_options, x_print_sysroot), 0, CLVC_BOOLEAN, 0 },
-  { "-print-sysroot-headers-suffix",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 28, -1,
-    CL_DRIVER,
-    offsetof (struct gcc_options, x_print_sysroot_headers_suffix), 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
+  { "-print-pch-checksum",
+    "Print a checksum of the executable for PCH validity checking, and stop",
+    N_OPTS, 18, -1,
+    CL_C | CL_CXX | CL_ObjC | CL_ObjCXX,
+    0, CLVC_BOOLEAN, 0 },
   { "-quiet",
     "Do not display functions compiled or elapsed time",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 5, -1,
-    CL_COMMON | CL_REJECT_DRIVER,
-    offsetof (struct gcc_options, x_quiet_flag), 0, CLVC_BOOLEAN, 0 },
-  { "-r",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 5, -1,
+    CL_COMMON,
+    &quiet_flag, CLVC_BOOLEAN, 0 },
   { "-remap",
     "Remap file names when including files",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 5, -1,
+    N_OPTS, 5, -1,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-s",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-save-temps",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-save-temps=",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, -1,
-    CL_DRIVER | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-shared",
     "Create a shared library",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 6, 865,
+    N_OPTS, 6, 715,
     CL_COMMON | CL_REJECT_NEGATIVE,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-shared-libgcc",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-specs",
-    0,
-    0,
-    0,
-    NULL, NULL, OPT_specs_, N_OPTS, 5, -1,
-    CL_DRIVER | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "-specs=",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 6, -1,
-    CL_DRIVER | CL_JOINED,
-    -1, 0, CLVC_STRING, 0 },
-  { "-static",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 6, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-static-libgcc",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 13, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-static-libgfortran",
     "Statically link the GNU Fortran helper library (libgfortran)",
+    N_OPTS, 18, -1,
+    CL_Fortran,
+    0, CLVC_BOOLEAN, 0 },
+  { "-static_libphobos",
     0,
+    N_OPTS, 16, -1,
     0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, -1,
-    CL_Fortran | CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-static-libgo",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 12, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-static-libstdc++",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 16, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-std=c++03",
-    "Conform to the ISO 1998 C++ standard revised by the 2003 technical corrigendum",
-    0,
-    0,
-    NULL, NULL, OPT_std_c__98, N_OPTS, 9, -1,
-    CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-std=c++0x",
     "Conform to the ISO 1998 C++ standard, with extensions that are likely to become a part of the upcoming ISO C++ standard, dubbed C++0x. Note that the extensions enabled by this mode are experimental and may be removed in future releases of GCC.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, -1,
+    N_OPTS, 9, -1,
     CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-std=c++98",
-    "Conform to the ISO 1998 C++ standard revised by the 2003 technical corrigendum",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, -1,
+    "Conform to the ISO 1998 C++ standard",
+    N_OPTS, 9, -1,
     CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-std=c1x",
-    "Conform to the ISO 201X C standard draft (experimental and incomplete support)",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, -1,
-    CL_C | CL_ObjC,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-std=c89",
     "Conform to the ISO 1990 C standard",
-    0,
-    0,
-    NULL, NULL, OPT_std_c90, N_OPTS, 7, -1,
+    N_OPTS, 7, -1,
     CL_C | CL_ObjC,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-std=c90",
     "Conform to the ISO 1990 C standard",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, -1,
+    N_OPTS, 7, -1,
     CL_C | CL_ObjC,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-std=c99",
     "Conform to the ISO 1999 C standard",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, -1,
+    N_OPTS, 7, -1,
     CL_C | CL_ObjC,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-std=c9x",
     "Deprecated in favor of -std=c99",
-    0,
-    0,
-    NULL, NULL, OPT_std_c99, N_OPTS, 7, -1,
+    N_OPTS, 7, -1,
     CL_C | CL_ObjC,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-std=f2003",
     "Conform to the ISO Fortran 2003 standard",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, -1,
+    N_OPTS, 9, -1,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-std=f2008",
     "Conform to the ISO Fortran 2008 standard",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, -1,
+    N_OPTS, 9, -1,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-std=f95",
     "Conform to the ISO Fortran 95 standard",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, -1,
+    N_OPTS, 7, -1,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-std=gnu",
     "Conform to nothing in particular",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, -1,
+    N_OPTS, 7, -1,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-std=gnu++0x",
     "Conform to the ISO 1998 C++ standard, with GNU extensions and extensions that are likely to become a part of the upcoming ISO C++ standard, dubbed C++0x. Note that the extensions enabled by this mode are experimental and may be removed in future releases of GCC.",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, -1,
+    N_OPTS, 11, -1,
     CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-std=gnu++98",
     "Conform to the ISO 1998 C++ standard with GNU extensions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, -1,
+    N_OPTS, 11, -1,
     CL_CXX | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-std=gnu1x",
-    "Conform to the ISO 201X C standard draft with GNU extensions (experimental and incomplete support)",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, -1,
-    CL_C | CL_ObjC,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-std=gnu89",
     "Conform to the ISO 1990 C standard with GNU extensions",
-    0,
-    0,
-    NULL, NULL, OPT_std_gnu90, N_OPTS, 9, -1,
+    N_OPTS, 9, -1,
     CL_C | CL_ObjC,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-std=gnu90",
     "Conform to the ISO 1990 C standard with GNU extensions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, -1,
+    N_OPTS, 9, -1,
     CL_C | CL_ObjC,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-std=gnu99",
     "Conform to the ISO 1999 C standard with GNU extensions",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, -1,
+    N_OPTS, 9, -1,
     CL_C | CL_ObjC,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-std=gnu9x",
     "Deprecated in favor of -std=gnu99",
-    0,
-    0,
-    NULL, NULL, OPT_std_gnu99, N_OPTS, 9, -1,
+    N_OPTS, 9, -1,
     CL_C | CL_ObjC,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-std=iso9899:1990",
     "Conform to the ISO 1990 C standard",
-    0,
-    0,
-    NULL, NULL, OPT_std_c90, N_OPTS, 16, -1,
+    N_OPTS, 16, -1,
     CL_C | CL_ObjC,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-std=iso9899:199409",
     "Conform to the ISO 1990 C standard as amended in 1994",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 18, -1,
+    N_OPTS, 18, -1,
     CL_C | CL_ObjC,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-std=iso9899:1999",
     "Conform to the ISO 1999 C standard",
-    0,
-    0,
-    NULL, NULL, OPT_std_c99, N_OPTS, 16, -1,
+    N_OPTS, 16, -1,
     CL_C | CL_ObjC,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-std=iso9899:199x",
     "Deprecated in favor of -std=iso9899:1999",
-    0,
-    0,
-    NULL, NULL, OPT_std_c99, N_OPTS, 16, -1,
+    N_OPTS, 16, -1,
     CL_C | CL_ObjC,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-std=legacy",
     "Accept extensions to support legacy code",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 10, -1,
+    N_OPTS, 10, -1,
     CL_Fortran,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-symbolic",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 8, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-t",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-time",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 4, -1,
-    CL_DRIVER,
-    offsetof (struct gcc_options, x_report_times), 0, CLVC_BOOLEAN, 0 },
-  { "-time=",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 5, -1,
-    CL_DRIVER | CL_JOINED | CL_MISSING_OK,
-    -1, 0, CLVC_STRING, 0 },
-  { "-traditional",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 11, -1,
-    CL_DRIVER,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-traditional-cpp",
     "Enable traditional preprocessing",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 15, -1,
+    N_OPTS, 15, -1,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-trigraphs",
     "-trigraphs	Support ISO C trigraphs",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 9, -1,
+    N_OPTS, 9, -1,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX,
-    -1, 0, CLVC_BOOLEAN, 0 },
-  { "-u",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
-    CL_DRIVER | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
+    0, CLVC_BOOLEAN, 0 },
   { "-undef",
     "Do not predefine system-specific and GCC-specific macros",
-    0,
-    0,
-    NULL, NULL, N_OPTS, OPT_u, 5, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_DRIVER,
-    offsetof (struct gcc_options, x_flag_undef), 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 5, -1,
+    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX,
+    0, CLVC_BOOLEAN, 0 },
   { "-v",
     "Enable verbose output",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
-    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_COMMON | CL_DRIVER,
-    offsetof (struct gcc_options, x_verbose_flag), 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 1, -1,
+    CL_C | CL_CXX | CL_Fortran | CL_ObjC | CL_ObjCXX | CL_COMMON,
+    0, CLVC_BOOLEAN, 0 },
   { "-version",
     "Display the compiler's version",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, -1,
-    CL_COMMON | CL_REJECT_DRIVER,
-    offsetof (struct gcc_options, x_version_flag), 0, CLVC_BOOLEAN, 0 },
+    N_OPTS, 7, -1,
+    CL_COMMON,
+    &version_flag, CLVC_BOOLEAN, 0 },
   { "-w",
     "Suppress warnings",
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
+    N_OPTS, 1, -1,
     CL_C | CL_CXX | CL_ObjC | CL_ObjCXX | CL_COMMON,
-    offsetof (struct gcc_options, x_inhibit_warnings), 0, CLVC_BOOLEAN, 0 },
-  { "-wrapper",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 7, -1,
-    CL_DRIVER | CL_SEPARATE,
-    offsetof (struct gcc_options, x_wrapper_string), 0, CLVC_STRING, 0 },
-  { "-x",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
-    CL_DRIVER | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 },
-  { "-z",
-    0,
-    0,
-    0,
-    NULL, NULL, N_OPTS, N_OPTS, 1, -1,
-    CL_DRIVER | CL_JOINED | CL_SEPARATE,
-    -1, 0, CLVC_STRING, 0 }
+    &inhibit_warnings, CLVC_BOOLEAN, 0 }
 };
 
 #if !defined(GCC_DRIVER) && !defined(IN_LIBGCC2) && !defined(IN_TARGET_LIBS)
 
 /* Save optimization variables into a structure.  */
 void
-cl_optimization_save (struct cl_optimization *ptr, struct gcc_options *opts)
+cl_optimization_save (struct cl_optimization *ptr)
 {
-  gcc_assert (IN_RANGE (opts->x_optimize, 0, 255));
-  gcc_assert (IN_RANGE (opts->x_optimize_size, 0, 255));
-  gcc_assert (IN_RANGE (opts->x_flag_asynchronous_unwind_tables, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_branch_on_count_reg, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_branch_probabilities, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_branch_target_load_optimize, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_branch_target_load_optimize2, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_btr_bb_exclusive, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_caller_saves, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_combine_stack_adjustments, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_no_common, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_compare_elim_after_reload, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_conserve_stack, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_cprop_registers, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_crossjumping, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_cse_follow_jumps, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_cx_fortran_rules, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_cx_limited_range, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_data_sections, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_dce, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_defer_pop, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_delayed_branch, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_delete_null_pointer_checks, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_devirtualize, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_dse, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_early_inlining, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_exceptions, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_expensive_optimizations, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_finite_math_only, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_float_store, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_forward_propagate, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_gcse, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_gcse_after_reload, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_gcse_las, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_gcse_lm, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_gcse_sm, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_graphite_identity, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_guess_branch_prob, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_if_conversion, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_if_conversion2, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_inline_functions, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_inline_functions_called_once, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_inline_small_functions, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_ipa_cp, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_ipa_cp_clone, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_ipa_matrix_reorg, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_ipa_profile, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_ipa_pta, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_ipa_pure_const, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_ipa_reference, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_ipa_sra, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_ivopts, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_jump_tables, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_loop_block, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_loop_flatten, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_loop_interchange, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_loop_parallelize_all, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_loop_strip_mine, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_lto_report, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_ltrans, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_errno_math, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_merge_constants, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_modulo_sched, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_move_loop_invariants, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_non_call_exceptions, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_nothrow_opt, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_omit_frame_pointer, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_regmove, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_optimize_sibling_calls, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_pack_struct, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_peel_loops, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_no_peephole, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_peephole2, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_predictive_commoning, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_prefetch_loop_arrays, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_pcc_struct_return, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_rename_registers, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_reorder_blocks, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_reorder_blocks_and_partition, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_reorder_functions, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_rerun_cse_after_loop, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_resched_modulo_sched, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_rounding_math, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_rtti, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_sched_critical_path_heuristic, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_sched_dep_count_heuristic, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_sched_group_heuristic, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_schedule_interblock, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_sched_last_insn_heuristic, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_sched_pressure, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_sched_rank_heuristic, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_schedule_speculative, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_sched_spec_insn_heuristic, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_schedule_speculative_load, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_schedule_speculative_load_dangerous, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_sched2_use_superblocks, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_schedule_insns, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_schedule_insns_after_reload, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_section_anchors, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_sel_sched_pipelining, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_sel_sched_pipelining_outer_loops, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_sel_sched_reschedule_pipelined, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_selective_scheduling, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_selective_scheduling2, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_short_double, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_short_enums, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_short_wchar, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_signaling_nans, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_signed_zeros, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_single_precision_constant, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_split_ivs_in_unroller, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_split_wide_types, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_strict_aliasing, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_strict_enums, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_thread_jumps, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_threadsafe_statics, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_toplevel_reorder, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_trapping_math, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_trapv, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_bit_ccp, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_builtin_call_dce, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_ccp, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_ch, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_copy_prop, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_copyrename, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_cselim, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_dce, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_dom, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_dse, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_forwprop, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_fre, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_loop_distribute_patterns, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_loop_distribution, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_loop_if_convert, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_loop_if_convert_stores, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_loop_im, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_loop_ivcanon, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_loop_optimize, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_live_range_split, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_phiprop, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_pre, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_pta, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_reassoc, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_scev_cprop, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_sink, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_slp_vectorize, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_sra, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_switch_conversion, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_ter, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_vect_loop_version, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_vectorize, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_tree_vrp, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_unit_at_a_time, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_unroll_all_loops, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_unroll_loops, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_unsafe_loop_optimizations, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_unsafe_math_optimizations, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_unswitch_loops, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_unwind_tables, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_var_tracking, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_var_tracking_assignments, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_var_tracking_assignments_toggle, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_var_tracking_uninit, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_variable_expansion_in_unroller, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_vect_cost_model, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_value_profile_transformations, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_web, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_whole_program, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_wpa, -128, 127));
-  gcc_assert (IN_RANGE (opts->x_flag_wrapv, -128, 127));
+  gcc_assert (IN_RANGE (optimize, 0, 255));
+  gcc_assert (IN_RANGE (optimize_size, 0, 255));
+  gcc_assert (IN_RANGE (flag_argument_noalias, -128, 127));
+  gcc_assert (IN_RANGE (flag_asynchronous_unwind_tables, -128, 127));
+  gcc_assert (IN_RANGE (flag_branch_on_count_reg, -128, 127));
+  gcc_assert (IN_RANGE (flag_branch_probabilities, -128, 127));
+  gcc_assert (IN_RANGE (flag_branch_target_load_optimize, -128, 127));
+  gcc_assert (IN_RANGE (flag_branch_target_load_optimize2, -128, 127));
+  gcc_assert (IN_RANGE (flag_btr_bb_exclusive, -128, 127));
+  gcc_assert (IN_RANGE (flag_caller_saves, -128, 127));
+  gcc_assert (IN_RANGE (flag_no_common, -128, 127));
+  gcc_assert (IN_RANGE (flag_conserve_stack, -128, 127));
+  gcc_assert (IN_RANGE (flag_cprop_registers, -128, 127));
+  gcc_assert (IN_RANGE (flag_crossjumping, -128, 127));
+  gcc_assert (IN_RANGE (flag_cse_follow_jumps, -128, 127));
+  gcc_assert (IN_RANGE (flag_cx_fortran_rules, -128, 127));
+  gcc_assert (IN_RANGE (flag_cx_limited_range, -128, 127));
+  gcc_assert (IN_RANGE (flag_data_sections, -128, 127));
+  gcc_assert (IN_RANGE (flag_dce, -128, 127));
+  gcc_assert (IN_RANGE (flag_defer_pop, -128, 127));
+  gcc_assert (IN_RANGE (flag_delayed_branch, -128, 127));
+  gcc_assert (IN_RANGE (flag_delete_null_pointer_checks, -128, 127));
+  gcc_assert (IN_RANGE (flag_dse, -128, 127));
+  gcc_assert (IN_RANGE (flag_early_inlining, -128, 127));
+  gcc_assert (IN_RANGE (flag_exceptions, -128, 127));
+  gcc_assert (IN_RANGE (flag_expensive_optimizations, -128, 127));
+  gcc_assert (IN_RANGE (flag_finite_math_only, -128, 127));
+  gcc_assert (IN_RANGE (flag_float_store, -128, 127));
+  gcc_assert (IN_RANGE (flag_forward_propagate, -128, 127));
+  gcc_assert (IN_RANGE (flag_gcse, -128, 127));
+  gcc_assert (IN_RANGE (flag_gcse_after_reload, -128, 127));
+  gcc_assert (IN_RANGE (flag_gcse_las, -128, 127));
+  gcc_assert (IN_RANGE (flag_gcse_lm, -128, 127));
+  gcc_assert (IN_RANGE (flag_gcse_sm, -128, 127));
+  gcc_assert (IN_RANGE (flag_graphite_identity, -128, 127));
+  gcc_assert (IN_RANGE (flag_guess_branch_prob, -128, 127));
+  gcc_assert (IN_RANGE (flag_if_conversion, -128, 127));
+  gcc_assert (IN_RANGE (flag_if_conversion2, -128, 127));
+  gcc_assert (IN_RANGE (flag_inline_functions, -128, 127));
+  gcc_assert (IN_RANGE (flag_inline_functions_called_once, -128, 127));
+  gcc_assert (IN_RANGE (flag_inline_small_functions, -128, 127));
+  gcc_assert (IN_RANGE (flag_ipa_cp, -128, 127));
+  gcc_assert (IN_RANGE (flag_ipa_cp_clone, -128, 127));
+  gcc_assert (IN_RANGE (flag_ipa_matrix_reorg, -128, 127));
+  gcc_assert (IN_RANGE (flag_ipa_pta, -128, 127));
+  gcc_assert (IN_RANGE (flag_ipa_pure_const, -128, 127));
+  gcc_assert (IN_RANGE (flag_ipa_reference, -128, 127));
+  gcc_assert (IN_RANGE (flag_ipa_sra, -128, 127));
+  gcc_assert (IN_RANGE (flag_ipa_type_escape, -128, 127));
+  gcc_assert (IN_RANGE (flag_ivopts, -128, 127));
+  gcc_assert (IN_RANGE (flag_jump_tables, -128, 127));
+  gcc_assert (IN_RANGE (flag_loop_block, -128, 127));
+  gcc_assert (IN_RANGE (flag_loop_interchange, -128, 127));
+  gcc_assert (IN_RANGE (flag_loop_parallelize_all, -128, 127));
+  gcc_assert (IN_RANGE (flag_loop_strip_mine, -128, 127));
+  gcc_assert (IN_RANGE (flag_lto_report, -128, 127));
+  gcc_assert (IN_RANGE (flag_ltrans, -128, 127));
+  gcc_assert (IN_RANGE (flag_errno_math, -128, 127));
+  gcc_assert (IN_RANGE (flag_merge_constants, -128, 127));
+  gcc_assert (IN_RANGE (flag_modulo_sched, -128, 127));
+  gcc_assert (IN_RANGE (flag_move_loop_invariants, -128, 127));
+  gcc_assert (IN_RANGE (flag_non_call_exceptions, -128, 127));
+  gcc_assert (IN_RANGE (flag_omit_frame_pointer, -128, 127));
+  gcc_assert (IN_RANGE (flag_regmove, -128, 127));
+  gcc_assert (IN_RANGE (flag_optimize_sibling_calls, -128, 127));
+  gcc_assert (IN_RANGE (flag_pack_struct, -128, 127));
+  gcc_assert (IN_RANGE (flag_peel_loops, -128, 127));
+  gcc_assert (IN_RANGE (flag_no_peephole, -128, 127));
+  gcc_assert (IN_RANGE (flag_peephole2, -128, 127));
+  gcc_assert (IN_RANGE (flag_predictive_commoning, -128, 127));
+  gcc_assert (IN_RANGE (flag_prefetch_loop_arrays, -128, 127));
+  gcc_assert (IN_RANGE (flag_pcc_struct_return, -128, 127));
+  gcc_assert (IN_RANGE (flag_rename_registers, -128, 127));
+  gcc_assert (IN_RANGE (flag_reorder_blocks, -128, 127));
+  gcc_assert (IN_RANGE (flag_reorder_blocks_and_partition, -128, 127));
+  gcc_assert (IN_RANGE (flag_reorder_functions, -128, 127));
+  gcc_assert (IN_RANGE (flag_rerun_cse_after_loop, -128, 127));
+  gcc_assert (IN_RANGE (flag_resched_modulo_sched, -128, 127));
+  gcc_assert (IN_RANGE (flag_rounding_math, -128, 127));
+  gcc_assert (IN_RANGE (flag_sched_critical_path_heuristic, -128, 127));
+  gcc_assert (IN_RANGE (flag_sched_dep_count_heuristic, -128, 127));
+  gcc_assert (IN_RANGE (flag_sched_group_heuristic, -128, 127));
+  gcc_assert (IN_RANGE (flag_schedule_interblock, -128, 127));
+  gcc_assert (IN_RANGE (flag_sched_last_insn_heuristic, -128, 127));
+  gcc_assert (IN_RANGE (flag_sched_pressure, -128, 127));
+  gcc_assert (IN_RANGE (flag_sched_rank_heuristic, -128, 127));
+  gcc_assert (IN_RANGE (flag_schedule_speculative, -128, 127));
+  gcc_assert (IN_RANGE (flag_sched_spec_insn_heuristic, -128, 127));
+  gcc_assert (IN_RANGE (flag_schedule_speculative_load, -128, 127));
+  gcc_assert (IN_RANGE (flag_schedule_speculative_load_dangerous, -128, 127));
+  gcc_assert (IN_RANGE (flag_sched2_use_superblocks, -128, 127));
+  gcc_assert (IN_RANGE (flag_schedule_insns, -128, 127));
+  gcc_assert (IN_RANGE (flag_schedule_insns_after_reload, -128, 127));
+  gcc_assert (IN_RANGE (flag_section_anchors, -128, 127));
+  gcc_assert (IN_RANGE (flag_sel_sched_pipelining, -128, 127));
+  gcc_assert (IN_RANGE (flag_sel_sched_pipelining_outer_loops, -128, 127));
+  gcc_assert (IN_RANGE (flag_sel_sched_reschedule_pipelined, -128, 127));
+  gcc_assert (IN_RANGE (flag_selective_scheduling, -128, 127));
+  gcc_assert (IN_RANGE (flag_selective_scheduling2, -128, 127));
+  gcc_assert (IN_RANGE (flag_signaling_nans, -128, 127));
+  gcc_assert (IN_RANGE (flag_signed_zeros, -128, 127));
+  gcc_assert (IN_RANGE (flag_single_precision_constant, -128, 127));
+  gcc_assert (IN_RANGE (flag_split_ivs_in_unroller, -128, 127));
+  gcc_assert (IN_RANGE (flag_split_wide_types, -128, 127));
+  gcc_assert (IN_RANGE (flag_strict_aliasing, -128, 127));
+  gcc_assert (IN_RANGE (flag_thread_jumps, -128, 127));
+  gcc_assert (IN_RANGE (flag_toplevel_reorder, -128, 127));
+  gcc_assert (IN_RANGE (flag_trapping_math, -128, 127));
+  gcc_assert (IN_RANGE (flag_trapv, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_builtin_call_dce, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_ccp, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_ch, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_copy_prop, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_copyrename, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_cselim, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_dce, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_dom, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_dse, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_forwprop, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_fre, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_loop_distribution, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_loop_im, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_loop_ivcanon, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_loop_linear, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_loop_optimize, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_live_range_split, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_phiprop, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_pre, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_pta, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_reassoc, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_scev_cprop, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_sink, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_slp_vectorize, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_sra, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_switch_conversion, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_ter, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_vect_loop_version, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_vectorize, -128, 127));
+  gcc_assert (IN_RANGE (flag_tree_vrp, -128, 127));
+  gcc_assert (IN_RANGE (flag_unit_at_a_time, -128, 127));
+  gcc_assert (IN_RANGE (flag_unroll_all_loops, -128, 127));
+  gcc_assert (IN_RANGE (flag_unroll_loops, -128, 127));
+  gcc_assert (IN_RANGE (flag_unsafe_loop_optimizations, -128, 127));
+  gcc_assert (IN_RANGE (flag_unsafe_math_optimizations, -128, 127));
+  gcc_assert (IN_RANGE (flag_unswitch_loops, -128, 127));
+  gcc_assert (IN_RANGE (flag_unwind_tables, -128, 127));
+  gcc_assert (IN_RANGE (flag_var_tracking, -128, 127));
+  gcc_assert (IN_RANGE (flag_var_tracking_assignments, -128, 127));
+  gcc_assert (IN_RANGE (flag_var_tracking_assignments_toggle, -128, 127));
+  gcc_assert (IN_RANGE (flag_var_tracking_uninit, -128, 127));
+  gcc_assert (IN_RANGE (flag_variable_expansion_in_unroller, -128, 127));
+  gcc_assert (IN_RANGE (flag_vect_cost_model, -128, 127));
+  gcc_assert (IN_RANGE (flag_value_profile_transformations, -128, 127));
+  gcc_assert (IN_RANGE (flag_web, -128, 127));
+  gcc_assert (IN_RANGE (flag_whole_program, -128, 127));
+  gcc_assert (IN_RANGE (flag_wpa, -128, 127));
+  gcc_assert (IN_RANGE (flag_wrapv, -128, 127));
 
-  ptr->x_align_functions = opts->x_align_functions;
-  ptr->x_align_jumps = opts->x_align_jumps;
-  ptr->x_align_labels = opts->x_align_labels;
-  ptr->x_align_loops = opts->x_align_loops;
-  ptr->x_flag_sched_stalled_insns = opts->x_flag_sched_stalled_insns;
-  ptr->x_flag_sched_stalled_insns_dep = opts->x_flag_sched_stalled_insns_dep;
-  ptr->x_flag_fp_contract_mode = opts->x_flag_fp_contract_mode;
-  ptr->x_optimize = opts->x_optimize;
-  ptr->x_optimize_size = opts->x_optimize_size;
-  ptr->x_flag_asynchronous_unwind_tables = opts->x_flag_asynchronous_unwind_tables;
-  ptr->x_flag_branch_on_count_reg = opts->x_flag_branch_on_count_reg;
-  ptr->x_flag_branch_probabilities = opts->x_flag_branch_probabilities;
-  ptr->x_flag_branch_target_load_optimize = opts->x_flag_branch_target_load_optimize;
-  ptr->x_flag_branch_target_load_optimize2 = opts->x_flag_branch_target_load_optimize2;
-  ptr->x_flag_btr_bb_exclusive = opts->x_flag_btr_bb_exclusive;
-  ptr->x_flag_caller_saves = opts->x_flag_caller_saves;
-  ptr->x_flag_combine_stack_adjustments = opts->x_flag_combine_stack_adjustments;
-  ptr->x_flag_no_common = opts->x_flag_no_common;
-  ptr->x_flag_compare_elim_after_reload = opts->x_flag_compare_elim_after_reload;
-  ptr->x_flag_conserve_stack = opts->x_flag_conserve_stack;
-  ptr->x_flag_cprop_registers = opts->x_flag_cprop_registers;
-  ptr->x_flag_crossjumping = opts->x_flag_crossjumping;
-  ptr->x_flag_cse_follow_jumps = opts->x_flag_cse_follow_jumps;
-  ptr->x_flag_cx_fortran_rules = opts->x_flag_cx_fortran_rules;
-  ptr->x_flag_cx_limited_range = opts->x_flag_cx_limited_range;
-  ptr->x_flag_data_sections = opts->x_flag_data_sections;
-  ptr->x_flag_dce = opts->x_flag_dce;
-  ptr->x_flag_defer_pop = opts->x_flag_defer_pop;
-  ptr->x_flag_delayed_branch = opts->x_flag_delayed_branch;
-  ptr->x_flag_delete_null_pointer_checks = opts->x_flag_delete_null_pointer_checks;
-  ptr->x_flag_devirtualize = opts->x_flag_devirtualize;
-  ptr->x_flag_dse = opts->x_flag_dse;
-  ptr->x_flag_early_inlining = opts->x_flag_early_inlining;
-  ptr->x_flag_exceptions = opts->x_flag_exceptions;
-  ptr->x_flag_expensive_optimizations = opts->x_flag_expensive_optimizations;
-  ptr->x_flag_finite_math_only = opts->x_flag_finite_math_only;
-  ptr->x_flag_float_store = opts->x_flag_float_store;
-  ptr->x_flag_forward_propagate = opts->x_flag_forward_propagate;
-  ptr->x_flag_gcse = opts->x_flag_gcse;
-  ptr->x_flag_gcse_after_reload = opts->x_flag_gcse_after_reload;
-  ptr->x_flag_gcse_las = opts->x_flag_gcse_las;
-  ptr->x_flag_gcse_lm = opts->x_flag_gcse_lm;
-  ptr->x_flag_gcse_sm = opts->x_flag_gcse_sm;
-  ptr->x_flag_graphite_identity = opts->x_flag_graphite_identity;
-  ptr->x_flag_guess_branch_prob = opts->x_flag_guess_branch_prob;
-  ptr->x_flag_if_conversion = opts->x_flag_if_conversion;
-  ptr->x_flag_if_conversion2 = opts->x_flag_if_conversion2;
-  ptr->x_flag_inline_functions = opts->x_flag_inline_functions;
-  ptr->x_flag_inline_functions_called_once = opts->x_flag_inline_functions_called_once;
-  ptr->x_flag_inline_small_functions = opts->x_flag_inline_small_functions;
-  ptr->x_flag_ipa_cp = opts->x_flag_ipa_cp;
-  ptr->x_flag_ipa_cp_clone = opts->x_flag_ipa_cp_clone;
-  ptr->x_flag_ipa_matrix_reorg = opts->x_flag_ipa_matrix_reorg;
-  ptr->x_flag_ipa_profile = opts->x_flag_ipa_profile;
-  ptr->x_flag_ipa_pta = opts->x_flag_ipa_pta;
-  ptr->x_flag_ipa_pure_const = opts->x_flag_ipa_pure_const;
-  ptr->x_flag_ipa_reference = opts->x_flag_ipa_reference;
-  ptr->x_flag_ipa_sra = opts->x_flag_ipa_sra;
-  ptr->x_flag_ivopts = opts->x_flag_ivopts;
-  ptr->x_flag_jump_tables = opts->x_flag_jump_tables;
-  ptr->x_flag_loop_block = opts->x_flag_loop_block;
-  ptr->x_flag_loop_flatten = opts->x_flag_loop_flatten;
-  ptr->x_flag_loop_interchange = opts->x_flag_loop_interchange;
-  ptr->x_flag_loop_parallelize_all = opts->x_flag_loop_parallelize_all;
-  ptr->x_flag_loop_strip_mine = opts->x_flag_loop_strip_mine;
-  ptr->x_flag_lto_report = opts->x_flag_lto_report;
-  ptr->x_flag_ltrans = opts->x_flag_ltrans;
-  ptr->x_flag_errno_math = opts->x_flag_errno_math;
-  ptr->x_flag_merge_constants = opts->x_flag_merge_constants;
-  ptr->x_flag_modulo_sched = opts->x_flag_modulo_sched;
-  ptr->x_flag_move_loop_invariants = opts->x_flag_move_loop_invariants;
-  ptr->x_flag_non_call_exceptions = opts->x_flag_non_call_exceptions;
-  ptr->x_flag_nothrow_opt = opts->x_flag_nothrow_opt;
-  ptr->x_flag_omit_frame_pointer = opts->x_flag_omit_frame_pointer;
-  ptr->x_flag_regmove = opts->x_flag_regmove;
-  ptr->x_flag_optimize_sibling_calls = opts->x_flag_optimize_sibling_calls;
-  ptr->x_flag_pack_struct = opts->x_flag_pack_struct;
-  ptr->x_flag_peel_loops = opts->x_flag_peel_loops;
-  ptr->x_flag_no_peephole = opts->x_flag_no_peephole;
-  ptr->x_flag_peephole2 = opts->x_flag_peephole2;
-  ptr->x_flag_predictive_commoning = opts->x_flag_predictive_commoning;
-  ptr->x_flag_prefetch_loop_arrays = opts->x_flag_prefetch_loop_arrays;
-  ptr->x_flag_pcc_struct_return = opts->x_flag_pcc_struct_return;
-  ptr->x_flag_rename_registers = opts->x_flag_rename_registers;
-  ptr->x_flag_reorder_blocks = opts->x_flag_reorder_blocks;
-  ptr->x_flag_reorder_blocks_and_partition = opts->x_flag_reorder_blocks_and_partition;
-  ptr->x_flag_reorder_functions = opts->x_flag_reorder_functions;
-  ptr->x_flag_rerun_cse_after_loop = opts->x_flag_rerun_cse_after_loop;
-  ptr->x_flag_resched_modulo_sched = opts->x_flag_resched_modulo_sched;
-  ptr->x_flag_rounding_math = opts->x_flag_rounding_math;
-  ptr->x_flag_rtti = opts->x_flag_rtti;
-  ptr->x_flag_sched_critical_path_heuristic = opts->x_flag_sched_critical_path_heuristic;
-  ptr->x_flag_sched_dep_count_heuristic = opts->x_flag_sched_dep_count_heuristic;
-  ptr->x_flag_sched_group_heuristic = opts->x_flag_sched_group_heuristic;
-  ptr->x_flag_schedule_interblock = opts->x_flag_schedule_interblock;
-  ptr->x_flag_sched_last_insn_heuristic = opts->x_flag_sched_last_insn_heuristic;
-  ptr->x_flag_sched_pressure = opts->x_flag_sched_pressure;
-  ptr->x_flag_sched_rank_heuristic = opts->x_flag_sched_rank_heuristic;
-  ptr->x_flag_schedule_speculative = opts->x_flag_schedule_speculative;
-  ptr->x_flag_sched_spec_insn_heuristic = opts->x_flag_sched_spec_insn_heuristic;
-  ptr->x_flag_schedule_speculative_load = opts->x_flag_schedule_speculative_load;
-  ptr->x_flag_schedule_speculative_load_dangerous = opts->x_flag_schedule_speculative_load_dangerous;
-  ptr->x_flag_sched2_use_superblocks = opts->x_flag_sched2_use_superblocks;
-  ptr->x_flag_schedule_insns = opts->x_flag_schedule_insns;
-  ptr->x_flag_schedule_insns_after_reload = opts->x_flag_schedule_insns_after_reload;
-  ptr->x_flag_section_anchors = opts->x_flag_section_anchors;
-  ptr->x_flag_sel_sched_pipelining = opts->x_flag_sel_sched_pipelining;
-  ptr->x_flag_sel_sched_pipelining_outer_loops = opts->x_flag_sel_sched_pipelining_outer_loops;
-  ptr->x_flag_sel_sched_reschedule_pipelined = opts->x_flag_sel_sched_reschedule_pipelined;
-  ptr->x_flag_selective_scheduling = opts->x_flag_selective_scheduling;
-  ptr->x_flag_selective_scheduling2 = opts->x_flag_selective_scheduling2;
-  ptr->x_flag_short_double = opts->x_flag_short_double;
-  ptr->x_flag_short_enums = opts->x_flag_short_enums;
-  ptr->x_flag_short_wchar = opts->x_flag_short_wchar;
-  ptr->x_flag_signaling_nans = opts->x_flag_signaling_nans;
-  ptr->x_flag_signed_zeros = opts->x_flag_signed_zeros;
-  ptr->x_flag_single_precision_constant = opts->x_flag_single_precision_constant;
-  ptr->x_flag_split_ivs_in_unroller = opts->x_flag_split_ivs_in_unroller;
-  ptr->x_flag_split_wide_types = opts->x_flag_split_wide_types;
-  ptr->x_flag_strict_aliasing = opts->x_flag_strict_aliasing;
-  ptr->x_flag_strict_enums = opts->x_flag_strict_enums;
-  ptr->x_flag_thread_jumps = opts->x_flag_thread_jumps;
-  ptr->x_flag_threadsafe_statics = opts->x_flag_threadsafe_statics;
-  ptr->x_flag_toplevel_reorder = opts->x_flag_toplevel_reorder;
-  ptr->x_flag_trapping_math = opts->x_flag_trapping_math;
-  ptr->x_flag_trapv = opts->x_flag_trapv;
-  ptr->x_flag_tree_bit_ccp = opts->x_flag_tree_bit_ccp;
-  ptr->x_flag_tree_builtin_call_dce = opts->x_flag_tree_builtin_call_dce;
-  ptr->x_flag_tree_ccp = opts->x_flag_tree_ccp;
-  ptr->x_flag_tree_ch = opts->x_flag_tree_ch;
-  ptr->x_flag_tree_copy_prop = opts->x_flag_tree_copy_prop;
-  ptr->x_flag_tree_copyrename = opts->x_flag_tree_copyrename;
-  ptr->x_flag_tree_cselim = opts->x_flag_tree_cselim;
-  ptr->x_flag_tree_dce = opts->x_flag_tree_dce;
-  ptr->x_flag_tree_dom = opts->x_flag_tree_dom;
-  ptr->x_flag_tree_dse = opts->x_flag_tree_dse;
-  ptr->x_flag_tree_forwprop = opts->x_flag_tree_forwprop;
-  ptr->x_flag_tree_fre = opts->x_flag_tree_fre;
-  ptr->x_flag_tree_loop_distribute_patterns = opts->x_flag_tree_loop_distribute_patterns;
-  ptr->x_flag_tree_loop_distribution = opts->x_flag_tree_loop_distribution;
-  ptr->x_flag_tree_loop_if_convert = opts->x_flag_tree_loop_if_convert;
-  ptr->x_flag_tree_loop_if_convert_stores = opts->x_flag_tree_loop_if_convert_stores;
-  ptr->x_flag_tree_loop_im = opts->x_flag_tree_loop_im;
-  ptr->x_flag_tree_loop_ivcanon = opts->x_flag_tree_loop_ivcanon;
-  ptr->x_flag_tree_loop_optimize = opts->x_flag_tree_loop_optimize;
-  ptr->x_flag_tree_live_range_split = opts->x_flag_tree_live_range_split;
-  ptr->x_flag_tree_phiprop = opts->x_flag_tree_phiprop;
-  ptr->x_flag_tree_pre = opts->x_flag_tree_pre;
-  ptr->x_flag_tree_pta = opts->x_flag_tree_pta;
-  ptr->x_flag_tree_reassoc = opts->x_flag_tree_reassoc;
-  ptr->x_flag_tree_scev_cprop = opts->x_flag_tree_scev_cprop;
-  ptr->x_flag_tree_sink = opts->x_flag_tree_sink;
-  ptr->x_flag_tree_slp_vectorize = opts->x_flag_tree_slp_vectorize;
-  ptr->x_flag_tree_sra = opts->x_flag_tree_sra;
-  ptr->x_flag_tree_switch_conversion = opts->x_flag_tree_switch_conversion;
-  ptr->x_flag_tree_ter = opts->x_flag_tree_ter;
-  ptr->x_flag_tree_vect_loop_version = opts->x_flag_tree_vect_loop_version;
-  ptr->x_flag_tree_vectorize = opts->x_flag_tree_vectorize;
-  ptr->x_flag_tree_vrp = opts->x_flag_tree_vrp;
-  ptr->x_flag_unit_at_a_time = opts->x_flag_unit_at_a_time;
-  ptr->x_flag_unroll_all_loops = opts->x_flag_unroll_all_loops;
-  ptr->x_flag_unroll_loops = opts->x_flag_unroll_loops;
-  ptr->x_flag_unsafe_loop_optimizations = opts->x_flag_unsafe_loop_optimizations;
-  ptr->x_flag_unsafe_math_optimizations = opts->x_flag_unsafe_math_optimizations;
-  ptr->x_flag_unswitch_loops = opts->x_flag_unswitch_loops;
-  ptr->x_flag_unwind_tables = opts->x_flag_unwind_tables;
-  ptr->x_flag_var_tracking = opts->x_flag_var_tracking;
-  ptr->x_flag_var_tracking_assignments = opts->x_flag_var_tracking_assignments;
-  ptr->x_flag_var_tracking_assignments_toggle = opts->x_flag_var_tracking_assignments_toggle;
-  ptr->x_flag_var_tracking_uninit = opts->x_flag_var_tracking_uninit;
-  ptr->x_flag_variable_expansion_in_unroller = opts->x_flag_variable_expansion_in_unroller;
-  ptr->x_flag_vect_cost_model = opts->x_flag_vect_cost_model;
-  ptr->x_flag_value_profile_transformations = opts->x_flag_value_profile_transformations;
-  ptr->x_flag_web = opts->x_flag_web;
-  ptr->x_flag_whole_program = opts->x_flag_whole_program;
-  ptr->x_flag_wpa = opts->x_flag_wpa;
-  ptr->x_flag_wrapv = opts->x_flag_wrapv;
+  ptr->align_functions = align_functions;
+  ptr->align_jumps = align_jumps;
+  ptr->align_labels = align_labels;
+  ptr->align_loops = align_loops;
+  ptr->flag_sched_stalled_insns = flag_sched_stalled_insns;
+  ptr->flag_sched_stalled_insns_dep = flag_sched_stalled_insns_dep;
+  ptr->optimize = optimize;
+  ptr->optimize_size = optimize_size;
+  ptr->flag_argument_noalias = flag_argument_noalias;
+  ptr->flag_asynchronous_unwind_tables = flag_asynchronous_unwind_tables;
+  ptr->flag_branch_on_count_reg = flag_branch_on_count_reg;
+  ptr->flag_branch_probabilities = flag_branch_probabilities;
+  ptr->flag_branch_target_load_optimize = flag_branch_target_load_optimize;
+  ptr->flag_branch_target_load_optimize2 = flag_branch_target_load_optimize2;
+  ptr->flag_btr_bb_exclusive = flag_btr_bb_exclusive;
+  ptr->flag_caller_saves = flag_caller_saves;
+  ptr->flag_no_common = flag_no_common;
+  ptr->flag_conserve_stack = flag_conserve_stack;
+  ptr->flag_cprop_registers = flag_cprop_registers;
+  ptr->flag_crossjumping = flag_crossjumping;
+  ptr->flag_cse_follow_jumps = flag_cse_follow_jumps;
+  ptr->flag_cx_fortran_rules = flag_cx_fortran_rules;
+  ptr->flag_cx_limited_range = flag_cx_limited_range;
+  ptr->flag_data_sections = flag_data_sections;
+  ptr->flag_dce = flag_dce;
+  ptr->flag_defer_pop = flag_defer_pop;
+  ptr->flag_delayed_branch = flag_delayed_branch;
+  ptr->flag_delete_null_pointer_checks = flag_delete_null_pointer_checks;
+  ptr->flag_dse = flag_dse;
+  ptr->flag_early_inlining = flag_early_inlining;
+  ptr->flag_exceptions = flag_exceptions;
+  ptr->flag_expensive_optimizations = flag_expensive_optimizations;
+  ptr->flag_finite_math_only = flag_finite_math_only;
+  ptr->flag_float_store = flag_float_store;
+  ptr->flag_forward_propagate = flag_forward_propagate;
+  ptr->flag_gcse = flag_gcse;
+  ptr->flag_gcse_after_reload = flag_gcse_after_reload;
+  ptr->flag_gcse_las = flag_gcse_las;
+  ptr->flag_gcse_lm = flag_gcse_lm;
+  ptr->flag_gcse_sm = flag_gcse_sm;
+  ptr->flag_graphite_identity = flag_graphite_identity;
+  ptr->flag_guess_branch_prob = flag_guess_branch_prob;
+  ptr->flag_if_conversion = flag_if_conversion;
+  ptr->flag_if_conversion2 = flag_if_conversion2;
+  ptr->flag_inline_functions = flag_inline_functions;
+  ptr->flag_inline_functions_called_once = flag_inline_functions_called_once;
+  ptr->flag_inline_small_functions = flag_inline_small_functions;
+  ptr->flag_ipa_cp = flag_ipa_cp;
+  ptr->flag_ipa_cp_clone = flag_ipa_cp_clone;
+  ptr->flag_ipa_matrix_reorg = flag_ipa_matrix_reorg;
+  ptr->flag_ipa_pta = flag_ipa_pta;
+  ptr->flag_ipa_pure_const = flag_ipa_pure_const;
+  ptr->flag_ipa_reference = flag_ipa_reference;
+  ptr->flag_ipa_sra = flag_ipa_sra;
+  ptr->flag_ipa_type_escape = flag_ipa_type_escape;
+  ptr->flag_ivopts = flag_ivopts;
+  ptr->flag_jump_tables = flag_jump_tables;
+  ptr->flag_loop_block = flag_loop_block;
+  ptr->flag_loop_interchange = flag_loop_interchange;
+  ptr->flag_loop_parallelize_all = flag_loop_parallelize_all;
+  ptr->flag_loop_strip_mine = flag_loop_strip_mine;
+  ptr->flag_lto_report = flag_lto_report;
+  ptr->flag_ltrans = flag_ltrans;
+  ptr->flag_errno_math = flag_errno_math;
+  ptr->flag_merge_constants = flag_merge_constants;
+  ptr->flag_modulo_sched = flag_modulo_sched;
+  ptr->flag_move_loop_invariants = flag_move_loop_invariants;
+  ptr->flag_non_call_exceptions = flag_non_call_exceptions;
+  ptr->flag_omit_frame_pointer = flag_omit_frame_pointer;
+  ptr->flag_regmove = flag_regmove;
+  ptr->flag_optimize_sibling_calls = flag_optimize_sibling_calls;
+  ptr->flag_pack_struct = flag_pack_struct;
+  ptr->flag_peel_loops = flag_peel_loops;
+  ptr->flag_no_peephole = flag_no_peephole;
+  ptr->flag_peephole2 = flag_peephole2;
+  ptr->flag_predictive_commoning = flag_predictive_commoning;
+  ptr->flag_prefetch_loop_arrays = flag_prefetch_loop_arrays;
+  ptr->flag_pcc_struct_return = flag_pcc_struct_return;
+  ptr->flag_rename_registers = flag_rename_registers;
+  ptr->flag_reorder_blocks = flag_reorder_blocks;
+  ptr->flag_reorder_blocks_and_partition = flag_reorder_blocks_and_partition;
+  ptr->flag_reorder_functions = flag_reorder_functions;
+  ptr->flag_rerun_cse_after_loop = flag_rerun_cse_after_loop;
+  ptr->flag_resched_modulo_sched = flag_resched_modulo_sched;
+  ptr->flag_rounding_math = flag_rounding_math;
+  ptr->flag_sched_critical_path_heuristic = flag_sched_critical_path_heuristic;
+  ptr->flag_sched_dep_count_heuristic = flag_sched_dep_count_heuristic;
+  ptr->flag_sched_group_heuristic = flag_sched_group_heuristic;
+  ptr->flag_schedule_interblock = flag_schedule_interblock;
+  ptr->flag_sched_last_insn_heuristic = flag_sched_last_insn_heuristic;
+  ptr->flag_sched_pressure = flag_sched_pressure;
+  ptr->flag_sched_rank_heuristic = flag_sched_rank_heuristic;
+  ptr->flag_schedule_speculative = flag_schedule_speculative;
+  ptr->flag_sched_spec_insn_heuristic = flag_sched_spec_insn_heuristic;
+  ptr->flag_schedule_speculative_load = flag_schedule_speculative_load;
+  ptr->flag_schedule_speculative_load_dangerous = flag_schedule_speculative_load_dangerous;
+  ptr->flag_sched2_use_superblocks = flag_sched2_use_superblocks;
+  ptr->flag_schedule_insns = flag_schedule_insns;
+  ptr->flag_schedule_insns_after_reload = flag_schedule_insns_after_reload;
+  ptr->flag_section_anchors = flag_section_anchors;
+  ptr->flag_sel_sched_pipelining = flag_sel_sched_pipelining;
+  ptr->flag_sel_sched_pipelining_outer_loops = flag_sel_sched_pipelining_outer_loops;
+  ptr->flag_sel_sched_reschedule_pipelined = flag_sel_sched_reschedule_pipelined;
+  ptr->flag_selective_scheduling = flag_selective_scheduling;
+  ptr->flag_selective_scheduling2 = flag_selective_scheduling2;
+  ptr->flag_signaling_nans = flag_signaling_nans;
+  ptr->flag_signed_zeros = flag_signed_zeros;
+  ptr->flag_single_precision_constant = flag_single_precision_constant;
+  ptr->flag_split_ivs_in_unroller = flag_split_ivs_in_unroller;
+  ptr->flag_split_wide_types = flag_split_wide_types;
+  ptr->flag_strict_aliasing = flag_strict_aliasing;
+  ptr->flag_thread_jumps = flag_thread_jumps;
+  ptr->flag_toplevel_reorder = flag_toplevel_reorder;
+  ptr->flag_trapping_math = flag_trapping_math;
+  ptr->flag_trapv = flag_trapv;
+  ptr->flag_tree_builtin_call_dce = flag_tree_builtin_call_dce;
+  ptr->flag_tree_ccp = flag_tree_ccp;
+  ptr->flag_tree_ch = flag_tree_ch;
+  ptr->flag_tree_copy_prop = flag_tree_copy_prop;
+  ptr->flag_tree_copyrename = flag_tree_copyrename;
+  ptr->flag_tree_cselim = flag_tree_cselim;
+  ptr->flag_tree_dce = flag_tree_dce;
+  ptr->flag_tree_dom = flag_tree_dom;
+  ptr->flag_tree_dse = flag_tree_dse;
+  ptr->flag_tree_forwprop = flag_tree_forwprop;
+  ptr->flag_tree_fre = flag_tree_fre;
+  ptr->flag_tree_loop_distribution = flag_tree_loop_distribution;
+  ptr->flag_tree_loop_im = flag_tree_loop_im;
+  ptr->flag_tree_loop_ivcanon = flag_tree_loop_ivcanon;
+  ptr->flag_tree_loop_linear = flag_tree_loop_linear;
+  ptr->flag_tree_loop_optimize = flag_tree_loop_optimize;
+  ptr->flag_tree_live_range_split = flag_tree_live_range_split;
+  ptr->flag_tree_phiprop = flag_tree_phiprop;
+  ptr->flag_tree_pre = flag_tree_pre;
+  ptr->flag_tree_pta = flag_tree_pta;
+  ptr->flag_tree_reassoc = flag_tree_reassoc;
+  ptr->flag_tree_scev_cprop = flag_tree_scev_cprop;
+  ptr->flag_tree_sink = flag_tree_sink;
+  ptr->flag_tree_slp_vectorize = flag_tree_slp_vectorize;
+  ptr->flag_tree_sra = flag_tree_sra;
+  ptr->flag_tree_switch_conversion = flag_tree_switch_conversion;
+  ptr->flag_tree_ter = flag_tree_ter;
+  ptr->flag_tree_vect_loop_version = flag_tree_vect_loop_version;
+  ptr->flag_tree_vectorize = flag_tree_vectorize;
+  ptr->flag_tree_vrp = flag_tree_vrp;
+  ptr->flag_unit_at_a_time = flag_unit_at_a_time;
+  ptr->flag_unroll_all_loops = flag_unroll_all_loops;
+  ptr->flag_unroll_loops = flag_unroll_loops;
+  ptr->flag_unsafe_loop_optimizations = flag_unsafe_loop_optimizations;
+  ptr->flag_unsafe_math_optimizations = flag_unsafe_math_optimizations;
+  ptr->flag_unswitch_loops = flag_unswitch_loops;
+  ptr->flag_unwind_tables = flag_unwind_tables;
+  ptr->flag_var_tracking = flag_var_tracking;
+  ptr->flag_var_tracking_assignments = flag_var_tracking_assignments;
+  ptr->flag_var_tracking_assignments_toggle = flag_var_tracking_assignments_toggle;
+  ptr->flag_var_tracking_uninit = flag_var_tracking_uninit;
+  ptr->flag_variable_expansion_in_unroller = flag_variable_expansion_in_unroller;
+  ptr->flag_vect_cost_model = flag_vect_cost_model;
+  ptr->flag_value_profile_transformations = flag_value_profile_transformations;
+  ptr->flag_web = flag_web;
+  ptr->flag_whole_program = flag_whole_program;
+  ptr->flag_wpa = flag_wpa;
+  ptr->flag_wrapv = flag_wrapv;
 }
 
 /* Restore optimization options from a structure.  */
 void
-cl_optimization_restore (struct gcc_options *opts, struct cl_optimization *ptr)
+cl_optimization_restore (struct cl_optimization *ptr)
 {
-  opts->x_align_functions = ptr->x_align_functions;
-  opts->x_align_jumps = ptr->x_align_jumps;
-  opts->x_align_labels = ptr->x_align_labels;
-  opts->x_align_loops = ptr->x_align_loops;
-  opts->x_flag_sched_stalled_insns = ptr->x_flag_sched_stalled_insns;
-  opts->x_flag_sched_stalled_insns_dep = ptr->x_flag_sched_stalled_insns_dep;
-  opts->x_flag_fp_contract_mode = ptr->x_flag_fp_contract_mode;
-  opts->x_optimize = ptr->x_optimize;
-  opts->x_optimize_size = ptr->x_optimize_size;
-  opts->x_flag_asynchronous_unwind_tables = ptr->x_flag_asynchronous_unwind_tables;
-  opts->x_flag_branch_on_count_reg = ptr->x_flag_branch_on_count_reg;
-  opts->x_flag_branch_probabilities = ptr->x_flag_branch_probabilities;
-  opts->x_flag_branch_target_load_optimize = ptr->x_flag_branch_target_load_optimize;
-  opts->x_flag_branch_target_load_optimize2 = ptr->x_flag_branch_target_load_optimize2;
-  opts->x_flag_btr_bb_exclusive = ptr->x_flag_btr_bb_exclusive;
-  opts->x_flag_caller_saves = ptr->x_flag_caller_saves;
-  opts->x_flag_combine_stack_adjustments = ptr->x_flag_combine_stack_adjustments;
-  opts->x_flag_no_common = ptr->x_flag_no_common;
-  opts->x_flag_compare_elim_after_reload = ptr->x_flag_compare_elim_after_reload;
-  opts->x_flag_conserve_stack = ptr->x_flag_conserve_stack;
-  opts->x_flag_cprop_registers = ptr->x_flag_cprop_registers;
-  opts->x_flag_crossjumping = ptr->x_flag_crossjumping;
-  opts->x_flag_cse_follow_jumps = ptr->x_flag_cse_follow_jumps;
-  opts->x_flag_cx_fortran_rules = ptr->x_flag_cx_fortran_rules;
-  opts->x_flag_cx_limited_range = ptr->x_flag_cx_limited_range;
-  opts->x_flag_data_sections = ptr->x_flag_data_sections;
-  opts->x_flag_dce = ptr->x_flag_dce;
-  opts->x_flag_defer_pop = ptr->x_flag_defer_pop;
-  opts->x_flag_delayed_branch = ptr->x_flag_delayed_branch;
-  opts->x_flag_delete_null_pointer_checks = ptr->x_flag_delete_null_pointer_checks;
-  opts->x_flag_devirtualize = ptr->x_flag_devirtualize;
-  opts->x_flag_dse = ptr->x_flag_dse;
-  opts->x_flag_early_inlining = ptr->x_flag_early_inlining;
-  opts->x_flag_exceptions = ptr->x_flag_exceptions;
-  opts->x_flag_expensive_optimizations = ptr->x_flag_expensive_optimizations;
-  opts->x_flag_finite_math_only = ptr->x_flag_finite_math_only;
-  opts->x_flag_float_store = ptr->x_flag_float_store;
-  opts->x_flag_forward_propagate = ptr->x_flag_forward_propagate;
-  opts->x_flag_gcse = ptr->x_flag_gcse;
-  opts->x_flag_gcse_after_reload = ptr->x_flag_gcse_after_reload;
-  opts->x_flag_gcse_las = ptr->x_flag_gcse_las;
-  opts->x_flag_gcse_lm = ptr->x_flag_gcse_lm;
-  opts->x_flag_gcse_sm = ptr->x_flag_gcse_sm;
-  opts->x_flag_graphite_identity = ptr->x_flag_graphite_identity;
-  opts->x_flag_guess_branch_prob = ptr->x_flag_guess_branch_prob;
-  opts->x_flag_if_conversion = ptr->x_flag_if_conversion;
-  opts->x_flag_if_conversion2 = ptr->x_flag_if_conversion2;
-  opts->x_flag_inline_functions = ptr->x_flag_inline_functions;
-  opts->x_flag_inline_functions_called_once = ptr->x_flag_inline_functions_called_once;
-  opts->x_flag_inline_small_functions = ptr->x_flag_inline_small_functions;
-  opts->x_flag_ipa_cp = ptr->x_flag_ipa_cp;
-  opts->x_flag_ipa_cp_clone = ptr->x_flag_ipa_cp_clone;
-  opts->x_flag_ipa_matrix_reorg = ptr->x_flag_ipa_matrix_reorg;
-  opts->x_flag_ipa_profile = ptr->x_flag_ipa_profile;
-  opts->x_flag_ipa_pta = ptr->x_flag_ipa_pta;
-  opts->x_flag_ipa_pure_const = ptr->x_flag_ipa_pure_const;
-  opts->x_flag_ipa_reference = ptr->x_flag_ipa_reference;
-  opts->x_flag_ipa_sra = ptr->x_flag_ipa_sra;
-  opts->x_flag_ivopts = ptr->x_flag_ivopts;
-  opts->x_flag_jump_tables = ptr->x_flag_jump_tables;
-  opts->x_flag_loop_block = ptr->x_flag_loop_block;
-  opts->x_flag_loop_flatten = ptr->x_flag_loop_flatten;
-  opts->x_flag_loop_interchange = ptr->x_flag_loop_interchange;
-  opts->x_flag_loop_parallelize_all = ptr->x_flag_loop_parallelize_all;
-  opts->x_flag_loop_strip_mine = ptr->x_flag_loop_strip_mine;
-  opts->x_flag_lto_report = ptr->x_flag_lto_report;
-  opts->x_flag_ltrans = ptr->x_flag_ltrans;
-  opts->x_flag_errno_math = ptr->x_flag_errno_math;
-  opts->x_flag_merge_constants = ptr->x_flag_merge_constants;
-  opts->x_flag_modulo_sched = ptr->x_flag_modulo_sched;
-  opts->x_flag_move_loop_invariants = ptr->x_flag_move_loop_invariants;
-  opts->x_flag_non_call_exceptions = ptr->x_flag_non_call_exceptions;
-  opts->x_flag_nothrow_opt = ptr->x_flag_nothrow_opt;
-  opts->x_flag_omit_frame_pointer = ptr->x_flag_omit_frame_pointer;
-  opts->x_flag_regmove = ptr->x_flag_regmove;
-  opts->x_flag_optimize_sibling_calls = ptr->x_flag_optimize_sibling_calls;
-  opts->x_flag_pack_struct = ptr->x_flag_pack_struct;
-  opts->x_flag_peel_loops = ptr->x_flag_peel_loops;
-  opts->x_flag_no_peephole = ptr->x_flag_no_peephole;
-  opts->x_flag_peephole2 = ptr->x_flag_peephole2;
-  opts->x_flag_predictive_commoning = ptr->x_flag_predictive_commoning;
-  opts->x_flag_prefetch_loop_arrays = ptr->x_flag_prefetch_loop_arrays;
-  opts->x_flag_pcc_struct_return = ptr->x_flag_pcc_struct_return;
-  opts->x_flag_rename_registers = ptr->x_flag_rename_registers;
-  opts->x_flag_reorder_blocks = ptr->x_flag_reorder_blocks;
-  opts->x_flag_reorder_blocks_and_partition = ptr->x_flag_reorder_blocks_and_partition;
-  opts->x_flag_reorder_functions = ptr->x_flag_reorder_functions;
-  opts->x_flag_rerun_cse_after_loop = ptr->x_flag_rerun_cse_after_loop;
-  opts->x_flag_resched_modulo_sched = ptr->x_flag_resched_modulo_sched;
-  opts->x_flag_rounding_math = ptr->x_flag_rounding_math;
-  opts->x_flag_rtti = ptr->x_flag_rtti;
-  opts->x_flag_sched_critical_path_heuristic = ptr->x_flag_sched_critical_path_heuristic;
-  opts->x_flag_sched_dep_count_heuristic = ptr->x_flag_sched_dep_count_heuristic;
-  opts->x_flag_sched_group_heuristic = ptr->x_flag_sched_group_heuristic;
-  opts->x_flag_schedule_interblock = ptr->x_flag_schedule_interblock;
-  opts->x_flag_sched_last_insn_heuristic = ptr->x_flag_sched_last_insn_heuristic;
-  opts->x_flag_sched_pressure = ptr->x_flag_sched_pressure;
-  opts->x_flag_sched_rank_heuristic = ptr->x_flag_sched_rank_heuristic;
-  opts->x_flag_schedule_speculative = ptr->x_flag_schedule_speculative;
-  opts->x_flag_sched_spec_insn_heuristic = ptr->x_flag_sched_spec_insn_heuristic;
-  opts->x_flag_schedule_speculative_load = ptr->x_flag_schedule_speculative_load;
-  opts->x_flag_schedule_speculative_load_dangerous = ptr->x_flag_schedule_speculative_load_dangerous;
-  opts->x_flag_sched2_use_superblocks = ptr->x_flag_sched2_use_superblocks;
-  opts->x_flag_schedule_insns = ptr->x_flag_schedule_insns;
-  opts->x_flag_schedule_insns_after_reload = ptr->x_flag_schedule_insns_after_reload;
-  opts->x_flag_section_anchors = ptr->x_flag_section_anchors;
-  opts->x_flag_sel_sched_pipelining = ptr->x_flag_sel_sched_pipelining;
-  opts->x_flag_sel_sched_pipelining_outer_loops = ptr->x_flag_sel_sched_pipelining_outer_loops;
-  opts->x_flag_sel_sched_reschedule_pipelined = ptr->x_flag_sel_sched_reschedule_pipelined;
-  opts->x_flag_selective_scheduling = ptr->x_flag_selective_scheduling;
-  opts->x_flag_selective_scheduling2 = ptr->x_flag_selective_scheduling2;
-  opts->x_flag_short_double = ptr->x_flag_short_double;
-  opts->x_flag_short_enums = ptr->x_flag_short_enums;
-  opts->x_flag_short_wchar = ptr->x_flag_short_wchar;
-  opts->x_flag_signaling_nans = ptr->x_flag_signaling_nans;
-  opts->x_flag_signed_zeros = ptr->x_flag_signed_zeros;
-  opts->x_flag_single_precision_constant = ptr->x_flag_single_precision_constant;
-  opts->x_flag_split_ivs_in_unroller = ptr->x_flag_split_ivs_in_unroller;
-  opts->x_flag_split_wide_types = ptr->x_flag_split_wide_types;
-  opts->x_flag_strict_aliasing = ptr->x_flag_strict_aliasing;
-  opts->x_flag_strict_enums = ptr->x_flag_strict_enums;
-  opts->x_flag_thread_jumps = ptr->x_flag_thread_jumps;
-  opts->x_flag_threadsafe_statics = ptr->x_flag_threadsafe_statics;
-  opts->x_flag_toplevel_reorder = ptr->x_flag_toplevel_reorder;
-  opts->x_flag_trapping_math = ptr->x_flag_trapping_math;
-  opts->x_flag_trapv = ptr->x_flag_trapv;
-  opts->x_flag_tree_bit_ccp = ptr->x_flag_tree_bit_ccp;
-  opts->x_flag_tree_builtin_call_dce = ptr->x_flag_tree_builtin_call_dce;
-  opts->x_flag_tree_ccp = ptr->x_flag_tree_ccp;
-  opts->x_flag_tree_ch = ptr->x_flag_tree_ch;
-  opts->x_flag_tree_copy_prop = ptr->x_flag_tree_copy_prop;
-  opts->x_flag_tree_copyrename = ptr->x_flag_tree_copyrename;
-  opts->x_flag_tree_cselim = ptr->x_flag_tree_cselim;
-  opts->x_flag_tree_dce = ptr->x_flag_tree_dce;
-  opts->x_flag_tree_dom = ptr->x_flag_tree_dom;
-  opts->x_flag_tree_dse = ptr->x_flag_tree_dse;
-  opts->x_flag_tree_forwprop = ptr->x_flag_tree_forwprop;
-  opts->x_flag_tree_fre = ptr->x_flag_tree_fre;
-  opts->x_flag_tree_loop_distribute_patterns = ptr->x_flag_tree_loop_distribute_patterns;
-  opts->x_flag_tree_loop_distribution = ptr->x_flag_tree_loop_distribution;
-  opts->x_flag_tree_loop_if_convert = ptr->x_flag_tree_loop_if_convert;
-  opts->x_flag_tree_loop_if_convert_stores = ptr->x_flag_tree_loop_if_convert_stores;
-  opts->x_flag_tree_loop_im = ptr->x_flag_tree_loop_im;
-  opts->x_flag_tree_loop_ivcanon = ptr->x_flag_tree_loop_ivcanon;
-  opts->x_flag_tree_loop_optimize = ptr->x_flag_tree_loop_optimize;
-  opts->x_flag_tree_live_range_split = ptr->x_flag_tree_live_range_split;
-  opts->x_flag_tree_phiprop = ptr->x_flag_tree_phiprop;
-  opts->x_flag_tree_pre = ptr->x_flag_tree_pre;
-  opts->x_flag_tree_pta = ptr->x_flag_tree_pta;
-  opts->x_flag_tree_reassoc = ptr->x_flag_tree_reassoc;
-  opts->x_flag_tree_scev_cprop = ptr->x_flag_tree_scev_cprop;
-  opts->x_flag_tree_sink = ptr->x_flag_tree_sink;
-  opts->x_flag_tree_slp_vectorize = ptr->x_flag_tree_slp_vectorize;
-  opts->x_flag_tree_sra = ptr->x_flag_tree_sra;
-  opts->x_flag_tree_switch_conversion = ptr->x_flag_tree_switch_conversion;
-  opts->x_flag_tree_ter = ptr->x_flag_tree_ter;
-  opts->x_flag_tree_vect_loop_version = ptr->x_flag_tree_vect_loop_version;
-  opts->x_flag_tree_vectorize = ptr->x_flag_tree_vectorize;
-  opts->x_flag_tree_vrp = ptr->x_flag_tree_vrp;
-  opts->x_flag_unit_at_a_time = ptr->x_flag_unit_at_a_time;
-  opts->x_flag_unroll_all_loops = ptr->x_flag_unroll_all_loops;
-  opts->x_flag_unroll_loops = ptr->x_flag_unroll_loops;
-  opts->x_flag_unsafe_loop_optimizations = ptr->x_flag_unsafe_loop_optimizations;
-  opts->x_flag_unsafe_math_optimizations = ptr->x_flag_unsafe_math_optimizations;
-  opts->x_flag_unswitch_loops = ptr->x_flag_unswitch_loops;
-  opts->x_flag_unwind_tables = ptr->x_flag_unwind_tables;
-  opts->x_flag_var_tracking = ptr->x_flag_var_tracking;
-  opts->x_flag_var_tracking_assignments = ptr->x_flag_var_tracking_assignments;
-  opts->x_flag_var_tracking_assignments_toggle = ptr->x_flag_var_tracking_assignments_toggle;
-  opts->x_flag_var_tracking_uninit = ptr->x_flag_var_tracking_uninit;
-  opts->x_flag_variable_expansion_in_unroller = ptr->x_flag_variable_expansion_in_unroller;
-  opts->x_flag_vect_cost_model = ptr->x_flag_vect_cost_model;
-  opts->x_flag_value_profile_transformations = ptr->x_flag_value_profile_transformations;
-  opts->x_flag_web = ptr->x_flag_web;
-  opts->x_flag_whole_program = ptr->x_flag_whole_program;
-  opts->x_flag_wpa = ptr->x_flag_wpa;
-  opts->x_flag_wrapv = ptr->x_flag_wrapv;
+  align_functions = ptr->align_functions;
+  align_jumps = ptr->align_jumps;
+  align_labels = ptr->align_labels;
+  align_loops = ptr->align_loops;
+  flag_sched_stalled_insns = ptr->flag_sched_stalled_insns;
+  flag_sched_stalled_insns_dep = ptr->flag_sched_stalled_insns_dep;
+  optimize = ptr->optimize;
+  optimize_size = ptr->optimize_size;
+  flag_argument_noalias = ptr->flag_argument_noalias;
+  flag_asynchronous_unwind_tables = ptr->flag_asynchronous_unwind_tables;
+  flag_branch_on_count_reg = ptr->flag_branch_on_count_reg;
+  flag_branch_probabilities = ptr->flag_branch_probabilities;
+  flag_branch_target_load_optimize = ptr->flag_branch_target_load_optimize;
+  flag_branch_target_load_optimize2 = ptr->flag_branch_target_load_optimize2;
+  flag_btr_bb_exclusive = ptr->flag_btr_bb_exclusive;
+  flag_caller_saves = ptr->flag_caller_saves;
+  flag_no_common = ptr->flag_no_common;
+  flag_conserve_stack = ptr->flag_conserve_stack;
+  flag_cprop_registers = ptr->flag_cprop_registers;
+  flag_crossjumping = ptr->flag_crossjumping;
+  flag_cse_follow_jumps = ptr->flag_cse_follow_jumps;
+  flag_cx_fortran_rules = ptr->flag_cx_fortran_rules;
+  flag_cx_limited_range = ptr->flag_cx_limited_range;
+  flag_data_sections = ptr->flag_data_sections;
+  flag_dce = ptr->flag_dce;
+  flag_defer_pop = ptr->flag_defer_pop;
+  flag_delayed_branch = ptr->flag_delayed_branch;
+  flag_delete_null_pointer_checks = ptr->flag_delete_null_pointer_checks;
+  flag_dse = ptr->flag_dse;
+  flag_early_inlining = ptr->flag_early_inlining;
+  flag_exceptions = ptr->flag_exceptions;
+  flag_expensive_optimizations = ptr->flag_expensive_optimizations;
+  flag_finite_math_only = ptr->flag_finite_math_only;
+  flag_float_store = ptr->flag_float_store;
+  flag_forward_propagate = ptr->flag_forward_propagate;
+  flag_gcse = ptr->flag_gcse;
+  flag_gcse_after_reload = ptr->flag_gcse_after_reload;
+  flag_gcse_las = ptr->flag_gcse_las;
+  flag_gcse_lm = ptr->flag_gcse_lm;
+  flag_gcse_sm = ptr->flag_gcse_sm;
+  flag_graphite_identity = ptr->flag_graphite_identity;
+  flag_guess_branch_prob = ptr->flag_guess_branch_prob;
+  flag_if_conversion = ptr->flag_if_conversion;
+  flag_if_conversion2 = ptr->flag_if_conversion2;
+  flag_inline_functions = ptr->flag_inline_functions;
+  flag_inline_functions_called_once = ptr->flag_inline_functions_called_once;
+  flag_inline_small_functions = ptr->flag_inline_small_functions;
+  flag_ipa_cp = ptr->flag_ipa_cp;
+  flag_ipa_cp_clone = ptr->flag_ipa_cp_clone;
+  flag_ipa_matrix_reorg = ptr->flag_ipa_matrix_reorg;
+  flag_ipa_pta = ptr->flag_ipa_pta;
+  flag_ipa_pure_const = ptr->flag_ipa_pure_const;
+  flag_ipa_reference = ptr->flag_ipa_reference;
+  flag_ipa_sra = ptr->flag_ipa_sra;
+  flag_ipa_type_escape = ptr->flag_ipa_type_escape;
+  flag_ivopts = ptr->flag_ivopts;
+  flag_jump_tables = ptr->flag_jump_tables;
+  flag_loop_block = ptr->flag_loop_block;
+  flag_loop_interchange = ptr->flag_loop_interchange;
+  flag_loop_parallelize_all = ptr->flag_loop_parallelize_all;
+  flag_loop_strip_mine = ptr->flag_loop_strip_mine;
+  flag_lto_report = ptr->flag_lto_report;
+  flag_ltrans = ptr->flag_ltrans;
+  flag_errno_math = ptr->flag_errno_math;
+  flag_merge_constants = ptr->flag_merge_constants;
+  flag_modulo_sched = ptr->flag_modulo_sched;
+  flag_move_loop_invariants = ptr->flag_move_loop_invariants;
+  flag_non_call_exceptions = ptr->flag_non_call_exceptions;
+  flag_omit_frame_pointer = ptr->flag_omit_frame_pointer;
+  flag_regmove = ptr->flag_regmove;
+  flag_optimize_sibling_calls = ptr->flag_optimize_sibling_calls;
+  flag_pack_struct = ptr->flag_pack_struct;
+  flag_peel_loops = ptr->flag_peel_loops;
+  flag_no_peephole = ptr->flag_no_peephole;
+  flag_peephole2 = ptr->flag_peephole2;
+  flag_predictive_commoning = ptr->flag_predictive_commoning;
+  flag_prefetch_loop_arrays = ptr->flag_prefetch_loop_arrays;
+  flag_pcc_struct_return = ptr->flag_pcc_struct_return;
+  flag_rename_registers = ptr->flag_rename_registers;
+  flag_reorder_blocks = ptr->flag_reorder_blocks;
+  flag_reorder_blocks_and_partition = ptr->flag_reorder_blocks_and_partition;
+  flag_reorder_functions = ptr->flag_reorder_functions;
+  flag_rerun_cse_after_loop = ptr->flag_rerun_cse_after_loop;
+  flag_resched_modulo_sched = ptr->flag_resched_modulo_sched;
+  flag_rounding_math = ptr->flag_rounding_math;
+  flag_sched_critical_path_heuristic = ptr->flag_sched_critical_path_heuristic;
+  flag_sched_dep_count_heuristic = ptr->flag_sched_dep_count_heuristic;
+  flag_sched_group_heuristic = ptr->flag_sched_group_heuristic;
+  flag_schedule_interblock = ptr->flag_schedule_interblock;
+  flag_sched_last_insn_heuristic = ptr->flag_sched_last_insn_heuristic;
+  flag_sched_pressure = ptr->flag_sched_pressure;
+  flag_sched_rank_heuristic = ptr->flag_sched_rank_heuristic;
+  flag_schedule_speculative = ptr->flag_schedule_speculative;
+  flag_sched_spec_insn_heuristic = ptr->flag_sched_spec_insn_heuristic;
+  flag_schedule_speculative_load = ptr->flag_schedule_speculative_load;
+  flag_schedule_speculative_load_dangerous = ptr->flag_schedule_speculative_load_dangerous;
+  flag_sched2_use_superblocks = ptr->flag_sched2_use_superblocks;
+  flag_schedule_insns = ptr->flag_schedule_insns;
+  flag_schedule_insns_after_reload = ptr->flag_schedule_insns_after_reload;
+  flag_section_anchors = ptr->flag_section_anchors;
+  flag_sel_sched_pipelining = ptr->flag_sel_sched_pipelining;
+  flag_sel_sched_pipelining_outer_loops = ptr->flag_sel_sched_pipelining_outer_loops;
+  flag_sel_sched_reschedule_pipelined = ptr->flag_sel_sched_reschedule_pipelined;
+  flag_selective_scheduling = ptr->flag_selective_scheduling;
+  flag_selective_scheduling2 = ptr->flag_selective_scheduling2;
+  flag_signaling_nans = ptr->flag_signaling_nans;
+  flag_signed_zeros = ptr->flag_signed_zeros;
+  flag_single_precision_constant = ptr->flag_single_precision_constant;
+  flag_split_ivs_in_unroller = ptr->flag_split_ivs_in_unroller;
+  flag_split_wide_types = ptr->flag_split_wide_types;
+  flag_strict_aliasing = ptr->flag_strict_aliasing;
+  flag_thread_jumps = ptr->flag_thread_jumps;
+  flag_toplevel_reorder = ptr->flag_toplevel_reorder;
+  flag_trapping_math = ptr->flag_trapping_math;
+  flag_trapv = ptr->flag_trapv;
+  flag_tree_builtin_call_dce = ptr->flag_tree_builtin_call_dce;
+  flag_tree_ccp = ptr->flag_tree_ccp;
+  flag_tree_ch = ptr->flag_tree_ch;
+  flag_tree_copy_prop = ptr->flag_tree_copy_prop;
+  flag_tree_copyrename = ptr->flag_tree_copyrename;
+  flag_tree_cselim = ptr->flag_tree_cselim;
+  flag_tree_dce = ptr->flag_tree_dce;
+  flag_tree_dom = ptr->flag_tree_dom;
+  flag_tree_dse = ptr->flag_tree_dse;
+  flag_tree_forwprop = ptr->flag_tree_forwprop;
+  flag_tree_fre = ptr->flag_tree_fre;
+  flag_tree_loop_distribution = ptr->flag_tree_loop_distribution;
+  flag_tree_loop_im = ptr->flag_tree_loop_im;
+  flag_tree_loop_ivcanon = ptr->flag_tree_loop_ivcanon;
+  flag_tree_loop_linear = ptr->flag_tree_loop_linear;
+  flag_tree_loop_optimize = ptr->flag_tree_loop_optimize;
+  flag_tree_live_range_split = ptr->flag_tree_live_range_split;
+  flag_tree_phiprop = ptr->flag_tree_phiprop;
+  flag_tree_pre = ptr->flag_tree_pre;
+  flag_tree_pta = ptr->flag_tree_pta;
+  flag_tree_reassoc = ptr->flag_tree_reassoc;
+  flag_tree_scev_cprop = ptr->flag_tree_scev_cprop;
+  flag_tree_sink = ptr->flag_tree_sink;
+  flag_tree_slp_vectorize = ptr->flag_tree_slp_vectorize;
+  flag_tree_sra = ptr->flag_tree_sra;
+  flag_tree_switch_conversion = ptr->flag_tree_switch_conversion;
+  flag_tree_ter = ptr->flag_tree_ter;
+  flag_tree_vect_loop_version = ptr->flag_tree_vect_loop_version;
+  flag_tree_vectorize = ptr->flag_tree_vectorize;
+  flag_tree_vrp = ptr->flag_tree_vrp;
+  flag_unit_at_a_time = ptr->flag_unit_at_a_time;
+  flag_unroll_all_loops = ptr->flag_unroll_all_loops;
+  flag_unroll_loops = ptr->flag_unroll_loops;
+  flag_unsafe_loop_optimizations = ptr->flag_unsafe_loop_optimizations;
+  flag_unsafe_math_optimizations = ptr->flag_unsafe_math_optimizations;
+  flag_unswitch_loops = ptr->flag_unswitch_loops;
+  flag_unwind_tables = ptr->flag_unwind_tables;
+  flag_var_tracking = ptr->flag_var_tracking;
+  flag_var_tracking_assignments = ptr->flag_var_tracking_assignments;
+  flag_var_tracking_assignments_toggle = ptr->flag_var_tracking_assignments_toggle;
+  flag_var_tracking_uninit = ptr->flag_var_tracking_uninit;
+  flag_variable_expansion_in_unroller = ptr->flag_variable_expansion_in_unroller;
+  flag_vect_cost_model = ptr->flag_vect_cost_model;
+  flag_value_profile_transformations = ptr->flag_value_profile_transformations;
+  flag_web = ptr->flag_web;
+  flag_whole_program = ptr->flag_whole_program;
+  flag_wpa = ptr->flag_wpa;
+  flag_wrapv = ptr->flag_wrapv;
   targetm.override_options_after_change ();
 }
 
@@ -7819,1084 +5737,1001 @@ cl_optimization_print (FILE *file,
                        struct cl_optimization *ptr)
 {
   fputs ("\n", file);
-  if (ptr->x_align_functions)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->align_functions)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "align_functions",
-             ptr->x_align_functions);
+             ptr->align_functions);
 
-  if (ptr->x_align_jumps)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->align_jumps)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "align_jumps",
-             ptr->x_align_jumps);
+             ptr->align_jumps);
 
-  if (ptr->x_align_labels)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->align_labels)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "align_labels",
-             ptr->x_align_labels);
+             ptr->align_labels);
 
-  if (ptr->x_align_loops)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->align_loops)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "align_loops",
-             ptr->x_align_loops);
+             ptr->align_loops);
 
-  if (ptr->x_flag_sched_stalled_insns)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_sched_stalled_insns)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_sched_stalled_insns",
-             ptr->x_flag_sched_stalled_insns);
+             ptr->flag_sched_stalled_insns);
 
-  if (ptr->x_flag_sched_stalled_insns_dep)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_sched_stalled_insns_dep)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_sched_stalled_insns_dep",
-             ptr->x_flag_sched_stalled_insns_dep);
+             ptr->flag_sched_stalled_insns_dep);
 
-  fprintf (file, "%*s%s (%#x)\n",
-           indent_to, "",
-           "flag_fp_contract_mode",
-           (int) ptr->x_flag_fp_contract_mode);
-
-  if (ptr->x_optimize)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->optimize)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "optimize",
-             ptr->x_optimize);
+             ptr->optimize);
 
-  if (ptr->x_optimize_size)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->optimize_size)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "optimize_size",
-             ptr->x_optimize_size);
+             ptr->optimize_size);
 
-  if (ptr->x_flag_asynchronous_unwind_tables)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_argument_noalias)
+    fprintf (file, "%*s%s (0x%x)\n",
+             indent_to, "",
+             "flag_argument_noalias",
+             ptr->flag_argument_noalias);
+
+  if (ptr->flag_asynchronous_unwind_tables)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_asynchronous_unwind_tables",
-             ptr->x_flag_asynchronous_unwind_tables);
+             ptr->flag_asynchronous_unwind_tables);
 
-  if (ptr->x_flag_branch_on_count_reg)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_branch_on_count_reg)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_branch_on_count_reg",
-             ptr->x_flag_branch_on_count_reg);
+             ptr->flag_branch_on_count_reg);
 
-  if (ptr->x_flag_branch_probabilities)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_branch_probabilities)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_branch_probabilities",
-             ptr->x_flag_branch_probabilities);
+             ptr->flag_branch_probabilities);
 
-  if (ptr->x_flag_branch_target_load_optimize)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_branch_target_load_optimize)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_branch_target_load_optimize",
-             ptr->x_flag_branch_target_load_optimize);
+             ptr->flag_branch_target_load_optimize);
 
-  if (ptr->x_flag_branch_target_load_optimize2)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_branch_target_load_optimize2)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_branch_target_load_optimize2",
-             ptr->x_flag_branch_target_load_optimize2);
+             ptr->flag_branch_target_load_optimize2);
 
-  if (ptr->x_flag_btr_bb_exclusive)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_btr_bb_exclusive)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_btr_bb_exclusive",
-             ptr->x_flag_btr_bb_exclusive);
+             ptr->flag_btr_bb_exclusive);
 
-  if (ptr->x_flag_caller_saves)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_caller_saves)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_caller_saves",
-             ptr->x_flag_caller_saves);
+             ptr->flag_caller_saves);
 
-  if (ptr->x_flag_combine_stack_adjustments)
-    fprintf (file, "%*s%s (%#x)\n",
-             indent_to, "",
-             "flag_combine_stack_adjustments",
-             ptr->x_flag_combine_stack_adjustments);
-
-  if (ptr->x_flag_no_common)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_no_common)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_no_common",
-             ptr->x_flag_no_common);
+             ptr->flag_no_common);
 
-  if (ptr->x_flag_compare_elim_after_reload)
-    fprintf (file, "%*s%s (%#x)\n",
-             indent_to, "",
-             "flag_compare_elim_after_reload",
-             ptr->x_flag_compare_elim_after_reload);
-
-  if (ptr->x_flag_conserve_stack)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_conserve_stack)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_conserve_stack",
-             ptr->x_flag_conserve_stack);
+             ptr->flag_conserve_stack);
 
-  if (ptr->x_flag_cprop_registers)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_cprop_registers)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_cprop_registers",
-             ptr->x_flag_cprop_registers);
+             ptr->flag_cprop_registers);
 
-  if (ptr->x_flag_crossjumping)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_crossjumping)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_crossjumping",
-             ptr->x_flag_crossjumping);
+             ptr->flag_crossjumping);
 
-  if (ptr->x_flag_cse_follow_jumps)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_cse_follow_jumps)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_cse_follow_jumps",
-             ptr->x_flag_cse_follow_jumps);
+             ptr->flag_cse_follow_jumps);
 
-  if (ptr->x_flag_cx_fortran_rules)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_cx_fortran_rules)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_cx_fortran_rules",
-             ptr->x_flag_cx_fortran_rules);
+             ptr->flag_cx_fortran_rules);
 
-  if (ptr->x_flag_cx_limited_range)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_cx_limited_range)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_cx_limited_range",
-             ptr->x_flag_cx_limited_range);
+             ptr->flag_cx_limited_range);
 
-  if (ptr->x_flag_data_sections)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_data_sections)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_data_sections",
-             ptr->x_flag_data_sections);
+             ptr->flag_data_sections);
 
-  if (ptr->x_flag_dce)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_dce)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_dce",
-             ptr->x_flag_dce);
+             ptr->flag_dce);
 
-  if (ptr->x_flag_defer_pop)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_defer_pop)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_defer_pop",
-             ptr->x_flag_defer_pop);
+             ptr->flag_defer_pop);
 
-  if (ptr->x_flag_delayed_branch)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_delayed_branch)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_delayed_branch",
-             ptr->x_flag_delayed_branch);
+             ptr->flag_delayed_branch);
 
-  if (ptr->x_flag_delete_null_pointer_checks)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_delete_null_pointer_checks)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_delete_null_pointer_checks",
-             ptr->x_flag_delete_null_pointer_checks);
+             ptr->flag_delete_null_pointer_checks);
 
-  if (ptr->x_flag_devirtualize)
-    fprintf (file, "%*s%s (%#x)\n",
-             indent_to, "",
-             "flag_devirtualize",
-             ptr->x_flag_devirtualize);
-
-  if (ptr->x_flag_dse)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_dse)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_dse",
-             ptr->x_flag_dse);
+             ptr->flag_dse);
 
-  if (ptr->x_flag_early_inlining)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_early_inlining)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_early_inlining",
-             ptr->x_flag_early_inlining);
+             ptr->flag_early_inlining);
 
-  if (ptr->x_flag_exceptions)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_exceptions)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_exceptions",
-             ptr->x_flag_exceptions);
+             ptr->flag_exceptions);
 
-  if (ptr->x_flag_expensive_optimizations)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_expensive_optimizations)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_expensive_optimizations",
-             ptr->x_flag_expensive_optimizations);
+             ptr->flag_expensive_optimizations);
 
-  if (ptr->x_flag_finite_math_only)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_finite_math_only)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_finite_math_only",
-             ptr->x_flag_finite_math_only);
+             ptr->flag_finite_math_only);
 
-  if (ptr->x_flag_float_store)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_float_store)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_float_store",
-             ptr->x_flag_float_store);
+             ptr->flag_float_store);
 
-  if (ptr->x_flag_forward_propagate)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_forward_propagate)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_forward_propagate",
-             ptr->x_flag_forward_propagate);
+             ptr->flag_forward_propagate);
 
-  if (ptr->x_flag_gcse)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_gcse)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_gcse",
-             ptr->x_flag_gcse);
+             ptr->flag_gcse);
 
-  if (ptr->x_flag_gcse_after_reload)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_gcse_after_reload)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_gcse_after_reload",
-             ptr->x_flag_gcse_after_reload);
+             ptr->flag_gcse_after_reload);
 
-  if (ptr->x_flag_gcse_las)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_gcse_las)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_gcse_las",
-             ptr->x_flag_gcse_las);
+             ptr->flag_gcse_las);
 
-  if (ptr->x_flag_gcse_lm)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_gcse_lm)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_gcse_lm",
-             ptr->x_flag_gcse_lm);
+             ptr->flag_gcse_lm);
 
-  if (ptr->x_flag_gcse_sm)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_gcse_sm)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_gcse_sm",
-             ptr->x_flag_gcse_sm);
+             ptr->flag_gcse_sm);
 
-  if (ptr->x_flag_graphite_identity)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_graphite_identity)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_graphite_identity",
-             ptr->x_flag_graphite_identity);
+             ptr->flag_graphite_identity);
 
-  if (ptr->x_flag_guess_branch_prob)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_guess_branch_prob)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_guess_branch_prob",
-             ptr->x_flag_guess_branch_prob);
+             ptr->flag_guess_branch_prob);
 
-  if (ptr->x_flag_if_conversion)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_if_conversion)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_if_conversion",
-             ptr->x_flag_if_conversion);
+             ptr->flag_if_conversion);
 
-  if (ptr->x_flag_if_conversion2)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_if_conversion2)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_if_conversion2",
-             ptr->x_flag_if_conversion2);
+             ptr->flag_if_conversion2);
 
-  if (ptr->x_flag_inline_functions)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_inline_functions)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_inline_functions",
-             ptr->x_flag_inline_functions);
+             ptr->flag_inline_functions);
 
-  if (ptr->x_flag_inline_functions_called_once)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_inline_functions_called_once)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_inline_functions_called_once",
-             ptr->x_flag_inline_functions_called_once);
+             ptr->flag_inline_functions_called_once);
 
-  if (ptr->x_flag_inline_small_functions)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_inline_small_functions)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_inline_small_functions",
-             ptr->x_flag_inline_small_functions);
+             ptr->flag_inline_small_functions);
 
-  if (ptr->x_flag_ipa_cp)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_ipa_cp)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_ipa_cp",
-             ptr->x_flag_ipa_cp);
+             ptr->flag_ipa_cp);
 
-  if (ptr->x_flag_ipa_cp_clone)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_ipa_cp_clone)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_ipa_cp_clone",
-             ptr->x_flag_ipa_cp_clone);
+             ptr->flag_ipa_cp_clone);
 
-  if (ptr->x_flag_ipa_matrix_reorg)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_ipa_matrix_reorg)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_ipa_matrix_reorg",
-             ptr->x_flag_ipa_matrix_reorg);
+             ptr->flag_ipa_matrix_reorg);
 
-  if (ptr->x_flag_ipa_profile)
-    fprintf (file, "%*s%s (%#x)\n",
-             indent_to, "",
-             "flag_ipa_profile",
-             ptr->x_flag_ipa_profile);
-
-  if (ptr->x_flag_ipa_pta)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_ipa_pta)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_ipa_pta",
-             ptr->x_flag_ipa_pta);
+             ptr->flag_ipa_pta);
 
-  if (ptr->x_flag_ipa_pure_const)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_ipa_pure_const)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_ipa_pure_const",
-             ptr->x_flag_ipa_pure_const);
+             ptr->flag_ipa_pure_const);
 
-  if (ptr->x_flag_ipa_reference)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_ipa_reference)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_ipa_reference",
-             ptr->x_flag_ipa_reference);
+             ptr->flag_ipa_reference);
 
-  if (ptr->x_flag_ipa_sra)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_ipa_sra)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_ipa_sra",
-             ptr->x_flag_ipa_sra);
+             ptr->flag_ipa_sra);
 
-  if (ptr->x_flag_ivopts)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_ipa_type_escape)
+    fprintf (file, "%*s%s (0x%x)\n",
+             indent_to, "",
+             "flag_ipa_type_escape",
+             ptr->flag_ipa_type_escape);
+
+  if (ptr->flag_ivopts)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_ivopts",
-             ptr->x_flag_ivopts);
+             ptr->flag_ivopts);
 
-  if (ptr->x_flag_jump_tables)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_jump_tables)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_jump_tables",
-             ptr->x_flag_jump_tables);
+             ptr->flag_jump_tables);
 
-  if (ptr->x_flag_loop_block)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_loop_block)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_loop_block",
-             ptr->x_flag_loop_block);
+             ptr->flag_loop_block);
 
-  if (ptr->x_flag_loop_flatten)
-    fprintf (file, "%*s%s (%#x)\n",
-             indent_to, "",
-             "flag_loop_flatten",
-             ptr->x_flag_loop_flatten);
-
-  if (ptr->x_flag_loop_interchange)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_loop_interchange)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_loop_interchange",
-             ptr->x_flag_loop_interchange);
+             ptr->flag_loop_interchange);
 
-  if (ptr->x_flag_loop_parallelize_all)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_loop_parallelize_all)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_loop_parallelize_all",
-             ptr->x_flag_loop_parallelize_all);
+             ptr->flag_loop_parallelize_all);
 
-  if (ptr->x_flag_loop_strip_mine)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_loop_strip_mine)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_loop_strip_mine",
-             ptr->x_flag_loop_strip_mine);
+             ptr->flag_loop_strip_mine);
 
-  if (ptr->x_flag_lto_report)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_lto_report)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_lto_report",
-             ptr->x_flag_lto_report);
+             ptr->flag_lto_report);
 
-  if (ptr->x_flag_ltrans)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_ltrans)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_ltrans",
-             ptr->x_flag_ltrans);
+             ptr->flag_ltrans);
 
-  if (ptr->x_flag_errno_math)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_errno_math)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_errno_math",
-             ptr->x_flag_errno_math);
+             ptr->flag_errno_math);
 
-  if (ptr->x_flag_merge_constants)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_merge_constants)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_merge_constants",
-             ptr->x_flag_merge_constants);
+             ptr->flag_merge_constants);
 
-  if (ptr->x_flag_modulo_sched)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_modulo_sched)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_modulo_sched",
-             ptr->x_flag_modulo_sched);
+             ptr->flag_modulo_sched);
 
-  if (ptr->x_flag_move_loop_invariants)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_move_loop_invariants)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_move_loop_invariants",
-             ptr->x_flag_move_loop_invariants);
+             ptr->flag_move_loop_invariants);
 
-  if (ptr->x_flag_non_call_exceptions)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_non_call_exceptions)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_non_call_exceptions",
-             ptr->x_flag_non_call_exceptions);
+             ptr->flag_non_call_exceptions);
 
-  if (ptr->x_flag_nothrow_opt)
-    fprintf (file, "%*s%s (%#x)\n",
-             indent_to, "",
-             "flag_nothrow_opt",
-             ptr->x_flag_nothrow_opt);
-
-  if (ptr->x_flag_omit_frame_pointer)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_omit_frame_pointer)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_omit_frame_pointer",
-             ptr->x_flag_omit_frame_pointer);
+             ptr->flag_omit_frame_pointer);
 
-  if (ptr->x_flag_regmove)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_regmove)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_regmove",
-             ptr->x_flag_regmove);
+             ptr->flag_regmove);
 
-  if (ptr->x_flag_optimize_sibling_calls)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_optimize_sibling_calls)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_optimize_sibling_calls",
-             ptr->x_flag_optimize_sibling_calls);
+             ptr->flag_optimize_sibling_calls);
 
-  if (ptr->x_flag_pack_struct)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_pack_struct)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_pack_struct",
-             ptr->x_flag_pack_struct);
+             ptr->flag_pack_struct);
 
-  if (ptr->x_flag_peel_loops)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_peel_loops)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_peel_loops",
-             ptr->x_flag_peel_loops);
+             ptr->flag_peel_loops);
 
-  if (ptr->x_flag_no_peephole)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_no_peephole)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_no_peephole",
-             ptr->x_flag_no_peephole);
+             ptr->flag_no_peephole);
 
-  if (ptr->x_flag_peephole2)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_peephole2)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_peephole2",
-             ptr->x_flag_peephole2);
+             ptr->flag_peephole2);
 
-  if (ptr->x_flag_predictive_commoning)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_predictive_commoning)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_predictive_commoning",
-             ptr->x_flag_predictive_commoning);
+             ptr->flag_predictive_commoning);
 
-  if (ptr->x_flag_prefetch_loop_arrays)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_prefetch_loop_arrays)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_prefetch_loop_arrays",
-             ptr->x_flag_prefetch_loop_arrays);
+             ptr->flag_prefetch_loop_arrays);
 
-  if (ptr->x_flag_pcc_struct_return)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_pcc_struct_return)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_pcc_struct_return",
-             ptr->x_flag_pcc_struct_return);
+             ptr->flag_pcc_struct_return);
 
-  if (ptr->x_flag_rename_registers)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_rename_registers)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_rename_registers",
-             ptr->x_flag_rename_registers);
+             ptr->flag_rename_registers);
 
-  if (ptr->x_flag_reorder_blocks)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_reorder_blocks)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_reorder_blocks",
-             ptr->x_flag_reorder_blocks);
+             ptr->flag_reorder_blocks);
 
-  if (ptr->x_flag_reorder_blocks_and_partition)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_reorder_blocks_and_partition)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_reorder_blocks_and_partition",
-             ptr->x_flag_reorder_blocks_and_partition);
+             ptr->flag_reorder_blocks_and_partition);
 
-  if (ptr->x_flag_reorder_functions)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_reorder_functions)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_reorder_functions",
-             ptr->x_flag_reorder_functions);
+             ptr->flag_reorder_functions);
 
-  if (ptr->x_flag_rerun_cse_after_loop)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_rerun_cse_after_loop)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_rerun_cse_after_loop",
-             ptr->x_flag_rerun_cse_after_loop);
+             ptr->flag_rerun_cse_after_loop);
 
-  if (ptr->x_flag_resched_modulo_sched)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_resched_modulo_sched)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_resched_modulo_sched",
-             ptr->x_flag_resched_modulo_sched);
+             ptr->flag_resched_modulo_sched);
 
-  if (ptr->x_flag_rounding_math)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_rounding_math)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_rounding_math",
-             ptr->x_flag_rounding_math);
+             ptr->flag_rounding_math);
 
-  if (ptr->x_flag_rtti)
-    fprintf (file, "%*s%s (%#x)\n",
-             indent_to, "",
-             "flag_rtti",
-             ptr->x_flag_rtti);
-
-  if (ptr->x_flag_sched_critical_path_heuristic)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_sched_critical_path_heuristic)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_sched_critical_path_heuristic",
-             ptr->x_flag_sched_critical_path_heuristic);
+             ptr->flag_sched_critical_path_heuristic);
 
-  if (ptr->x_flag_sched_dep_count_heuristic)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_sched_dep_count_heuristic)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_sched_dep_count_heuristic",
-             ptr->x_flag_sched_dep_count_heuristic);
+             ptr->flag_sched_dep_count_heuristic);
 
-  if (ptr->x_flag_sched_group_heuristic)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_sched_group_heuristic)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_sched_group_heuristic",
-             ptr->x_flag_sched_group_heuristic);
+             ptr->flag_sched_group_heuristic);
 
-  if (ptr->x_flag_schedule_interblock)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_schedule_interblock)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_schedule_interblock",
-             ptr->x_flag_schedule_interblock);
+             ptr->flag_schedule_interblock);
 
-  if (ptr->x_flag_sched_last_insn_heuristic)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_sched_last_insn_heuristic)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_sched_last_insn_heuristic",
-             ptr->x_flag_sched_last_insn_heuristic);
+             ptr->flag_sched_last_insn_heuristic);
 
-  if (ptr->x_flag_sched_pressure)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_sched_pressure)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_sched_pressure",
-             ptr->x_flag_sched_pressure);
+             ptr->flag_sched_pressure);
 
-  if (ptr->x_flag_sched_rank_heuristic)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_sched_rank_heuristic)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_sched_rank_heuristic",
-             ptr->x_flag_sched_rank_heuristic);
+             ptr->flag_sched_rank_heuristic);
 
-  if (ptr->x_flag_schedule_speculative)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_schedule_speculative)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_schedule_speculative",
-             ptr->x_flag_schedule_speculative);
+             ptr->flag_schedule_speculative);
 
-  if (ptr->x_flag_sched_spec_insn_heuristic)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_sched_spec_insn_heuristic)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_sched_spec_insn_heuristic",
-             ptr->x_flag_sched_spec_insn_heuristic);
+             ptr->flag_sched_spec_insn_heuristic);
 
-  if (ptr->x_flag_schedule_speculative_load)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_schedule_speculative_load)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_schedule_speculative_load",
-             ptr->x_flag_schedule_speculative_load);
+             ptr->flag_schedule_speculative_load);
 
-  if (ptr->x_flag_schedule_speculative_load_dangerous)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_schedule_speculative_load_dangerous)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_schedule_speculative_load_dangerous",
-             ptr->x_flag_schedule_speculative_load_dangerous);
+             ptr->flag_schedule_speculative_load_dangerous);
 
-  if (ptr->x_flag_sched2_use_superblocks)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_sched2_use_superblocks)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_sched2_use_superblocks",
-             ptr->x_flag_sched2_use_superblocks);
+             ptr->flag_sched2_use_superblocks);
 
-  if (ptr->x_flag_schedule_insns)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_schedule_insns)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_schedule_insns",
-             ptr->x_flag_schedule_insns);
+             ptr->flag_schedule_insns);
 
-  if (ptr->x_flag_schedule_insns_after_reload)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_schedule_insns_after_reload)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_schedule_insns_after_reload",
-             ptr->x_flag_schedule_insns_after_reload);
+             ptr->flag_schedule_insns_after_reload);
 
-  if (ptr->x_flag_section_anchors)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_section_anchors)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_section_anchors",
-             ptr->x_flag_section_anchors);
+             ptr->flag_section_anchors);
 
-  if (ptr->x_flag_sel_sched_pipelining)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_sel_sched_pipelining)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_sel_sched_pipelining",
-             ptr->x_flag_sel_sched_pipelining);
+             ptr->flag_sel_sched_pipelining);
 
-  if (ptr->x_flag_sel_sched_pipelining_outer_loops)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_sel_sched_pipelining_outer_loops)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_sel_sched_pipelining_outer_loops",
-             ptr->x_flag_sel_sched_pipelining_outer_loops);
+             ptr->flag_sel_sched_pipelining_outer_loops);
 
-  if (ptr->x_flag_sel_sched_reschedule_pipelined)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_sel_sched_reschedule_pipelined)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_sel_sched_reschedule_pipelined",
-             ptr->x_flag_sel_sched_reschedule_pipelined);
+             ptr->flag_sel_sched_reschedule_pipelined);
 
-  if (ptr->x_flag_selective_scheduling)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_selective_scheduling)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_selective_scheduling",
-             ptr->x_flag_selective_scheduling);
+             ptr->flag_selective_scheduling);
 
-  if (ptr->x_flag_selective_scheduling2)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_selective_scheduling2)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_selective_scheduling2",
-             ptr->x_flag_selective_scheduling2);
+             ptr->flag_selective_scheduling2);
 
-  if (ptr->x_flag_short_double)
-    fprintf (file, "%*s%s (%#x)\n",
-             indent_to, "",
-             "flag_short_double",
-             ptr->x_flag_short_double);
-
-  if (ptr->x_flag_short_enums)
-    fprintf (file, "%*s%s (%#x)\n",
-             indent_to, "",
-             "flag_short_enums",
-             ptr->x_flag_short_enums);
-
-  if (ptr->x_flag_short_wchar)
-    fprintf (file, "%*s%s (%#x)\n",
-             indent_to, "",
-             "flag_short_wchar",
-             ptr->x_flag_short_wchar);
-
-  if (ptr->x_flag_signaling_nans)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_signaling_nans)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_signaling_nans",
-             ptr->x_flag_signaling_nans);
+             ptr->flag_signaling_nans);
 
-  if (ptr->x_flag_signed_zeros)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_signed_zeros)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_signed_zeros",
-             ptr->x_flag_signed_zeros);
+             ptr->flag_signed_zeros);
 
-  if (ptr->x_flag_single_precision_constant)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_single_precision_constant)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_single_precision_constant",
-             ptr->x_flag_single_precision_constant);
+             ptr->flag_single_precision_constant);
 
-  if (ptr->x_flag_split_ivs_in_unroller)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_split_ivs_in_unroller)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_split_ivs_in_unroller",
-             ptr->x_flag_split_ivs_in_unroller);
+             ptr->flag_split_ivs_in_unroller);
 
-  if (ptr->x_flag_split_wide_types)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_split_wide_types)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_split_wide_types",
-             ptr->x_flag_split_wide_types);
+             ptr->flag_split_wide_types);
 
-  if (ptr->x_flag_strict_aliasing)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_strict_aliasing)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_strict_aliasing",
-             ptr->x_flag_strict_aliasing);
+             ptr->flag_strict_aliasing);
 
-  if (ptr->x_flag_strict_enums)
-    fprintf (file, "%*s%s (%#x)\n",
-             indent_to, "",
-             "flag_strict_enums",
-             ptr->x_flag_strict_enums);
-
-  if (ptr->x_flag_thread_jumps)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_thread_jumps)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_thread_jumps",
-             ptr->x_flag_thread_jumps);
+             ptr->flag_thread_jumps);
 
-  if (ptr->x_flag_threadsafe_statics)
-    fprintf (file, "%*s%s (%#x)\n",
-             indent_to, "",
-             "flag_threadsafe_statics",
-             ptr->x_flag_threadsafe_statics);
-
-  if (ptr->x_flag_toplevel_reorder)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_toplevel_reorder)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_toplevel_reorder",
-             ptr->x_flag_toplevel_reorder);
+             ptr->flag_toplevel_reorder);
 
-  if (ptr->x_flag_trapping_math)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_trapping_math)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_trapping_math",
-             ptr->x_flag_trapping_math);
+             ptr->flag_trapping_math);
 
-  if (ptr->x_flag_trapv)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_trapv)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_trapv",
-             ptr->x_flag_trapv);
+             ptr->flag_trapv);
 
-  if (ptr->x_flag_tree_bit_ccp)
-    fprintf (file, "%*s%s (%#x)\n",
-             indent_to, "",
-             "flag_tree_bit_ccp",
-             ptr->x_flag_tree_bit_ccp);
-
-  if (ptr->x_flag_tree_builtin_call_dce)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_builtin_call_dce)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_builtin_call_dce",
-             ptr->x_flag_tree_builtin_call_dce);
+             ptr->flag_tree_builtin_call_dce);
 
-  if (ptr->x_flag_tree_ccp)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_ccp)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_ccp",
-             ptr->x_flag_tree_ccp);
+             ptr->flag_tree_ccp);
 
-  if (ptr->x_flag_tree_ch)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_ch)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_ch",
-             ptr->x_flag_tree_ch);
+             ptr->flag_tree_ch);
 
-  if (ptr->x_flag_tree_copy_prop)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_copy_prop)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_copy_prop",
-             ptr->x_flag_tree_copy_prop);
+             ptr->flag_tree_copy_prop);
 
-  if (ptr->x_flag_tree_copyrename)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_copyrename)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_copyrename",
-             ptr->x_flag_tree_copyrename);
+             ptr->flag_tree_copyrename);
 
-  if (ptr->x_flag_tree_cselim)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_cselim)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_cselim",
-             ptr->x_flag_tree_cselim);
+             ptr->flag_tree_cselim);
 
-  if (ptr->x_flag_tree_dce)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_dce)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_dce",
-             ptr->x_flag_tree_dce);
+             ptr->flag_tree_dce);
 
-  if (ptr->x_flag_tree_dom)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_dom)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_dom",
-             ptr->x_flag_tree_dom);
+             ptr->flag_tree_dom);
 
-  if (ptr->x_flag_tree_dse)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_dse)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_dse",
-             ptr->x_flag_tree_dse);
+             ptr->flag_tree_dse);
 
-  if (ptr->x_flag_tree_forwprop)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_forwprop)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_forwprop",
-             ptr->x_flag_tree_forwprop);
+             ptr->flag_tree_forwprop);
 
-  if (ptr->x_flag_tree_fre)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_fre)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_fre",
-             ptr->x_flag_tree_fre);
+             ptr->flag_tree_fre);
 
-  if (ptr->x_flag_tree_loop_distribute_patterns)
-    fprintf (file, "%*s%s (%#x)\n",
-             indent_to, "",
-             "flag_tree_loop_distribute_patterns",
-             ptr->x_flag_tree_loop_distribute_patterns);
-
-  if (ptr->x_flag_tree_loop_distribution)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_loop_distribution)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_loop_distribution",
-             ptr->x_flag_tree_loop_distribution);
+             ptr->flag_tree_loop_distribution);
 
-  if (ptr->x_flag_tree_loop_if_convert)
-    fprintf (file, "%*s%s (%#x)\n",
-             indent_to, "",
-             "flag_tree_loop_if_convert",
-             ptr->x_flag_tree_loop_if_convert);
-
-  if (ptr->x_flag_tree_loop_if_convert_stores)
-    fprintf (file, "%*s%s (%#x)\n",
-             indent_to, "",
-             "flag_tree_loop_if_convert_stores",
-             ptr->x_flag_tree_loop_if_convert_stores);
-
-  if (ptr->x_flag_tree_loop_im)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_loop_im)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_loop_im",
-             ptr->x_flag_tree_loop_im);
+             ptr->flag_tree_loop_im);
 
-  if (ptr->x_flag_tree_loop_ivcanon)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_loop_ivcanon)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_loop_ivcanon",
-             ptr->x_flag_tree_loop_ivcanon);
+             ptr->flag_tree_loop_ivcanon);
 
-  if (ptr->x_flag_tree_loop_optimize)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_loop_linear)
+    fprintf (file, "%*s%s (0x%x)\n",
+             indent_to, "",
+             "flag_tree_loop_linear",
+             ptr->flag_tree_loop_linear);
+
+  if (ptr->flag_tree_loop_optimize)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_loop_optimize",
-             ptr->x_flag_tree_loop_optimize);
+             ptr->flag_tree_loop_optimize);
 
-  if (ptr->x_flag_tree_live_range_split)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_live_range_split)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_live_range_split",
-             ptr->x_flag_tree_live_range_split);
+             ptr->flag_tree_live_range_split);
 
-  if (ptr->x_flag_tree_phiprop)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_phiprop)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_phiprop",
-             ptr->x_flag_tree_phiprop);
+             ptr->flag_tree_phiprop);
 
-  if (ptr->x_flag_tree_pre)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_pre)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_pre",
-             ptr->x_flag_tree_pre);
+             ptr->flag_tree_pre);
 
-  if (ptr->x_flag_tree_pta)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_pta)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_pta",
-             ptr->x_flag_tree_pta);
+             ptr->flag_tree_pta);
 
-  if (ptr->x_flag_tree_reassoc)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_reassoc)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_reassoc",
-             ptr->x_flag_tree_reassoc);
+             ptr->flag_tree_reassoc);
 
-  if (ptr->x_flag_tree_scev_cprop)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_scev_cprop)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_scev_cprop",
-             ptr->x_flag_tree_scev_cprop);
+             ptr->flag_tree_scev_cprop);
 
-  if (ptr->x_flag_tree_sink)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_sink)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_sink",
-             ptr->x_flag_tree_sink);
+             ptr->flag_tree_sink);
 
-  if (ptr->x_flag_tree_slp_vectorize)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_slp_vectorize)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_slp_vectorize",
-             ptr->x_flag_tree_slp_vectorize);
+             ptr->flag_tree_slp_vectorize);
 
-  if (ptr->x_flag_tree_sra)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_sra)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_sra",
-             ptr->x_flag_tree_sra);
+             ptr->flag_tree_sra);
 
-  if (ptr->x_flag_tree_switch_conversion)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_switch_conversion)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_switch_conversion",
-             ptr->x_flag_tree_switch_conversion);
+             ptr->flag_tree_switch_conversion);
 
-  if (ptr->x_flag_tree_ter)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_ter)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_ter",
-             ptr->x_flag_tree_ter);
+             ptr->flag_tree_ter);
 
-  if (ptr->x_flag_tree_vect_loop_version)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_vect_loop_version)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_vect_loop_version",
-             ptr->x_flag_tree_vect_loop_version);
+             ptr->flag_tree_vect_loop_version);
 
-  if (ptr->x_flag_tree_vectorize)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_vectorize)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_vectorize",
-             ptr->x_flag_tree_vectorize);
+             ptr->flag_tree_vectorize);
 
-  if (ptr->x_flag_tree_vrp)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_tree_vrp)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_tree_vrp",
-             ptr->x_flag_tree_vrp);
+             ptr->flag_tree_vrp);
 
-  if (ptr->x_flag_unit_at_a_time)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_unit_at_a_time)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_unit_at_a_time",
-             ptr->x_flag_unit_at_a_time);
+             ptr->flag_unit_at_a_time);
 
-  if (ptr->x_flag_unroll_all_loops)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_unroll_all_loops)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_unroll_all_loops",
-             ptr->x_flag_unroll_all_loops);
+             ptr->flag_unroll_all_loops);
 
-  if (ptr->x_flag_unroll_loops)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_unroll_loops)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_unroll_loops",
-             ptr->x_flag_unroll_loops);
+             ptr->flag_unroll_loops);
 
-  if (ptr->x_flag_unsafe_loop_optimizations)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_unsafe_loop_optimizations)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_unsafe_loop_optimizations",
-             ptr->x_flag_unsafe_loop_optimizations);
+             ptr->flag_unsafe_loop_optimizations);
 
-  if (ptr->x_flag_unsafe_math_optimizations)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_unsafe_math_optimizations)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_unsafe_math_optimizations",
-             ptr->x_flag_unsafe_math_optimizations);
+             ptr->flag_unsafe_math_optimizations);
 
-  if (ptr->x_flag_unswitch_loops)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_unswitch_loops)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_unswitch_loops",
-             ptr->x_flag_unswitch_loops);
+             ptr->flag_unswitch_loops);
 
-  if (ptr->x_flag_unwind_tables)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_unwind_tables)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_unwind_tables",
-             ptr->x_flag_unwind_tables);
+             ptr->flag_unwind_tables);
 
-  if (ptr->x_flag_var_tracking)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_var_tracking)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_var_tracking",
-             ptr->x_flag_var_tracking);
+             ptr->flag_var_tracking);
 
-  if (ptr->x_flag_var_tracking_assignments)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_var_tracking_assignments)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_var_tracking_assignments",
-             ptr->x_flag_var_tracking_assignments);
+             ptr->flag_var_tracking_assignments);
 
-  if (ptr->x_flag_var_tracking_assignments_toggle)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_var_tracking_assignments_toggle)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_var_tracking_assignments_toggle",
-             ptr->x_flag_var_tracking_assignments_toggle);
+             ptr->flag_var_tracking_assignments_toggle);
 
-  if (ptr->x_flag_var_tracking_uninit)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_var_tracking_uninit)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_var_tracking_uninit",
-             ptr->x_flag_var_tracking_uninit);
+             ptr->flag_var_tracking_uninit);
 
-  if (ptr->x_flag_variable_expansion_in_unroller)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_variable_expansion_in_unroller)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_variable_expansion_in_unroller",
-             ptr->x_flag_variable_expansion_in_unroller);
+             ptr->flag_variable_expansion_in_unroller);
 
-  if (ptr->x_flag_vect_cost_model)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_vect_cost_model)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_vect_cost_model",
-             ptr->x_flag_vect_cost_model);
+             ptr->flag_vect_cost_model);
 
-  if (ptr->x_flag_value_profile_transformations)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_value_profile_transformations)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_value_profile_transformations",
-             ptr->x_flag_value_profile_transformations);
+             ptr->flag_value_profile_transformations);
 
-  if (ptr->x_flag_web)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_web)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_web",
-             ptr->x_flag_web);
+             ptr->flag_web);
 
-  if (ptr->x_flag_whole_program)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_whole_program)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_whole_program",
-             ptr->x_flag_whole_program);
+             ptr->flag_whole_program);
 
-  if (ptr->x_flag_wpa)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_wpa)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_wpa",
-             ptr->x_flag_wpa);
+             ptr->flag_wpa);
 
-  if (ptr->x_flag_wrapv)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->flag_wrapv)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent_to, "",
              "flag_wrapv",
-             ptr->x_flag_wrapv);
+             ptr->flag_wrapv);
 
 }
 
 /* Save selected option variables into a structure.  */
 void
-cl_target_option_save (struct cl_target_option *ptr, struct gcc_options *opts)
+cl_target_option_save (struct cl_target_option *ptr)
 {
   if (targetm.target_option.save)
     targetm.target_option.save (ptr);
 
-  ptr->x_target_flags = opts->x_target_flags;
+  ptr->target_flags = target_flags;
 }
 
 /* Restore selected current options from a structure.  */
 void
-cl_target_option_restore (struct gcc_options *opts, struct cl_target_option *ptr)
+cl_target_option_restore (struct cl_target_option *ptr)
 {
-  opts->x_target_flags = ptr->x_target_flags;
+  target_flags = ptr->target_flags;
 
   if (targetm.target_option.restore)
     targetm.target_option.restore (ptr);
@@ -8909,11 +6744,11 @@ cl_target_option_print (FILE *file,
                         struct cl_target_option *ptr)
 {
   fputs ("\n", file);
-  if (ptr->x_target_flags)
-    fprintf (file, "%*s%s (%#x)\n",
+  if (ptr->target_flags)
+    fprintf (file, "%*s%s (0x%x)\n",
              indent, "",
              "target_flags",
-             ptr->x_target_flags);
+             ptr->target_flags);
 
 
   if (targetm.target_option.print)

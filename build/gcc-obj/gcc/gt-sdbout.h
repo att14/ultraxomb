@@ -33,8 +33,8 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gt_sdbout_h[] = {
     &deferred_global_decls,
     1,
     sizeof (deferred_global_decls),
-    &gt_ggc_mx_VEC_tree_gc,
-    &gt_pch_nx_VEC_tree_gc
+    &gt_ggc_mx_varray_head_tag,
+    &gt_pch_nx_varray_head_tag
   },
   {
     &anonymous_types,

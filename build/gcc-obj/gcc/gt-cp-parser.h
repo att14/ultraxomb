@@ -47,41 +47,7 @@ gt_ggc_mx_cp_parser (void *x_p)
       gt_ggc_m_9tree_node ((*x).qualifying_scope);
       gt_ggc_m_17cp_parser_context ((*x).context);
       gt_ggc_m_S ((*x).type_definition_forbidden_message);
-      gt_ggc_m_34VEC_cp_unparsed_functions_entry_gc ((*x).unparsed_queues);
-    }
-}
-
-void
-gt_ggc_mx_VEC_cp_unparsed_functions_entry_gc (void *x_p)
-{
-  struct VEC_cp_unparsed_functions_entry_gc * const x = (struct VEC_cp_unparsed_functions_entry_gc *)x_p;
-  if (ggc_test_and_set_mark (x))
-    {
-      {
-        size_t i0;
-        size_t l0 = (size_t)(((*x).base).num);
-        for (i0 = 0; i0 != l0; i0++) {
-          gt_ggc_m_27VEC_cp_default_arg_entry_gc ((*x).base.vec[i0].funs_with_default_args);
-          gt_ggc_m_11VEC_tree_gc ((*x).base.vec[i0].funs_with_definitions);
-        }
-      }
-    }
-}
-
-void
-gt_ggc_mx_VEC_cp_default_arg_entry_gc (void *x_p)
-{
-  struct VEC_cp_default_arg_entry_gc * const x = (struct VEC_cp_default_arg_entry_gc *)x_p;
-  if (ggc_test_and_set_mark (x))
-    {
-      {
-        size_t i0;
-        size_t l0 = (size_t)(((*x).base).num);
-        for (i0 = 0; i0 != l0; i0++) {
-          gt_ggc_m_9tree_node ((*x).base.vec[i0].class_type);
-          gt_ggc_m_9tree_node ((*x).base.vec[i0].decl);
-        }
-      }
+      gt_ggc_m_9tree_node ((*x).unparsed_functions_queues);
     }
 }
 
@@ -172,41 +138,7 @@ gt_pch_nx_cp_parser (void *x_p)
       gt_pch_n_9tree_node ((*x).qualifying_scope);
       gt_pch_n_17cp_parser_context ((*x).context);
       gt_pch_n_S ((*x).type_definition_forbidden_message);
-      gt_pch_n_34VEC_cp_unparsed_functions_entry_gc ((*x).unparsed_queues);
-    }
-}
-
-void
-gt_pch_nx_VEC_cp_unparsed_functions_entry_gc (void *x_p)
-{
-  struct VEC_cp_unparsed_functions_entry_gc * const x = (struct VEC_cp_unparsed_functions_entry_gc *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_34VEC_cp_unparsed_functions_entry_gc, gt_ggc_e_34VEC_cp_unparsed_functions_entry_gc))
-    {
-      {
-        size_t i0;
-        size_t l0 = (size_t)(((*x).base).num);
-        for (i0 = 0; i0 != l0; i0++) {
-          gt_pch_n_27VEC_cp_default_arg_entry_gc ((*x).base.vec[i0].funs_with_default_args);
-          gt_pch_n_11VEC_tree_gc ((*x).base.vec[i0].funs_with_definitions);
-        }
-      }
-    }
-}
-
-void
-gt_pch_nx_VEC_cp_default_arg_entry_gc (void *x_p)
-{
-  struct VEC_cp_default_arg_entry_gc * const x = (struct VEC_cp_default_arg_entry_gc *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_27VEC_cp_default_arg_entry_gc, gt_ggc_e_27VEC_cp_default_arg_entry_gc))
-    {
-      {
-        size_t i0;
-        size_t l0 = (size_t)(((*x).base).num);
-        for (i0 = 0; i0 != l0; i0++) {
-          gt_pch_n_9tree_node ((*x).base.vec[i0].class_type);
-          gt_pch_n_9tree_node ((*x).base.vec[i0].decl);
-        }
-      }
+      gt_pch_n_9tree_node ((*x).unparsed_functions_queues);
     }
 }
 
@@ -306,45 +238,7 @@ gt_pch_p_9cp_parser (ATTRIBUTE_UNUSED void *this_obj,
   if ((void *)(x) == this_obj)
     op (&((*x).type_definition_forbidden_message), cookie);
   if ((void *)(x) == this_obj)
-    op (&((*x).unparsed_queues), cookie);
-}
-
-void
-gt_pch_p_34VEC_cp_unparsed_functions_entry_gc (ATTRIBUTE_UNUSED void *this_obj,
-	void *x_p,
-	ATTRIBUTE_UNUSED gt_pointer_operator op,
-	ATTRIBUTE_UNUSED void *cookie)
-{
-  struct VEC_cp_unparsed_functions_entry_gc * const x ATTRIBUTE_UNUSED = (struct VEC_cp_unparsed_functions_entry_gc *)x_p;
-  {
-    size_t i0;
-    size_t l0 = (size_t)(((*x).base).num);
-    for (i0 = 0; i0 != l0; i0++) {
-      if ((void *)(x) == this_obj)
-        op (&((*x).base.vec[i0].funs_with_default_args), cookie);
-      if ((void *)(x) == this_obj)
-        op (&((*x).base.vec[i0].funs_with_definitions), cookie);
-    }
-  }
-}
-
-void
-gt_pch_p_27VEC_cp_default_arg_entry_gc (ATTRIBUTE_UNUSED void *this_obj,
-	void *x_p,
-	ATTRIBUTE_UNUSED gt_pointer_operator op,
-	ATTRIBUTE_UNUSED void *cookie)
-{
-  struct VEC_cp_default_arg_entry_gc * const x ATTRIBUTE_UNUSED = (struct VEC_cp_default_arg_entry_gc *)x_p;
-  {
-    size_t i0;
-    size_t l0 = (size_t)(((*x).base).num);
-    for (i0 = 0; i0 != l0; i0++) {
-      if ((void *)(x) == this_obj)
-        op (&((*x).base.vec[i0].class_type), cookie);
-      if ((void *)(x) == this_obj)
-        op (&((*x).base.vec[i0].decl), cookie);
-    }
-  }
+    op (&((*x).unparsed_functions_queues), cookie);
 }
 
 void

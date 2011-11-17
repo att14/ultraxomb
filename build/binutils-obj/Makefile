@@ -37,12 +37,12 @@ host_alias=x86_64-unknown-linux-gnu
 host_vendor=unknown
 host_os=linux-gnu
 host=x86_64-unknown-linux-gnu
-target_alias=sparc64-pc-xomb
-target_vendor=pc
+target_alias=sparc64-sun-xomb
+target_vendor=sun
 target_os=xomb
-target=sparc64-pc-xomb
+target=sparc64-sun-xomb
 
-program_transform_name = s&^&sparc64-pc-xomb-&
+program_transform_name = s&^&sparc64-sun-xomb-&
 
 prefix = /home/att14/ultraxomb/local
 exec_prefix = ${prefix}
@@ -90,10 +90,10 @@ MAINTAINER_MODE_TRUE = #
 # -------------------------------------------------
 
 # The gcc driver likes to know the arguments it was configured with.
-TOPLEVEL_CONFIGURE_ARGUMENTS=../binutils-2.21.1/configure --target=sparc64-pc-xomb --prefix=/home/att14/ultraxomb/local --disable-werror --enable-gold --enable-plugins
+TOPLEVEL_CONFIGURE_ARGUMENTS=../binutils-2.21.1/configure --target=sparc64-sun-xomb --prefix=/home/att14/ultraxomb/local --disable-werror --enable-gold --enable-plugins
 
-tooldir = ${exec_prefix}/sparc64-pc-xomb
-build_tooldir = ${exec_prefix}/sparc64-pc-xomb
+tooldir = ${exec_prefix}/sparc64-sun-xomb
+build_tooldir = ${exec_prefix}/sparc64-sun-xomb
 
 GDB_NLM_DEPS = 
 
@@ -110,7 +110,7 @@ GCC_SHLIB_SUBDIR =
 BUILD_SUBDIR = build-x86_64-unknown-linux-gnu
 # This is set by the configure script to the arguments to use when configuring
 # directories built for the build system.
-BUILD_CONFIGARGS =  --cache-file=../config.cache '--prefix=/home/att14/ultraxomb/local' '--disable-werror' '--enable-gold' '--enable-plugins' --program-transform-name='s&^&sparc64-pc-xomb-&' --disable-option-checking --with-build-subdir="$(BUILD_SUBDIR)"
+BUILD_CONFIGARGS =  --cache-file=../config.cache '--prefix=/home/att14/ultraxomb/local' '--disable-werror' '--enable-gold' '--enable-plugins' --program-transform-name='s&^&sparc64-sun-xomb-&' --disable-option-checking --with-build-subdir="$(BUILD_SUBDIR)"
 
 # Linker flags to use on the host, for stage1 or when not
 # bootstrapping.
@@ -171,7 +171,7 @@ SUBDIRS =  intl libiberty opcodes bfd binutils gas ld gprof etc
 TARGET_CONFIGDIRS = 
 # This is set by the configure script to the arguments to use when configuring
 # directories built for the host system.
-HOST_CONFIGARGS =  --cache-file=./config.cache  --with-gnu-as --with-gnu-ld --with-system-zlib '--prefix=/home/att14/ultraxomb/local' '--disable-werror' '--enable-gold' '--enable-plugins' --program-transform-name='s&^&sparc64-pc-xomb-&' --disable-option-checking
+HOST_CONFIGARGS =  --cache-file=./config.cache  --with-gnu-as --with-gnu-ld --with-system-zlib '--prefix=/home/att14/ultraxomb/local' '--disable-werror' '--enable-gold' '--enable-plugins' --program-transform-name='s&^&sparc64-sun-xomb-&' --disable-option-checking
 # Host programs are put under this directory, which is . except if building
 # with srcdir=..
 HOST_SUBDIR = .
@@ -236,10 +236,10 @@ POSTSTAGE1_HOST_EXPORTS = \
 	HOST_LIBS="$(POSTSTAGE1_LIBS)"; export HOST_LIBS;
 
 # Target libraries are put under this directory:
-TARGET_SUBDIR = sparc64-pc-xomb
+TARGET_SUBDIR = sparc64-sun-xomb
 # This is set by the configure script to the arguments to use when configuring
 # directories built for the target.
-TARGET_CONFIGARGS = --cache-file=./config.cache --enable-multilib --with-cross-host=x86_64-unknown-linux-gnu  '--prefix=/home/att14/ultraxomb/local' '--disable-werror' '--enable-gold' '--enable-plugins' --program-transform-name='s&^&sparc64-pc-xomb-&' --disable-option-checking --with-target-subdir="$(TARGET_SUBDIR)"
+TARGET_CONFIGARGS = --cache-file=./config.cache --enable-multilib --with-cross-host=x86_64-unknown-linux-gnu  '--prefix=/home/att14/ultraxomb/local' '--disable-werror' '--enable-gold' '--enable-plugins' --program-transform-name='s&^&sparc64-sun-xomb-&' --disable-option-checking --with-target-subdir="$(TARGET_SUBDIR)"
 # This is the list of variables to export in the environment when
 # configuring subdirectories for the target system.
 BASE_TARGET_EXPORTS = \
@@ -458,21 +458,21 @@ do-compare3 = $(do-compare)
 
 AR_FOR_TARGET=$$r/$(HOST_SUBDIR)/binutils/ar
 AS_FOR_TARGET=$$r/$(HOST_SUBDIR)/gas/as-new
-CC_FOR_TARGET=$(STAGE_CC_WRAPPER) sparc64-pc-xomb-gcc
+CC_FOR_TARGET=$(STAGE_CC_WRAPPER) sparc64-sun-xomb-cc
 
 # If GCC_FOR_TARGET is not overriden on the command line, then this
 # variable is passed down to the gcc Makefile, where it is used to
 # build libgcc2.a.  We define it here so that it can itself be
 # overridden on the command line.
-GCC_FOR_TARGET=$(STAGE_CC_WRAPPER) sparc64-pc-xomb-gcc
-CXX_FOR_TARGET=$(STAGE_CC_WRAPPER) sparc64-pc-xomb-c++
-RAW_CXX_FOR_TARGET=$(STAGE_CC_WRAPPER) sparc64-pc-xomb-c++
-GCJ_FOR_TARGET=$(STAGE_CC_WRAPPER) sparc64-pc-xomb-gcj
-GFORTRAN_FOR_TARGET=$(STAGE_CC_WRAPPER) sparc64-pc-xomb-gfortran
+GCC_FOR_TARGET=$(STAGE_CC_WRAPPER) sparc64-sun-xomb-gcc
+CXX_FOR_TARGET=$(STAGE_CC_WRAPPER) sparc64-sun-xomb-c++
+RAW_CXX_FOR_TARGET=$(STAGE_CC_WRAPPER) sparc64-sun-xomb-c++
+GCJ_FOR_TARGET=$(STAGE_CC_WRAPPER) sparc64-sun-xomb-gcj
+GFORTRAN_FOR_TARGET=$(STAGE_CC_WRAPPER) sparc64-sun-xomb-gfortran
 DLLTOOL_FOR_TARGET=$$r/$(HOST_SUBDIR)/binutils/dlltool
 LD_FOR_TARGET=$$r/$(HOST_SUBDIR)/ld/ld-new
 
-LIPO_FOR_TARGET=sparc64-pc-xomb-lipo
+LIPO_FOR_TARGET=sparc64-sun-xomb-lipo
 NM_FOR_TARGET=$$r/$(HOST_SUBDIR)/binutils/nm-new
 OBJDUMP_FOR_TARGET=$$r/$(HOST_SUBDIR)/binutils/objdump
 RANLIB_FOR_TARGET=$$r/$(HOST_SUBDIR)/binutils/ranlib

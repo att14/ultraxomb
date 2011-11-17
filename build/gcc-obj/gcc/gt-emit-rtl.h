@@ -29,6 +29,13 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gt_emit_rtl_h[] = {
     &gt_ggc_mx_tree_node,
     &gt_pch_nx_tree_node
   },
+  {
+    &static_regno_reg_rtx[0],
+    1 * (FIRST_PSEUDO_REGISTER),
+    sizeof (static_regno_reg_rtx[0]),
+    &gt_ggc_mx_rtx_def,
+    &gt_pch_nx_rtx_def
+  },
   LAST_GGC_ROOT_TAB
 };
 

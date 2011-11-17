@@ -36,7 +36,7 @@ ac_cv_env_build_alias_value=x86_64-unknown-linux-gnu
 ac_cv_env_host_alias_set=set
 ac_cv_env_host_alias_value=x86_64-unknown-linux-gnu
 ac_cv_env_target_alias_set=set
-ac_cv_env_target_alias_value=sparc64-pc-xomb
+ac_cv_env_target_alias_value=sparc64-sun-xomb
 ac_cv_func_alloca_works=${ac_cv_func_alloca_works=yes}
 ac_cv_func_sbrk=${ac_cv_func_sbrk=yes}
 ac_cv_func_unlink=${ac_cv_func_unlink=yes}
@@ -89,7 +89,7 @@ ac_cv_search_strerror=${ac_cv_search_strerror='none required'}
 ac_cv_search_zlibVersion=${ac_cv_search_zlibVersion=-lz}
 ac_cv_sys_file_offset_bits=${ac_cv_sys_file_offset_bits=no}
 ac_cv_sys_largefile_CC=${ac_cv_sys_largefile_CC=no}
-ac_cv_target=${ac_cv_target=sparc64-pc-xomb}
+ac_cv_target=${ac_cv_target=sparc64-sun-xomb}
 ac_cv_working_alloca_h=${ac_cv_working_alloca_h=yes}
 am_cv_CC_dependencies_compiler_type=${am_cv_CC_dependencies_compiler_type=gcc3}
 gas_cv_assert_ok=${gas_cv_assert_ok=yes}

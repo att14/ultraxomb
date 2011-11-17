@@ -10,10 +10,11 @@ from the machine description file `md'.  */
 #include "tm_p.h"
 #include "regs.h"
 #include "output.h"
+#include "real.h"
 #include "recog.h"
 #include "except.h"
 #include "function.h"
-#include "diagnostic-core.h"
+#include "toplev.h"
 #include "flags.h"
 #include "tm-constrs.h"
 

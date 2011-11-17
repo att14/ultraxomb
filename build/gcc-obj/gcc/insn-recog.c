@@ -10,11 +10,12 @@
 #include "function.h"
 #include "insn-config.h"
 #include "recog.h"
+#include "real.h"
 #include "output.h"
 #include "flags.h"
 #include "hard-reg-set.h"
 #include "resource.h"
-#include "diagnostic-core.h"
+#include "toplev.h"
 #include "reload.h"
 #include "regs.h"
 #include "tm-constrs.h"
@@ -49,6 +50,7 @@
 */
 
 
+extern rtx gen_split_432 (rtx, rtx *);
 extern rtx gen_split_433 (rtx, rtx *);
 extern rtx gen_split_434 (rtx, rtx *);
 extern rtx gen_split_435 (rtx, rtx *);
@@ -65,11 +67,11 @@ extern rtx gen_split_445 (rtx, rtx *);
 extern rtx gen_split_446 (rtx, rtx *);
 extern rtx gen_split_447 (rtx, rtx *);
 extern rtx gen_split_448 (rtx, rtx *);
-extern rtx gen_split_449 (rtx, rtx *);
+extern rtx gen_split_463 (rtx, rtx *);
 extern rtx gen_split_464 (rtx, rtx *);
 extern rtx gen_split_465 (rtx, rtx *);
-extern rtx gen_split_466 (rtx, rtx *);
-extern rtx gen_split_470 (rtx, rtx *);
+extern rtx gen_split_469 (rtx, rtx *);
+extern rtx gen_split_474 (rtx, rtx *);
 extern rtx gen_split_475 (rtx, rtx *);
 extern rtx gen_split_476 (rtx, rtx *);
 extern rtx gen_split_477 (rtx, rtx *);
@@ -81,23 +83,23 @@ extern rtx gen_split_482 (rtx, rtx *);
 extern rtx gen_split_483 (rtx, rtx *);
 extern rtx gen_split_484 (rtx, rtx *);
 extern rtx gen_split_485 (rtx, rtx *);
-extern rtx gen_split_486 (rtx, rtx *);
+extern rtx gen_split_487 (rtx, rtx *);
 extern rtx gen_split_488 (rtx, rtx *);
 extern rtx gen_split_489 (rtx, rtx *);
 extern rtx gen_split_490 (rtx, rtx *);
-extern rtx gen_split_491 (rtx, rtx *);
+extern rtx gen_split_498 (rtx, rtx *);
 extern rtx gen_split_499 (rtx, rtx *);
-extern rtx gen_split_500 (rtx, rtx *);
-extern rtx gen_split_540 (rtx, rtx *);
-extern rtx gen_split_545 (rtx, rtx *);
+extern rtx gen_split_539 (rtx, rtx *);
+extern rtx gen_split_544 (rtx, rtx *);
+extern rtx gen_split_549 (rtx, rtx *);
 extern rtx gen_split_550 (rtx, rtx *);
-extern rtx gen_split_551 (rtx, rtx *);
+extern rtx gen_split_561 (rtx, rtx *);
 extern rtx gen_split_562 (rtx, rtx *);
-extern rtx gen_split_563 (rtx, rtx *);
-extern rtx gen_split_565 (rtx, rtx *);
+extern rtx gen_split_564 (rtx, rtx *);
+extern rtx gen_split_566 (rtx, rtx *);
 extern rtx gen_split_567 (rtx, rtx *);
-extern rtx gen_split_568 (rtx, rtx *);
-extern rtx gen_split_570 (rtx, rtx *);
+extern rtx gen_split_569 (rtx, rtx *);
+extern rtx gen_peephole2_590 (rtx, rtx *);
 extern rtx gen_peephole2_591 (rtx, rtx *);
 extern rtx gen_peephole2_592 (rtx, rtx *);
 extern rtx gen_peephole2_593 (rtx, rtx *);
@@ -109,7 +111,6 @@ extern rtx gen_peephole2_598 (rtx, rtx *);
 extern rtx gen_peephole2_599 (rtx, rtx *);
 extern rtx gen_peephole2_600 (rtx, rtx *);
 extern rtx gen_peephole2_601 (rtx, rtx *);
-extern rtx gen_peephole2_602 (rtx, rtx *);
 
 
 
@@ -145,7 +146,7 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
     case GEU:
       goto L260;
     case UNSPEC:
-      goto L3629;
+      goto L3618;
     case LO_SUM:
       goto L447;
     case HIGH:
@@ -172,15 +173,15 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
   switch (GET_MODE (x2))
     {
     case SImode:
-      goto L3631;
+      goto L3620;
     case DImode:
-      goto L3632;
+      goto L3621;
     default:
       break;
     }
   goto ret0;
 
- L3631: ATTRIBUTE_UNUSED_LABEL
+ L3620: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, SImode))
     {
       operands[1] = x2;
@@ -198,7 +199,7 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
     }
   goto ret0;
 
- L3632: ATTRIBUTE_UNUSED_LABEL
+ L3621: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, DImode))
     {
       operands[1] = x2;
@@ -217,10 +218,10 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
  L71: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == SImode)
-    goto L3633;
+    goto L3622;
   goto ret0;
 
- L3633: ATTRIBUTE_UNUSED_LABEL
+ L3622: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x2))
     {
     case NE:
@@ -343,15 +344,15 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
   switch (GET_MODE (x2))
     {
     case SImode:
-      goto L3638;
+      goto L3627;
     case DImode:
-      goto L3639;
+      goto L3628;
     default:
       break;
     }
   goto ret0;
 
- L3638: ATTRIBUTE_UNUSED_LABEL
+ L3627: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, SImode))
     {
       operands[1] = x2;
@@ -369,7 +370,7 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
     }
   goto ret0;
 
- L3639: ATTRIBUTE_UNUSED_LABEL
+ L3628: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, DImode))
     {
       operands[1] = x2;
@@ -388,10 +389,10 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
  L173: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == SImode)
-    goto L3640;
+    goto L3629;
   goto ret0;
 
- L3640: ATTRIBUTE_UNUSED_LABEL
+ L3629: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x2))
     {
     case NE:
@@ -406,11 +407,11 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
       goto L1108;
     case REG:
     case SUBREG:
-      goto L3645;
+      goto L3634;
     default:
       goto ret0;
    }
- L3645: ATTRIBUTE_UNUSED_LABEL
+ L3634: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, SImode))
     {
       operands[1] = x2;
@@ -602,7 +603,7 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
  L191: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == SImode)
-    goto L3647;
+    goto L3636;
  L303: ATTRIBUTE_UNUSED_LABEL
   if (register_or_zero_operand (x2, SImode))
     {
@@ -611,7 +612,7 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
     }
   goto ret0;
 
- L3647: ATTRIBUTE_UNUSED_LABEL
+ L3636: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x2))
     {
     case NEG:
@@ -620,17 +621,17 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
       goto L295;
     case REG:
     case SUBREG:
-      goto L3646;
+      goto L3635;
     default:
-      goto L3648;
+      goto L3637;
    }
- L3646: ATTRIBUTE_UNUSED_LABEL
+ L3635: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, SImode))
     {
       operands[2] = x2;
       goto L192;
     }
- L3648: ATTRIBUTE_UNUSED_LABEL
+ L3637: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, SImode))
     {
       operands[1] = x2;
@@ -700,16 +701,16 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
   switch (GET_MODE (x3))
     {
     case CCmode:
-      goto L3650;
+      goto L3639;
     case CC_NOOVmode:
-      goto L3651;
+      goto L3640;
     default:
       break;
     }
   x2 = XEXP (x1, 0);
   goto L303;
 
- L3650: ATTRIBUTE_UNUSED_LABEL
+ L3639: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x3) == REG
       && XINT (x3, 0) == 100)
     goto L299;
@@ -725,7 +726,7 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
   x2 = XEXP (x1, 0);
   goto L303;
 
- L3651: ATTRIBUTE_UNUSED_LABEL
+ L3640: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x3) == REG
       && XINT (x3, 0) == 100)
     goto L1181;
@@ -744,11 +745,11 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
  L192: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (GET_MODE (x2) == SImode)
-    goto L3652;
+    goto L3641;
   x2 = XEXP (x1, 0);
-  goto L3648;
+  goto L3637;
 
- L3652: ATTRIBUTE_UNUSED_LABEL
+ L3641: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x2))
     {
     case NE:
@@ -759,7 +760,7 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
      break;
    }
   x2 = XEXP (x1, 0);
-  goto L3648;
+  goto L3637;
 
  L193: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
@@ -769,7 +770,7 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
       goto L194;
     }
   x2 = XEXP (x1, 0);
-  goto L3648;
+  goto L3637;
 
  L194: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
@@ -780,7 +781,7 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
       return 21;  /* *x_minus_i_ne_0 */
     }
   x2 = XEXP (x1, 0);
-  goto L3648;
+  goto L3637;
 
  L228: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
@@ -790,7 +791,7 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
       goto L229;
     }
   x2 = XEXP (x1, 0);
-  goto L3648;
+  goto L3637;
 
  L229: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
@@ -801,12 +802,12 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
       return 23;  /* *x_minus_i_eq_0 */
     }
   x2 = XEXP (x1, 0);
-  goto L3648;
+  goto L3637;
 
  L288: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (GET_MODE (x2) == SImode)
-    goto L3654;
+    goto L3643;
  L1201: ATTRIBUTE_UNUSED_LABEL
   if (arith_add_operand (x2, SImode))
     {
@@ -816,7 +817,7 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
   x2 = XEXP (x1, 0);
   goto L303;
 
- L3654: ATTRIBUTE_UNUSED_LABEL
+ L3643: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x2))
     {
     case LTU:
@@ -929,12 +930,12 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
     }
   goto ret0;
 
- L3629: ATTRIBUTE_UNUSED_LABEL
+ L3618: ATTRIBUTE_UNUSED_LABEL
   if (XVECLEN (x1, 0) == 3)
-    goto L3656;
+    goto L3645;
   goto ret0;
 
- L3656: ATTRIBUTE_UNUSED_LABEL
+ L3645: ATTRIBUTE_UNUSED_LABEL
   switch (XINT (x1, 1))
     {
     case 2L:
@@ -975,9 +976,9 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
 
  L410: ATTRIBUTE_UNUSED_LABEL
   if ((
-#line 1124 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1117 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (REGNO (operands[0]) == INTVAL (operands[3])) && 
-#line 82 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 81 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (Pmode == SImode))
       && pnum_clobbers != NULL)
     {
@@ -1015,7 +1016,7 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
 
  L472: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1261 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1254 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (flag_pic && check_pic (1)))
     {
       return 55;  /* movsi_pic_gotdata_op */
@@ -1034,7 +1035,7 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
  L457: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (GET_MODE (x2) == SImode)
-    goto L3658;
+    goto L3647;
  L448: ATTRIBUTE_UNUSED_LABEL
   if (immediate_operand (x2, SImode))
     {
@@ -1043,24 +1044,24 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
     }
   goto ret0;
 
- L3658: ATTRIBUTE_UNUSED_LABEL
+ L3647: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == UNSPEC)
-    goto L3660;
+    goto L3649;
   goto L448;
 
- L3660: ATTRIBUTE_UNUSED_LABEL
+ L3649: ATTRIBUTE_UNUSED_LABEL
   switch (XVECLEN (x2, 0))
     {
     case 1:
-      goto L3662;
+      goto L3651;
     case 2:
-      goto L3663;
+      goto L3652;
     default:
       break;
     }
   goto L448;
 
- L3662: ATTRIBUTE_UNUSED_LABEL
+ L3651: ATTRIBUTE_UNUSED_LABEL
   if (XINT (x2, 1) == 0)
     goto L458;
   goto L448;
@@ -1076,7 +1077,7 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
 
  L459: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1235 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1228 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (flag_pic))
     {
       return 53;  /* movsi_lo_sum_pic */
@@ -1085,7 +1086,7 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
   x2 = XEXP (x1, 1);
   goto L448;
 
- L3663: ATTRIBUTE_UNUSED_LABEL
+ L3652: ATTRIBUTE_UNUSED_LABEL
   if (XINT (x2, 1) == 5)
     goto L485;
   goto L448;
@@ -1106,7 +1107,7 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
 
  L487: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1309 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1302 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (flag_pic))
     {
       return 57;  /* *movsi_lo_sum_pic_label_ref */
@@ -1118,7 +1119,7 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
  L463: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == SImode)
-    goto L3664;
+    goto L3653;
  L452: ATTRIBUTE_UNUSED_LABEL
   if (immediate_operand (x2, SImode))
     {
@@ -1127,24 +1128,24 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
     }
   goto ret0;
 
- L3664: ATTRIBUTE_UNUSED_LABEL
+ L3653: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == UNSPEC)
-    goto L3666;
+    goto L3655;
   goto L452;
 
- L3666: ATTRIBUTE_UNUSED_LABEL
+ L3655: ATTRIBUTE_UNUSED_LABEL
   switch (XVECLEN (x2, 0))
     {
     case 1:
-      goto L3668;
+      goto L3657;
     case 2:
-      goto L3669;
+      goto L3658;
     default:
       break;
     }
   goto L452;
 
- L3668: ATTRIBUTE_UNUSED_LABEL
+ L3657: ATTRIBUTE_UNUSED_LABEL
   if (XINT (x2, 1) == 0)
     goto L464;
   goto L452;
@@ -1156,7 +1157,7 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
 
  L465: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1247 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1240 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (flag_pic && check_pic (1)))
     {
       return 54;  /* movsi_high_pic */
@@ -1165,7 +1166,7 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
   x2 = XEXP (x1, 0);
   goto L452;
 
- L3669: ATTRIBUTE_UNUSED_LABEL
+ L3658: ATTRIBUTE_UNUSED_LABEL
   if (XINT (x2, 1) == 5)
     goto L477;
   goto L452;
@@ -1186,7 +1187,7 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
 
  L479: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1301 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1294 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (flag_pic))
     {
       return 56;  /* *movsi_high_pic_label_ref */
@@ -1247,7 +1248,7 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
 
  L724: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2549 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2542 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V9 && !(SImode == DImode && TARGET_ARCH32)))
     {
       return 100;  /* *movsi_cc_v9 */
@@ -1305,7 +1306,7 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
 
  L851: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2799 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2792 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (GET_CODE (operands[1]) != CONST_INT))
     {
       return 116;  /* *zero_extendqisi2_insn */
@@ -1317,15 +1318,15 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
   switch (GET_MODE (x2))
     {
     case HImode:
-      goto L3670;
+      goto L3659;
     case QImode:
-      goto L3671;
+      goto L3660;
     default:
       break;
     }
   goto ret0;
 
- L3670: ATTRIBUTE_UNUSED_LABEL
+ L3659: ATTRIBUTE_UNUSED_LABEL
   if (memory_operand (x2, HImode))
     {
       operands[1] = x2;
@@ -1333,7 +1334,7 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
     }
   goto ret0;
 
- L3671: ATTRIBUTE_UNUSED_LABEL
+ L3660: ATTRIBUTE_UNUSED_LABEL
   if (memory_operand (x2, QImode))
     {
       operands[1] = x2;
@@ -1346,17 +1347,17 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
   switch (GET_MODE (x2))
     {
     case SFmode:
-      goto L3672;
+      goto L3661;
     case DFmode:
-      goto L3673;
+      goto L3662;
     case TFmode:
-      goto L3674;
+      goto L3663;
     default:
       break;
     }
   goto ret0;
 
- L3672: ATTRIBUTE_UNUSED_LABEL
+ L3661: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == FIX)
     goto L1074;
   goto ret0;
@@ -1372,14 +1373,14 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1075: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 3415 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3408 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU))
     {
       return 152;  /* fix_truncsfsi2 */
     }
   goto ret0;
 
- L3673: ATTRIBUTE_UNUSED_LABEL
+ L3662: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == FIX)
     goto L1080;
   goto ret0;
@@ -1395,14 +1396,14 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1081: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 3423 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3416 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU))
     {
       return 153;  /* fix_truncdfsi2 */
     }
   goto ret0;
 
- L3674: ATTRIBUTE_UNUSED_LABEL
+ L3663: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, TFmode))
     {
       operands[1] = x2;
@@ -1412,7 +1413,7 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1086: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 3437 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3430 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU && TARGET_HARD_QUAD))
     {
       return 154;  /* *fix_trunctfsi2_hq */
@@ -1439,7 +1440,7 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1247: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 3854 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3847 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_HARD_MUL))
     {
       return 174;  /* mulsi3 */
@@ -1503,7 +1504,7 @@ recog_1 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1358: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 4073 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4066 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8PLUS)
       && pnum_clobbers != NULL)
     {
@@ -1535,13 +1536,13 @@ recog_2 (rtx x0 ATTRIBUTE_UNUSED,
       operands[0] = x1;
       goto L56;
     }
- L3551: ATTRIBUTE_UNUSED_LABEL
+ L3540: ATTRIBUTE_UNUSED_LABEL
   if (nonimmediate_operand (x1, SImode))
     {
       operands[0] = x1;
       goto L442;
     }
- L3567: ATTRIBUTE_UNUSED_LABEL
+ L3556: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x1, SImode))
     {
       operands[0] = x1;
@@ -1552,16 +1553,16 @@ recog_2 (rtx x0 ATTRIBUTE_UNUSED,
  L56: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (GET_MODE (x1) == SImode)
-    goto L3612;
+    goto L3601;
   x1 = XEXP (x0, 0);
-  goto L3551;
+  goto L3540;
 
- L3612: ATTRIBUTE_UNUSED_LABEL
+ L3601: ATTRIBUTE_UNUSED_LABEL
   tem = recog_1 (x0, insn, pnum_clobbers);
   if (tem >= 0)
     return tem;
   x1 = XEXP (x0, 0);
-  goto L3551;
+  goto L3540;
 
  L442: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
@@ -1571,30 +1572,30 @@ recog_2 (rtx x0 ATTRIBUTE_UNUSED,
       goto L443;
     }
   x1 = XEXP (x0, 0);
-  goto L3567;
+  goto L3556;
 
  L443: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1203 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1196 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 ((register_operand (operands[0], SImode)
     || register_or_zero_operand (operands[1], SImode))))
     {
       return 50;  /* *movsi_insn */
     }
   x1 = XEXP (x0, 0);
-  goto L3567;
+  goto L3556;
 
  L1375: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (GET_MODE (x1) == SImode)
-    goto L3675;
+    goto L3664;
   goto ret0;
 
- L3675: ATTRIBUTE_UNUSED_LABEL
+ L3664: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x1))
     {
     case SUBREG:
-      goto L3687;
+      goto L3676;
     case TRUNCATE:
       goto L1400;
     case UDIV:
@@ -1622,7 +1623,7 @@ recog_2 (rtx x0 ATTRIBUTE_UNUSED,
    }
   goto ret0;
 
- L3687: ATTRIBUTE_UNUSED_LABEL
+ L3676: ATTRIBUTE_UNUSED_LABEL
   if (XINT (x1, 1) == 4)
     goto L1376;
   goto ret0;
@@ -1684,12 +1685,12 @@ recog_2 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1383: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 4091 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4084 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8PLUS)
       && pnum_clobbers != NULL)
     {
       *pnum_clobbers = 1;
-      return 183;  /* *sparc.md:4082 */
+      return 183;  /* *sparc.md:4075 */
     }
   goto ret0;
 
@@ -1710,10 +1711,10 @@ recog_2 (rtx x0 ATTRIBUTE_UNUSED,
  L1402: ATTRIBUTE_UNUSED_LABEL
   x4 = XEXP (x3, 0);
   if (GET_MODE (x4) == DImode)
-    goto L3688;
+    goto L3677;
   goto ret0;
 
- L3688: ATTRIBUTE_UNUSED_LABEL
+ L3677: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x4))
     {
     case SIGN_EXTEND:
@@ -1754,7 +1755,7 @@ recog_2 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1406: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 4106 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4099 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8PLUS)
       && pnum_clobbers != NULL)
     {
@@ -1804,7 +1805,7 @@ recog_2 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1482: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 4280 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4273 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8PLUS)
       && pnum_clobbers != NULL)
     {
@@ -1824,7 +1825,7 @@ recog_2 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1505: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 4295 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4288 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8PLUS)
       && pnum_clobbers != NULL)
     {
@@ -1853,7 +1854,7 @@ recog_2 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1554: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 4479 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4472 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_DEPRECATED_V8_INSNS && TARGET_ARCH64))
     {
       return 194;  /* udivsi3_sp64 */
@@ -1896,7 +1897,7 @@ recog_2 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1580: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 4520 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4513 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_SPARCLET))
     {
       return 197;  /* *smacsi */
@@ -2059,16 +2060,16 @@ recog_2 (rtx x0 ATTRIBUTE_UNUSED,
  L2292: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == SImode)
-    goto L3690;
+    goto L3679;
   goto ret0;
 
- L3690: ATTRIBUTE_UNUSED_LABEL
+ L3679: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, SImode))
     {
       operands[1] = x2;
       goto L2293;
     }
- L3691: ATTRIBUTE_UNUSED_LABEL
+ L3680: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == SUBREG
       && XINT (x2, 1) == 4)
     goto L2374;
@@ -2082,15 +2083,15 @@ recog_2 (rtx x0 ATTRIBUTE_UNUSED,
       return 306;  /* ashrsi3 */
     }
   x2 = XEXP (x1, 0);
-  goto L3691;
+  goto L3680;
 
  L2374: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (GET_MODE (x3) == DImode)
-    goto L3692;
+    goto L3681;
   goto ret0;
 
- L3692: ATTRIBUTE_UNUSED_LABEL
+ L3681: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x3))
     {
     case LSHIFTRT:
@@ -2128,10 +2129,10 @@ recog_2 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2378: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5854 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5847 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64 && (unsigned HOST_WIDE_INT) INTVAL (operands[2]) < 32))
     {
-      return 316;  /* *sparc.md:5849 */
+      return 316;  /* *sparc.md:5842 */
     }
   goto ret0;
 
@@ -2164,29 +2165,29 @@ recog_2 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2396: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5878 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5871 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64
    && (unsigned HOST_WIDE_INT) INTVAL (operands[2]) >= 32
    && (unsigned HOST_WIDE_INT) INTVAL (operands[3]) < 32
    && (unsigned HOST_WIDE_INT) (INTVAL (operands[2]) + INTVAL (operands[3])) < 64))
     {
-      return 318;  /* *sparc.md:5873 */
+      return 318;  /* *sparc.md:5866 */
     }
   goto ret0;
 
  L2332: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == SImode)
-    goto L3694;
+    goto L3683;
   goto ret0;
 
- L3694: ATTRIBUTE_UNUSED_LABEL
+ L3683: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, SImode))
     {
       operands[1] = x2;
       goto L2333;
     }
- L3695: ATTRIBUTE_UNUSED_LABEL
+ L3684: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == SUBREG
       && XINT (x2, 1) == 4)
     goto L2383;
@@ -2200,15 +2201,15 @@ recog_2 (rtx x0 ATTRIBUTE_UNUSED,
       return 311;  /* lshrsi3 */
     }
   x2 = XEXP (x1, 0);
-  goto L3695;
+  goto L3684;
 
  L2383: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (GET_MODE (x3) == DImode)
-    goto L3696;
+    goto L3685;
   goto ret0;
 
- L3696: ATTRIBUTE_UNUSED_LABEL
+ L3685: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x3))
     {
     case ASHIFTRT:
@@ -2246,10 +2247,10 @@ recog_2 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2387: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5866 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5859 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64 && (unsigned HOST_WIDE_INT) INTVAL (operands[2]) < 32))
     {
-      return 317;  /* *sparc.md:5861 */
+      return 317;  /* *sparc.md:5854 */
     }
   goto ret0;
 
@@ -2282,13 +2283,13 @@ recog_2 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2405: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5894 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5887 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64
    && (unsigned HOST_WIDE_INT) INTVAL (operands[2]) >= 32
    && (unsigned HOST_WIDE_INT) INTVAL (operands[3]) < 32
    && (unsigned HOST_WIDE_INT) (INTVAL (operands[2]) + INTVAL (operands[3])) < 64))
     {
-      return 319;  /* *sparc.md:5889 */
+      return 319;  /* *sparc.md:5882 */
     }
   goto ret0;
  ret0:
@@ -2319,7 +2320,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
     case EQ:
       goto L142;
     case UNSPEC:
-      goto L3723;
+      goto L3712;
     case HIGH:
       goto L499;
     case LO_SUM:
@@ -2368,15 +2369,15 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
   switch (GET_MODE (x2))
     {
     case SImode:
-      goto L3726;
+      goto L3715;
     case DImode:
-      goto L3727;
+      goto L3716;
     default:
       break;
     }
   goto ret0;
 
- L3726: ATTRIBUTE_UNUSED_LABEL
+ L3715: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, SImode))
     {
       operands[1] = x2;
@@ -2394,7 +2395,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
     }
   goto ret0;
 
- L3727: ATTRIBUTE_UNUSED_LABEL
+ L3716: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, DImode))
     {
       operands[1] = x2;
@@ -2413,10 +2414,10 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
  L95: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == DImode)
-    goto L3728;
+    goto L3717;
   goto ret0;
 
- L3728: ATTRIBUTE_UNUSED_LABEL
+ L3717: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x2))
     {
     case NE:
@@ -2425,11 +2426,11 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
       goto L153;
     case REG:
     case SUBREG:
-      goto L3730;
+      goto L3719;
     default:
       goto ret0;
    }
- L3730: ATTRIBUTE_UNUSED_LABEL
+ L3719: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, DImode))
     {
       operands[1] = x2;
@@ -2476,15 +2477,15 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
   switch (GET_MODE (x2))
     {
     case SImode:
-      goto L3731;
+      goto L3720;
     case DImode:
-      goto L3732;
+      goto L3721;
     default:
       break;
     }
   goto ret0;
 
- L3731: ATTRIBUTE_UNUSED_LABEL
+ L3720: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, SImode))
     {
       operands[1] = x2;
@@ -2502,7 +2503,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
     }
   goto ret0;
 
- L3732: ATTRIBUTE_UNUSED_LABEL
+ L3721: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, DImode))
     {
       operands[1] = x2;
@@ -2518,19 +2519,19 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
     }
   goto ret0;
 
- L3723: ATTRIBUTE_UNUSED_LABEL
+ L3712: ATTRIBUTE_UNUSED_LABEL
   switch (XVECLEN (x1, 0))
     {
     case 3:
-      goto L3733;
+      goto L3722;
     case 1:
-      goto L3735;
+      goto L3724;
     default:
       break;
     }
   goto ret0;
 
- L3733: ATTRIBUTE_UNUSED_LABEL
+ L3722: ATTRIBUTE_UNUSED_LABEL
   switch (XINT (x1, 1))
     {
     case 2L:
@@ -2571,9 +2572,9 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L426: ATTRIBUTE_UNUSED_LABEL
   if ((
-#line 1124 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1117 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (REGNO (operands[0]) == INTVAL (operands[3])) && 
-#line 82 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 81 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (Pmode == DImode))
       && pnum_clobbers != NULL)
     {
@@ -2611,14 +2612,14 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L530: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1494 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1487 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64 && flag_pic && check_pic (1)))
     {
       return 64;  /* movdi_pic_gotdata_op */
     }
   goto ret0;
 
- L3735: ATTRIBUTE_UNUSED_LABEL
+ L3724: ATTRIBUTE_UNUSED_LABEL
   if (XINT (x1, 1) == 11)
     goto L606;
   goto ret0;
@@ -2634,7 +2635,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L607: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1585 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1578 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_CM_EMBMEDANY))
     {
       return 77;  /* embmedany_brsum */
@@ -2644,20 +2645,20 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
  L499: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == DImode)
-    goto L3736;
+    goto L3725;
   goto ret0;
 
- L3736: ATTRIBUTE_UNUSED_LABEL
+ L3725: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x2))
     {
     case UNSPEC:
-      goto L3746;
+      goto L3735;
     case CONST:
-      goto L3748;
+      goto L3737;
     default:
      break;
    }
- L3739: ATTRIBUTE_UNUSED_LABEL
+ L3728: ATTRIBUTE_UNUSED_LABEL
   if (symbolic_operand (x2, DImode))
     {
       operands[1] = x2;
@@ -2665,19 +2666,19 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
     }
   goto ret0;
 
- L3746: ATTRIBUTE_UNUSED_LABEL
+ L3735: ATTRIBUTE_UNUSED_LABEL
   switch (XVECLEN (x2, 0))
     {
     case 2:
-      goto L3755;
+      goto L3744;
     case 1:
-      goto L3756;
+      goto L3745;
     default:
       break;
     }
   goto ret0;
 
- L3755: ATTRIBUTE_UNUSED_LABEL
+ L3744: ATTRIBUTE_UNUSED_LABEL
   if (XINT (x2, 1) == 5)
     goto L500;
   goto ret0;
@@ -2698,14 +2699,14 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L502: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1450 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1443 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64 && flag_pic))
     {
       return 60;  /* *movdi_high_pic_label_ref */
     }
   goto ret0;
 
- L3756: ATTRIBUTE_UNUSED_LABEL
+ L3745: ATTRIBUTE_UNUSED_LABEL
   switch (XINT (x2, 1))
     {
     case 0L:
@@ -2734,7 +2735,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L523: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1480 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1473 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64 && flag_pic && check_pic (1)))
     {
       return 63;  /* movdi_high_pic */
@@ -2752,7 +2753,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L552: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1526 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1519 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_CM_MEDMID))
     {
       return 68;  /* seth44 */
@@ -2770,7 +2771,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L571: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1546 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1539 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_CM_MEDANY))
     {
       return 71;  /* sethh */
@@ -2788,7 +2789,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L577: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1552 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1545 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_CM_MEDANY))
     {
       return 72;  /* setlm */
@@ -2806,7 +2807,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L596: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1572 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1565 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_CM_EMBMEDANY && check_pic (1)))
     {
       return 75;  /* embmedany_sethi */
@@ -2824,7 +2825,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L613: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1591 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1584 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_CM_EMBMEDANY && check_pic (1)))
     {
       return 78;  /* embmedany_textuhi */
@@ -2842,35 +2843,35 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L619: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1597 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1590 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_CM_EMBMEDANY && check_pic (1)))
     {
       return 79;  /* embmedany_texthi */
     }
   goto ret0;
 
- L3748: ATTRIBUTE_UNUSED_LABEL
+ L3737: ATTRIBUTE_UNUSED_LABEL
   if (medium_pic_operand (x2, DImode))
     {
       operands[1] = x2;
       goto L535;
     }
-  goto L3739;
+  goto L3728;
 
  L535: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1507 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1500 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 ((TARGET_CM_MEDLOW || TARGET_CM_EMBMEDANY) && check_pic (1)))
     {
       return 65;  /* *sethi_di_medlow_embmedany_pic */
     }
   x1 = XEXP (x0, 1);
   x2 = XEXP (x1, 0);
-  goto L3739;
+  goto L3728;
 
  L540: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1513 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1506 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_CM_MEDLOW && check_pic (1)))
     {
       return 66;  /* *sethi_di_medlow */
@@ -2889,24 +2890,24 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
  L507: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (GET_MODE (x2) == DImode)
-    goto L3763;
+    goto L3752;
   goto ret0;
 
- L3763: ATTRIBUTE_UNUSED_LABEL
+ L3752: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == UNSPEC)
-    goto L3771;
+    goto L3760;
   if (symbolic_operand (x2, DImode))
     {
       operands[2] = x2;
       goto L546;
     }
- L3768: ATTRIBUTE_UNUSED_LABEL
+ L3757: ATTRIBUTE_UNUSED_LABEL
   if (data_segment_operand (x2, DImode))
     {
       operands[2] = x2;
       goto L602;
     }
- L3770: ATTRIBUTE_UNUSED_LABEL
+ L3759: ATTRIBUTE_UNUSED_LABEL
   if (text_segment_operand (x2, DImode))
     {
       operands[2] = x2;
@@ -2914,19 +2915,19 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
     }
   goto ret0;
 
- L3771: ATTRIBUTE_UNUSED_LABEL
+ L3760: ATTRIBUTE_UNUSED_LABEL
   switch (XVECLEN (x2, 0))
     {
     case 2:
-      goto L3776;
+      goto L3765;
     case 1:
-      goto L3777;
+      goto L3766;
     default:
       break;
     }
   goto ret0;
 
- L3776: ATTRIBUTE_UNUSED_LABEL
+ L3765: ATTRIBUTE_UNUSED_LABEL
   if (XINT (x2, 1) == 5)
     goto L508;
   goto ret0;
@@ -2947,14 +2948,14 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L510: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1458 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1451 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64 && flag_pic))
     {
       return 61;  /* *movdi_lo_sum_pic_label_ref */
     }
   goto ret0;
 
- L3777: ATTRIBUTE_UNUSED_LABEL
+ L3766: ATTRIBUTE_UNUSED_LABEL
   switch (XINT (x2, 1))
     {
     case 0L:
@@ -2981,7 +2982,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L517: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1468 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1461 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64 && flag_pic))
     {
       return 62;  /* movdi_lo_sum_pic */
@@ -2999,7 +3000,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L559: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1533 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1526 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_CM_MEDMID))
     {
       return 69;  /* setm44 */
@@ -3017,7 +3018,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L584: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1559 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1552 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_CM_MEDANY))
     {
       return 73;  /* sethm */
@@ -3035,7 +3036,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L626: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1604 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1597 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_CM_EMBMEDANY))
     {
       return 80;  /* embmedany_textulo */
@@ -3044,43 +3045,43 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L546: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1520 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1513 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_CM_MEDLOW))
     {
       return 67;  /* *losum_di_medlow */
     }
  L565: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1540 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1533 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_CM_MEDMID))
     {
       return 70;  /* setl44 */
     }
  L590: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1566 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1559 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_CM_MEDANY))
     {
       return 74;  /* setlo */
     }
   x1 = XEXP (x0, 1);
   x2 = XEXP (x1, 1);
-  goto L3768;
+  goto L3757;
 
  L602: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1579 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1572 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_CM_EMBMEDANY))
     {
       return 76;  /* embmedany_losum */
     }
   x1 = XEXP (x0, 1);
   x2 = XEXP (x1, 1);
-  goto L3770;
+  goto L3759;
 
  L632: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1611 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1604 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_CM_EMBMEDANY))
     {
       return 81;  /* embmedany_textlo */
@@ -3139,7 +3140,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L733: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2549 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2542 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V9 && !(DImode == DImode && TARGET_ARCH32)))
     {
       return 101;  /* *movdi_cc_v9 */
@@ -3186,9 +3187,9 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
   switch (GET_MODE (x2))
     {
     case HImode:
-      goto L3781;
+      goto L3770;
     case SImode:
-      goto L3782;
+      goto L3771;
     default:
       break;
     }
@@ -3205,7 +3206,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
     }
   goto ret0;
 
- L3781: ATTRIBUTE_UNUSED_LABEL
+ L3770: ATTRIBUTE_UNUSED_LABEL
   if (memory_operand (x2, HImode))
     {
       operands[1] = x2;
@@ -3213,7 +3214,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
     }
   goto ret0;
 
- L3782: ATTRIBUTE_UNUSED_LABEL
+ L3771: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x2))
     {
     case PLUS:
@@ -3323,7 +3324,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L856: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2815 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2808 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64 && GET_CODE (operands[1]) != CONST_INT))
     {
       return 117;  /* *zero_extendqidi2_insn */
@@ -3334,7 +3335,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L865: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2864 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2857 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64 && GET_CODE (operands[1]) != CONST_INT))
     {
       return 119;  /* *zero_extendsidi2_insn_sp64 */
@@ -3346,11 +3347,11 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
   switch (GET_MODE (x2))
     {
     case QImode:
-      goto L3784;
+      goto L3773;
     case HImode:
-      goto L3785;
+      goto L3774;
     case SImode:
-      goto L3786;
+      goto L3775;
     default:
       break;
     }
@@ -3362,7 +3363,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
     }
   goto ret0;
 
- L3784: ATTRIBUTE_UNUSED_LABEL
+ L3773: ATTRIBUTE_UNUSED_LABEL
   if (memory_operand (x2, QImode))
     {
       operands[1] = x2;
@@ -3370,7 +3371,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
     }
   goto ret0;
 
- L3785: ATTRIBUTE_UNUSED_LABEL
+ L3774: ATTRIBUTE_UNUSED_LABEL
   if (memory_operand (x2, HImode))
     {
       operands[1] = x2;
@@ -3378,7 +3379,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
     }
   goto ret0;
 
- L3786: ATTRIBUTE_UNUSED_LABEL
+ L3775: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == ASHIFTRT)
     goto L2298;
   goto L993;
@@ -3406,17 +3407,17 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
   switch (GET_MODE (x2))
     {
     case SFmode:
-      goto L3787;
+      goto L3776;
     case DFmode:
-      goto L3788;
+      goto L3777;
     case TFmode:
-      goto L3789;
+      goto L3778;
     default:
       break;
     }
   goto ret0;
 
- L3787: ATTRIBUTE_UNUSED_LABEL
+ L3776: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == FIX)
     goto L1091;
   goto ret0;
@@ -3432,14 +3433,14 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1092: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 3452 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3445 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V9 && TARGET_FPU))
     {
       return 155;  /* fix_truncsfdi2 */
     }
   goto ret0;
 
- L3788: ATTRIBUTE_UNUSED_LABEL
+ L3777: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == FIX)
     goto L1097;
   goto ret0;
@@ -3455,14 +3456,14 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1098: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 3466 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3459 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V9 && TARGET_FPU))
     {
       return 156;  /* fix_truncdfdi2 */
     }
   goto ret0;
 
- L3789: ATTRIBUTE_UNUSED_LABEL
+ L3778: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, TFmode))
     {
       operands[1] = x2;
@@ -3472,7 +3473,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1103: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 3486 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3479 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V9 && TARGET_FPU && TARGET_HARD_QUAD))
     {
       return 157;  /* *fix_trunctfdi2_hq */
@@ -3482,10 +3483,10 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
  L1126: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == DImode)
-    goto L3791;
+    goto L3780;
   goto ret0;
 
- L3791: ATTRIBUTE_UNUSED_LABEL
+ L3780: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == MULT)
     goto L1585;
   if (register_operand (x2, DImode))
@@ -3498,10 +3499,10 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
  L1585: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (GET_MODE (x3) == DImode)
-    goto L3792;
+    goto L3781;
   goto ret0;
 
- L3792: ATTRIBUTE_UNUSED_LABEL
+ L3781: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x3))
     {
     case SIGN_EXTEND:
@@ -3549,7 +3550,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1590: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 4531 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4524 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_SPARCLET))
     {
       return 198;  /* *smacdi */
@@ -3592,7 +3593,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1600: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 4542 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4535 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_SPARCLET))
     {
       return 199;  /* *umacdi */
@@ -3629,7 +3630,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
  L1297: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == DImode)
-    goto L3794;
+    goto L3783;
  L1251: ATTRIBUTE_UNUSED_LABEL
   if (arith_operand (x2, DImode))
     {
@@ -3638,7 +3639,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
     }
   goto ret0;
 
- L3794: ATTRIBUTE_UNUSED_LABEL
+ L3783: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x2))
     {
     case SIGN_EXTEND:
@@ -3684,7 +3685,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1301: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 3962 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3955 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8PLUS)
       && pnum_clobbers != NULL)
     {
@@ -3693,7 +3694,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
     }
  L1326: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 4004 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3997 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_DEPRECATED_V8_INSNS && TARGET_ARCH64))
     {
       return 180;  /* *mulsidi3_sp64 */
@@ -3704,7 +3705,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1318: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 3975 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3968 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8PLUS)
       && pnum_clobbers != NULL)
     {
@@ -3713,7 +3714,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
     }
  L1333: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 4032 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4025 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_DEPRECATED_V8_INSNS && TARGET_ARCH64))
     {
       return 181;  /* const_mulsidi3_sp64 */
@@ -3756,7 +3757,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1425: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 4169 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4162 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8PLUS)
       && pnum_clobbers != NULL)
     {
@@ -3765,7 +3766,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
     }
  L1433: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 4198 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4191 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_DEPRECATED_V8_INSNS && TARGET_ARCH64))
     {
       return 186;  /* *umulsidi3_sp64 */
@@ -3776,14 +3777,14 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1440: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 4226 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4219 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_DEPRECATED_V8_INSNS && TARGET_ARCH64))
     {
       return 187;  /* const_umulsidi3_sp64 */
     }
  L1457: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 4236 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4229 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8PLUS)
       && pnum_clobbers != NULL)
     {
@@ -3811,7 +3812,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1269: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 3887 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3880 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8PLUS)
       && pnum_clobbers != NULL)
     {
@@ -3937,7 +3938,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2342: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5792 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5785 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64 && (unsigned HOST_WIDE_INT) INTVAL (operands[3]) == 0xffffffff))
     {
       return 312;  /* *lshrsi3_extend */
@@ -4067,7 +4068,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2268: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5657 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5650 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8PLUS)
       && pnum_clobbers != NULL)
     {
@@ -4079,7 +4080,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
  L2303: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == DImode)
-    goto L3796;
+    goto L3785;
  L2326: ATTRIBUTE_UNUSED_LABEL
   if (arith_operand (x2, DImode))
     {
@@ -4088,7 +4089,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
     }
   goto ret0;
 
- L3796: ATTRIBUTE_UNUSED_LABEL
+ L3785: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == ASHIFT)
     goto L2304;
   if (register_operand (x2, DImode))
@@ -4133,7 +4134,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2308: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5726 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5719 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64 && INTVAL (operands[2]) >= 32 && INTVAL (operands[2]) < 64))
     {
       return 308;  /* *ashrsi3_extend2 */
@@ -4163,7 +4164,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2328: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5767 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5760 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8PLUS)
       && pnum_clobbers != NULL)
     {
@@ -4202,7 +4203,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
   x2 = XEXP (x1, 2);
   if (x2 == const_int_rtx[MAX_SAVED_CONST_INT + (32)]
       && 
-#line 5804 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5797 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64 && (unsigned HOST_WIDE_INT) INTVAL (operands[2]) < 32))
     {
       return 313;  /* *lshrsi3_extend2 */
@@ -4245,7 +4246,7 @@ recog_3 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2369: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5844 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5837 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8PLUS)
       && pnum_clobbers != NULL)
     {
@@ -4273,792 +4274,766 @@ recog_4 (rtx x0 ATTRIBUTE_UNUSED,
 
   x1 = XEXP (x0, 0);
   if (GET_CODE (x1) == MEM)
-    goto L2849;
+    goto L2844;
   if (register_operand (x1, DImode))
     {
       operands[0] = x1;
-      goto L2504;
+      goto L2565;
     }
   goto ret0;
 
- L2849: ATTRIBUTE_UNUSED_LABEL
+ L2844: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == DImode
       && GET_CODE (x2) == PLUS)
-    goto L2850;
+    goto L2845;
   goto ret0;
 
- L2850: ATTRIBUTE_UNUSED_LABEL
+ L2845: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (GET_MODE (x3) == DImode
       && GET_CODE (x3) == UNSPEC
       && XVECLEN (x3, 0) == 2
       && XINT (x3, 1) == 32)
-    goto L2851;
+    goto L2846;
   goto ret0;
 
- L2851: ATTRIBUTE_UNUSED_LABEL
+ L2846: ATTRIBUTE_UNUSED_LABEL
   x4 = XVECEXP (x3, 0, 0);
   if (register_operand (x4, SImode))
     {
       operands[2] = x4;
-      goto L2852;
+      goto L2847;
     }
   goto ret0;
 
- L2852: ATTRIBUTE_UNUSED_LABEL
+ L2847: ATTRIBUTE_UNUSED_LABEL
   x4 = XVECEXP (x3, 0, 1);
   if (tld_symbolic_operand (x4, VOIDmode))
     {
       operands[3] = x4;
-      goto L2853;
+      goto L2848;
     }
   goto ret0;
 
- L2853: ATTRIBUTE_UNUSED_LABEL
+ L2848: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
   if (register_operand (x3, DImode))
     {
       operands[1] = x3;
-      goto L2854;
+      goto L2849;
     }
   goto ret0;
 
- L2854: ATTRIBUTE_UNUSED_LABEL
+ L2849: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (register_operand (x1, DImode))
     {
       operands[0] = x1;
-      return 381;  /* *tldo_stx_sp64 */
+      return 380;  /* *tldo_stx_sp64 */
     }
   goto ret0;
 
- L2504: ATTRIBUTE_UNUSED_LABEL
+ L2565: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (GET_MODE (x1) == DImode)
-    goto L3878;
+    goto L3901;
   goto ret0;
 
- L3878: ATTRIBUTE_UNUSED_LABEL
+ L3901: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x1))
     {
-    case UNSPEC_VOLATILE:
-      goto L3889;
     case PLUS:
-      goto L2571;
+      goto L2566;
     case UNSPEC:
-      goto L3890;
+      goto L3911;
     case HIGH:
-      goto L2675;
+      goto L2670;
     case LO_SUM:
-      goto L2680;
+      goto L2675;
     case ZERO_EXTEND:
-      goto L2712;
+      goto L2707;
     case SIGN_EXTEND:
-      goto L2739;
+      goto L2734;
     case MEM:
-      goto L2818;
+      goto L2813;
     default:
      break;
    }
   goto ret0;
 
- L3889: ATTRIBUTE_UNUSED_LABEL
-  if (XVECLEN (x1, 0) == 2
-      && XINT (x1, 1) == 11)
-    goto L2505;
-  goto ret0;
-
- L2505: ATTRIBUTE_UNUSED_LABEL
-  x2 = XVECEXP (x1, 0, 0);
-  if (register_operand (x2, DImode))
-    {
-      operands[1] = x2;
-      goto L2506;
-    }
-  goto ret0;
-
- L2506: ATTRIBUTE_UNUSED_LABEL
-  x2 = XVECEXP (x1, 0, 1);
-  if (register_operand (x2, DImode))
-    {
-      operands[2] = x2;
-      return 331;  /* probe_stack_rangedi */
-    }
-  goto ret0;
-
- L2571: ATTRIBUTE_UNUSED_LABEL
+ L2566: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (register_operand (x2, DImode))
     {
       operands[1] = x2;
-      goto L2572;
+      goto L2567;
     }
   goto ret0;
 
- L2572: ATTRIBUTE_UNUSED_LABEL
+ L2567: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (GET_MODE (x2) == DImode)
-    goto L3894;
+    goto L3915;
   goto ret0;
 
- L3894: ATTRIBUTE_UNUSED_LABEL
+ L3915: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == UNSPEC)
-    goto L3898;
+    goto L3919;
   goto ret0;
 
- L3898: ATTRIBUTE_UNUSED_LABEL
+ L3919: ATTRIBUTE_UNUSED_LABEL
   switch (XVECLEN (x2, 0))
     {
     case 2:
-      goto L3902;
+      goto L3923;
     case 1:
-      goto L3903;
+      goto L3924;
     default:
       break;
     }
   goto ret0;
 
- L3902: ATTRIBUTE_UNUSED_LABEL
+ L3923: ATTRIBUTE_UNUSED_LABEL
   switch (XINT (x2, 1))
     {
     case 30L:
-      goto L2573;
+      goto L2568;
     case 32L:
-      goto L2646;
+      goto L2641;
     case 33L:
-      goto L2670;
+      goto L2665;
     default:
       break;
     }
   goto ret0;
 
- L2573: ATTRIBUTE_UNUSED_LABEL
+ L2568: ATTRIBUTE_UNUSED_LABEL
   x3 = XVECEXP (x2, 0, 0);
   if (register_operand (x3, SImode))
     {
       operands[2] = x3;
-      goto L2574;
+      goto L2569;
     }
   goto ret0;
 
- L2574: ATTRIBUTE_UNUSED_LABEL
+ L2569: ATTRIBUTE_UNUSED_LABEL
   x3 = XVECEXP (x2, 0, 1);
   if (tgd_symbolic_operand (x3, VOIDmode))
     {
       operands[3] = x3;
-      return 347;  /* tgd_add64 */
+      return 346;  /* tgd_add64 */
     }
   goto ret0;
 
- L2646: ATTRIBUTE_UNUSED_LABEL
+ L2641: ATTRIBUTE_UNUSED_LABEL
   x3 = XVECEXP (x2, 0, 0);
   if (register_operand (x3, SImode))
     {
       operands[2] = x3;
-      goto L2647;
+      goto L2642;
     }
   goto ret0;
 
- L2647: ATTRIBUTE_UNUSED_LABEL
+ L2642: ATTRIBUTE_UNUSED_LABEL
   x3 = XVECEXP (x2, 0, 1);
   if (tld_symbolic_operand (x3, VOIDmode))
     {
       operands[3] = x3;
-      return 355;  /* tldo_add64 */
+      return 354;  /* tldo_add64 */
     }
   goto ret0;
 
- L2670: ATTRIBUTE_UNUSED_LABEL
+ L2665: ATTRIBUTE_UNUSED_LABEL
   x3 = XVECEXP (x2, 0, 0);
   if (register_operand (x3, DImode))
     {
       operands[2] = x3;
-      goto L2671;
+      goto L2666;
     }
   goto ret0;
 
- L2671: ATTRIBUTE_UNUSED_LABEL
+ L2666: ATTRIBUTE_UNUSED_LABEL
   x3 = XVECEXP (x2, 0, 1);
   if (tie_symbolic_operand (x3, VOIDmode))
     {
       operands[3] = x3;
-      return 359;  /* tie_add64 */
+      return 358;  /* tie_add64 */
     }
   goto ret0;
 
- L3903: ATTRIBUTE_UNUSED_LABEL
+ L3924: ATTRIBUTE_UNUSED_LABEL
   if (XINT (x2, 1) == 31)
-    goto L2611;
+    goto L2606;
   goto ret0;
 
- L2611: ATTRIBUTE_UNUSED_LABEL
+ L2606: ATTRIBUTE_UNUSED_LABEL
   x3 = XVECEXP (x2, 0, 0);
   if (register_operand (x3, SImode))
     {
       operands[2] = x3;
-      return 351;  /* tldm_add64 */
+      return 350;  /* tldm_add64 */
     }
   goto ret0;
 
- L3890: ATTRIBUTE_UNUSED_LABEL
+ L3911: ATTRIBUTE_UNUSED_LABEL
   switch (XVECLEN (x1, 0))
     {
     case 3:
-      goto L3906;
+      goto L3927;
     case 2:
-      goto L3907;
+      goto L3928;
     default:
       break;
     }
   goto ret0;
 
- L3906: ATTRIBUTE_UNUSED_LABEL
+ L3927: ATTRIBUTE_UNUSED_LABEL
   switch (XINT (x1, 1))
     {
     case 33L:
-      goto L2662;
+      goto L2657;
     case 50L:
-      goto L3066;
+      goto L3061;
     default:
       break;
     }
   goto ret0;
 
- L2662: ATTRIBUTE_UNUSED_LABEL
+ L2657: ATTRIBUTE_UNUSED_LABEL
   x2 = XVECEXP (x1, 0, 0);
   if (register_operand (x2, DImode))
     {
       operands[1] = x2;
-      goto L2663;
+      goto L2658;
     }
   goto ret0;
 
- L2663: ATTRIBUTE_UNUSED_LABEL
+ L2658: ATTRIBUTE_UNUSED_LABEL
   x2 = XVECEXP (x1, 0, 1);
   if (register_operand (x2, SImode))
     {
       operands[2] = x2;
-      goto L2664;
+      goto L2659;
     }
   goto ret0;
 
- L2664: ATTRIBUTE_UNUSED_LABEL
+ L2659: ATTRIBUTE_UNUSED_LABEL
   x2 = XVECEXP (x1, 0, 2);
   if (tie_symbolic_operand (x2, VOIDmode))
     {
       operands[3] = x2;
-      return 358;  /* tie_ld64 */
-    }
-  goto ret0;
-
- L3066: ATTRIBUTE_UNUSED_LABEL
-  x2 = XVECEXP (x1, 0, 0);
-  if (register_operand (x2, V8QImode))
-    {
-      operands[1] = x2;
-      goto L3067;
-    }
-  goto ret0;
-
- L3067: ATTRIBUTE_UNUSED_LABEL
-  x2 = XVECEXP (x1, 0, 1);
-  if (register_operand (x2, V8QImode))
-    {
-      operands[2] = x2;
-      goto L3068;
-    }
-  goto ret0;
-
- L3068: ATTRIBUTE_UNUSED_LABEL
-  x2 = XVECEXP (x1, 0, 2);
-  if (register_operand (x2, DImode))
-    {
-      operands[3] = x2;
-      goto L3069;
-    }
-  goto ret0;
-
- L3069: ATTRIBUTE_UNUSED_LABEL
-  if (
-#line 7803 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(TARGET_VIS))
-    {
-      return 414;  /* pdist_vis */
-    }
-  goto ret0;
-
- L3907: ATTRIBUTE_UNUSED_LABEL
-  switch (XINT (x1, 1))
-    {
-    case 48L:
-      goto L3036;
-    case 49L:
-      goto L3060;
-    default:
-      break;
-    }
-  goto ret0;
-
- L3036: ATTRIBUTE_UNUSED_LABEL
-  x2 = XVECEXP (x1, 0, 0);
-  if (register_operand (x2, DImode))
-    {
-      operands[1] = x2;
-      goto L3037;
-    }
-  goto ret0;
-
- L3037: ATTRIBUTE_UNUSED_LABEL
-  x2 = XVECEXP (x1, 0, 1);
-  if (register_operand (x2, DImode))
-    {
-      operands[2] = x2;
-      goto L3038;
-    }
-  goto ret0;
-
- L3038: ATTRIBUTE_UNUSED_LABEL
-  if (
-#line 7784 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(TARGET_VIS))
-    {
-      return 409;  /* faligndatadi_vis */
-    }
-  goto ret0;
-
- L3060: ATTRIBUTE_UNUSED_LABEL
-  x2 = XVECEXP (x1, 0, 0);
-  if (register_or_zero_operand (x2, DImode))
-    {
-      operands[1] = x2;
-      goto L3061;
+      return 357;  /* tie_ld64 */
     }
   goto ret0;
 
  L3061: ATTRIBUTE_UNUSED_LABEL
-  x2 = XVECEXP (x1, 0, 1);
-  if (register_or_zero_operand (x2, DImode))
+  x2 = XVECEXP (x1, 0, 0);
+  if (register_operand (x2, V8QImode))
     {
-      operands[2] = x2;
+      operands[1] = x2;
       goto L3062;
     }
   goto ret0;
 
  L3062: ATTRIBUTE_UNUSED_LABEL
+  x2 = XVECEXP (x1, 0, 1);
+  if (register_operand (x2, V8QImode))
+    {
+      operands[2] = x2;
+      goto L3063;
+    }
+  goto ret0;
+
+ L3063: ATTRIBUTE_UNUSED_LABEL
+  x2 = XVECEXP (x1, 0, 2);
+  if (register_operand (x2, DImode))
+    {
+      operands[3] = x2;
+      goto L3064;
+    }
+  goto ret0;
+
+ L3064: ATTRIBUTE_UNUSED_LABEL
+  if (
+#line 7782 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(TARGET_VIS))
+    {
+      return 413;  /* pdist_vis */
+    }
+  goto ret0;
+
+ L3928: ATTRIBUTE_UNUSED_LABEL
+  switch (XINT (x1, 1))
+    {
+    case 48L:
+      goto L3031;
+    case 49L:
+      goto L3055;
+    default:
+      break;
+    }
+  goto ret0;
+
+ L3031: ATTRIBUTE_UNUSED_LABEL
+  x2 = XVECEXP (x1, 0, 0);
+  if (register_operand (x2, DImode))
+    {
+      operands[1] = x2;
+      goto L3032;
+    }
+  goto ret0;
+
+ L3032: ATTRIBUTE_UNUSED_LABEL
+  x2 = XVECEXP (x1, 0, 1);
+  if (register_operand (x2, DImode))
+    {
+      operands[2] = x2;
+      goto L3033;
+    }
+  goto ret0;
+
+ L3033: ATTRIBUTE_UNUSED_LABEL
+  if (
+#line 7763 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(TARGET_VIS))
+    {
+      return 408;  /* faligndatadi_vis */
+    }
+  goto ret0;
+
+ L3055: ATTRIBUTE_UNUSED_LABEL
+  x2 = XVECEXP (x1, 0, 0);
+  if (register_or_zero_operand (x2, DImode))
+    {
+      operands[1] = x2;
+      goto L3056;
+    }
+  goto ret0;
+
+ L3056: ATTRIBUTE_UNUSED_LABEL
+  x2 = XVECEXP (x1, 0, 1);
+  if (register_or_zero_operand (x2, DImode))
+    {
+      operands[2] = x2;
+      goto L3057;
+    }
+  goto ret0;
+
+ L3057: ATTRIBUTE_UNUSED_LABEL
   if ((
-#line 7794 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 7773 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_VIS) && 
-#line 82 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 81 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (Pmode == DImode)))
     {
-      return 413;  /* alignaddrdi_vis */
+      return 412;  /* alignaddrdi_vis */
+    }
+  goto ret0;
+
+ L2670: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 0);
+  if (GET_MODE (x2) == DImode
+      && GET_CODE (x2) == UNSPEC
+      && XVECLEN (x2, 0) == 1
+      && XINT (x2, 1) == 34)
+    goto L2671;
+  goto ret0;
+
+ L2671: ATTRIBUTE_UNUSED_LABEL
+  x3 = XVECEXP (x2, 0, 0);
+  if (tle_symbolic_operand (x3, VOIDmode))
+    {
+      operands[1] = x3;
+      return 359;  /* tle_hix22_sp64 */
     }
   goto ret0;
 
  L2675: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
-  if (GET_MODE (x2) == DImode
-      && GET_CODE (x2) == UNSPEC
-      && XVECLEN (x2, 0) == 1
-      && XINT (x2, 1) == 34)
-    goto L2676;
-  goto ret0;
-
- L2676: ATTRIBUTE_UNUSED_LABEL
-  x3 = XVECEXP (x2, 0, 0);
-  if (tle_symbolic_operand (x3, VOIDmode))
-    {
-      operands[1] = x3;
-      return 360;  /* tle_hix22_sp64 */
-    }
-  goto ret0;
-
- L2680: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 0);
   if (register_operand (x2, DImode))
     {
       operands[1] = x2;
-      goto L2681;
+      goto L2676;
     }
   goto ret0;
 
- L2681: ATTRIBUTE_UNUSED_LABEL
+ L2676: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (GET_MODE (x2) == DImode
       && GET_CODE (x2) == UNSPEC
       && XVECLEN (x2, 0) == 1
       && XINT (x2, 1) == 34)
-    goto L2682;
+    goto L2677;
   goto ret0;
 
- L2682: ATTRIBUTE_UNUSED_LABEL
+ L2677: ATTRIBUTE_UNUSED_LABEL
   x3 = XVECEXP (x2, 0, 0);
   if (tle_symbolic_operand (x3, VOIDmode))
     {
       operands[2] = x3;
-      return 361;  /* tle_lox10_sp64 */
+      return 360;  /* tle_lox10_sp64 */
+    }
+  goto ret0;
+
+ L2707: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 0);
+  switch (GET_MODE (x2))
+    {
+    case QImode:
+      goto L3931;
+    case HImode:
+      goto L3932;
+    case SImode:
+      goto L3933;
+    default:
+      break;
+    }
+  goto ret0;
+
+ L3931: ATTRIBUTE_UNUSED_LABEL
+  if (GET_CODE (x2) == MEM)
+    goto L2708;
+  goto ret0;
+
+ L2708: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 0);
+  if (GET_MODE (x3) == DImode
+      && GET_CODE (x3) == PLUS)
+    goto L2709;
+  goto ret0;
+
+ L2709: ATTRIBUTE_UNUSED_LABEL
+  x4 = XEXP (x3, 0);
+  if (GET_MODE (x4) == DImode
+      && GET_CODE (x4) == UNSPEC
+      && XVECLEN (x4, 0) == 2
+      && XINT (x4, 1) == 32)
+    goto L2710;
+  goto ret0;
+
+ L2710: ATTRIBUTE_UNUSED_LABEL
+  x5 = XVECEXP (x4, 0, 0);
+  if (register_operand (x5, SImode))
+    {
+      operands[2] = x5;
+      goto L2711;
+    }
+  goto ret0;
+
+ L2711: ATTRIBUTE_UNUSED_LABEL
+  x5 = XVECEXP (x4, 0, 1);
+  if (tld_symbolic_operand (x5, VOIDmode))
+    {
+      operands[3] = x5;
+      goto L2712;
     }
   goto ret0;
 
  L2712: ATTRIBUTE_UNUSED_LABEL
+  x4 = XEXP (x3, 1);
+  if (register_operand (x4, DImode))
+    {
+      operands[1] = x4;
+      return 364;  /* *tldo_ldub3_sp64 */
+    }
+  goto ret0;
+
+ L3932: ATTRIBUTE_UNUSED_LABEL
+  if (GET_CODE (x2) == MEM)
+    goto L2761;
+  goto ret0;
+
+ L2761: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 0);
+  if (GET_MODE (x3) == DImode
+      && GET_CODE (x3) == PLUS)
+    goto L2762;
+  goto ret0;
+
+ L2762: ATTRIBUTE_UNUSED_LABEL
+  x4 = XEXP (x3, 0);
+  if (GET_MODE (x4) == DImode
+      && GET_CODE (x4) == UNSPEC
+      && XVECLEN (x4, 0) == 2
+      && XINT (x4, 1) == 32)
+    goto L2763;
+  goto ret0;
+
+ L2763: ATTRIBUTE_UNUSED_LABEL
+  x5 = XVECEXP (x4, 0, 0);
+  if (register_operand (x5, SImode))
+    {
+      operands[2] = x5;
+      goto L2764;
+    }
+  goto ret0;
+
+ L2764: ATTRIBUTE_UNUSED_LABEL
+  x5 = XVECEXP (x4, 0, 1);
+  if (tld_symbolic_operand (x5, VOIDmode))
+    {
+      operands[3] = x5;
+      goto L2765;
+    }
+  goto ret0;
+
+ L2765: ATTRIBUTE_UNUSED_LABEL
+  x4 = XEXP (x3, 1);
+  if (register_operand (x4, DImode))
+    {
+      operands[1] = x4;
+      return 370;  /* *tldo_lduh2_sp64 */
+    }
+  goto ret0;
+
+ L3933: ATTRIBUTE_UNUSED_LABEL
+  if (GET_CODE (x2) == MEM)
+    goto L2796;
+  goto ret0;
+
+ L2796: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 0);
+  if (GET_MODE (x3) == DImode
+      && GET_CODE (x3) == PLUS)
+    goto L2797;
+  goto ret0;
+
+ L2797: ATTRIBUTE_UNUSED_LABEL
+  x4 = XEXP (x3, 0);
+  if (GET_MODE (x4) == DImode
+      && GET_CODE (x4) == UNSPEC
+      && XVECLEN (x4, 0) == 2
+      && XINT (x4, 1) == 32)
+    goto L2798;
+  goto ret0;
+
+ L2798: ATTRIBUTE_UNUSED_LABEL
+  x5 = XVECEXP (x4, 0, 0);
+  if (register_operand (x5, SImode))
+    {
+      operands[2] = x5;
+      goto L2799;
+    }
+  goto ret0;
+
+ L2799: ATTRIBUTE_UNUSED_LABEL
+  x5 = XVECEXP (x4, 0, 1);
+  if (tld_symbolic_operand (x5, VOIDmode))
+    {
+      operands[3] = x5;
+      goto L2800;
+    }
+  goto ret0;
+
+ L2800: ATTRIBUTE_UNUSED_LABEL
+  x4 = XEXP (x3, 1);
+  if (register_operand (x4, DImode))
+    {
+      operands[1] = x4;
+      return 374;  /* *tldo_lduw1_sp64 */
+    }
+  goto ret0;
+
+ L2734: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   switch (GET_MODE (x2))
     {
     case QImode:
-      goto L3910;
+      goto L3934;
     case HImode:
-      goto L3911;
+      goto L3935;
     case SImode:
-      goto L3912;
+      goto L3936;
     default:
       break;
     }
   goto ret0;
 
- L3910: ATTRIBUTE_UNUSED_LABEL
+ L3934: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == MEM)
-    goto L2713;
+    goto L2735;
   goto ret0;
 
- L2713: ATTRIBUTE_UNUSED_LABEL
+ L2735: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (GET_MODE (x3) == DImode
       && GET_CODE (x3) == PLUS)
-    goto L2714;
+    goto L2736;
   goto ret0;
 
- L2714: ATTRIBUTE_UNUSED_LABEL
+ L2736: ATTRIBUTE_UNUSED_LABEL
   x4 = XEXP (x3, 0);
   if (GET_MODE (x4) == DImode
       && GET_CODE (x4) == UNSPEC
       && XVECLEN (x4, 0) == 2
       && XINT (x4, 1) == 32)
-    goto L2715;
+    goto L2737;
   goto ret0;
 
- L2715: ATTRIBUTE_UNUSED_LABEL
+ L2737: ATTRIBUTE_UNUSED_LABEL
   x5 = XVECEXP (x4, 0, 0);
   if (register_operand (x5, SImode))
     {
       operands[2] = x5;
-      goto L2716;
+      goto L2738;
     }
   goto ret0;
 
- L2716: ATTRIBUTE_UNUSED_LABEL
+ L2738: ATTRIBUTE_UNUSED_LABEL
   x5 = XVECEXP (x4, 0, 1);
   if (tld_symbolic_operand (x5, VOIDmode))
     {
       operands[3] = x5;
-      goto L2717;
-    }
-  goto ret0;
-
- L2717: ATTRIBUTE_UNUSED_LABEL
-  x4 = XEXP (x3, 1);
-  if (register_operand (x4, DImode))
-    {
-      operands[1] = x4;
-      return 365;  /* *tldo_ldub3_sp64 */
-    }
-  goto ret0;
-
- L3911: ATTRIBUTE_UNUSED_LABEL
-  if (GET_CODE (x2) == MEM)
-    goto L2766;
-  goto ret0;
-
- L2766: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 0);
-  if (GET_MODE (x3) == DImode
-      && GET_CODE (x3) == PLUS)
-    goto L2767;
-  goto ret0;
-
- L2767: ATTRIBUTE_UNUSED_LABEL
-  x4 = XEXP (x3, 0);
-  if (GET_MODE (x4) == DImode
-      && GET_CODE (x4) == UNSPEC
-      && XVECLEN (x4, 0) == 2
-      && XINT (x4, 1) == 32)
-    goto L2768;
-  goto ret0;
-
- L2768: ATTRIBUTE_UNUSED_LABEL
-  x5 = XVECEXP (x4, 0, 0);
-  if (register_operand (x5, SImode))
-    {
-      operands[2] = x5;
-      goto L2769;
-    }
-  goto ret0;
-
- L2769: ATTRIBUTE_UNUSED_LABEL
-  x5 = XVECEXP (x4, 0, 1);
-  if (tld_symbolic_operand (x5, VOIDmode))
-    {
-      operands[3] = x5;
-      goto L2770;
-    }
-  goto ret0;
-
- L2770: ATTRIBUTE_UNUSED_LABEL
-  x4 = XEXP (x3, 1);
-  if (register_operand (x4, DImode))
-    {
-      operands[1] = x4;
-      return 371;  /* *tldo_lduh2_sp64 */
-    }
-  goto ret0;
-
- L3912: ATTRIBUTE_UNUSED_LABEL
-  if (GET_CODE (x2) == MEM)
-    goto L2801;
-  goto ret0;
-
- L2801: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 0);
-  if (GET_MODE (x3) == DImode
-      && GET_CODE (x3) == PLUS)
-    goto L2802;
-  goto ret0;
-
- L2802: ATTRIBUTE_UNUSED_LABEL
-  x4 = XEXP (x3, 0);
-  if (GET_MODE (x4) == DImode
-      && GET_CODE (x4) == UNSPEC
-      && XVECLEN (x4, 0) == 2
-      && XINT (x4, 1) == 32)
-    goto L2803;
-  goto ret0;
-
- L2803: ATTRIBUTE_UNUSED_LABEL
-  x5 = XVECEXP (x4, 0, 0);
-  if (register_operand (x5, SImode))
-    {
-      operands[2] = x5;
-      goto L2804;
-    }
-  goto ret0;
-
- L2804: ATTRIBUTE_UNUSED_LABEL
-  x5 = XVECEXP (x4, 0, 1);
-  if (tld_symbolic_operand (x5, VOIDmode))
-    {
-      operands[3] = x5;
-      goto L2805;
-    }
-  goto ret0;
-
- L2805: ATTRIBUTE_UNUSED_LABEL
-  x4 = XEXP (x3, 1);
-  if (register_operand (x4, DImode))
-    {
-      operands[1] = x4;
-      return 375;  /* *tldo_lduw1_sp64 */
+      goto L2739;
     }
   goto ret0;
 
  L2739: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 0);
-  switch (GET_MODE (x2))
-    {
-    case QImode:
-      goto L3913;
-    case HImode:
-      goto L3914;
-    case SImode:
-      goto L3915;
-    default:
-      break;
-    }
-  goto ret0;
-
- L3913: ATTRIBUTE_UNUSED_LABEL
-  if (GET_CODE (x2) == MEM)
-    goto L2740;
-  goto ret0;
-
- L2740: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 0);
-  if (GET_MODE (x3) == DImode
-      && GET_CODE (x3) == PLUS)
-    goto L2741;
-  goto ret0;
-
- L2741: ATTRIBUTE_UNUSED_LABEL
-  x4 = XEXP (x3, 0);
-  if (GET_MODE (x4) == DImode
-      && GET_CODE (x4) == UNSPEC
-      && XVECLEN (x4, 0) == 2
-      && XINT (x4, 1) == 32)
-    goto L2742;
-  goto ret0;
-
- L2742: ATTRIBUTE_UNUSED_LABEL
-  x5 = XVECEXP (x4, 0, 0);
-  if (register_operand (x5, SImode))
-    {
-      operands[2] = x5;
-      goto L2743;
-    }
-  goto ret0;
-
- L2743: ATTRIBUTE_UNUSED_LABEL
-  x5 = XVECEXP (x4, 0, 1);
-  if (tld_symbolic_operand (x5, VOIDmode))
-    {
-      operands[3] = x5;
-      goto L2744;
-    }
-  goto ret0;
-
- L2744: ATTRIBUTE_UNUSED_LABEL
   x4 = XEXP (x3, 1);
   if (register_operand (x4, DImode))
     {
       operands[1] = x4;
-      return 368;  /* *tldo_ldsb3_sp64 */
+      return 367;  /* *tldo_ldsb3_sp64 */
     }
   goto ret0;
 
- L3914: ATTRIBUTE_UNUSED_LABEL
+ L3935: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == MEM)
-    goto L2784;
+    goto L2779;
   goto ret0;
 
- L2784: ATTRIBUTE_UNUSED_LABEL
+ L2779: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (GET_MODE (x3) == DImode
       && GET_CODE (x3) == PLUS)
-    goto L2785;
+    goto L2780;
   goto ret0;
 
- L2785: ATTRIBUTE_UNUSED_LABEL
+ L2780: ATTRIBUTE_UNUSED_LABEL
   x4 = XEXP (x3, 0);
   if (GET_MODE (x4) == DImode
       && GET_CODE (x4) == UNSPEC
       && XVECLEN (x4, 0) == 2
       && XINT (x4, 1) == 32)
-    goto L2786;
+    goto L2781;
   goto ret0;
 
- L2786: ATTRIBUTE_UNUSED_LABEL
+ L2781: ATTRIBUTE_UNUSED_LABEL
   x5 = XVECEXP (x4, 0, 0);
   if (register_operand (x5, SImode))
     {
       operands[2] = x5;
-      goto L2787;
+      goto L2782;
     }
   goto ret0;
 
- L2787: ATTRIBUTE_UNUSED_LABEL
+ L2782: ATTRIBUTE_UNUSED_LABEL
   x5 = XVECEXP (x4, 0, 1);
   if (tld_symbolic_operand (x5, VOIDmode))
     {
       operands[3] = x5;
-      goto L2788;
+      goto L2783;
     }
   goto ret0;
 
- L2788: ATTRIBUTE_UNUSED_LABEL
+ L2783: ATTRIBUTE_UNUSED_LABEL
   x4 = XEXP (x3, 1);
   if (register_operand (x4, DImode))
     {
       operands[1] = x4;
-      return 373;  /* *tldo_ldsh2_sp64 */
+      return 372;  /* *tldo_ldsh2_sp64 */
     }
   goto ret0;
 
- L3915: ATTRIBUTE_UNUSED_LABEL
+ L3936: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == MEM)
-    goto L2810;
+    goto L2805;
   goto ret0;
 
- L2810: ATTRIBUTE_UNUSED_LABEL
+ L2805: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (GET_MODE (x3) == DImode
       && GET_CODE (x3) == PLUS)
-    goto L2811;
+    goto L2806;
   goto ret0;
 
- L2811: ATTRIBUTE_UNUSED_LABEL
+ L2806: ATTRIBUTE_UNUSED_LABEL
   x4 = XEXP (x3, 0);
   if (GET_MODE (x4) == DImode
       && GET_CODE (x4) == UNSPEC
       && XVECLEN (x4, 0) == 2
       && XINT (x4, 1) == 32)
-    goto L2812;
+    goto L2807;
   goto ret0;
 
- L2812: ATTRIBUTE_UNUSED_LABEL
+ L2807: ATTRIBUTE_UNUSED_LABEL
   x5 = XVECEXP (x4, 0, 0);
   if (register_operand (x5, SImode))
     {
       operands[2] = x5;
-      goto L2813;
+      goto L2808;
+    }
+  goto ret0;
+
+ L2808: ATTRIBUTE_UNUSED_LABEL
+  x5 = XVECEXP (x4, 0, 1);
+  if (tld_symbolic_operand (x5, VOIDmode))
+    {
+      operands[3] = x5;
+      goto L2809;
+    }
+  goto ret0;
+
+ L2809: ATTRIBUTE_UNUSED_LABEL
+  x4 = XEXP (x3, 1);
+  if (register_operand (x4, DImode))
+    {
+      operands[1] = x4;
+      return 375;  /* *tldo_ldsw1_sp64 */
     }
   goto ret0;
 
  L2813: ATTRIBUTE_UNUSED_LABEL
-  x5 = XVECEXP (x4, 0, 1);
-  if (tld_symbolic_operand (x5, VOIDmode))
-    {
-      operands[3] = x5;
-      goto L2814;
-    }
-  goto ret0;
-
- L2814: ATTRIBUTE_UNUSED_LABEL
-  x4 = XEXP (x3, 1);
-  if (register_operand (x4, DImode))
-    {
-      operands[1] = x4;
-      return 376;  /* *tldo_ldsw1_sp64 */
-    }
-  goto ret0;
-
- L2818: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == DImode
       && GET_CODE (x2) == PLUS)
-    goto L2819;
+    goto L2814;
   goto ret0;
 
- L2819: ATTRIBUTE_UNUSED_LABEL
+ L2814: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (GET_MODE (x3) == DImode
       && GET_CODE (x3) == UNSPEC
       && XVECLEN (x3, 0) == 2
       && XINT (x3, 1) == 32)
-    goto L2820;
+    goto L2815;
   goto ret0;
 
- L2820: ATTRIBUTE_UNUSED_LABEL
+ L2815: ATTRIBUTE_UNUSED_LABEL
   x4 = XVECEXP (x3, 0, 0);
   if (register_operand (x4, SImode))
     {
       operands[2] = x4;
-      goto L2821;
+      goto L2816;
     }
   goto ret0;
 
- L2821: ATTRIBUTE_UNUSED_LABEL
+ L2816: ATTRIBUTE_UNUSED_LABEL
   x4 = XVECEXP (x3, 0, 1);
   if (tld_symbolic_operand (x4, VOIDmode))
     {
       operands[3] = x4;
-      goto L2822;
+      goto L2817;
     }
   goto ret0;
 
- L2822: ATTRIBUTE_UNUSED_LABEL
+ L2817: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
   if (register_operand (x3, DImode))
     {
       operands[1] = x3;
-      return 377;  /* *tldo_ldx_sp64 */
+      return 376;  /* *tldo_ldx_sp64 */
     }
   goto ret0;
  ret0:
@@ -5083,41 +5058,41 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   switch (GET_MODE (x1))
     {
     case CCmode:
-      goto L3542;
+      goto L3531;
     case CCXmode:
-      goto L3543;
+      goto L3532;
     case CCFPEmode:
-      goto L3544;
+      goto L3533;
     case CCFPmode:
-      goto L3545;
+      goto L3534;
     case SImode:
-      goto L3546;
+      goto L3535;
     case DImode:
-      goto L3547;
+      goto L3536;
     case QImode:
-      goto L3548;
+      goto L3537;
     case HImode:
-      goto L3549;
+      goto L3538;
     case SFmode:
-      goto L3553;
+      goto L3542;
     case V2HImode:
-      goto L3554;
+      goto L3543;
     case V4QImode:
-      goto L3555;
+      goto L3544;
     case DFmode:
-      goto L3557;
+      goto L3546;
     case V2SImode:
-      goto L3558;
+      goto L3547;
     case V4HImode:
-      goto L3559;
+      goto L3548;
     case V8QImode:
-      goto L3560;
+      goto L3549;
     case TFmode:
-      goto L3561;
+      goto L3550;
     case CC_NOOVmode:
-      goto L3565;
+      goto L3554;
     case CCX_NOOVmode:
-      goto L3566;
+      goto L3555;
     default:
       break;
     }
@@ -5127,47 +5102,47 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
  L2451: ATTRIBUTE_UNUSED_LABEL
   operands[0] = x1;
   goto L2452;
- L2503: ATTRIBUTE_UNUSED_LABEL
+ L2526: ATTRIBUTE_UNUSED_LABEL
   switch (GET_MODE (x1))
     {
-    case DImode:
-      goto L3580;
     case SImode:
-      goto L3579;
+      goto L3568;
+    case DImode:
+      goto L3569;
     case QImode:
-      goto L3577;
+      goto L3566;
     case HImode:
-      goto L3578;
+      goto L3567;
     case V2SImode:
-      goto L3581;
+      goto L3570;
     case V4HImode:
-      goto L3582;
+      goto L3571;
     case V2HImode:
-      goto L3583;
+      goto L3572;
     case DFmode:
-      goto L3584;
+      goto L3573;
     case V8QImode:
-      goto L3585;
+      goto L3574;
     case SFmode:
-      goto L3586;
+      goto L3575;
     case V4QImode:
-      goto L3587;
+      goto L3576;
     default:
       break;
     }
- L2509: ATTRIBUTE_UNUSED_LABEL
+ L2504: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x1) == PC)
-    goto L2510;
+    goto L2505;
   if (register_operand (x1, VOIDmode))
     {
       operands[0] = x1;
-      goto L2588;
+      goto L2583;
     }
- L3071: ATTRIBUTE_UNUSED_LABEL
+ L3066: ATTRIBUTE_UNUSED_LABEL
   operands[0] = x1;
-  goto L3072;
+  goto L3067;
 
- L3542: ATTRIBUTE_UNUSED_LABEL
+ L3531: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x1) == REG
       && XINT (x1, 0) == 100)
     goto L2;
@@ -5186,16 +5161,16 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   switch (GET_MODE (x2))
     {
     case SImode:
-      goto L3589;
+      goto L3578;
     case QImode:
-      goto L3590;
+      goto L3579;
     default:
       break;
     }
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3589: ATTRIBUTE_UNUSED_LABEL
+ L3578: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x2))
     {
     case ZERO_EXTEND:
@@ -5206,27 +5181,27 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       goto L1876;
     case REG:
     case SUBREG:
-      goto L3588;
+      goto L3577;
     case AND:
     case IOR:
     case XOR:
-      goto L3594;
+      goto L3583;
     default:
-      goto L3596;
+      goto L3585;
    }
- L3588: ATTRIBUTE_UNUSED_LABEL
+ L3577: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, SImode))
     {
       operands[0] = x2;
       goto L4;
     }
- L3594: ATTRIBUTE_UNUSED_LABEL
+ L3583: ATTRIBUTE_UNUSED_LABEL
   if (cc_arith_operator (x2, SImode))
     {
       operands[2] = x2;
       goto L1836;
     }
- L3596: ATTRIBUTE_UNUSED_LABEL
+ L3585: ATTRIBUTE_UNUSED_LABEL
   if (cc_arith_not_operator (x2, SImode))
     {
       operands[2] = x2;
@@ -5288,7 +5263,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x2 = XEXP (x1, 1);
   if (x2 == const_int_rtx[MAX_SAVED_CONST_INT + (0)]
       && 
-#line 3214 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3207 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (INTVAL (operands[2]) > 19))
     {
       return 138;  /* *cmp_zero_extract */
@@ -5364,7 +5339,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       operands[0] = x3;
       goto L1837;
     }
-  goto L3596;
+  goto L3585;
 
  L1837: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
@@ -5373,7 +5348,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       operands[1] = x3;
       goto L1838;
     }
-  goto L3596;
+  goto L3585;
 
  L1838: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
@@ -5382,7 +5357,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       return 242;  /* *cmp_cc_arith_op */
     }
   x2 = XEXP (x1, 0);
-  goto L3596;
+  goto L3585;
 
  L1922: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
@@ -5421,15 +5396,15 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3590: ATTRIBUTE_UNUSED_LABEL
+ L3579: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, QImode))
     {
       operands[0] = x2;
       goto L876;
     }
- L3591: ATTRIBUTE_UNUSED_LABEL
+ L3580: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == SUBREG)
-    goto L3597;
+    goto L3586;
   x1 = XEXP (x0, 0);
   goto L324;
 
@@ -5440,9 +5415,9 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       return 121;  /* *cmp_zero_qi */
     }
   x2 = XEXP (x1, 0);
-  goto L3591;
+  goto L3580;
 
- L3597: ATTRIBUTE_UNUSED_LABEL
+ L3586: ATTRIBUTE_UNUSED_LABEL
   switch (XINT (x2, 1))
     {
     case 3L:
@@ -5493,7 +5468,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3543: ATTRIBUTE_UNUSED_LABEL
+ L3532: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x1) == REG
       && XINT (x1, 0) == 100)
     goto L7;
@@ -5512,16 +5487,16 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   switch (GET_MODE (x2))
     {
     case DImode:
-      goto L3600;
+      goto L3589;
     case QImode:
-      goto L3601;
+      goto L3590;
     default:
       break;
     }
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3600: ATTRIBUTE_UNUSED_LABEL
+ L3589: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x2))
     {
     case ZERO_EXTEND:
@@ -5532,27 +5507,27 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       goto L1884;
     case REG:
     case SUBREG:
-      goto L3599;
+      goto L3588;
     case AND:
     case IOR:
     case XOR:
-      goto L3603;
+      goto L3592;
     default:
-      goto L3605;
+      goto L3594;
    }
- L3599: ATTRIBUTE_UNUSED_LABEL
+ L3588: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, DImode))
     {
       operands[0] = x2;
       goto L9;
     }
- L3603: ATTRIBUTE_UNUSED_LABEL
+ L3592: ATTRIBUTE_UNUSED_LABEL
   if (cc_arith_operator (x2, DImode))
     {
       operands[2] = x2;
       goto L1843;
     }
- L3605: ATTRIBUTE_UNUSED_LABEL
+ L3594: ATTRIBUTE_UNUSED_LABEL
   if (cc_arith_not_operator (x2, DImode))
     {
       operands[2] = x2;
@@ -5614,7 +5589,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x2 = XEXP (x1, 1);
   if (x2 == const_int_rtx[MAX_SAVED_CONST_INT + (0)]
       && 
-#line 3231 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3224 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64 && INTVAL (operands[2]) > 51))
     {
       return 139;  /* *cmp_zero_extract_sp64 */
@@ -5690,7 +5665,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       operands[0] = x3;
       goto L1844;
     }
-  goto L3605;
+  goto L3594;
 
  L1844: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
@@ -5699,7 +5674,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       operands[1] = x3;
       goto L1845;
     }
-  goto L3605;
+  goto L3594;
 
  L1845: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
@@ -5708,7 +5683,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       return 243;  /* *cmp_ccx_arith_op */
     }
   x2 = XEXP (x1, 0);
-  goto L3605;
+  goto L3594;
 
  L1930: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
@@ -5747,7 +5722,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3601: ATTRIBUTE_UNUSED_LABEL
+ L3590: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, QImode))
     {
       operands[0] = x2;
@@ -5765,7 +5740,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3544: ATTRIBUTE_UNUSED_LABEL
+ L3533: ATTRIBUTE_UNUSED_LABEL
   if (fcc_register_operand (x1, CCFPEmode))
     {
       operands[0] = x1;
@@ -5786,18 +5761,18 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   switch (GET_MODE (x2))
     {
     case SFmode:
-      goto L3606;
+      goto L3595;
     case DFmode:
-      goto L3607;
+      goto L3596;
     case TFmode:
-      goto L3608;
+      goto L3597;
     default:
       break;
     }
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3606: ATTRIBUTE_UNUSED_LABEL
+ L3595: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, SFmode))
     {
       operands[1] = x2;
@@ -5818,7 +5793,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L15: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 389 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 382 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU))
     {
       return 2;  /* *cmpsf_fpe */
@@ -5826,7 +5801,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3607: ATTRIBUTE_UNUSED_LABEL
+ L3596: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, DFmode))
     {
       operands[1] = x2;
@@ -5847,7 +5822,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L21: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 401 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 394 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU))
     {
       return 3;  /* *cmpdf_fpe */
@@ -5855,7 +5830,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3608: ATTRIBUTE_UNUSED_LABEL
+ L3597: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, TFmode))
     {
       operands[1] = x2;
@@ -5876,7 +5851,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L27: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 414 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 407 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU && TARGET_HARD_QUAD))
     {
       return 4;  /* *cmptf_fpe */
@@ -5884,7 +5859,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3545: ATTRIBUTE_UNUSED_LABEL
+ L3534: ATTRIBUTE_UNUSED_LABEL
   if (fcc_register_operand (x1, CCFPmode))
     {
       operands[0] = x1;
@@ -5905,18 +5880,18 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   switch (GET_MODE (x2))
     {
     case SFmode:
-      goto L3609;
+      goto L3598;
     case DFmode:
-      goto L3610;
+      goto L3599;
     case TFmode:
-      goto L3611;
+      goto L3600;
     default:
       break;
     }
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3609: ATTRIBUTE_UNUSED_LABEL
+ L3598: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, SFmode))
     {
       operands[1] = x2;
@@ -5937,7 +5912,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L33: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 426 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 419 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU))
     {
       return 5;  /* *cmpsf_fp */
@@ -5945,7 +5920,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3610: ATTRIBUTE_UNUSED_LABEL
+ L3599: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, DFmode))
     {
       operands[1] = x2;
@@ -5966,7 +5941,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L39: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 438 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 431 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU))
     {
       return 6;  /* *cmpdf_fp */
@@ -5974,7 +5949,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3611: ATTRIBUTE_UNUSED_LABEL
+ L3600: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, TFmode))
     {
       operands[1] = x2;
@@ -5995,7 +5970,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L45: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 451 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 444 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU && TARGET_HARD_QUAD))
     {
       return 7;  /* *cmptf_fp */
@@ -6003,19 +5978,19 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3546: ATTRIBUTE_UNUSED_LABEL
+ L3535: ATTRIBUTE_UNUSED_LABEL
   tem = recog_2 (x0, insn, pnum_clobbers);
   if (tem >= 0)
     return tem;
   goto L324;
 
- L3547: ATTRIBUTE_UNUSED_LABEL
+ L3536: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x1, DImode))
     {
       operands[0] = x1;
       goto L84;
     }
- L3552: ATTRIBUTE_UNUSED_LABEL
+ L3541: ATTRIBUTE_UNUSED_LABEL
   if (nonimmediate_operand (x1, DImode))
     {
       operands[0] = x1;
@@ -6026,16 +6001,16 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
  L84: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (GET_MODE (x1) == DImode)
-    goto L3698;
+    goto L3687;
   x1 = XEXP (x0, 0);
-  goto L3552;
+  goto L3541;
 
- L3698: ATTRIBUTE_UNUSED_LABEL
+ L3687: ATTRIBUTE_UNUSED_LABEL
   tem = recog_3 (x0, insn, pnum_clobbers);
   if (tem >= 0)
     return tem;
   x1 = XEXP (x0, 0);
-  goto L3552;
+  goto L3541;
 
  L490: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
@@ -6049,7 +6024,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L491: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1354 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1347 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (! TARGET_V9
    && (register_operand (operands[0], DImode)
        || register_or_zero_operand (operands[1], DImode))))
@@ -6058,7 +6033,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
     }
  L495: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1405 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1398 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64
    && (register_operand (operands[0], DImode)
        || register_or_zero_operand (operands[1], DImode))))
@@ -6068,13 +6043,13 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3548: ATTRIBUTE_UNUSED_LABEL
+ L3537: ATTRIBUTE_UNUSED_LABEL
   if (nonimmediate_operand (x1, QImode))
     {
       operands[0] = x1;
       goto L429;
     }
- L3562: ATTRIBUTE_UNUSED_LABEL
+ L3551: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x1, QImode))
     {
       operands[0] = x1;
@@ -6090,18 +6065,18 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       goto L430;
     }
   x1 = XEXP (x0, 0);
-  goto L3562;
+  goto L3551;
 
  L430: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1152 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1145 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 ((register_operand (operands[0], QImode)
     || register_or_zero_operand (operands[1], QImode))))
     {
       return 47;  /* *movqi_insn */
     }
   x1 = XEXP (x0, 0);
-  goto L3562;
+  goto L3551;
 
  L700: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
@@ -6164,7 +6139,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L706: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2549 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2542 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V9 && !(QImode == DImode && TARGET_ARCH32)))
     {
       return 98;  /* *movqi_cc_v9 */
@@ -6210,13 +6185,13 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3549: ATTRIBUTE_UNUSED_LABEL
+ L3538: ATTRIBUTE_UNUSED_LABEL
   if (nonimmediate_operand (x1, HImode))
     {
       operands[0] = x1;
       goto L433;
     }
- L3550: ATTRIBUTE_UNUSED_LABEL
+ L3539: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x1, HImode))
     {
       operands[0] = x1;
@@ -6232,27 +6207,27 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       goto L434;
     }
   x1 = XEXP (x0, 0);
-  goto L3550;
+  goto L3539;
 
  L434: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1173 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1166 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 ((register_operand (operands[0], HImode)
     || register_or_zero_operand (operands[1], HImode))))
     {
       return 48;  /* *movhi_insn */
     }
   x1 = XEXP (x0, 0);
-  goto L3550;
+  goto L3539;
 
  L437: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (GET_MODE (x1) == HImode)
-    goto L3798;
+    goto L3787;
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3798: ATTRIBUTE_UNUSED_LABEL
+ L3787: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x1))
     {
     case IOR:
@@ -6342,7 +6317,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L715: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2549 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2542 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V9 && !(HImode == DImode && TARGET_ARCH32)))
     {
       return 99;  /* *movhi_cc_v9 */
@@ -6400,7 +6375,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L846: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2783 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2776 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (GET_CODE (operands[1]) != CONST_INT))
     {
       return 115;  /* *zero_extendqihi2_insn */
@@ -6418,13 +6393,13 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3553: ATTRIBUTE_UNUSED_LABEL
+ L3542: ATTRIBUTE_UNUSED_LABEL
   if (nonimmediate_operand (x1, SFmode))
     {
       operands[0] = x1;
       goto L635;
     }
- L3556: ATTRIBUTE_UNUSED_LABEL
+ L3545: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x1, SFmode))
     {
       operands[0] = x1;
@@ -6440,11 +6415,11 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       goto L636;
     }
   x1 = XEXP (x0, 0);
-  goto L3556;
+  goto L3545;
 
  L636: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1818 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1811 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU
    && (register_operand (operands[0], SFmode)
        || register_or_zero_operand (operands[1], SFmode))))
@@ -6453,7 +6428,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
     }
  L648: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1866 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1859 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (! TARGET_FPU
    && (register_operand (operands[0], SFmode)
        || register_or_zero_operand (operands[1], SFmode))))
@@ -6461,16 +6436,16 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       return 85;  /* *movsf_insn_no_fpu */
     }
   x1 = XEXP (x0, 0);
-  goto L3556;
+  goto L3545;
 
  L651: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (GET_MODE (x1) == SFmode)
-    goto L3802;
+    goto L3791;
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3802: ATTRIBUTE_UNUSED_LABEL
+ L3791: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x1))
     {
     case LO_SUM:
@@ -6586,7 +6561,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L774: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2575 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2568 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V9 && TARGET_FPU))
     {
       return 106;  /* *movsf_cc_v9 */
@@ -6634,7 +6609,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L783: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2588 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2581 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64 && TARGET_FPU))
     {
       return 107;  /* *movsf_cc_reg_sp64 */
@@ -6647,16 +6622,16 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   switch (GET_MODE (x2))
     {
     case DFmode:
-      goto L3814;
+      goto L3803;
     case TFmode:
-      goto L3815;
+      goto L3804;
     default:
       break;
     }
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3814: ATTRIBUTE_UNUSED_LABEL
+ L3803: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, DFmode))
     {
       operands[1] = x2;
@@ -6667,7 +6642,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1029: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 3287 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3280 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU))
     {
       return 143;  /* truncdfsf2 */
@@ -6675,7 +6650,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3815: ATTRIBUTE_UNUSED_LABEL
+ L3804: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, TFmode))
     {
       operands[1] = x2;
@@ -6686,7 +6661,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1034: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 3303 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3296 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU && TARGET_HARD_QUAD))
     {
       return 144;  /* *trunctfsf2_hq */
@@ -6699,16 +6674,16 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   switch (GET_MODE (x2))
     {
     case SImode:
-      goto L3816;
+      goto L3805;
     case DImode:
-      goto L3817;
+      goto L3806;
     default:
       break;
     }
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3816: ATTRIBUTE_UNUSED_LABEL
+ L3805: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, SImode))
     {
       operands[1] = x2;
@@ -6719,7 +6694,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1044: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 3328 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3321 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU))
     {
       return 146;  /* floatsisf2 */
@@ -6727,7 +6702,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3817: ATTRIBUTE_UNUSED_LABEL
+ L3806: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, DImode))
     {
       operands[1] = x2;
@@ -6738,7 +6713,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1059: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 3365 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3358 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V9 && TARGET_FPU))
     {
       return 149;  /* floatdisf2 */
@@ -6768,7 +6743,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2103: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5275 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5268 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU))
     {
       return 275;  /* addsf3 */
@@ -6798,7 +6773,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2121: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5307 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5300 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU))
     {
       return 278;  /* subsf3 */
@@ -6828,7 +6803,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2139: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5339 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5332 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU))
     {
       return 281;  /* mulsf3 */
@@ -6858,7 +6833,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2173: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5389 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5382 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU))
     {
       return 286;  /* divsf3 */
@@ -6878,7 +6853,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2198: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5477 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5470 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU))
     {
       return 291;  /* negsf2 */
@@ -6898,7 +6873,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2228: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5573 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5566 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU))
     {
       return 297;  /* abssf2 */
@@ -6918,7 +6893,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2243: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5601 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5594 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU))
     {
       return 300;  /* sqrtsf2 */
@@ -6926,13 +6901,13 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3554: ATTRIBUTE_UNUSED_LABEL
+ L3543: ATTRIBUTE_UNUSED_LABEL
   if (nonimmediate_operand (x1, V2HImode))
     {
       operands[0] = x1;
       goto L639;
     }
- L3571: ATTRIBUTE_UNUSED_LABEL
+ L3560: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x1, V2HImode))
     {
       operands[0] = x1;
@@ -6948,11 +6923,11 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       goto L640;
     }
   x1 = XEXP (x0, 0);
-  goto L3571;
+  goto L3560;
 
  L640: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1818 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1811 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU
    && (register_operand (operands[0], V2HImode)
        || register_or_zero_operand (operands[1], V2HImode))))
@@ -6960,16 +6935,16 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       return 83;  /* *movsf_insn */
     }
   x1 = XEXP (x0, 0);
-  goto L3571;
+  goto L3560;
 
  L1628: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (GET_MODE (x1) == V2HImode)
-    goto L3818;
+    goto L3807;
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3818: ATTRIBUTE_UNUSED_LABEL
+ L3807: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x1))
     {
     case AND:
@@ -7125,13 +7100,13 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3555: ATTRIBUTE_UNUSED_LABEL
+ L3544: ATTRIBUTE_UNUSED_LABEL
   if (nonimmediate_operand (x1, V4QImode))
     {
       operands[0] = x1;
       goto L643;
     }
- L3572: ATTRIBUTE_UNUSED_LABEL
+ L3561: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x1, V4QImode))
     {
       operands[0] = x1;
@@ -7147,11 +7122,11 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       goto L644;
     }
   x1 = XEXP (x0, 0);
-  goto L3572;
+  goto L3561;
 
  L644: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1818 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1811 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU
    && (register_operand (operands[0], V4QImode)
        || register_or_zero_operand (operands[1], V4QImode))))
@@ -7159,16 +7134,16 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       return 84;  /* *movsf_insn */
     }
   x1 = XEXP (x0, 0);
-  goto L3572;
+  goto L3561;
 
  L1633: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (GET_MODE (x1) == V4QImode)
-    goto L3822;
+    goto L3811;
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3822: ATTRIBUTE_UNUSED_LABEL
+ L3811: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x1))
     {
     case AND:
@@ -7324,13 +7299,13 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3557: ATTRIBUTE_UNUSED_LABEL
+ L3546: ATTRIBUTE_UNUSED_LABEL
   if (nonimmediate_operand (x1, DFmode))
     {
       operands[0] = x1;
       goto L660;
     }
- L3563: ATTRIBUTE_UNUSED_LABEL
+ L3552: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x1, DFmode))
     {
       operands[0] = x1;
@@ -7346,11 +7321,11 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       goto L661;
     }
   x1 = XEXP (x0, 0);
-  goto L3563;
+  goto L3552;
 
  L661: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1953 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1946 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU
    && ! TARGET_V9
    && (register_operand (operands[0], DFmode)
@@ -7360,7 +7335,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
     }
  L665: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1974 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1967 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (! TARGET_FPU
    && ! TARGET_V9
    && (register_operand (operands[0], DFmode)
@@ -7370,7 +7345,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
     }
  L669: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2032 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2025 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU
    && TARGET_ARCH64
    && (register_operand (operands[0], DFmode)
@@ -7380,7 +7355,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
     }
  L685: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2052 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2045 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (! TARGET_FPU
    && TARGET_ARCH64
    && (register_operand (operands[0], DFmode)
@@ -7389,16 +7364,16 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       return 94;  /* *movdf_insn_sp64_no_fpu */
     }
   x1 = XEXP (x0, 0);
-  goto L3563;
+  goto L3552;
 
  L786: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (GET_MODE (x1) == DFmode)
-    goto L3826;
+    goto L3815;
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3826: ATTRIBUTE_UNUSED_LABEL
+ L3815: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x1))
     {
     case IF_THEN_ELSE:
@@ -7482,7 +7457,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L792: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2602 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2595 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V9 && TARGET_FPU))
     {
       return 108;  /* movdf_cc_v9 */
@@ -7530,7 +7505,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L801: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2617 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2610 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64 && TARGET_FPU))
     {
       return 109;  /* movdf_cc_reg_sp64 */
@@ -7550,7 +7525,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1014: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 3248 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3241 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU))
     {
       return 140;  /* extendsfdf2 */
@@ -7570,7 +7545,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1039: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 3318 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3311 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU && TARGET_HARD_QUAD))
     {
       return 145;  /* *trunctfdf2_hq */
@@ -7583,16 +7558,16 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   switch (GET_MODE (x2))
     {
     case SImode:
-      goto L3837;
+      goto L3826;
     case DImode:
-      goto L3838;
+      goto L3827;
     default:
       break;
     }
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3837: ATTRIBUTE_UNUSED_LABEL
+ L3826: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, SImode))
     {
       operands[1] = x2;
@@ -7603,7 +7578,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1049: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 3336 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3329 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU))
     {
       return 147;  /* floatsidf2 */
@@ -7611,7 +7586,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3838: ATTRIBUTE_UNUSED_LABEL
+ L3827: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, DImode))
     {
       operands[1] = x2;
@@ -7622,7 +7597,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1064: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 3379 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3372 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V9 && TARGET_FPU))
     {
       return 150;  /* floatdidf2 */
@@ -7652,7 +7627,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2097: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5266 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5259 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU))
     {
       return 274;  /* adddf3 */
@@ -7682,7 +7657,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2115: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5298 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5291 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU))
     {
       return 277;  /* subdf3 */
@@ -7693,11 +7668,11 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
  L2131: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == DFmode)
-    goto L3840;
+    goto L3829;
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3840: ATTRIBUTE_UNUSED_LABEL
+ L3829: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == FLOAT_EXTEND)
     goto L2144;
   if (register_operand (x2, DFmode))
@@ -7738,7 +7713,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2147: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5347 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5340 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 ((TARGET_V8 || TARGET_V9) && TARGET_FPU))
     {
       return 282;  /* *muldf3_extend */
@@ -7758,7 +7733,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2133: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5330 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5323 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU))
     {
       return 280;  /* muldf3 */
@@ -7788,7 +7763,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2167: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5380 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5373 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU))
     {
       return 285;  /* divdf3 */
@@ -7808,14 +7783,14 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2188: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5451 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5444 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU && ! TARGET_V9))
     {
       return 289;  /* *negdf2_notv9 */
     }
  L2193: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5469 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5462 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU && TARGET_V9))
     {
       return 290;  /* *negdf2_v9 */
@@ -7835,14 +7810,14 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2218: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5547 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5540 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU && ! TARGET_V9))
     {
       return 295;  /* *absdf2_notv9 */
     }
  L2223: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5565 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5558 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU && TARGET_V9))
     {
       return 296;  /* *absdf2_v9 */
@@ -7862,7 +7837,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2238: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5593 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5586 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU))
     {
       return 299;  /* sqrtdf2 */
@@ -7870,13 +7845,13 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3558: ATTRIBUTE_UNUSED_LABEL
+ L3547: ATTRIBUTE_UNUSED_LABEL
   if (nonimmediate_operand (x1, V2SImode))
     {
       operands[0] = x1;
       goto L672;
     }
- L3568: ATTRIBUTE_UNUSED_LABEL
+ L3557: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x1, V2SImode))
     {
       operands[0] = x1;
@@ -7892,11 +7867,11 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       goto L673;
     }
   x1 = XEXP (x0, 0);
-  goto L3568;
+  goto L3557;
 
  L673: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2032 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2025 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU
    && TARGET_ARCH64
    && (register_operand (operands[0], V2SImode)
@@ -7905,16 +7880,16 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       return 91;  /* *movdf_insn_sp64 */
     }
   x1 = XEXP (x0, 0);
-  goto L3568;
+  goto L3557;
 
  L1608: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (GET_MODE (x1) == V2SImode)
-    goto L3841;
+    goto L3830;
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3841: ATTRIBUTE_UNUSED_LABEL
+ L3830: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x1))
     {
     case AND:
@@ -8070,13 +8045,13 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3559: ATTRIBUTE_UNUSED_LABEL
+ L3548: ATTRIBUTE_UNUSED_LABEL
   if (nonimmediate_operand (x1, V4HImode))
     {
       operands[0] = x1;
       goto L676;
     }
- L3569: ATTRIBUTE_UNUSED_LABEL
+ L3558: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x1, V4HImode))
     {
       operands[0] = x1;
@@ -8092,11 +8067,11 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       goto L677;
     }
   x1 = XEXP (x0, 0);
-  goto L3569;
+  goto L3558;
 
  L677: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2032 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2025 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU
    && TARGET_ARCH64
    && (register_operand (operands[0], V4HImode)
@@ -8105,16 +8080,16 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       return 92;  /* *movdf_insn_sp64 */
     }
   x1 = XEXP (x0, 0);
-  goto L3569;
+  goto L3558;
 
  L1613: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (GET_MODE (x1) == V4HImode)
-    goto L3845;
+    goto L3834;
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3845: ATTRIBUTE_UNUSED_LABEL
+ L3834: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x1))
     {
     case AND:
@@ -8270,13 +8245,13 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3560: ATTRIBUTE_UNUSED_LABEL
+ L3549: ATTRIBUTE_UNUSED_LABEL
   if (nonimmediate_operand (x1, V8QImode))
     {
       operands[0] = x1;
       goto L680;
     }
- L3570: ATTRIBUTE_UNUSED_LABEL
+ L3559: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x1, V8QImode))
     {
       operands[0] = x1;
@@ -8292,11 +8267,11 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       goto L681;
     }
   x1 = XEXP (x0, 0);
-  goto L3570;
+  goto L3559;
 
  L681: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2032 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2025 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU
    && TARGET_ARCH64
    && (register_operand (operands[0], V8QImode)
@@ -8305,16 +8280,16 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       return 93;  /* *movdf_insn_sp64 */
     }
   x1 = XEXP (x0, 0);
-  goto L3570;
+  goto L3559;
 
  L1618: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (GET_MODE (x1) == V8QImode)
-    goto L3849;
+    goto L3838;
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3849: ATTRIBUTE_UNUSED_LABEL
+ L3838: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x1))
     {
     case AND:
@@ -8470,13 +8445,13 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3561: ATTRIBUTE_UNUSED_LABEL
+ L3550: ATTRIBUTE_UNUSED_LABEL
   if (nonimmediate_operand (x1, TFmode))
     {
       operands[0] = x1;
       goto L688;
     }
- L3564: ATTRIBUTE_UNUSED_LABEL
+ L3553: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x1, TFmode))
     {
       operands[0] = x1;
@@ -8492,11 +8467,11 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       goto L689;
     }
   x1 = XEXP (x0, 0);
-  goto L3564;
+  goto L3553;
 
  L689: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2317 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2310 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU
    && TARGET_ARCH64
    && ! TARGET_HARD_QUAD
@@ -8507,7 +8482,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
     }
  L693: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2328 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2321 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU
    && TARGET_ARCH64
    && TARGET_HARD_QUAD
@@ -8518,7 +8493,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
     }
  L697: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2346 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2339 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (! TARGET_FPU
    && TARGET_ARCH64
    && (register_operand (operands[0], TFmode)
@@ -8527,16 +8502,16 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       return 97;  /* *movtf_insn_sp64_no_fpu */
     }
   x1 = XEXP (x0, 0);
-  goto L3564;
+  goto L3553;
 
  L804: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (GET_MODE (x1) == TFmode)
-    goto L3853;
+    goto L3842;
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3853: ATTRIBUTE_UNUSED_LABEL
+ L3842: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x1))
     {
     case IF_THEN_ELSE:
@@ -8630,7 +8605,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L810: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2631 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2624 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V9 && TARGET_FPU && TARGET_HARD_QUAD))
     {
       return 110;  /* *movtf_cc_hq_v9 */
@@ -8676,7 +8651,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L819: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2644 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2637 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64 && TARGET_FPU && TARGET_HARD_QUAD))
     {
       return 111;  /* *movtf_cc_reg_hq_sp64 */
@@ -8722,7 +8697,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L828: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2657 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2650 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V9 && TARGET_FPU && !TARGET_HARD_QUAD))
     {
       return 112;  /* *movtf_cc_v9 */
@@ -8770,7 +8745,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L837: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2700 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2693 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64 && TARGET_FPU && ! TARGET_HARD_QUAD))
     {
       return 113;  /* *movtf_cc_reg_sp64 */
@@ -8783,16 +8758,16 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   switch (GET_MODE (x2))
     {
     case SFmode:
-      goto L3863;
+      goto L3852;
     case DFmode:
-      goto L3864;
+      goto L3853;
     default:
       break;
     }
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3863: ATTRIBUTE_UNUSED_LABEL
+ L3852: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, SFmode))
     {
       operands[1] = x2;
@@ -8803,7 +8778,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1019: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 3264 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3257 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU && TARGET_HARD_QUAD))
     {
       return 141;  /* *extendsftf2_hq */
@@ -8811,7 +8786,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3864: ATTRIBUTE_UNUSED_LABEL
+ L3853: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, DFmode))
     {
       operands[1] = x2;
@@ -8822,7 +8797,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1024: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 3279 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3272 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU && TARGET_HARD_QUAD))
     {
       return 142;  /* *extenddftf2_hq */
@@ -8835,16 +8810,16 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   switch (GET_MODE (x2))
     {
     case SImode:
-      goto L3865;
+      goto L3854;
     case DImode:
-      goto L3866;
+      goto L3855;
     default:
       break;
     }
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3865: ATTRIBUTE_UNUSED_LABEL
+ L3854: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, SImode))
     {
       operands[1] = x2;
@@ -8855,7 +8830,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1054: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 3350 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3343 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU && TARGET_HARD_QUAD))
     {
       return 148;  /* *floatsitf2_hq */
@@ -8863,7 +8838,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3866: ATTRIBUTE_UNUSED_LABEL
+ L3855: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, DImode))
     {
       operands[1] = x2;
@@ -8874,7 +8849,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1069: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 3399 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3392 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V9 && TARGET_FPU && TARGET_HARD_QUAD))
     {
       return 151;  /* *floatditf2_hq */
@@ -8904,7 +8879,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2091: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5258 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5251 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU && TARGET_HARD_QUAD))
     {
       return 273;  /* *addtf3_hq */
@@ -8934,7 +8909,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2109: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5290 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5283 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU && TARGET_HARD_QUAD))
     {
       return 276;  /* *subtf3_hq */
@@ -8945,11 +8920,11 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
  L2125: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == TFmode)
-    goto L3868;
+    goto L3857;
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3868: ATTRIBUTE_UNUSED_LABEL
+ L3857: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == FLOAT_EXTEND)
     goto L2152;
   if (register_operand (x2, TFmode))
@@ -8990,7 +8965,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2155: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5356 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5349 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 ((TARGET_V8 || TARGET_V9) && TARGET_FPU && TARGET_HARD_QUAD))
     {
       return 283;  /* *multf3_extend */
@@ -9010,7 +8985,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2127: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5322 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5315 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU && TARGET_HARD_QUAD))
     {
       return 279;  /* *multf3_hq */
@@ -9040,7 +9015,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2161: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5372 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5365 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU && TARGET_HARD_QUAD))
     {
       return 284;  /* *divtf3_hq */
@@ -9060,7 +9035,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2178: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5403 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5396 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU
    && ! TARGET_V9))
     {
@@ -9068,7 +9043,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
     }
  L2183: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5426 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5419 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU && TARGET_V9))
     {
       return 288;  /* *negtf2_v9 */
@@ -9088,21 +9063,21 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2203: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5491 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5484 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU && ! TARGET_V9))
     {
       return 292;  /* *abstf2_notv9 */
     }
  L2208: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5512 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5505 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU && TARGET_V9 && TARGET_HARD_QUAD))
     {
       return 293;  /* *abstf2_hq_v9 */
     }
  L2213: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5522 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5515 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU && TARGET_V9 && !TARGET_HARD_QUAD))
     {
       return 294;  /* *abstf2_v9 */
@@ -9122,7 +9097,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2233: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5586 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5579 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU && TARGET_HARD_QUAD))
     {
       return 298;  /* *sqrttf2_hq */
@@ -9130,7 +9105,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3565: ATTRIBUTE_UNUSED_LABEL
+ L3554: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x1) == REG
       && XINT (x1, 0) == 100)
     goto L1135;
@@ -9147,11 +9122,11 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
  L1136: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == SImode)
-    goto L3869;
+    goto L3858;
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3869: ATTRIBUTE_UNUSED_LABEL
+ L3858: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x2))
     {
     case PLUS:
@@ -9271,7 +9246,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3566: ATTRIBUTE_UNUSED_LABEL
+ L3555: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x1) == REG
       && XINT (x1, 0) == 100)
     goto L1142;
@@ -9288,11 +9263,11 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
  L1143: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == DImode)
-    goto L3873;
+    goto L3862;
   x1 = XEXP (x0, 0);
   goto L324;
 
- L3873: ATTRIBUTE_UNUSED_LABEL
+ L3862: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x2))
     {
     case PLUS:
@@ -9478,15 +9453,15 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   switch (GET_MODE (x3))
     {
     case CCFPmode:
-      goto L3876;
+      goto L3865;
     case CCFPEmode:
-      goto L3877;
+      goto L3866;
     default:
       break;
     }
   goto L380;
 
- L3876: ATTRIBUTE_UNUSED_LABEL
+ L3865: ATTRIBUTE_UNUSED_LABEL
   if (fcc_register_operand (x3, CCFPmode))
     {
       operands[0] = x3;
@@ -9540,7 +9515,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   operands[2] = x3;
   return 40;  /* *inverted_fp_branch */
 
- L3877: ATTRIBUTE_UNUSED_LABEL
+ L3866: ATTRIBUTE_UNUSED_LABEL
   if (fcc_register_operand (x3, CCFPEmode))
     {
       operands[0] = x3;
@@ -9661,7 +9636,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
   if (GET_CODE (x1) == CALL)
     goto L2453;
   x1 = XEXP (x0, 0);
-  goto L2503;
+  goto L2526;
 
  L2453: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
@@ -9669,7 +9644,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       && GET_CODE (x2) == MEM)
     goto L2454;
   x1 = XEXP (x0, 0);
-  goto L2503;
+  goto L2526;
 
  L2454: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
@@ -9685,7 +9660,7 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       goto L2471;
     }
   x1 = XEXP (x0, 0);
-  goto L2503;
+  goto L2526;
 
  L2455: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
@@ -9715,1724 +9690,1901 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       return 325;  /* *call_value_symbolic_sp64 */
     }
   x1 = XEXP (x0, 0);
-  goto L2503;
+  goto L2526;
 
- L3580: ATTRIBUTE_UNUSED_LABEL
-  tem = recog_4 (x0, insn, pnum_clobbers);
-  if (tem >= 0)
-    return tem;
-  goto L2509;
-
- L3579: ATTRIBUTE_UNUSED_LABEL
+ L3568: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x1) == MEM)
-    goto L2841;
+    goto L2836;
   if (register_operand (x1, SImode))
     {
       operands[0] = x1;
-      goto L2532;
+      goto L2527;
     }
-  goto L2509;
+  goto L2504;
 
- L2841: ATTRIBUTE_UNUSED_LABEL
+ L2836: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == DImode
       && GET_CODE (x2) == PLUS)
-    goto L2842;
-  goto L2509;
+    goto L2837;
+  goto L2504;
 
- L2842: ATTRIBUTE_UNUSED_LABEL
+ L2837: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (GET_MODE (x3) == DImode
       && GET_CODE (x3) == UNSPEC
       && XVECLEN (x3, 0) == 2
       && XINT (x3, 1) == 32)
-    goto L2843;
-  goto L2509;
+    goto L2838;
+  goto L2504;
 
- L2843: ATTRIBUTE_UNUSED_LABEL
+ L2838: ATTRIBUTE_UNUSED_LABEL
   x4 = XVECEXP (x3, 0, 0);
   if (register_operand (x4, SImode))
     {
       operands[2] = x4;
-      goto L2844;
+      goto L2839;
     }
-  goto L2509;
+  goto L2504;
 
- L2844: ATTRIBUTE_UNUSED_LABEL
+ L2839: ATTRIBUTE_UNUSED_LABEL
   x4 = XVECEXP (x3, 0, 1);
   if (tld_symbolic_operand (x4, VOIDmode))
     {
       operands[3] = x4;
-      goto L2845;
+      goto L2840;
     }
-  goto L2509;
+  goto L2504;
 
- L2845: ATTRIBUTE_UNUSED_LABEL
+ L2840: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
   if (register_operand (x3, DImode))
     {
       operands[1] = x3;
-      goto L2846;
+      goto L2841;
     }
-  goto L2509;
+  goto L2504;
 
- L2846: ATTRIBUTE_UNUSED_LABEL
+ L2841: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (register_operand (x1, SImode))
     {
       operands[0] = x1;
-      return 380;  /* *tldo_stw_sp64 */
+      return 379;  /* *tldo_stw_sp64 */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2532: ATTRIBUTE_UNUSED_LABEL
+ L2527: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (GET_MODE (x1) == SImode)
-    goto L3916;
+    goto L3867;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3916: ATTRIBUTE_UNUSED_LABEL
+ L3867: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x1))
     {
     case FFS:
-      goto L2533;
+      goto L2528;
     case HIGH:
-      goto L2560;
+      goto L2555;
     case LO_SUM:
-      goto L2565;
+      goto L2560;
     case ZERO_EXTEND:
-      goto L2703;
+      goto L2698;
     case SIGN_EXTEND:
-      goto L2730;
+      goto L2725;
     case MEM:
-      goto L2792;
+      goto L2787;
     default:
      break;
    }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2533: ATTRIBUTE_UNUSED_LABEL
+ L2528: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (register_operand (x2, SImode))
     {
       operands[1] = x2;
-      goto L2534;
+      goto L2529;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2534: ATTRIBUTE_UNUSED_LABEL
+ L2529: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 6608 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6587 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_SPARCLITE || TARGET_SPARCLET)
       && pnum_clobbers != NULL)
     {
       *pnum_clobbers = 1;
-      return 339;  /* ffssi2 */
+      return 338;  /* ffssi2 */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2560: ATTRIBUTE_UNUSED_LABEL
+ L2555: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == SImode)
-    goto L3922;
+    goto L3873;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3922: ATTRIBUTE_UNUSED_LABEL
+ L3873: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == UNSPEC)
-    goto L3926;
+    goto L3877;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3926: ATTRIBUTE_UNUSED_LABEL
+ L3877: ATTRIBUTE_UNUSED_LABEL
   if (XVECLEN (x2, 0) == 1)
-    goto L3930;
+    goto L3881;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3930: ATTRIBUTE_UNUSED_LABEL
+ L3881: ATTRIBUTE_UNUSED_LABEL
   switch (XINT (x2, 1))
     {
     case 30L:
-      goto L2561;
+      goto L2556;
     case 31L:
-      goto L2599;
+      goto L2594;
     case 32L:
-      goto L2634;
+      goto L2629;
     case 33L:
-      goto L2652;
+      goto L2647;
     default:
       break;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2561: ATTRIBUTE_UNUSED_LABEL
+ L2556: ATTRIBUTE_UNUSED_LABEL
   x3 = XVECEXP (x2, 0, 0);
   if (tgd_symbolic_operand (x3, VOIDmode))
     {
       operands[1] = x3;
-      return 345;  /* tgd_hi22 */
+      return 344;  /* tgd_hi22 */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2599: ATTRIBUTE_UNUSED_LABEL
+ L2594: ATTRIBUTE_UNUSED_LABEL
   x3 = XVECEXP (x2, 0, 0);
   if (x3 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
     {
-      return 349;  /* tldm_hi22 */
+      return 348;  /* tldm_hi22 */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2634: ATTRIBUTE_UNUSED_LABEL
+ L2629: ATTRIBUTE_UNUSED_LABEL
   x3 = XVECEXP (x2, 0, 0);
   if (tld_symbolic_operand (x3, VOIDmode))
     {
       operands[1] = x3;
-      return 353;  /* tldo_hix22 */
+      return 352;  /* tldo_hix22 */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2652: ATTRIBUTE_UNUSED_LABEL
+ L2647: ATTRIBUTE_UNUSED_LABEL
   x3 = XVECEXP (x2, 0, 0);
   if (tie_symbolic_operand (x3, VOIDmode))
     {
       operands[1] = x3;
-      return 356;  /* tie_hi22 */
+      return 355;  /* tie_hi22 */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2565: ATTRIBUTE_UNUSED_LABEL
+ L2560: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (register_operand (x2, SImode))
     {
       operands[1] = x2;
-      goto L2566;
+      goto L2561;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2566: ATTRIBUTE_UNUSED_LABEL
+ L2561: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (GET_MODE (x2) == SImode)
-    goto L3934;
+    goto L3885;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3934: ATTRIBUTE_UNUSED_LABEL
+ L3885: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == UNSPEC)
-    goto L3938;
+    goto L3889;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3938: ATTRIBUTE_UNUSED_LABEL
+ L3889: ATTRIBUTE_UNUSED_LABEL
   if (XVECLEN (x2, 0) == 1)
-    goto L3942;
+    goto L3893;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3942: ATTRIBUTE_UNUSED_LABEL
+ L3893: ATTRIBUTE_UNUSED_LABEL
   switch (XINT (x2, 1))
     {
     case 30L:
-      goto L2567;
+      goto L2562;
     case 31L:
-      goto L2605;
+      goto L2600;
     case 32L:
-      goto L2640;
+      goto L2635;
     case 33L:
-      goto L2658;
+      goto L2653;
     default:
       break;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2567: ATTRIBUTE_UNUSED_LABEL
+ L2562: ATTRIBUTE_UNUSED_LABEL
   x3 = XVECEXP (x2, 0, 0);
   if (tgd_symbolic_operand (x3, VOIDmode))
     {
       operands[2] = x3;
-      return 346;  /* tgd_lo10 */
+      return 345;  /* tgd_lo10 */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2605: ATTRIBUTE_UNUSED_LABEL
+ L2600: ATTRIBUTE_UNUSED_LABEL
   x3 = XVECEXP (x2, 0, 0);
   if (x3 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
     {
-      return 350;  /* tldm_lo10 */
+      return 349;  /* tldm_lo10 */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2640: ATTRIBUTE_UNUSED_LABEL
+ L2635: ATTRIBUTE_UNUSED_LABEL
   x3 = XVECEXP (x2, 0, 0);
   if (tld_symbolic_operand (x3, VOIDmode))
     {
       operands[2] = x3;
-      return 354;  /* tldo_lox10 */
+      return 353;  /* tldo_lox10 */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2658: ATTRIBUTE_UNUSED_LABEL
+ L2653: ATTRIBUTE_UNUSED_LABEL
   x3 = XVECEXP (x2, 0, 0);
   if (tie_symbolic_operand (x3, VOIDmode))
     {
       operands[2] = x3;
-      return 357;  /* tie_lo10 */
+      return 356;  /* tie_lo10 */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
+
+ L2698: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 0);
+  switch (GET_MODE (x2))
+    {
+    case QImode:
+      goto L3897;
+    case HImode:
+      goto L3898;
+    default:
+      break;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L3897: ATTRIBUTE_UNUSED_LABEL
+  if (GET_CODE (x2) == MEM)
+    goto L2699;
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2699: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 0);
+  if (GET_MODE (x3) == DImode
+      && GET_CODE (x3) == PLUS)
+    goto L2700;
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2700: ATTRIBUTE_UNUSED_LABEL
+  x4 = XEXP (x3, 0);
+  if (GET_MODE (x4) == DImode
+      && GET_CODE (x4) == UNSPEC
+      && XVECLEN (x4, 0) == 2
+      && XINT (x4, 1) == 32)
+    goto L2701;
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2701: ATTRIBUTE_UNUSED_LABEL
+  x5 = XVECEXP (x4, 0, 0);
+  if (register_operand (x5, SImode))
+    {
+      operands[2] = x5;
+      goto L2702;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2702: ATTRIBUTE_UNUSED_LABEL
+  x5 = XVECEXP (x4, 0, 1);
+  if (tld_symbolic_operand (x5, VOIDmode))
+    {
+      operands[3] = x5;
+      goto L2703;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
 
  L2703: ATTRIBUTE_UNUSED_LABEL
+  x4 = XEXP (x3, 1);
+  if (register_operand (x4, DImode))
+    {
+      operands[1] = x4;
+      return 363;  /* *tldo_ldub2_sp64 */
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L3898: ATTRIBUTE_UNUSED_LABEL
+  if (GET_CODE (x2) == MEM)
+    goto L2752;
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2752: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 0);
+  if (GET_MODE (x3) == DImode
+      && GET_CODE (x3) == PLUS)
+    goto L2753;
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2753: ATTRIBUTE_UNUSED_LABEL
+  x4 = XEXP (x3, 0);
+  if (GET_MODE (x4) == DImode
+      && GET_CODE (x4) == UNSPEC
+      && XVECLEN (x4, 0) == 2
+      && XINT (x4, 1) == 32)
+    goto L2754;
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2754: ATTRIBUTE_UNUSED_LABEL
+  x5 = XVECEXP (x4, 0, 0);
+  if (register_operand (x5, SImode))
+    {
+      operands[2] = x5;
+      goto L2755;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2755: ATTRIBUTE_UNUSED_LABEL
+  x5 = XVECEXP (x4, 0, 1);
+  if (tld_symbolic_operand (x5, VOIDmode))
+    {
+      operands[3] = x5;
+      goto L2756;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2756: ATTRIBUTE_UNUSED_LABEL
+  x4 = XEXP (x3, 1);
+  if (register_operand (x4, DImode))
+    {
+      operands[1] = x4;
+      return 369;  /* *tldo_lduh1_sp64 */
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2725: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   switch (GET_MODE (x2))
     {
     case QImode:
-      goto L3946;
+      goto L3899;
     case HImode:
-      goto L3947;
+      goto L3900;
     default:
       break;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3946: ATTRIBUTE_UNUSED_LABEL
+ L3899: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == MEM)
-    goto L2704;
+    goto L2726;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2704: ATTRIBUTE_UNUSED_LABEL
+ L2726: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (GET_MODE (x3) == DImode
       && GET_CODE (x3) == PLUS)
-    goto L2705;
+    goto L2727;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2705: ATTRIBUTE_UNUSED_LABEL
+ L2727: ATTRIBUTE_UNUSED_LABEL
   x4 = XEXP (x3, 0);
   if (GET_MODE (x4) == DImode
       && GET_CODE (x4) == UNSPEC
       && XVECLEN (x4, 0) == 2
       && XINT (x4, 1) == 32)
-    goto L2706;
+    goto L2728;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2706: ATTRIBUTE_UNUSED_LABEL
+ L2728: ATTRIBUTE_UNUSED_LABEL
   x5 = XVECEXP (x4, 0, 0);
   if (register_operand (x5, SImode))
     {
       operands[2] = x5;
-      goto L2707;
+      goto L2729;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2707: ATTRIBUTE_UNUSED_LABEL
+ L2729: ATTRIBUTE_UNUSED_LABEL
   x5 = XVECEXP (x4, 0, 1);
   if (tld_symbolic_operand (x5, VOIDmode))
     {
       operands[3] = x5;
-      goto L2708;
+      goto L2730;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2708: ATTRIBUTE_UNUSED_LABEL
-  x4 = XEXP (x3, 1);
-  if (register_operand (x4, DImode))
-    {
-      operands[1] = x4;
-      return 364;  /* *tldo_ldub2_sp64 */
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L3947: ATTRIBUTE_UNUSED_LABEL
-  if (GET_CODE (x2) == MEM)
-    goto L2757;
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2757: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 0);
-  if (GET_MODE (x3) == DImode
-      && GET_CODE (x3) == PLUS)
-    goto L2758;
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2758: ATTRIBUTE_UNUSED_LABEL
-  x4 = XEXP (x3, 0);
-  if (GET_MODE (x4) == DImode
-      && GET_CODE (x4) == UNSPEC
-      && XVECLEN (x4, 0) == 2
-      && XINT (x4, 1) == 32)
-    goto L2759;
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2759: ATTRIBUTE_UNUSED_LABEL
-  x5 = XVECEXP (x4, 0, 0);
-  if (register_operand (x5, SImode))
-    {
-      operands[2] = x5;
-      goto L2760;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2760: ATTRIBUTE_UNUSED_LABEL
-  x5 = XVECEXP (x4, 0, 1);
-  if (tld_symbolic_operand (x5, VOIDmode))
-    {
-      operands[3] = x5;
-      goto L2761;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2761: ATTRIBUTE_UNUSED_LABEL
-  x4 = XEXP (x3, 1);
-  if (register_operand (x4, DImode))
-    {
-      operands[1] = x4;
-      return 370;  /* *tldo_lduh1_sp64 */
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
  L2730: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 0);
-  switch (GET_MODE (x2))
+  x4 = XEXP (x3, 1);
+  if (register_operand (x4, DImode))
     {
-    case QImode:
-      goto L3948;
-    case HImode:
-      goto L3949;
-    default:
-      break;
+      operands[1] = x4;
+      return 366;  /* *tldo_ldsb2_sp64 */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3948: ATTRIBUTE_UNUSED_LABEL
+ L3900: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == MEM)
-    goto L2731;
+    goto L2770;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2731: ATTRIBUTE_UNUSED_LABEL
+ L2770: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (GET_MODE (x3) == DImode
       && GET_CODE (x3) == PLUS)
-    goto L2732;
+    goto L2771;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2732: ATTRIBUTE_UNUSED_LABEL
+ L2771: ATTRIBUTE_UNUSED_LABEL
   x4 = XEXP (x3, 0);
   if (GET_MODE (x4) == DImode
       && GET_CODE (x4) == UNSPEC
       && XVECLEN (x4, 0) == 2
       && XINT (x4, 1) == 32)
-    goto L2733;
+    goto L2772;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2733: ATTRIBUTE_UNUSED_LABEL
+ L2772: ATTRIBUTE_UNUSED_LABEL
   x5 = XVECEXP (x4, 0, 0);
   if (register_operand (x5, SImode))
     {
       operands[2] = x5;
-      goto L2734;
+      goto L2773;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2734: ATTRIBUTE_UNUSED_LABEL
+ L2773: ATTRIBUTE_UNUSED_LABEL
   x5 = XVECEXP (x4, 0, 1);
   if (tld_symbolic_operand (x5, VOIDmode))
     {
       operands[3] = x5;
-      goto L2735;
+      goto L2774;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2735: ATTRIBUTE_UNUSED_LABEL
+ L2774: ATTRIBUTE_UNUSED_LABEL
   x4 = XEXP (x3, 1);
   if (register_operand (x4, DImode))
     {
       operands[1] = x4;
-      return 367;  /* *tldo_ldsb2_sp64 */
+      return 371;  /* *tldo_ldsh1_sp64 */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3949: ATTRIBUTE_UNUSED_LABEL
-  if (GET_CODE (x2) == MEM)
-    goto L2775;
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2775: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 0);
-  if (GET_MODE (x3) == DImode
-      && GET_CODE (x3) == PLUS)
-    goto L2776;
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2776: ATTRIBUTE_UNUSED_LABEL
-  x4 = XEXP (x3, 0);
-  if (GET_MODE (x4) == DImode
-      && GET_CODE (x4) == UNSPEC
-      && XVECLEN (x4, 0) == 2
-      && XINT (x4, 1) == 32)
-    goto L2777;
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2777: ATTRIBUTE_UNUSED_LABEL
-  x5 = XVECEXP (x4, 0, 0);
-  if (register_operand (x5, SImode))
-    {
-      operands[2] = x5;
-      goto L2778;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2778: ATTRIBUTE_UNUSED_LABEL
-  x5 = XVECEXP (x4, 0, 1);
-  if (tld_symbolic_operand (x5, VOIDmode))
-    {
-      operands[3] = x5;
-      goto L2779;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2779: ATTRIBUTE_UNUSED_LABEL
-  x4 = XEXP (x3, 1);
-  if (register_operand (x4, DImode))
-    {
-      operands[1] = x4;
-      return 372;  /* *tldo_ldsh1_sp64 */
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2792: ATTRIBUTE_UNUSED_LABEL
+ L2787: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == DImode
       && GET_CODE (x2) == PLUS)
-    goto L2793;
+    goto L2788;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2793: ATTRIBUTE_UNUSED_LABEL
+ L2788: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (GET_MODE (x3) == DImode
       && GET_CODE (x3) == UNSPEC
       && XVECLEN (x3, 0) == 2
       && XINT (x3, 1) == 32)
-    goto L2794;
+    goto L2789;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2794: ATTRIBUTE_UNUSED_LABEL
+ L2789: ATTRIBUTE_UNUSED_LABEL
   x4 = XVECEXP (x3, 0, 0);
   if (register_operand (x4, SImode))
     {
       operands[2] = x4;
-      goto L2795;
+      goto L2790;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2795: ATTRIBUTE_UNUSED_LABEL
+ L2790: ATTRIBUTE_UNUSED_LABEL
   x4 = XVECEXP (x3, 0, 1);
   if (tld_symbolic_operand (x4, VOIDmode))
     {
       operands[3] = x4;
-      goto L2796;
+      goto L2791;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2796: ATTRIBUTE_UNUSED_LABEL
+ L2791: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
   if (register_operand (x3, DImode))
     {
       operands[1] = x3;
-      return 374;  /* *tldo_lduw_sp64 */
+      return 373;  /* *tldo_lduw_sp64 */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3577: ATTRIBUTE_UNUSED_LABEL
+ L3569: ATTRIBUTE_UNUSED_LABEL
+  tem = recog_4 (x0, insn, pnum_clobbers);
+  if (tem >= 0)
+    return tem;
+  goto L2504;
+
+ L3566: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x1) == MEM)
-    goto L2825;
+    goto L2820;
   if (register_operand (x1, QImode))
     {
       operands[0] = x1;
-      goto L2685;
+      goto L2680;
     }
-  goto L2509;
+  goto L2504;
 
- L2825: ATTRIBUTE_UNUSED_LABEL
+ L2820: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == DImode
       && GET_CODE (x2) == PLUS)
-    goto L2826;
-  goto L2509;
+    goto L2821;
+  goto L2504;
 
- L2826: ATTRIBUTE_UNUSED_LABEL
+ L2821: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (GET_MODE (x3) == DImode
       && GET_CODE (x3) == UNSPEC
       && XVECLEN (x3, 0) == 2
       && XINT (x3, 1) == 32)
-    goto L2827;
-  goto L2509;
+    goto L2822;
+  goto L2504;
 
- L2827: ATTRIBUTE_UNUSED_LABEL
+ L2822: ATTRIBUTE_UNUSED_LABEL
   x4 = XVECEXP (x3, 0, 0);
   if (register_operand (x4, SImode))
     {
       operands[2] = x4;
-      goto L2828;
+      goto L2823;
     }
-  goto L2509;
+  goto L2504;
 
- L2828: ATTRIBUTE_UNUSED_LABEL
+ L2823: ATTRIBUTE_UNUSED_LABEL
   x4 = XVECEXP (x3, 0, 1);
   if (tld_symbolic_operand (x4, VOIDmode))
     {
       operands[3] = x4;
-      goto L2829;
+      goto L2824;
     }
-  goto L2509;
+  goto L2504;
 
- L2829: ATTRIBUTE_UNUSED_LABEL
+ L2824: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
   if (register_operand (x3, DImode))
     {
       operands[1] = x3;
-      goto L2830;
+      goto L2825;
     }
-  goto L2509;
+  goto L2504;
 
- L2830: ATTRIBUTE_UNUSED_LABEL
+ L2825: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (register_operand (x1, QImode))
     {
       operands[0] = x1;
-      return 378;  /* *tldo_stb_sp64 */
+      return 377;  /* *tldo_stb_sp64 */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2685: ATTRIBUTE_UNUSED_LABEL
+ L2680: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (GET_MODE (x1) == QImode
       && GET_CODE (x1) == MEM)
-    goto L2686;
+    goto L2681;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2686: ATTRIBUTE_UNUSED_LABEL
+ L2681: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == DImode
       && GET_CODE (x2) == PLUS)
-    goto L2687;
+    goto L2682;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2687: ATTRIBUTE_UNUSED_LABEL
+ L2682: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (GET_MODE (x3) == DImode
       && GET_CODE (x3) == UNSPEC
       && XVECLEN (x3, 0) == 2
       && XINT (x3, 1) == 32)
-    goto L2688;
+    goto L2683;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2688: ATTRIBUTE_UNUSED_LABEL
+ L2683: ATTRIBUTE_UNUSED_LABEL
   x4 = XVECEXP (x3, 0, 0);
   if (register_operand (x4, SImode))
     {
       operands[2] = x4;
-      goto L2689;
+      goto L2684;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2689: ATTRIBUTE_UNUSED_LABEL
+ L2684: ATTRIBUTE_UNUSED_LABEL
   x4 = XVECEXP (x3, 0, 1);
   if (tld_symbolic_operand (x4, VOIDmode))
     {
       operands[3] = x4;
-      goto L2690;
+      goto L2685;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2690: ATTRIBUTE_UNUSED_LABEL
+ L2685: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
   if (register_operand (x3, DImode))
     {
       operands[1] = x3;
-      return 362;  /* *tldo_ldub_sp64 */
+      return 361;  /* *tldo_ldub_sp64 */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3578: ATTRIBUTE_UNUSED_LABEL
+ L3567: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x1) == MEM)
-    goto L2833;
+    goto L2828;
   if (register_operand (x1, HImode))
     {
       operands[0] = x1;
-      goto L2693;
+      goto L2688;
     }
-  goto L2509;
+  goto L2504;
+
+ L2828: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 0);
+  if (GET_MODE (x2) == DImode
+      && GET_CODE (x2) == PLUS)
+    goto L2829;
+  goto L2504;
+
+ L2829: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 0);
+  if (GET_MODE (x3) == DImode
+      && GET_CODE (x3) == UNSPEC
+      && XVECLEN (x3, 0) == 2
+      && XINT (x3, 1) == 32)
+    goto L2830;
+  goto L2504;
+
+ L2830: ATTRIBUTE_UNUSED_LABEL
+  x4 = XVECEXP (x3, 0, 0);
+  if (register_operand (x4, SImode))
+    {
+      operands[2] = x4;
+      goto L2831;
+    }
+  goto L2504;
+
+ L2831: ATTRIBUTE_UNUSED_LABEL
+  x4 = XVECEXP (x3, 0, 1);
+  if (tld_symbolic_operand (x4, VOIDmode))
+    {
+      operands[3] = x4;
+      goto L2832;
+    }
+  goto L2504;
+
+ L2832: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 1);
+  if (register_operand (x3, DImode))
+    {
+      operands[1] = x3;
+      goto L2833;
+    }
+  goto L2504;
 
  L2833: ATTRIBUTE_UNUSED_LABEL
+  x1 = XEXP (x0, 1);
+  if (register_operand (x1, HImode))
+    {
+      operands[0] = x1;
+      return 378;  /* *tldo_sth_sp64 */
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2688: ATTRIBUTE_UNUSED_LABEL
+  x1 = XEXP (x0, 1);
+  if (GET_MODE (x1) == HImode)
+    goto L3937;
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L3937: ATTRIBUTE_UNUSED_LABEL
+  switch (GET_CODE (x1))
+    {
+    case ZERO_EXTEND:
+      goto L2689;
+    case SIGN_EXTEND:
+      goto L2716;
+    case MEM:
+      goto L2743;
+    default:
+     break;
+   }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2689: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 0);
+  if (GET_MODE (x2) == QImode
+      && GET_CODE (x2) == MEM)
+    goto L2690;
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2690: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 0);
+  if (GET_MODE (x3) == DImode
+      && GET_CODE (x3) == PLUS)
+    goto L2691;
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2691: ATTRIBUTE_UNUSED_LABEL
+  x4 = XEXP (x3, 0);
+  if (GET_MODE (x4) == DImode
+      && GET_CODE (x4) == UNSPEC
+      && XVECLEN (x4, 0) == 2
+      && XINT (x4, 1) == 32)
+    goto L2692;
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2692: ATTRIBUTE_UNUSED_LABEL
+  x5 = XVECEXP (x4, 0, 0);
+  if (register_operand (x5, SImode))
+    {
+      operands[2] = x5;
+      goto L2693;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2693: ATTRIBUTE_UNUSED_LABEL
+  x5 = XVECEXP (x4, 0, 1);
+  if (tld_symbolic_operand (x5, VOIDmode))
+    {
+      operands[3] = x5;
+      goto L2694;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2694: ATTRIBUTE_UNUSED_LABEL
+  x4 = XEXP (x3, 1);
+  if (register_operand (x4, DImode))
+    {
+      operands[1] = x4;
+      return 362;  /* *tldo_ldub1_sp64 */
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2716: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 0);
+  if (GET_MODE (x2) == QImode
+      && GET_CODE (x2) == MEM)
+    goto L2717;
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2717: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 0);
+  if (GET_MODE (x3) == DImode
+      && GET_CODE (x3) == PLUS)
+    goto L2718;
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2718: ATTRIBUTE_UNUSED_LABEL
+  x4 = XEXP (x3, 0);
+  if (GET_MODE (x4) == DImode
+      && GET_CODE (x4) == UNSPEC
+      && XVECLEN (x4, 0) == 2
+      && XINT (x4, 1) == 32)
+    goto L2719;
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2719: ATTRIBUTE_UNUSED_LABEL
+  x5 = XVECEXP (x4, 0, 0);
+  if (register_operand (x5, SImode))
+    {
+      operands[2] = x5;
+      goto L2720;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2720: ATTRIBUTE_UNUSED_LABEL
+  x5 = XVECEXP (x4, 0, 1);
+  if (tld_symbolic_operand (x5, VOIDmode))
+    {
+      operands[3] = x5;
+      goto L2721;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2721: ATTRIBUTE_UNUSED_LABEL
+  x4 = XEXP (x3, 1);
+  if (register_operand (x4, DImode))
+    {
+      operands[1] = x4;
+      return 365;  /* *tldo_ldsb1_sp64 */
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2743: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == DImode
       && GET_CODE (x2) == PLUS)
-    goto L2834;
-  goto L2509;
+    goto L2744;
+  x1 = XEXP (x0, 0);
+  goto L2504;
 
- L2834: ATTRIBUTE_UNUSED_LABEL
+ L2744: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (GET_MODE (x3) == DImode
       && GET_CODE (x3) == UNSPEC
       && XVECLEN (x3, 0) == 2
       && XINT (x3, 1) == 32)
-    goto L2835;
-  goto L2509;
+    goto L2745;
+  x1 = XEXP (x0, 0);
+  goto L2504;
 
- L2835: ATTRIBUTE_UNUSED_LABEL
+ L2745: ATTRIBUTE_UNUSED_LABEL
   x4 = XVECEXP (x3, 0, 0);
   if (register_operand (x4, SImode))
     {
       operands[2] = x4;
-      goto L2836;
+      goto L2746;
     }
-  goto L2509;
+  x1 = XEXP (x0, 0);
+  goto L2504;
 
- L2836: ATTRIBUTE_UNUSED_LABEL
+ L2746: ATTRIBUTE_UNUSED_LABEL
   x4 = XVECEXP (x3, 0, 1);
   if (tld_symbolic_operand (x4, VOIDmode))
     {
       operands[3] = x4;
-      goto L2837;
+      goto L2747;
     }
-  goto L2509;
+  x1 = XEXP (x0, 0);
+  goto L2504;
 
- L2837: ATTRIBUTE_UNUSED_LABEL
+ L2747: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
   if (register_operand (x3, DImode))
     {
       operands[1] = x3;
-      goto L2838;
+      return 368;  /* *tldo_lduh_sp64 */
     }
-  goto L2509;
+  x1 = XEXP (x0, 0);
+  goto L2504;
 
- L2838: ATTRIBUTE_UNUSED_LABEL
-  x1 = XEXP (x0, 1);
-  if (register_operand (x1, HImode))
+ L3570: ATTRIBUTE_UNUSED_LABEL
+  if (register_operand (x1, V2SImode))
     {
       operands[0] = x1;
-      return 379;  /* *tldo_sth_sp64 */
+      goto L2869;
+    }
+  goto L2504;
+
+ L2869: ATTRIBUTE_UNUSED_LABEL
+  x1 = XEXP (x0, 1);
+  if (GET_MODE (x1) == V2SImode)
+    goto L3940;
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L3940: ATTRIBUTE_UNUSED_LABEL
+  switch (GET_CODE (x1))
+    {
+    case PLUS:
+      goto L2870;
+    case MINUS:
+      goto L2888;
+    case IOR:
+      goto L2914;
+    case MULT:
+      goto L3019;
+    case UNSPEC:
+      goto L3946;
+    default:
+     break;
+   }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2870: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 0);
+  if (register_operand (x2, V2SImode))
+    {
+      operands[1] = x2;
+      goto L2871;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2693: ATTRIBUTE_UNUSED_LABEL
+ L2871: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 1);
+  if (register_operand (x2, V2SImode))
+    {
+      operands[2] = x2;
+      goto L2872;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2872: ATTRIBUTE_UNUSED_LABEL
+  if (
+#line 7554 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(TARGET_VIS))
+    {
+      return 383;  /* addv2si3 */
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2888: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 0);
+  if (register_operand (x2, V2SImode))
+    {
+      operands[1] = x2;
+      goto L2889;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2889: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 1);
+  if (register_operand (x2, V2SImode))
+    {
+      operands[2] = x2;
+      goto L2890;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2890: ATTRIBUTE_UNUSED_LABEL
+  if (
+#line 7583 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(TARGET_VIS))
+    {
+      return 386;  /* subv2si3 */
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2914: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 0);
+  if (GET_MODE (x2) == V2SImode
+      && GET_CODE (x2) == NOT)
+    goto L2915;
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2915: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 0);
+  if (register_operand (x3, V2SImode))
+    {
+      operands[1] = x3;
+      goto L2916;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2916: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 1);
+  if (GET_MODE (x2) == V2SImode
+      && GET_CODE (x2) == NOT)
+    goto L2917;
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2917: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 0);
+  if (register_operand (x3, V2SImode))
+    {
+      operands[2] = x3;
+      goto L2918;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2918: ATTRIBUTE_UNUSED_LABEL
+  if (
+#line 7617 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(TARGET_VIS))
+    {
+      return 390;  /* *nandv2si_vis */
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L3019: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 0);
+  if (register_operand (x2, V4QImode))
+    {
+      operands[1] = x2;
+      goto L3020;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L3020: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 1);
+  if (register_operand (x2, V2HImode))
+    {
+      operands[2] = x2;
+      goto L3021;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L3021: ATTRIBUTE_UNUSED_LABEL
+  if (
+#line 7740 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(TARGET_VIS))
+    {
+      return 406;  /* fmuld8sux16_vis */
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L3946: ATTRIBUTE_UNUSED_LABEL
+  if (XVECLEN (x1, 0) == 2)
+    goto L3948;
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L3948: ATTRIBUTE_UNUSED_LABEL
+  switch (XINT (x1, 1))
+    {
+    case 47L:
+      goto L3025;
+    case 48L:
+      goto L3037;
+    default:
+      break;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L3025: ATTRIBUTE_UNUSED_LABEL
+  x2 = XVECEXP (x1, 0, 0);
+  if (register_operand (x2, V4QImode))
+    {
+      operands[1] = x2;
+      goto L3026;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L3026: ATTRIBUTE_UNUSED_LABEL
+  x2 = XVECEXP (x1, 0, 1);
+  if (register_operand (x2, V2HImode))
+    {
+      operands[2] = x2;
+      goto L3027;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L3027: ATTRIBUTE_UNUSED_LABEL
+  if (
+#line 7750 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(TARGET_VIS))
+    {
+      return 407;  /* fmuld8ulx16_vis */
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L3037: ATTRIBUTE_UNUSED_LABEL
+  x2 = XVECEXP (x1, 0, 0);
+  if (register_operand (x2, V2SImode))
+    {
+      operands[1] = x2;
+      goto L3038;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L3038: ATTRIBUTE_UNUSED_LABEL
+  x2 = XVECEXP (x1, 0, 1);
+  if (register_operand (x2, V2SImode))
+    {
+      operands[2] = x2;
+      goto L3039;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L3039: ATTRIBUTE_UNUSED_LABEL
+  if (
+#line 7763 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(TARGET_VIS))
+    {
+      return 409;  /* faligndatav2si_vis */
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L3571: ATTRIBUTE_UNUSED_LABEL
+  if (register_operand (x1, V4HImode))
+    {
+      operands[0] = x1;
+      goto L2875;
+    }
+  goto L2504;
+
+ L2875: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
-  if (GET_MODE (x1) == HImode)
+  if (GET_MODE (x1) == V4HImode)
     goto L3950;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
  L3950: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x1))
     {
-    case ZERO_EXTEND:
-      goto L2694;
-    case SIGN_EXTEND:
-      goto L2721;
-    case MEM:
-      goto L2748;
-    default:
-     break;
-   }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2694: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 0);
-  if (GET_MODE (x2) == QImode
-      && GET_CODE (x2) == MEM)
-    goto L2695;
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2695: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 0);
-  if (GET_MODE (x3) == DImode
-      && GET_CODE (x3) == PLUS)
-    goto L2696;
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2696: ATTRIBUTE_UNUSED_LABEL
-  x4 = XEXP (x3, 0);
-  if (GET_MODE (x4) == DImode
-      && GET_CODE (x4) == UNSPEC
-      && XVECLEN (x4, 0) == 2
-      && XINT (x4, 1) == 32)
-    goto L2697;
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2697: ATTRIBUTE_UNUSED_LABEL
-  x5 = XVECEXP (x4, 0, 0);
-  if (register_operand (x5, SImode))
-    {
-      operands[2] = x5;
-      goto L2698;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2698: ATTRIBUTE_UNUSED_LABEL
-  x5 = XVECEXP (x4, 0, 1);
-  if (tld_symbolic_operand (x5, VOIDmode))
-    {
-      operands[3] = x5;
-      goto L2699;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2699: ATTRIBUTE_UNUSED_LABEL
-  x4 = XEXP (x3, 1);
-  if (register_operand (x4, DImode))
-    {
-      operands[1] = x4;
-      return 363;  /* *tldo_ldub1_sp64 */
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2721: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 0);
-  if (GET_MODE (x2) == QImode
-      && GET_CODE (x2) == MEM)
-    goto L2722;
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2722: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 0);
-  if (GET_MODE (x3) == DImode
-      && GET_CODE (x3) == PLUS)
-    goto L2723;
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2723: ATTRIBUTE_UNUSED_LABEL
-  x4 = XEXP (x3, 0);
-  if (GET_MODE (x4) == DImode
-      && GET_CODE (x4) == UNSPEC
-      && XVECLEN (x4, 0) == 2
-      && XINT (x4, 1) == 32)
-    goto L2724;
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2724: ATTRIBUTE_UNUSED_LABEL
-  x5 = XVECEXP (x4, 0, 0);
-  if (register_operand (x5, SImode))
-    {
-      operands[2] = x5;
-      goto L2725;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2725: ATTRIBUTE_UNUSED_LABEL
-  x5 = XVECEXP (x4, 0, 1);
-  if (tld_symbolic_operand (x5, VOIDmode))
-    {
-      operands[3] = x5;
-      goto L2726;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2726: ATTRIBUTE_UNUSED_LABEL
-  x4 = XEXP (x3, 1);
-  if (register_operand (x4, DImode))
-    {
-      operands[1] = x4;
-      return 366;  /* *tldo_ldsb1_sp64 */
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2748: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 0);
-  if (GET_MODE (x2) == DImode
-      && GET_CODE (x2) == PLUS)
-    goto L2749;
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2749: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 0);
-  if (GET_MODE (x3) == DImode
-      && GET_CODE (x3) == UNSPEC
-      && XVECLEN (x3, 0) == 2
-      && XINT (x3, 1) == 32)
-    goto L2750;
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2750: ATTRIBUTE_UNUSED_LABEL
-  x4 = XVECEXP (x3, 0, 0);
-  if (register_operand (x4, SImode))
-    {
-      operands[2] = x4;
-      goto L2751;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2751: ATTRIBUTE_UNUSED_LABEL
-  x4 = XVECEXP (x3, 0, 1);
-  if (tld_symbolic_operand (x4, VOIDmode))
-    {
-      operands[3] = x4;
-      goto L2752;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2752: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 1);
-  if (register_operand (x3, DImode))
-    {
-      operands[1] = x3;
-      return 369;  /* *tldo_lduh_sp64 */
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L3581: ATTRIBUTE_UNUSED_LABEL
-  if (register_operand (x1, V2SImode))
-    {
-      operands[0] = x1;
-      goto L2874;
-    }
-  goto L2509;
-
- L2874: ATTRIBUTE_UNUSED_LABEL
-  x1 = XEXP (x0, 1);
-  if (GET_MODE (x1) == V2SImode)
-    goto L3953;
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L3953: ATTRIBUTE_UNUSED_LABEL
-  switch (GET_CODE (x1))
-    {
     case PLUS:
-      goto L2875;
+      goto L2876;
     case MINUS:
-      goto L2893;
+      goto L2894;
     case IOR:
-      goto L2919;
-    case MULT:
-      goto L3024;
+      goto L2922;
     case UNSPEC:
-      goto L3959;
+      goto L3958;
+    case MULT:
+      goto L2989;
     default:
      break;
    }
   x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2875: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 0);
-  if (register_operand (x2, V2SImode))
-    {
-      operands[1] = x2;
-      goto L2876;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
  L2876: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 1);
-  if (register_operand (x2, V2SImode))
+  x2 = XEXP (x1, 0);
+  if (register_operand (x2, V4HImode))
     {
-      operands[2] = x2;
+      operands[1] = x2;
       goto L2877;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
  L2877: ATTRIBUTE_UNUSED_LABEL
-  if (
-#line 7575 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(TARGET_VIS))
-    {
-      return 384;  /* addv2si3 */
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2893: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 0);
-  if (register_operand (x2, V2SImode))
-    {
-      operands[1] = x2;
-      goto L2894;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2894: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
-  if (register_operand (x2, V2SImode))
+  if (register_operand (x2, V4HImode))
     {
       operands[2] = x2;
+      goto L2878;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2878: ATTRIBUTE_UNUSED_LABEL
+  if (
+#line 7563 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(TARGET_VIS))
+    {
+      return 384;  /* addv4hi3 */
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2894: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 0);
+  if (register_operand (x2, V4HImode))
+    {
+      operands[1] = x2;
       goto L2895;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
  L2895: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 1);
+  if (register_operand (x2, V4HImode))
+    {
+      operands[2] = x2;
+      goto L2896;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2896: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 7604 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 7592 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_VIS))
     {
-      return 387;  /* subv2si3 */
+      return 387;  /* subv4hi3 */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2919: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 0);
-  if (GET_MODE (x2) == V2SImode
-      && GET_CODE (x2) == NOT)
-    goto L2920;
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2920: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 0);
-  if (register_operand (x3, V2SImode))
-    {
-      operands[1] = x3;
-      goto L2921;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2921: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 1);
-  if (GET_MODE (x2) == V2SImode
-      && GET_CODE (x2) == NOT)
-    goto L2922;
-  x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
  L2922: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 0);
-  if (register_operand (x3, V2SImode))
-    {
-      operands[2] = x3;
-      goto L2923;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2923: ATTRIBUTE_UNUSED_LABEL
-  if (
-#line 7638 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(TARGET_VIS))
-    {
-      return 391;  /* *nandv2si_vis */
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L3024: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 0);
-  if (register_operand (x2, V4QImode))
-    {
-      operands[1] = x2;
-      goto L3025;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L3025: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 1);
-  if (register_operand (x2, V2HImode))
-    {
-      operands[2] = x2;
-      goto L3026;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L3026: ATTRIBUTE_UNUSED_LABEL
-  if (
-#line 7761 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(TARGET_VIS))
-    {
-      return 407;  /* fmuld8sux16_vis */
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L3959: ATTRIBUTE_UNUSED_LABEL
-  if (XVECLEN (x1, 0) == 2)
-    goto L3961;
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L3961: ATTRIBUTE_UNUSED_LABEL
-  switch (XINT (x1, 1))
-    {
-    case 47L:
-      goto L3030;
-    case 48L:
-      goto L3042;
-    default:
-      break;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L3030: ATTRIBUTE_UNUSED_LABEL
-  x2 = XVECEXP (x1, 0, 0);
-  if (register_operand (x2, V4QImode))
-    {
-      operands[1] = x2;
-      goto L3031;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L3031: ATTRIBUTE_UNUSED_LABEL
-  x2 = XVECEXP (x1, 0, 1);
-  if (register_operand (x2, V2HImode))
-    {
-      operands[2] = x2;
-      goto L3032;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L3032: ATTRIBUTE_UNUSED_LABEL
-  if (
-#line 7771 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(TARGET_VIS))
-    {
-      return 408;  /* fmuld8ulx16_vis */
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L3042: ATTRIBUTE_UNUSED_LABEL
-  x2 = XVECEXP (x1, 0, 0);
-  if (register_operand (x2, V2SImode))
-    {
-      operands[1] = x2;
-      goto L3043;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L3043: ATTRIBUTE_UNUSED_LABEL
-  x2 = XVECEXP (x1, 0, 1);
-  if (register_operand (x2, V2SImode))
-    {
-      operands[2] = x2;
-      goto L3044;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L3044: ATTRIBUTE_UNUSED_LABEL
-  if (
-#line 7784 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(TARGET_VIS))
-    {
-      return 410;  /* faligndatav2si_vis */
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L3582: ATTRIBUTE_UNUSED_LABEL
-  if (register_operand (x1, V4HImode))
-    {
-      operands[0] = x1;
-      goto L2880;
-    }
-  goto L2509;
-
- L2880: ATTRIBUTE_UNUSED_LABEL
-  x1 = XEXP (x0, 1);
-  if (GET_MODE (x1) == V4HImode)
-    goto L3963;
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L3963: ATTRIBUTE_UNUSED_LABEL
-  switch (GET_CODE (x1))
-    {
-    case PLUS:
-      goto L2881;
-    case MINUS:
-      goto L2899;
-    case IOR:
-      goto L2927;
-    case UNSPEC:
-      goto L3971;
-    case MULT:
-      goto L2994;
-    default:
-     break;
-   }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2881: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 0);
-  if (register_operand (x2, V4HImode))
-    {
-      operands[1] = x2;
-      goto L2882;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2882: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 1);
-  if (register_operand (x2, V4HImode))
-    {
-      operands[2] = x2;
-      goto L2883;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2883: ATTRIBUTE_UNUSED_LABEL
-  if (
-#line 7584 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(TARGET_VIS))
-    {
-      return 385;  /* addv4hi3 */
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2899: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 0);
-  if (register_operand (x2, V4HImode))
-    {
-      operands[1] = x2;
-      goto L2900;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2900: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 1);
-  if (register_operand (x2, V4HImode))
-    {
-      operands[2] = x2;
-      goto L2901;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2901: ATTRIBUTE_UNUSED_LABEL
-  if (
-#line 7613 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(TARGET_VIS))
-    {
-      return 388;  /* subv4hi3 */
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2927: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == V4HImode
       && GET_CODE (x2) == NOT)
-    goto L2928;
+    goto L2923;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2928: ATTRIBUTE_UNUSED_LABEL
+ L2923: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (register_operand (x3, V4HImode))
     {
       operands[1] = x3;
-      goto L2929;
+      goto L2924;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2929: ATTRIBUTE_UNUSED_LABEL
+ L2924: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (GET_MODE (x2) == V4HImode
       && GET_CODE (x2) == NOT)
-    goto L2930;
+    goto L2925;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2930: ATTRIBUTE_UNUSED_LABEL
+ L2925: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (register_operand (x3, V4HImode))
     {
       operands[2] = x3;
-      goto L2931;
+      goto L2926;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2931: ATTRIBUTE_UNUSED_LABEL
+ L2926: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 7638 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 7617 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_VIS))
     {
-      return 392;  /* *nandv4hi_vis */
+      return 391;  /* *nandv4hi_vis */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3971: ATTRIBUTE_UNUSED_LABEL
+ L3958: ATTRIBUTE_UNUSED_LABEL
   switch (XVECLEN (x1, 0))
     {
     case 1:
-      goto L3975;
+      goto L3962;
     case 2:
-      goto L3976;
+      goto L3963;
     default:
       break;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3975: ATTRIBUTE_UNUSED_LABEL
+ L3962: ATTRIBUTE_UNUSED_LABEL
   if (XINT (x1, 1) == 43)
-    goto L2983;
+    goto L2978;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2983: ATTRIBUTE_UNUSED_LABEL
+ L2978: ATTRIBUTE_UNUSED_LABEL
   x2 = XVECEXP (x1, 0, 0);
   if (register_operand (x2, V4QImode))
     {
       operands[1] = x2;
-      goto L2984;
+      goto L2979;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2984: ATTRIBUTE_UNUSED_LABEL
+ L2979: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 7686 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 7665 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_VIS))
     {
-      return 400;  /* fexpand_vis */
+      return 399;  /* fexpand_vis */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3976: ATTRIBUTE_UNUSED_LABEL
+ L3963: ATTRIBUTE_UNUSED_LABEL
   switch (XINT (x1, 1))
     {
     case 45L:
-      goto L3006;
+      goto L3001;
     case 46L:
-      goto L3018;
+      goto L3013;
     case 48L:
-      goto L3048;
+      goto L3043;
     default:
       break;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3006: ATTRIBUTE_UNUSED_LABEL
+ L3001: ATTRIBUTE_UNUSED_LABEL
   x2 = XVECEXP (x1, 0, 0);
   if (register_operand (x2, V4QImode))
     {
       operands[1] = x2;
-      goto L3007;
+      goto L3002;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3007: ATTRIBUTE_UNUSED_LABEL
+ L3002: ATTRIBUTE_UNUSED_LABEL
   x2 = XVECEXP (x1, 0, 1);
   if (register_operand (x2, V2HImode))
     {
       operands[2] = x2;
-      goto L3008;
+      goto L3003;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3008: ATTRIBUTE_UNUSED_LABEL
+ L3003: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 7731 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 7710 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_VIS))
     {
-      return 404;  /* fmul8x16al_vis */
+      return 403;  /* fmul8x16al_vis */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3018: ATTRIBUTE_UNUSED_LABEL
+ L3013: ATTRIBUTE_UNUSED_LABEL
   x2 = XVECEXP (x1, 0, 0);
   if (register_operand (x2, V8QImode))
     {
       operands[1] = x2;
-      goto L3019;
+      goto L3014;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3019: ATTRIBUTE_UNUSED_LABEL
+ L3014: ATTRIBUTE_UNUSED_LABEL
   x2 = XVECEXP (x1, 0, 1);
   if (register_operand (x2, V4HImode))
     {
       operands[2] = x2;
-      goto L3020;
+      goto L3015;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3020: ATTRIBUTE_UNUSED_LABEL
+ L3015: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 7751 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 7730 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_VIS))
     {
-      return 406;  /* fmul8ulx16_vis */
+      return 405;  /* fmul8ulx16_vis */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3048: ATTRIBUTE_UNUSED_LABEL
+ L3043: ATTRIBUTE_UNUSED_LABEL
   x2 = XVECEXP (x1, 0, 0);
   if (register_operand (x2, V4HImode))
     {
       operands[1] = x2;
-      goto L3049;
+      goto L3044;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3049: ATTRIBUTE_UNUSED_LABEL
+ L3044: ATTRIBUTE_UNUSED_LABEL
   x2 = XVECEXP (x1, 0, 1);
   if (register_operand (x2, V4HImode))
     {
       operands[2] = x2;
-      goto L3050;
+      goto L3045;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3050: ATTRIBUTE_UNUSED_LABEL
+ L3045: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 7784 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 7763 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_VIS))
     {
-      return 411;  /* faligndatav4hi_vis */
+      return 410;  /* faligndatav4hi_vis */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2994: ATTRIBUTE_UNUSED_LABEL
+ L2989: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   switch (GET_MODE (x2))
     {
     case V4QImode:
-      goto L3979;
+      goto L3966;
     case V8QImode:
-      goto L3980;
+      goto L3967;
     default:
       break;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3979: ATTRIBUTE_UNUSED_LABEL
+ L3966: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, V4QImode))
     {
       operands[1] = x2;
-      goto L2995;
+      goto L2990;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2995: ATTRIBUTE_UNUSED_LABEL
+ L2990: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   switch (GET_MODE (x2))
     {
     case V4HImode:
-      goto L3981;
+      goto L3968;
     case V2HImode:
-      goto L3982;
+      goto L3969;
     default:
       break;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3981: ATTRIBUTE_UNUSED_LABEL
+ L3968: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, V4HImode))
     {
       operands[2] = x2;
-      goto L2996;
+      goto L2991;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2996: ATTRIBUTE_UNUSED_LABEL
+ L2991: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 7711 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 7690 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_VIS))
     {
-      return 402;  /* fmul8x16_vis */
+      return 401;  /* fmul8x16_vis */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3982: ATTRIBUTE_UNUSED_LABEL
+ L3969: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, V2HImode))
     {
       operands[2] = x2;
-      goto L3002;
+      goto L2997;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3002: ATTRIBUTE_UNUSED_LABEL
+ L2997: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 7721 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 7700 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_VIS))
     {
-      return 403;  /* fmul8x16au_vis */
+      return 402;  /* fmul8x16au_vis */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3980: ATTRIBUTE_UNUSED_LABEL
+ L3967: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, V8QImode))
     {
       operands[1] = x2;
-      goto L3013;
+      goto L3008;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3013: ATTRIBUTE_UNUSED_LABEL
+ L3008: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (register_operand (x2, V4HImode))
     {
       operands[2] = x2;
-      goto L3014;
+      goto L3009;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3014: ATTRIBUTE_UNUSED_LABEL
+ L3009: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 7741 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 7720 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_VIS))
     {
-      return 405;  /* fmul8sux16_vis */
+      return 404;  /* fmul8sux16_vis */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3583: ATTRIBUTE_UNUSED_LABEL
+ L3572: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x1, V2HImode))
     {
       operands[0] = x1;
-      goto L2886;
+      goto L2881;
     }
-  goto L2509;
+  goto L2504;
 
- L2886: ATTRIBUTE_UNUSED_LABEL
+ L2881: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (GET_MODE (x1) == V2HImode)
-    goto L3983;
+    goto L3970;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3983: ATTRIBUTE_UNUSED_LABEL
+ L3970: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x1))
     {
     case PLUS:
-      goto L2887;
+      goto L2882;
     case MINUS:
-      goto L2905;
+      goto L2900;
     case IOR:
-      goto L2951;
+      goto L2946;
     case UNSPEC:
-      goto L3987;
+      goto L3974;
     default:
      break;
    }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2887: ATTRIBUTE_UNUSED_LABEL
+ L2882: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (register_operand (x2, V2HImode))
     {
       operands[1] = x2;
-      goto L2888;
+      goto L2883;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2888: ATTRIBUTE_UNUSED_LABEL
+ L2883: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (register_operand (x2, V2HImode))
     {
       operands[2] = x2;
-      goto L2889;
+      goto L2884;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2889: ATTRIBUTE_UNUSED_LABEL
+ L2884: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 7595 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 7574 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_VIS))
     {
-      return 386;  /* addv2hi3 */
+      return 385;  /* addv2hi3 */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2905: ATTRIBUTE_UNUSED_LABEL
+ L2900: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (register_operand (x2, V2HImode))
     {
       operands[1] = x2;
-      goto L2906;
+      goto L2901;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2906: ATTRIBUTE_UNUSED_LABEL
+ L2901: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (register_operand (x2, V2HImode))
     {
       operands[2] = x2;
-      goto L2907;
+      goto L2902;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2907: ATTRIBUTE_UNUSED_LABEL
+ L2902: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 7624 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 7603 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_VIS))
     {
-      return 389;  /* subv2hi3 */
+      return 388;  /* subv2hi3 */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2951: ATTRIBUTE_UNUSED_LABEL
+ L2946: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == V2HImode
       && GET_CODE (x2) == NOT)
-    goto L2952;
+    goto L2947;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2952: ATTRIBUTE_UNUSED_LABEL
+ L2947: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (register_operand (x3, V2HImode))
     {
       operands[1] = x3;
-      goto L2953;
+      goto L2948;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2953: ATTRIBUTE_UNUSED_LABEL
+ L2948: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (GET_MODE (x2) == V2HImode
       && GET_CODE (x2) == NOT)
-    goto L2954;
+    goto L2949;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2954: ATTRIBUTE_UNUSED_LABEL
+ L2949: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (register_operand (x3, V2HImode))
     {
       operands[2] = x3;
-      goto L2955;
+      goto L2950;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2955: ATTRIBUTE_UNUSED_LABEL
+ L2950: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 7647 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 7626 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_VIS))
     {
-      return 395;  /* *nandv2hi_vis */
+      return 394;  /* *nandv2hi_vis */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3987: ATTRIBUTE_UNUSED_LABEL
+ L3974: ATTRIBUTE_UNUSED_LABEL
   if (XVECLEN (x1, 0) == 1
       && XINT (x1, 1) == 42)
-    goto L2972;
+    goto L2967;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
+
+ L2967: ATTRIBUTE_UNUSED_LABEL
+  x2 = XVECEXP (x1, 0, 0);
+  if (register_operand (x2, V2SImode))
+    {
+      operands[1] = x2;
+      goto L2968;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2968: ATTRIBUTE_UNUSED_LABEL
+  if (
+#line 7646 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(TARGET_VIS))
+    {
+      return 397;  /* fpackfix_vis */
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L3573: ATTRIBUTE_UNUSED_LABEL
+  if (register_operand (x1, DFmode))
+    {
+      operands[0] = x1;
+      goto L2905;
+    }
+  goto L2504;
+
+ L2905: ATTRIBUTE_UNUSED_LABEL
+  x1 = XEXP (x0, 1);
+  if (GET_MODE (x1) == DFmode
+      && GET_CODE (x1) == IOR)
+    goto L2906;
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2906: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 0);
+  if (GET_MODE (x2) == DFmode
+      && GET_CODE (x2) == NOT)
+    goto L2907;
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2907: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 0);
+  if (register_operand (x3, DFmode))
+    {
+      operands[1] = x3;
+      goto L2908;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2908: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 1);
+  if (GET_MODE (x2) == DFmode
+      && GET_CODE (x2) == NOT)
+    goto L2909;
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2909: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 0);
+  if (register_operand (x3, DFmode))
+    {
+      operands[2] = x3;
+      goto L2910;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2910: ATTRIBUTE_UNUSED_LABEL
+  if (
+#line 7617 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(TARGET_VIS))
+    {
+      return 389;  /* *nanddf_vis */
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L3574: ATTRIBUTE_UNUSED_LABEL
+  if (register_operand (x1, V8QImode))
+    {
+      operands[0] = x1;
+      goto L2929;
+    }
+  goto L2504;
+
+ L2929: ATTRIBUTE_UNUSED_LABEL
+  x1 = XEXP (x0, 1);
+  if (GET_MODE (x1) == V8QImode)
+    goto L3975;
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L3975: ATTRIBUTE_UNUSED_LABEL
+  switch (GET_CODE (x1))
+    {
+    case IOR:
+      goto L2930;
+    case UNSPEC:
+      goto L3979;
+    default:
+     break;
+   }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2930: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 0);
+  if (GET_MODE (x2) == V8QImode
+      && GET_CODE (x2) == NOT)
+    goto L2931;
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2931: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 0);
+  if (register_operand (x3, V8QImode))
+    {
+      operands[1] = x3;
+      goto L2932;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2932: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 1);
+  if (GET_MODE (x2) == V8QImode
+      && GET_CODE (x2) == NOT)
+    goto L2933;
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2933: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 0);
+  if (register_operand (x3, V8QImode))
+    {
+      operands[2] = x3;
+      goto L2934;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L2934: ATTRIBUTE_UNUSED_LABEL
+  if (
+#line 7617 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(TARGET_VIS))
+    {
+      return 392;  /* *nandv8qi_vis */
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L3979: ATTRIBUTE_UNUSED_LABEL
+  if (XVECLEN (x1, 0) == 2)
+    goto L3982;
+  x1 = XEXP (x0, 0);
+  goto L2504;
+
+ L3982: ATTRIBUTE_UNUSED_LABEL
+  switch (XINT (x1, 1))
+    {
+    case 41L:
+      goto L2972;
+    case 44L:
+      goto L2983;
+    case 48L:
+      goto L3049;
+    default:
+      break;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2504;
 
  L2972: ATTRIBUTE_UNUSED_LABEL
   x2 = XVECEXP (x1, 0, 0);
@@ -11442,574 +11594,397 @@ recog_5 (rtx x0 ATTRIBUTE_UNUSED,
       goto L2973;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
  L2973: ATTRIBUTE_UNUSED_LABEL
-  if (
-#line 7667 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(TARGET_VIS))
-    {
-      return 398;  /* fpackfix_vis */
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L3584: ATTRIBUTE_UNUSED_LABEL
-  if (register_operand (x1, DFmode))
-    {
-      operands[0] = x1;
-      goto L2910;
-    }
-  goto L2509;
-
- L2910: ATTRIBUTE_UNUSED_LABEL
-  x1 = XEXP (x0, 1);
-  if (GET_MODE (x1) == DFmode
-      && GET_CODE (x1) == IOR)
-    goto L2911;
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2911: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 0);
-  if (GET_MODE (x2) == DFmode
-      && GET_CODE (x2) == NOT)
-    goto L2912;
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2912: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 0);
-  if (register_operand (x3, DFmode))
-    {
-      operands[1] = x3;
-      goto L2913;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2913: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 1);
-  if (GET_MODE (x2) == DFmode
-      && GET_CODE (x2) == NOT)
-    goto L2914;
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2914: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 0);
-  if (register_operand (x3, DFmode))
-    {
-      operands[2] = x3;
-      goto L2915;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2915: ATTRIBUTE_UNUSED_LABEL
-  if (
-#line 7638 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(TARGET_VIS))
-    {
-      return 390;  /* *nanddf_vis */
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L3585: ATTRIBUTE_UNUSED_LABEL
-  if (register_operand (x1, V8QImode))
-    {
-      operands[0] = x1;
-      goto L2934;
-    }
-  goto L2509;
-
- L2934: ATTRIBUTE_UNUSED_LABEL
-  x1 = XEXP (x0, 1);
-  if (GET_MODE (x1) == V8QImode)
-    goto L3988;
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L3988: ATTRIBUTE_UNUSED_LABEL
-  switch (GET_CODE (x1))
-    {
-    case IOR:
-      goto L2935;
-    case UNSPEC:
-      goto L3992;
-    default:
-     break;
-   }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2935: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 0);
-  if (GET_MODE (x2) == V8QImode
-      && GET_CODE (x2) == NOT)
-    goto L2936;
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2936: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 0);
-  if (register_operand (x3, V8QImode))
-    {
-      operands[1] = x3;
-      goto L2937;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2937: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 1);
-  if (GET_MODE (x2) == V8QImode
-      && GET_CODE (x2) == NOT)
-    goto L2938;
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2938: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 0);
-  if (register_operand (x3, V8QImode))
-    {
-      operands[2] = x3;
-      goto L2939;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2939: ATTRIBUTE_UNUSED_LABEL
-  if (
-#line 7638 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(TARGET_VIS))
-    {
-      return 393;  /* *nandv8qi_vis */
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L3992: ATTRIBUTE_UNUSED_LABEL
-  if (XVECLEN (x1, 0) == 2)
-    goto L3995;
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L3995: ATTRIBUTE_UNUSED_LABEL
-  switch (XINT (x1, 1))
-    {
-    case 41L:
-      goto L2977;
-    case 44L:
-      goto L2988;
-    case 48L:
-      goto L3054;
-    default:
-      break;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2977: ATTRIBUTE_UNUSED_LABEL
-  x2 = XVECEXP (x1, 0, 0);
-  if (register_operand (x2, V2SImode))
-    {
-      operands[1] = x2;
-      goto L2978;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2509;
-
- L2978: ATTRIBUTE_UNUSED_LABEL
   x2 = XVECEXP (x1, 0, 1);
   if (register_operand (x2, V8QImode))
     {
       operands[2] = x2;
-      goto L2979;
+      goto L2974;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2979: ATTRIBUTE_UNUSED_LABEL
+ L2974: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 7677 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 7656 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_VIS))
     {
-      return 399;  /* fpack32_vis */
+      return 398;  /* fpack32_vis */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2988: ATTRIBUTE_UNUSED_LABEL
+ L2983: ATTRIBUTE_UNUSED_LABEL
   x2 = XVECEXP (x1, 0, 0);
   if (register_operand (x2, V4QImode))
     {
       operands[1] = x2;
-      goto L2989;
+      goto L2984;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2989: ATTRIBUTE_UNUSED_LABEL
+ L2984: ATTRIBUTE_UNUSED_LABEL
   x2 = XVECEXP (x1, 0, 1);
   if (register_operand (x2, V4QImode))
     {
       operands[2] = x2;
-      goto L2990;
+      goto L2985;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2990: ATTRIBUTE_UNUSED_LABEL
+ L2985: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 7701 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 7680 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_VIS))
     {
-      return 401;  /* fpmerge_vis */
+      return 400;  /* fpmerge_vis */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3054: ATTRIBUTE_UNUSED_LABEL
+ L3049: ATTRIBUTE_UNUSED_LABEL
   x2 = XVECEXP (x1, 0, 0);
   if (register_operand (x2, V8QImode))
     {
       operands[1] = x2;
-      goto L3055;
+      goto L3050;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3055: ATTRIBUTE_UNUSED_LABEL
+ L3050: ATTRIBUTE_UNUSED_LABEL
   x2 = XVECEXP (x1, 0, 1);
   if (register_operand (x2, V8QImode))
     {
       operands[2] = x2;
-      goto L3056;
+      goto L3051;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3056: ATTRIBUTE_UNUSED_LABEL
+ L3051: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 7784 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 7763 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_VIS))
     {
-      return 412;  /* faligndatav8qi_vis */
+      return 411;  /* faligndatav8qi_vis */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3586: ATTRIBUTE_UNUSED_LABEL
+ L3575: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x1, SFmode))
     {
       operands[0] = x1;
-      goto L2942;
+      goto L2937;
     }
-  goto L2509;
+  goto L2504;
 
- L2942: ATTRIBUTE_UNUSED_LABEL
+ L2937: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (GET_MODE (x1) == SFmode
       && GET_CODE (x1) == IOR)
-    goto L2943;
+    goto L2938;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2943: ATTRIBUTE_UNUSED_LABEL
+ L2938: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == SFmode
       && GET_CODE (x2) == NOT)
-    goto L2944;
+    goto L2939;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2944: ATTRIBUTE_UNUSED_LABEL
+ L2939: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (register_operand (x3, SFmode))
     {
       operands[1] = x3;
-      goto L2945;
+      goto L2940;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2945: ATTRIBUTE_UNUSED_LABEL
+ L2940: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (GET_MODE (x2) == SFmode
       && GET_CODE (x2) == NOT)
-    goto L2946;
+    goto L2941;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2946: ATTRIBUTE_UNUSED_LABEL
+ L2941: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (register_operand (x3, SFmode))
     {
       operands[2] = x3;
-      goto L2947;
+      goto L2942;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2947: ATTRIBUTE_UNUSED_LABEL
+ L2942: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 7647 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 7626 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_VIS))
     {
-      return 394;  /* *nandsf_vis */
+      return 393;  /* *nandsf_vis */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3587: ATTRIBUTE_UNUSED_LABEL
+ L3576: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x1, V4QImode))
     {
       operands[0] = x1;
-      goto L2958;
+      goto L2953;
     }
-  goto L2509;
+  goto L2504;
 
- L2958: ATTRIBUTE_UNUSED_LABEL
+ L2953: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (GET_MODE (x1) == V4QImode)
-    goto L3998;
+    goto L3985;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L3998: ATTRIBUTE_UNUSED_LABEL
+ L3985: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x1))
     {
     case IOR:
-      goto L2959;
+      goto L2954;
     case UNSPEC:
-      goto L4000;
+      goto L3987;
     default:
      break;
    }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2959: ATTRIBUTE_UNUSED_LABEL
+ L2954: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == V4QImode
       && GET_CODE (x2) == NOT)
-    goto L2960;
+    goto L2955;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2960: ATTRIBUTE_UNUSED_LABEL
+ L2955: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (register_operand (x3, V4QImode))
     {
       operands[1] = x3;
-      goto L2961;
+      goto L2956;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2961: ATTRIBUTE_UNUSED_LABEL
+ L2956: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (GET_MODE (x2) == V4QImode
       && GET_CODE (x2) == NOT)
-    goto L2962;
+    goto L2957;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2962: ATTRIBUTE_UNUSED_LABEL
+ L2957: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (register_operand (x3, V4QImode))
     {
       operands[2] = x3;
-      goto L2963;
+      goto L2958;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2963: ATTRIBUTE_UNUSED_LABEL
+ L2958: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 7647 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 7626 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_VIS))
     {
-      return 396;  /* *nandv4qi_vis */
+      return 395;  /* *nandv4qi_vis */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L4000: ATTRIBUTE_UNUSED_LABEL
+ L3987: ATTRIBUTE_UNUSED_LABEL
   if (XVECLEN (x1, 0) == 1
       && XINT (x1, 1) == 40)
-    goto L2967;
+    goto L2962;
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2967: ATTRIBUTE_UNUSED_LABEL
+ L2962: ATTRIBUTE_UNUSED_LABEL
   x2 = XVECEXP (x1, 0, 0);
   if (register_operand (x2, V4HImode))
     {
       operands[1] = x2;
-      goto L2968;
+      goto L2963;
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2968: ATTRIBUTE_UNUSED_LABEL
+ L2963: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 7658 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 7637 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_VIS))
     {
-      return 397;  /* fpack16_vis */
+      return 396;  /* fpack16_vis */
     }
   x1 = XEXP (x0, 0);
-  goto L2509;
+  goto L2504;
 
- L2510: ATTRIBUTE_UNUSED_LABEL
+ L2505: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (address_operand (x1, DImode))
     {
       operands[0] = x1;
-      return 333;  /* *branch_sp64 */
+      return 332;  /* *branch_sp64 */
     }
   x1 = XEXP (x0, 0);
-  goto L3071;
+  goto L3066;
 
- L2588: ATTRIBUTE_UNUSED_LABEL
+ L2583: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (GET_CODE (x1) == CALL)
-    goto L2589;
+    goto L2584;
   x1 = XEXP (x0, 0);
-  goto L3071;
+  goto L3066;
 
- L2589: ATTRIBUTE_UNUSED_LABEL
+ L2584: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == DImode
       && GET_CODE (x2) == MEM)
-    goto L2590;
+    goto L2585;
   x1 = XEXP (x0, 0);
-  goto L3071;
+  goto L3066;
 
- L2590: ATTRIBUTE_UNUSED_LABEL
+ L2585: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (GET_MODE (x3) == DImode)
-    goto L4001;
+    goto L3988;
   x1 = XEXP (x0, 0);
-  goto L3071;
+  goto L3066;
 
- L4001: ATTRIBUTE_UNUSED_LABEL
+ L3988: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x3) == UNSPEC)
-    goto L4003;
+    goto L3990;
   x1 = XEXP (x0, 0);
-  goto L3071;
+  goto L3066;
 
- L4003: ATTRIBUTE_UNUSED_LABEL
+ L3990: ATTRIBUTE_UNUSED_LABEL
   switch (XVECLEN (x3, 0))
     {
     case 2:
-      goto L4005;
+      goto L3992;
     case 1:
-      goto L4006;
+      goto L3993;
     default:
       break;
     }
   x1 = XEXP (x0, 0);
-  goto L3071;
+  goto L3066;
 
- L4005: ATTRIBUTE_UNUSED_LABEL
+ L3992: ATTRIBUTE_UNUSED_LABEL
   if (XINT (x3, 1) == 30)
-    goto L2591;
+    goto L2586;
   x1 = XEXP (x0, 0);
-  goto L3071;
+  goto L3066;
 
- L2591: ATTRIBUTE_UNUSED_LABEL
+ L2586: ATTRIBUTE_UNUSED_LABEL
   x4 = XVECEXP (x3, 0, 0);
   if (symbolic_operand (x4, DImode))
     {
       operands[1] = x4;
-      goto L2592;
+      goto L2587;
     }
   x1 = XEXP (x0, 0);
-  goto L3071;
+  goto L3066;
 
- L2592: ATTRIBUTE_UNUSED_LABEL
+ L2587: ATTRIBUTE_UNUSED_LABEL
   x4 = XVECEXP (x3, 0, 1);
   if (tgd_symbolic_operand (x4, VOIDmode))
     {
       operands[2] = x4;
-      goto L2593;
+      goto L2588;
     }
   x1 = XEXP (x0, 0);
-  goto L3071;
+  goto L3066;
 
- L2593: ATTRIBUTE_UNUSED_LABEL
+ L2588: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   operands[3] = x2;
-  goto L2594;
+  goto L2589;
 
- L2594: ATTRIBUTE_UNUSED_LABEL
+ L2589: ATTRIBUTE_UNUSED_LABEL
   if (pnum_clobbers != NULL)
     {
       *pnum_clobbers = 1;
-      return 348;  /* tgd_call64 */
+      return 347;  /* tgd_call64 */
     }
   x1 = XEXP (x0, 0);
-  goto L3071;
+  goto L3066;
 
- L4006: ATTRIBUTE_UNUSED_LABEL
+ L3993: ATTRIBUTE_UNUSED_LABEL
   if (XINT (x3, 1) == 31)
-    goto L2627;
+    goto L2622;
   x1 = XEXP (x0, 0);
-  goto L3071;
+  goto L3066;
 
- L2627: ATTRIBUTE_UNUSED_LABEL
+ L2622: ATTRIBUTE_UNUSED_LABEL
   x4 = XVECEXP (x3, 0, 0);
   if (symbolic_operand (x4, DImode))
     {
       operands[1] = x4;
-      goto L2628;
+      goto L2623;
     }
   x1 = XEXP (x0, 0);
-  goto L3071;
+  goto L3066;
 
- L2628: ATTRIBUTE_UNUSED_LABEL
+ L2623: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   operands[2] = x2;
-  goto L2629;
+  goto L2624;
 
- L2629: ATTRIBUTE_UNUSED_LABEL
+ L2624: ATTRIBUTE_UNUSED_LABEL
   if (pnum_clobbers != NULL)
     {
       *pnum_clobbers = 1;
-      return 352;  /* tldm_call64 */
+      return 351;  /* tldm_call64 */
     }
   x1 = XEXP (x0, 0);
-  goto L3071;
+  goto L3066;
 
- L3072: ATTRIBUTE_UNUSED_LABEL
+ L3067: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (GET_MODE (x1) == BLKmode
       && GET_CODE (x1) == UNSPEC
       && XVECLEN (x1, 0) == 1
       && XINT (x1, 1) == 20)
-    goto L3073;
+    goto L3068;
   goto ret0;
 
- L3073: ATTRIBUTE_UNUSED_LABEL
+ L3068: ATTRIBUTE_UNUSED_LABEL
   x2 = XVECEXP (x1, 0, 0);
   if (rtx_equal_p (x2, operands[0])
       && 
-#line 39 "../../gcc-4.6.1/gcc/config/sparc/sync.md"
+#line 39 "../../gcc-4.5.3/gcc/config/sparc/sync.md"
 (TARGET_V8))
     {
-      return 415;  /* *stbar */
+      return 414;  /* *stbar */
     }
- L3077: ATTRIBUTE_UNUSED_LABEL
+ L3072: ATTRIBUTE_UNUSED_LABEL
   if (rtx_equal_p (x2, operands[0])
       && 
-#line 47 "../../gcc-4.6.1/gcc/config/sparc/sync.md"
+#line 47 "../../gcc-4.5.3/gcc/config/sparc/sync.md"
 (TARGET_V9))
     {
-      return 416;  /* *membar */
+      return 415;  /* *membar */
     }
   goto ret0;
  ret0:
@@ -12045,17 +12020,17 @@ recog_6 (rtx x0 ATTRIBUTE_UNUSED,
     case MINUS:
       goto L182;
     case UNSPEC:
-      goto L4028;
+      goto L4015;
     case TRUNCATE:
       goto L1338;
     case SUBREG:
-      goto L4029;
+      goto L4016;
     case DIV:
       goto L1510;
     default:
      break;
    }
- L4027: ATTRIBUTE_UNUSED_LABEL
+ L4014: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, SImode))
     {
       operands[1] = x2;
@@ -12097,10 +12072,10 @@ recog_6 (rtx x0 ATTRIBUTE_UNUSED,
  L63: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (GET_MODE (x3) == SImode)
-    goto L4030;
+    goto L4017;
   goto ret0;
 
- L4030: ATTRIBUTE_UNUSED_LABEL
+ L4017: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x3))
     {
     case NE:
@@ -12208,10 +12183,10 @@ recog_6 (rtx x0 ATTRIBUTE_UNUSED,
  L164: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (GET_MODE (x3) == SImode)
-    goto L4032;
+    goto L4019;
   goto ret0;
 
- L4032: ATTRIBUTE_UNUSED_LABEL
+ L4019: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x3))
     {
     case NE:
@@ -12315,10 +12290,10 @@ recog_6 (rtx x0 ATTRIBUTE_UNUSED,
  L183: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
   if (GET_MODE (x3) == SImode)
-    goto L4034;
+    goto L4021;
   goto ret0;
 
- L4034: ATTRIBUTE_UNUSED_LABEL
+ L4021: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x3))
     {
     case NE:
@@ -12392,7 +12367,7 @@ recog_6 (rtx x0 ATTRIBUTE_UNUSED,
     }
   goto ret0;
 
- L4028: ATTRIBUTE_UNUSED_LABEL
+ L4015: ATTRIBUTE_UNUSED_LABEL
   if (XVECLEN (x2, 0) == 3
       && XINT (x2, 1) == 2)
     goto L399;
@@ -12437,9 +12412,9 @@ recog_6 (rtx x0 ATTRIBUTE_UNUSED,
       && GET_CODE (x2) == REG
       && XINT (x2, 0) == 15
       && (
-#line 1124 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1117 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (REGNO (operands[0]) == INTVAL (operands[3])) && 
-#line 82 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 81 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (Pmode == SImode)))
     {
       return 45;  /* load_pcrel_symsi */
@@ -12463,10 +12438,10 @@ recog_6 (rtx x0 ATTRIBUTE_UNUSED,
  L1340: ATTRIBUTE_UNUSED_LABEL
   x5 = XEXP (x4, 0);
   if (GET_MODE (x5) == DImode)
-    goto L4036;
+    goto L4023;
   goto ret0;
 
- L4036: ATTRIBUTE_UNUSED_LABEL
+ L4023: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x5))
     {
     case SIGN_EXTEND:
@@ -12534,7 +12509,7 @@ recog_6 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1347: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 4073 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4066 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8PLUS))
     {
       return 182;  /* smulsi3_highpart_v8plus */
@@ -12567,7 +12542,7 @@ recog_6 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1396: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 4106 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4099 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8PLUS))
     {
       return 184;  /* const_smulsi3_highpart_v8plus */
@@ -12630,7 +12605,7 @@ recog_6 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1471: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 4280 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4273 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8PLUS))
     {
       return 189;  /* umulsi3_highpart_v8plus */
@@ -12663,38 +12638,38 @@ recog_6 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1495: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 4295 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4288 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8PLUS))
     {
       return 190;  /* const_umulsi3_highpart_v8plus */
     }
   goto ret0;
 
- L4029: ATTRIBUTE_UNUSED_LABEL
+ L4016: ATTRIBUTE_UNUSED_LABEL
   if (XINT (x2, 1) == 4)
     goto L1363;
-  goto L4027;
+  goto L4014;
 
  L1363: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (GET_MODE (x3) == DImode
       && GET_CODE (x3) == LSHIFTRT)
     goto L1364;
-  goto L4027;
+  goto L4014;
 
  L1364: ATTRIBUTE_UNUSED_LABEL
   x4 = XEXP (x3, 0);
   if (GET_MODE (x4) == DImode
       && GET_CODE (x4) == MULT)
     goto L1365;
-  goto L4027;
+  goto L4014;
 
  L1365: ATTRIBUTE_UNUSED_LABEL
   x5 = XEXP (x4, 0);
   if (GET_MODE (x5) == DImode
       && GET_CODE (x5) == SIGN_EXTEND)
     goto L1366;
-  goto L4027;
+  goto L4014;
 
  L1366: ATTRIBUTE_UNUSED_LABEL
   x6 = XEXP (x5, 0);
@@ -12703,14 +12678,14 @@ recog_6 (rtx x0 ATTRIBUTE_UNUSED,
       operands[1] = x6;
       goto L1367;
     }
-  goto L4027;
+  goto L4014;
 
  L1367: ATTRIBUTE_UNUSED_LABEL
   x5 = XEXP (x4, 1);
   if (GET_MODE (x5) == DImode
       && GET_CODE (x5) == SIGN_EXTEND)
     goto L1368;
-  goto L4027;
+  goto L4014;
 
  L1368: ATTRIBUTE_UNUSED_LABEL
   x6 = XEXP (x5, 0);
@@ -12719,7 +12694,7 @@ recog_6 (rtx x0 ATTRIBUTE_UNUSED,
       operands[2] = x6;
       goto L1369;
     }
-  goto L4027;
+  goto L4014;
 
  L1369: ATTRIBUTE_UNUSED_LABEL
   x4 = XEXP (x3, 1);
@@ -12728,7 +12703,7 @@ recog_6 (rtx x0 ATTRIBUTE_UNUSED,
       operands[3] = x4;
       goto L1370;
     }
-  goto L4027;
+  goto L4014;
 
  L1370: ATTRIBUTE_UNUSED_LABEL
   x1 = XVECEXP (x0, 0, 1);
@@ -12736,7 +12711,7 @@ recog_6 (rtx x0 ATTRIBUTE_UNUSED,
     goto L1371;
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 1);
-  goto L4027;
+  goto L4014;
 
  L1371: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
@@ -12747,18 +12722,18 @@ recog_6 (rtx x0 ATTRIBUTE_UNUSED,
     }
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 1);
-  goto L4027;
+  goto L4014;
 
  L1372: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 4091 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4084 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8PLUS))
     {
-      return 183;  /* *sparc.md:4082 */
+      return 183;  /* *sparc.md:4075 */
     }
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 1);
-  goto L4027;
+  goto L4014;
 
  L1510: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
@@ -12795,7 +12770,7 @@ recog_6 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1514: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 4388 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4381 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_DEPRECATED_V8_INSNS && TARGET_ARCH64))
     {
       return 191;  /* divsi3_sp64 */
@@ -12859,17 +12834,17 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   switch (GET_MODE (x2))
     {
     case SImode:
-      goto L4007;
+      goto L3994;
     case DImode:
-      goto L4008;
+      goto L3995;
     case CCmode:
-      goto L4009;
+      goto L3996;
     case CCXmode:
-      goto L4010;
+      goto L3997;
     case CC_NOOVmode:
-      goto L4011;
+      goto L3998;
     case CCX_NOOVmode:
-      goto L4012;
+      goto L3999;
     default:
       break;
     }
@@ -12879,29 +12854,29 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
  L2443: ATTRIBUTE_UNUSED_LABEL
   operands[0] = x2;
   goto L2444;
- L2524: ATTRIBUTE_UNUSED_LABEL
+ L2519: ATTRIBUTE_UNUSED_LABEL
   switch (GET_MODE (x2))
     {
     case SImode:
-      goto L4013;
+      goto L4000;
     case DImode:
-      goto L4014;
+      goto L4001;
     case QImode:
-      goto L4016;
+      goto L4003;
     case HImode:
-      goto L4017;
+      goto L4004;
     default:
       break;
     }
- L2577: ATTRIBUTE_UNUSED_LABEL
+ L2572: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, VOIDmode))
     {
       operands[0] = x2;
-      goto L2578;
+      goto L2573;
     }
   goto ret0;
 
- L4007: ATTRIBUTE_UNUSED_LABEL
+ L3994: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, SImode))
     {
       operands[0] = x2;
@@ -12912,18 +12887,18 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
  L49: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (GET_MODE (x2) == SImode)
-    goto L4018;
+    goto L4005;
   x2 = XEXP (x1, 0);
   goto L2412;
 
- L4018: ATTRIBUTE_UNUSED_LABEL
+ L4005: ATTRIBUTE_UNUSED_LABEL
   tem = recog_6 (x0, insn, pnum_clobbers);
   if (tem >= 0)
     return tem;
   x2 = XEXP (x1, 0);
   goto L2412;
 
- L4008: ATTRIBUTE_UNUSED_LABEL
+ L3995: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, DImode))
     {
       operands[0] = x2;
@@ -12934,11 +12909,11 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
  L77: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (GET_MODE (x2) == DImode)
-    goto L4038;
+    goto L4025;
   x2 = XEXP (x1, 0);
   goto L2412;
 
- L4038: ATTRIBUTE_UNUSED_LABEL
+ L4025: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x2))
     {
     case NE:
@@ -12946,7 +12921,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
     case EQ:
       goto L135;
     case UNSPEC:
-      goto L4046;
+      goto L4033;
     case MULT:
       goto L1287;
     case ASHIFT:
@@ -12957,12 +12932,12 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
       goto L2359;
     case REG:
     case SUBREG:
-      goto L4042;
+      goto L4029;
     default:
       x2 = XEXP (x1, 0);
       goto L2412;
    }
- L4042: ATTRIBUTE_UNUSED_LABEL
+ L4029: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, DImode))
     {
       operands[1] = x2;
@@ -13045,7 +13020,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x2 = XEXP (x1, 0);
   goto L2412;
 
- L4046: ATTRIBUTE_UNUSED_LABEL
+ L4033: ATTRIBUTE_UNUSED_LABEL
   if (XVECLEN (x2, 0) == 3
       && XINT (x2, 1) == 2)
     goto L415;
@@ -13096,9 +13071,9 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
       && GET_CODE (x2) == REG
       && XINT (x2, 0) == 15
       && (
-#line 1124 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1117 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (REGNO (operands[0]) == INTVAL (operands[3])) && 
-#line 82 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 81 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (Pmode == DImode)))
     {
       return 46;  /* load_pcrel_symdi */
@@ -13110,11 +13085,11 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
  L1287: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (GET_MODE (x3) == DImode)
-    goto L4047;
+    goto L4034;
   x2 = XEXP (x1, 0);
   goto L2412;
 
- L4047: ATTRIBUTE_UNUSED_LABEL
+ L4034: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x3))
     {
     case SIGN_EXTEND:
@@ -13181,7 +13156,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1293: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 3962 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3955 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8PLUS))
     {
       return 178;  /* mulsidi3_v8plus */
@@ -13211,7 +13186,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1311: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 3975 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3968 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8PLUS))
     {
       return 179;  /* const_mulsidi3_v8plus */
@@ -13274,7 +13249,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1417: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 4169 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4162 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8PLUS))
     {
       return 185;  /* umulsidi3_v8plus */
@@ -13304,7 +13279,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
 
  L1450: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 4236 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4229 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8PLUS))
     {
       return 188;  /* const_umulsidi3_v8plus */
@@ -13354,7 +13329,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2262: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5657 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5650 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8PLUS))
     {
       return 303;  /* ashldi3_v8plus */
@@ -13404,7 +13379,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2322: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5767 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5760 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8PLUS))
     {
       return 310;  /* ashrdi3_v8plus */
@@ -13454,7 +13429,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
 
  L2363: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 5844 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5837 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8PLUS))
     {
       return 315;  /* lshrdi3_v8plus */
@@ -13508,7 +13483,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x2 = XEXP (x1, 0);
   goto L2412;
 
- L4009: ATTRIBUTE_UNUSED_LABEL
+ L3996: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == REG
       && XINT (x2, 0) == 100)
     goto L880;
@@ -13527,16 +13502,16 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   switch (GET_MODE (x3))
     {
     case SImode:
-      goto L4049;
+      goto L4036;
     case QImode:
-      goto L4051;
+      goto L4038;
     default:
       break;
     }
   x2 = XEXP (x1, 0);
   goto L2412;
 
- L4049: ATTRIBUTE_UNUSED_LABEL
+ L4036: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x3))
     {
     case ZERO_EXTEND:
@@ -13554,13 +13529,13 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
     default:
      break;
    }
- L4056: ATTRIBUTE_UNUSED_LABEL
+ L4043: ATTRIBUTE_UNUSED_LABEL
   if (cc_arith_operator (x3, SImode))
     {
       operands[3] = x3;
       goto L1851;
     }
- L4058: ATTRIBUTE_UNUSED_LABEL
+ L4045: ATTRIBUTE_UNUSED_LABEL
   if (cc_arith_not_operator (x3, SImode))
     {
       operands[3] = x3;
@@ -13631,21 +13606,21 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
       operands[1] = x4;
       goto L894;
     }
-  goto L4056;
+  goto L4043;
 
  L894: ATTRIBUTE_UNUSED_LABEL
   x4 = XEXP (x3, 1);
   if (GET_CODE (x4) == CONST_INT
       && XWINT (x4, 0) == 255L)
     goto L895;
-  goto L4056;
+  goto L4043;
 
  L895: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
   if (x3 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
     goto L896;
   x3 = XEXP (x2, 0);
-  goto L4056;
+  goto L4043;
 
  L896: ATTRIBUTE_UNUSED_LABEL
   x1 = XVECEXP (x0, 0, 1);
@@ -13654,7 +13629,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 1);
   x3 = XEXP (x2, 0);
-  goto L4056;
+  goto L4043;
 
  L897: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
@@ -13666,7 +13641,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 1);
   x3 = XEXP (x2, 0);
-  goto L4056;
+  goto L4043;
 
  L898: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
@@ -13676,7 +13651,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 1);
   x3 = XEXP (x2, 0);
-  goto L4056;
+  goto L4043;
 
  L899: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
@@ -13687,7 +13662,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 1);
   x3 = XEXP (x2, 0);
-  goto L4056;
+  goto L4043;
 
  L900: ATTRIBUTE_UNUSED_LABEL
   x4 = XEXP (x3, 0);
@@ -13698,7 +13673,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 1);
   x3 = XEXP (x2, 0);
-  goto L4056;
+  goto L4043;
 
  L1275: ATTRIBUTE_UNUSED_LABEL
   x4 = XEXP (x3, 0);
@@ -13767,7 +13742,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x3 = XEXP (x2, 1);
   if (rtx_equal_p (x3, operands[2])
       && 
-#line 3924 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3917 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8 || TARGET_SPARCLITE || TARGET_DEPRECATED_V8_INSNS))
     {
       return 177;  /* *cmp_mul_set */
@@ -13843,7 +13818,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x3 = XEXP (x2, 1);
   if (rtx_equal_p (x3, operands[2])
       && 
-#line 4409 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4402 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8 || TARGET_DEPRECATED_V8_INSNS)
       && pnum_clobbers != NULL)
     {
@@ -13921,7 +13896,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x3 = XEXP (x2, 1);
   if (rtx_equal_p (x3, operands[2])
       && 
-#line 4499 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4492 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8 || TARGET_DEPRECATED_V8_INSNS))
     {
       return 196;  /* *cmp_udiv_cc_set */
@@ -14077,7 +14052,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
       operands[1] = x4;
       goto L1852;
     }
-  goto L4058;
+  goto L4045;
 
  L1852: ATTRIBUTE_UNUSED_LABEL
   x4 = XEXP (x3, 1);
@@ -14086,14 +14061,14 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
       operands[2] = x4;
       goto L1853;
     }
-  goto L4058;
+  goto L4045;
 
  L1853: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
   if (x3 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
     goto L1854;
   x3 = XEXP (x2, 0);
-  goto L4058;
+  goto L4045;
 
  L1854: ATTRIBUTE_UNUSED_LABEL
   x1 = XVECEXP (x0, 0, 1);
@@ -14102,7 +14077,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 1);
   x3 = XEXP (x2, 0);
-  goto L4058;
+  goto L4045;
 
  L1855: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
@@ -14114,7 +14089,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 1);
   x3 = XEXP (x2, 0);
-  goto L4058;
+  goto L4045;
 
  L1856: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
@@ -14126,7 +14101,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 1);
   x3 = XEXP (x2, 0);
-  goto L4058;
+  goto L4045;
 
  L1857: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
@@ -14135,13 +14110,13 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 1);
   x3 = XEXP (x2, 0);
-  goto L4058;
+  goto L4045;
 
  L1858: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
   if (rtx_equal_p (x3, operands[2])
       && 
-#line 4937 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4930 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (GET_CODE (operands[3]) == GET_CODE (operands[4])))
     {
       return 244;  /* *cmp_cc_arith_op_set */
@@ -14149,7 +14124,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 1);
   x3 = XEXP (x2, 0);
-  goto L4058;
+  goto L4045;
 
  L1939: ATTRIBUTE_UNUSED_LABEL
   x4 = XEXP (x3, 0);
@@ -14237,7 +14212,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x3 = XEXP (x2, 1);
   if (rtx_equal_p (x3, operands[2])
       && 
-#line 5030 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5023 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (GET_CODE (operands[3]) == GET_CODE (operands[4])))
     {
       return 252;  /* *cmp_cc_arith_op_not_set */
@@ -14246,13 +14221,13 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x2 = XEXP (x1, 0);
   goto L2412;
 
- L4051: ATTRIBUTE_UNUSED_LABEL
+ L4038: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x3) == SUBREG)
-    goto L4059;
+    goto L4046;
   x2 = XEXP (x1, 0);
   goto L2412;
 
- L4059: ATTRIBUTE_UNUSED_LABEL
+ L4046: ATTRIBUTE_UNUSED_LABEL
   switch (XINT (x3, 1))
     {
     case 3L:
@@ -14377,7 +14352,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x2 = XEXP (x1, 0);
   goto L2412;
 
- L4010: ATTRIBUTE_UNUSED_LABEL
+ L3997: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == REG
       && XINT (x2, 0) == 100)
     goto L915;
@@ -14394,11 +14369,11 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
  L916: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (GET_MODE (x3) == DImode)
-    goto L4061;
+    goto L4048;
   x2 = XEXP (x1, 0);
   goto L2412;
 
- L4061: ATTRIBUTE_UNUSED_LABEL
+ L4048: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x3))
     {
     case ZERO_EXTEND:
@@ -14410,13 +14385,13 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
     default:
      break;
    }
- L4063: ATTRIBUTE_UNUSED_LABEL
+ L4050: ATTRIBUTE_UNUSED_LABEL
   if (cc_arith_operator (x3, DImode))
     {
       operands[3] = x3;
       goto L1864;
     }
- L4065: ATTRIBUTE_UNUSED_LABEL
+ L4052: ATTRIBUTE_UNUSED_LABEL
   if (cc_arith_not_operator (x3, DImode))
     {
       operands[3] = x3;
@@ -14487,21 +14462,21 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
       operands[1] = x4;
       goto L929;
     }
-  goto L4063;
+  goto L4050;
 
  L929: ATTRIBUTE_UNUSED_LABEL
   x4 = XEXP (x3, 1);
   if (GET_CODE (x4) == CONST_INT
       && XWINT (x4, 0) == 255L)
     goto L930;
-  goto L4063;
+  goto L4050;
 
  L930: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
   if (x3 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
     goto L931;
   x3 = XEXP (x2, 0);
-  goto L4063;
+  goto L4050;
 
  L931: ATTRIBUTE_UNUSED_LABEL
   x1 = XVECEXP (x0, 0, 1);
@@ -14510,7 +14485,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 1);
   x3 = XEXP (x2, 0);
-  goto L4063;
+  goto L4050;
 
  L932: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
@@ -14522,7 +14497,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 1);
   x3 = XEXP (x2, 0);
-  goto L4063;
+  goto L4050;
 
  L933: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
@@ -14532,7 +14507,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 1);
   x3 = XEXP (x2, 0);
-  goto L4063;
+  goto L4050;
 
  L934: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
@@ -14543,7 +14518,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 1);
   x3 = XEXP (x2, 0);
-  goto L4063;
+  goto L4050;
 
  L935: ATTRIBUTE_UNUSED_LABEL
   x4 = XEXP (x3, 0);
@@ -14554,7 +14529,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 1);
   x3 = XEXP (x2, 0);
-  goto L4063;
+  goto L4050;
 
  L1908: ATTRIBUTE_UNUSED_LABEL
   x4 = XEXP (x3, 0);
@@ -14703,7 +14678,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
       operands[1] = x4;
       goto L1865;
     }
-  goto L4065;
+  goto L4052;
 
  L1865: ATTRIBUTE_UNUSED_LABEL
   x4 = XEXP (x3, 1);
@@ -14712,14 +14687,14 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
       operands[2] = x4;
       goto L1866;
     }
-  goto L4065;
+  goto L4052;
 
  L1866: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
   if (x3 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
     goto L1867;
   x3 = XEXP (x2, 0);
-  goto L4065;
+  goto L4052;
 
  L1867: ATTRIBUTE_UNUSED_LABEL
   x1 = XVECEXP (x0, 0, 1);
@@ -14728,7 +14703,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 1);
   x3 = XEXP (x2, 0);
-  goto L4065;
+  goto L4052;
 
  L1868: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
@@ -14740,7 +14715,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 1);
   x3 = XEXP (x2, 0);
-  goto L4065;
+  goto L4052;
 
  L1869: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
@@ -14752,7 +14727,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 1);
   x3 = XEXP (x2, 0);
-  goto L4065;
+  goto L4052;
 
  L1870: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
@@ -14761,13 +14736,13 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 1);
   x3 = XEXP (x2, 0);
-  goto L4065;
+  goto L4052;
 
  L1871: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
   if (rtx_equal_p (x3, operands[2])
       && 
-#line 4950 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4943 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64 && GET_CODE (operands[3]) == GET_CODE (operands[4])))
     {
       return 245;  /* *cmp_ccx_arith_op_set */
@@ -14775,7 +14750,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 1);
   x3 = XEXP (x2, 0);
-  goto L4065;
+  goto L4052;
 
  L1954: ATTRIBUTE_UNUSED_LABEL
   x4 = XEXP (x3, 0);
@@ -14863,7 +14838,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x3 = XEXP (x2, 1);
   if (rtx_equal_p (x3, operands[2])
       && 
-#line 5044 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5037 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64 && GET_CODE (operands[3]) == GET_CODE (operands[4])))
     {
       return 253;  /* *cmp_ccx_arith_op_not_set */
@@ -14872,7 +14847,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x2 = XEXP (x1, 0);
   goto L2412;
 
- L4011: ATTRIBUTE_UNUSED_LABEL
+ L3998: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == REG
       && XINT (x2, 0) == 100)
     goto L1150;
@@ -14889,11 +14864,11 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
  L1151: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (GET_MODE (x3) == SImode)
-    goto L4066;
+    goto L4053;
   x2 = XEXP (x1, 0);
   goto L2412;
 
- L4066: ATTRIBUTE_UNUSED_LABEL
+ L4053: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x3))
     {
     case PLUS:
@@ -15181,7 +15156,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   x2 = XEXP (x1, 0);
   goto L2412;
 
- L4012: ATTRIBUTE_UNUSED_LABEL
+ L3999: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == REG
       && XINT (x2, 0) == 100)
     goto L1163;
@@ -15198,11 +15173,11 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
  L1164: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (GET_MODE (x3) == DImode)
-    goto L4070;
+    goto L4057;
   x2 = XEXP (x1, 0);
   goto L2412;
 
- L4070: ATTRIBUTE_UNUSED_LABEL
+ L4057: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x3))
     {
     case PLUS:
@@ -15454,7 +15429,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
   if (GET_CODE (x2) == CALL)
     goto L2445;
   x2 = XEXP (x1, 0);
-  goto L2524;
+  goto L2519;
 
  L2445: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
@@ -15462,7 +15437,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
       && GET_CODE (x3) == MEM)
     goto L2446;
   x2 = XEXP (x1, 0);
-  goto L2524;
+  goto L2519;
 
  L2446: ATTRIBUTE_UNUSED_LABEL
   x4 = XEXP (x3, 0);
@@ -15478,7 +15453,7 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
       goto L2463;
     }
   x2 = XEXP (x1, 0);
-  goto L2524;
+  goto L2519;
 
  L2447: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
@@ -15521,13 +15496,13 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
     case CLOBBER:
       goto L2465;
     case RETURN:
-      goto L4073;
+      goto L4060;
     default:
      break;
    }
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2524;
+  goto L2519;
 
  L2465: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
@@ -15539,718 +15514,698 @@ recog_7 (rtx x0 ATTRIBUTE_UNUSED,
     }
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2524;
+  goto L2519;
 
- L4073: ATTRIBUTE_UNUSED_LABEL
+ L4060: ATTRIBUTE_UNUSED_LABEL
   return 327;  /* *sibcall_value_symbolic_sp64 */
 
- L4013: ATTRIBUTE_UNUSED_LABEL
+ L4000: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, SImode))
     {
       operands[0] = x2;
-      goto L2525;
+      goto L2520;
     }
-  goto L2577;
+  goto L2572;
 
- L2525: ATTRIBUTE_UNUSED_LABEL
+ L2520: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (GET_MODE (x2) == SImode)
-    goto L4074;
+    goto L4061;
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L4074: ATTRIBUTE_UNUSED_LABEL
+ L4061: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x2))
     {
     case FFS:
-      goto L2526;
+      goto L2521;
     case MEM:
-      goto L3082;
+      goto L4065;
     case UNSPEC_VOLATILE:
-      goto L4078;
+      goto L4066;
     case ZERO_EXTEND:
-      goto L3144;
+      goto L3133;
     default:
      break;
    }
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L2526: ATTRIBUTE_UNUSED_LABEL
+ L2521: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (register_operand (x3, SImode))
     {
       operands[1] = x3;
-      goto L2527;
+      goto L2522;
     }
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L2527: ATTRIBUTE_UNUSED_LABEL
+ L2522: ATTRIBUTE_UNUSED_LABEL
   x1 = XVECEXP (x0, 0, 1);
   if (GET_CODE (x1) == CLOBBER)
-    goto L2528;
+    goto L2523;
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L2528: ATTRIBUTE_UNUSED_LABEL
+ L2523: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (scratch_operand (x2, SImode))
     {
       operands[2] = x2;
-      goto L2529;
+      goto L2524;
     }
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L2529: ATTRIBUTE_UNUSED_LABEL
+ L2524: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 6608 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6587 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_SPARCLITE || TARGET_SPARCLET))
     {
-      return 339;  /* ffssi2 */
+      return 338;  /* ffssi2 */
     }
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3082: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 0);
-  if (register_operand (x3, VOIDmode))
+ L4065: ATTRIBUTE_UNUSED_LABEL
+  if (memory_reg_operand (x2, SImode))
     {
-      operands[1] = x3;
-      goto L3083;
+      operands[1] = x2;
+      goto L3077;
     }
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3083: ATTRIBUTE_UNUSED_LABEL
+ L3077: ATTRIBUTE_UNUSED_LABEL
   x1 = XVECEXP (x0, 0, 1);
   if (GET_CODE (x1) == SET)
-    goto L3084;
+    goto L3078;
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3084: ATTRIBUTE_UNUSED_LABEL
+ L3078: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
-  if (GET_MODE (x2) == SImode
-      && GET_CODE (x2) == MEM)
-    goto L3085;
+  if (rtx_equal_p (x2, operands[1]))
+    goto L3079;
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3085: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 0);
-  if (rtx_equal_p (x3, operands[1]))
-    goto L3086;
-  x1 = XVECEXP (x0, 0, 0);
-  x2 = XEXP (x1, 0);
-  goto L2577;
-
- L3086: ATTRIBUTE_UNUSED_LABEL
+ L3079: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (GET_MODE (x2) == SImode
       && GET_CODE (x2) == UNSPEC_VOLATILE
       && XVECLEN (x2, 0) == 2
       && XINT (x2, 1) == 8)
-    goto L3087;
+    goto L3080;
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3087: ATTRIBUTE_UNUSED_LABEL
+ L3080: ATTRIBUTE_UNUSED_LABEL
   x3 = XVECEXP (x2, 0, 0);
   if (register_operand (x3, SImode))
     {
       operands[2] = x3;
-      goto L3088;
+      goto L3081;
     }
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3088: ATTRIBUTE_UNUSED_LABEL
+ L3081: ATTRIBUTE_UNUSED_LABEL
   x3 = XVECEXP (x2, 0, 1);
   if (register_operand (x3, SImode))
     {
       operands[3] = x3;
-      goto L3089;
+      goto L3082;
     }
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3089: ATTRIBUTE_UNUSED_LABEL
+ L3082: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 90 "../../gcc-4.6.1/gcc/config/sparc/sync.md"
+#line 90 "../../gcc-4.5.3/gcc/config/sparc/sync.md"
 (TARGET_V9 && (SImode == SImode || TARGET_ARCH64)))
     {
-      return 417;  /* *sync_compare_and_swapsi */
+      return 416;  /* *sync_compare_and_swapsi */
     }
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L4078: ATTRIBUTE_UNUSED_LABEL
+ L4066: ATTRIBUTE_UNUSED_LABEL
   if (XVECLEN (x2, 0) == 1
       && XINT (x2, 1) == 9)
-    goto L3118;
+    goto L3107;
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3118: ATTRIBUTE_UNUSED_LABEL
+ L3107: ATTRIBUTE_UNUSED_LABEL
   x3 = XVECEXP (x2, 0, 0);
   if (memory_operand (x3, SImode))
     {
       operands[1] = x3;
-      goto L3119;
+      goto L3108;
     }
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3119: ATTRIBUTE_UNUSED_LABEL
+ L3108: ATTRIBUTE_UNUSED_LABEL
   x1 = XVECEXP (x0, 0, 1);
   if (GET_CODE (x1) == SET)
-    goto L3120;
+    goto L3109;
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3120: ATTRIBUTE_UNUSED_LABEL
+ L3109: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (rtx_equal_p (x2, operands[1]))
-    goto L3121;
+    goto L3110;
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3121: ATTRIBUTE_UNUSED_LABEL
+ L3110: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (register_operand (x2, SImode))
     {
       operands[2] = x2;
-      goto L3122;
+      goto L3111;
     }
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3122: ATTRIBUTE_UNUSED_LABEL
+ L3111: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 161 "../../gcc-4.6.1/gcc/config/sparc/sync.md"
+#line 161 "../../gcc-4.5.3/gcc/config/sparc/sync.md"
 (TARGET_V8 || TARGET_V9))
     {
-      return 420;  /* *swapsi */
+      return 419;  /* *swapsi */
     }
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3144: ATTRIBUTE_UNUSED_LABEL
+ L3133: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (GET_MODE (x3) == QImode
       && GET_CODE (x3) == UNSPEC_VOLATILE
       && XVECLEN (x3, 0) == 1
       && XINT (x3, 1) == 10)
-    goto L3145;
+    goto L3134;
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3145: ATTRIBUTE_UNUSED_LABEL
+ L3134: ATTRIBUTE_UNUSED_LABEL
   x4 = XVECEXP (x3, 0, 0);
   if (memory_operand (x4, QImode))
     {
       operands[1] = x4;
-      goto L3146;
+      goto L3135;
     }
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3146: ATTRIBUTE_UNUSED_LABEL
+ L3135: ATTRIBUTE_UNUSED_LABEL
   x1 = XVECEXP (x0, 0, 1);
   if (GET_CODE (x1) == SET)
-    goto L3147;
+    goto L3136;
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3147: ATTRIBUTE_UNUSED_LABEL
+ L3136: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (rtx_equal_p (x2, operands[1]))
-    goto L3148;
+    goto L3137;
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3148: ATTRIBUTE_UNUSED_LABEL
+ L3137: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (x2 == const_int_rtx[MAX_SAVED_CONST_INT + (-1)])
     {
-      return 423;  /* *ldstubsi */
+      return 422;  /* *ldstubsi */
     }
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L4014: ATTRIBUTE_UNUSED_LABEL
+ L4001: ATTRIBUTE_UNUSED_LABEL
   if (memory_operand (x2, DImode))
     {
       operands[0] = x2;
-      goto L2858;
+      goto L2853;
     }
- L4015: ATTRIBUTE_UNUSED_LABEL
+ L4002: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, DImode))
     {
       operands[0] = x2;
-      goto L2866;
+      goto L2861;
     }
-  goto L2577;
+  goto L2572;
 
- L2858: ATTRIBUTE_UNUSED_LABEL
+ L2853: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (GET_MODE (x2) == DImode
       && GET_CODE (x2) == UNSPEC
       && XVECLEN (x2, 0) == 1
       && XINT (x2, 1) == 60)
-    goto L2859;
+    goto L2854;
   x2 = XEXP (x1, 0);
-  goto L4015;
+  goto L4002;
 
- L2859: ATTRIBUTE_UNUSED_LABEL
+ L2854: ATTRIBUTE_UNUSED_LABEL
   x3 = XVECEXP (x2, 0, 0);
   if (memory_operand (x3, DImode))
     {
       operands[1] = x3;
-      goto L2860;
+      goto L2855;
     }
   x2 = XEXP (x1, 0);
-  goto L4015;
+  goto L4002;
 
- L2860: ATTRIBUTE_UNUSED_LABEL
+ L2855: ATTRIBUTE_UNUSED_LABEL
   x1 = XVECEXP (x0, 0, 1);
   if (GET_CODE (x1) == SET)
-    goto L2861;
+    goto L2856;
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L4015;
+  goto L4002;
 
- L2861: ATTRIBUTE_UNUSED_LABEL
+ L2856: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (scratch_operand (x2, DImode))
     {
       operands[2] = x2;
-      goto L2862;
+      goto L2857;
     }
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L4015;
+  goto L4002;
 
- L2862: ATTRIBUTE_UNUSED_LABEL
+ L2857: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (x2 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
     {
-      return 382;  /* stack_protect_setdi */
+      return 381;  /* stack_protect_setdi */
     }
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L4015;
+  goto L4002;
 
- L2866: ATTRIBUTE_UNUSED_LABEL
+ L2861: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (GET_MODE (x2) == DImode)
-    goto L4079;
+    goto L4067;
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L4079: ATTRIBUTE_UNUSED_LABEL
+ L4067: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x2))
     {
     case UNSPEC:
-      goto L4081;
+      goto L4069;
     case MEM:
-      goto L3094;
+      goto L4070;
     default:
      break;
    }
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L4081: ATTRIBUTE_UNUSED_LABEL
+ L4069: ATTRIBUTE_UNUSED_LABEL
   if (XVECLEN (x2, 0) == 2
       && XINT (x2, 1) == 61)
-    goto L2867;
+    goto L2862;
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L2867: ATTRIBUTE_UNUSED_LABEL
+ L2862: ATTRIBUTE_UNUSED_LABEL
   x3 = XVECEXP (x2, 0, 0);
   if (memory_operand (x3, DImode))
     {
       operands[1] = x3;
-      goto L2868;
+      goto L2863;
     }
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L2868: ATTRIBUTE_UNUSED_LABEL
+ L2863: ATTRIBUTE_UNUSED_LABEL
   x3 = XVECEXP (x2, 0, 1);
   if (memory_operand (x3, DImode))
     {
       operands[2] = x3;
-      goto L2869;
+      goto L2864;
     }
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L2869: ATTRIBUTE_UNUSED_LABEL
+ L2864: ATTRIBUTE_UNUSED_LABEL
   x1 = XVECEXP (x0, 0, 1);
   if (GET_CODE (x1) == SET)
-    goto L2870;
+    goto L2865;
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L2870: ATTRIBUTE_UNUSED_LABEL
+ L2865: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (scratch_operand (x2, DImode))
     {
       operands[3] = x2;
-      goto L2871;
+      goto L2866;
     }
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L2871: ATTRIBUTE_UNUSED_LABEL
+ L2866: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (x2 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
     {
-      return 383;  /* stack_protect_testdi */
+      return 382;  /* stack_protect_testdi */
     }
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3094: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 0);
-  if (register_operand (x3, VOIDmode))
+ L4070: ATTRIBUTE_UNUSED_LABEL
+  if (memory_reg_operand (x2, DImode))
     {
-      operands[1] = x3;
-      goto L3095;
+      operands[1] = x2;
+      goto L3087;
     }
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3095: ATTRIBUTE_UNUSED_LABEL
+ L3087: ATTRIBUTE_UNUSED_LABEL
   x1 = XVECEXP (x0, 0, 1);
   if (GET_CODE (x1) == SET)
-    goto L3096;
+    goto L3088;
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3096: ATTRIBUTE_UNUSED_LABEL
+ L3088: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
-  if (GET_MODE (x2) == DImode
-      && GET_CODE (x2) == MEM)
-    goto L3097;
+  if (rtx_equal_p (x2, operands[1]))
+    goto L3089;
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3097: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 0);
-  if (rtx_equal_p (x3, operands[1]))
-    goto L3098;
-  x1 = XVECEXP (x0, 0, 0);
-  x2 = XEXP (x1, 0);
-  goto L2577;
-
- L3098: ATTRIBUTE_UNUSED_LABEL
+ L3089: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (GET_MODE (x2) == DImode
       && GET_CODE (x2) == UNSPEC_VOLATILE
       && XVECLEN (x2, 0) == 2
       && XINT (x2, 1) == 8)
-    goto L3099;
+    goto L3090;
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3099: ATTRIBUTE_UNUSED_LABEL
+ L3090: ATTRIBUTE_UNUSED_LABEL
   x3 = XVECEXP (x2, 0, 0);
   if (register_operand (x3, DImode))
     {
       operands[2] = x3;
-      goto L3100;
+      goto L3091;
     }
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3100: ATTRIBUTE_UNUSED_LABEL
+ L3091: ATTRIBUTE_UNUSED_LABEL
   x3 = XVECEXP (x2, 0, 1);
   if (register_operand (x3, DImode))
     {
       operands[3] = x3;
-      goto L3101;
+      goto L3092;
     }
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3101: ATTRIBUTE_UNUSED_LABEL
+ L3092: ATTRIBUTE_UNUSED_LABEL
   if ((
-#line 90 "../../gcc-4.6.1/gcc/config/sparc/sync.md"
+#line 90 "../../gcc-4.5.3/gcc/config/sparc/sync.md"
 (TARGET_V9 && (DImode == SImode || TARGET_ARCH64)) && 
-#line 23 "../../gcc-4.6.1/gcc/config/sparc/sync.md"
+#line 23 "../../gcc-4.5.3/gcc/config/sparc/sync.md"
 (TARGET_ARCH64 || TARGET_V8PLUS)))
     {
-      return 418;  /* *sync_compare_and_swapdi */
+      return 417;  /* *sync_compare_and_swapdi */
     }
- L3113: ATTRIBUTE_UNUSED_LABEL
+ L3102: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 102 "../../gcc-4.6.1/gcc/config/sparc/sync.md"
+#line 102 "../../gcc-4.5.3/gcc/config/sparc/sync.md"
 (TARGET_V8PLUS))
     {
-      return 419;  /* *sync_compare_and_swapdi_v8plus */
+      return 418;  /* *sync_compare_and_swapdi_v8plus */
     }
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L4016: ATTRIBUTE_UNUSED_LABEL
+ L4003: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, QImode))
     {
       operands[0] = x2;
-      goto L3126;
+      goto L3115;
     }
-  goto L2577;
+  goto L2572;
 
- L3126: ATTRIBUTE_UNUSED_LABEL
+ L3115: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (GET_MODE (x2) == QImode
       && GET_CODE (x2) == UNSPEC_VOLATILE
       && XVECLEN (x2, 0) == 1
       && XINT (x2, 1) == 10)
-    goto L3127;
+    goto L3116;
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3127: ATTRIBUTE_UNUSED_LABEL
+ L3116: ATTRIBUTE_UNUSED_LABEL
   x3 = XVECEXP (x2, 0, 0);
   if (memory_operand (x3, QImode))
     {
       operands[1] = x3;
-      goto L3128;
+      goto L3117;
     }
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3128: ATTRIBUTE_UNUSED_LABEL
+ L3117: ATTRIBUTE_UNUSED_LABEL
   x1 = XVECEXP (x0, 0, 1);
   if (GET_CODE (x1) == SET)
-    goto L3129;
+    goto L3118;
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3129: ATTRIBUTE_UNUSED_LABEL
+ L3118: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (rtx_equal_p (x2, operands[1]))
-    goto L3130;
+    goto L3119;
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3130: ATTRIBUTE_UNUSED_LABEL
+ L3119: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (x2 == const_int_rtx[MAX_SAVED_CONST_INT + (-1)])
     {
-      return 421;  /* *ldstubqi */
+      return 420;  /* *ldstubqi */
     }
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L4017: ATTRIBUTE_UNUSED_LABEL
+ L4004: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, HImode))
     {
       operands[0] = x2;
-      goto L3134;
+      goto L3123;
     }
-  goto L2577;
+  goto L2572;
 
- L3134: ATTRIBUTE_UNUSED_LABEL
+ L3123: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (GET_MODE (x2) == HImode
       && GET_CODE (x2) == ZERO_EXTEND)
-    goto L3135;
+    goto L3124;
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3135: ATTRIBUTE_UNUSED_LABEL
+ L3124: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (GET_MODE (x3) == QImode
       && GET_CODE (x3) == UNSPEC_VOLATILE
       && XVECLEN (x3, 0) == 1
       && XINT (x3, 1) == 10)
-    goto L3136;
+    goto L3125;
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3136: ATTRIBUTE_UNUSED_LABEL
+ L3125: ATTRIBUTE_UNUSED_LABEL
   x4 = XVECEXP (x3, 0, 0);
   if (memory_operand (x4, QImode))
     {
       operands[1] = x4;
-      goto L3137;
+      goto L3126;
     }
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3137: ATTRIBUTE_UNUSED_LABEL
+ L3126: ATTRIBUTE_UNUSED_LABEL
   x1 = XVECEXP (x0, 0, 1);
   if (GET_CODE (x1) == SET)
-    goto L3138;
+    goto L3127;
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3138: ATTRIBUTE_UNUSED_LABEL
+ L3127: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (rtx_equal_p (x2, operands[1]))
-    goto L3139;
+    goto L3128;
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L3139: ATTRIBUTE_UNUSED_LABEL
+ L3128: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (x2 == const_int_rtx[MAX_SAVED_CONST_INT + (-1)])
     {
-      return 422;  /* *ldstubhi */
+      return 421;  /* *ldstubhi */
     }
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L2577;
+  goto L2572;
 
- L2578: ATTRIBUTE_UNUSED_LABEL
+ L2573: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (GET_CODE (x2) == CALL)
-    goto L2579;
+    goto L2574;
   goto ret0;
 
- L2579: ATTRIBUTE_UNUSED_LABEL
+ L2574: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (GET_MODE (x3) == DImode
       && GET_CODE (x3) == MEM)
-    goto L2580;
+    goto L2575;
   goto ret0;
 
- L2580: ATTRIBUTE_UNUSED_LABEL
+ L2575: ATTRIBUTE_UNUSED_LABEL
   x4 = XEXP (x3, 0);
   if (GET_MODE (x4) == DImode)
-    goto L4082;
+    goto L4071;
   goto ret0;
 
- L4082: ATTRIBUTE_UNUSED_LABEL
+ L4071: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x4) == UNSPEC)
-    goto L4084;
+    goto L4073;
   goto ret0;
 
- L4084: ATTRIBUTE_UNUSED_LABEL
+ L4073: ATTRIBUTE_UNUSED_LABEL
   switch (XVECLEN (x4, 0))
     {
     case 2:
-      goto L4086;
+      goto L4075;
     case 1:
-      goto L4087;
+      goto L4076;
     default:
       break;
     }
   goto ret0;
 
- L4086: ATTRIBUTE_UNUSED_LABEL
+ L4075: ATTRIBUTE_UNUSED_LABEL
   if (XINT (x4, 1) == 30)
-    goto L2581;
+    goto L2576;
   goto ret0;
 
- L2581: ATTRIBUTE_UNUSED_LABEL
+ L2576: ATTRIBUTE_UNUSED_LABEL
   x5 = XVECEXP (x4, 0, 0);
   if (symbolic_operand (x5, DImode))
     {
       operands[1] = x5;
-      goto L2582;
+      goto L2577;
     }
   goto ret0;
 
- L2582: ATTRIBUTE_UNUSED_LABEL
+ L2577: ATTRIBUTE_UNUSED_LABEL
   x5 = XVECEXP (x4, 0, 1);
   if (tgd_symbolic_operand (x5, VOIDmode))
     {
       operands[2] = x5;
-      goto L2583;
+      goto L2578;
     }
   goto ret0;
 
- L2583: ATTRIBUTE_UNUSED_LABEL
+ L2578: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
   operands[3] = x3;
-  goto L2584;
+  goto L2579;
 
- L2584: ATTRIBUTE_UNUSED_LABEL
+ L2579: ATTRIBUTE_UNUSED_LABEL
   x1 = XVECEXP (x0, 0, 1);
   if (GET_CODE (x1) == CLOBBER)
-    goto L2585;
+    goto L2580;
   goto ret0;
 
- L2585: ATTRIBUTE_UNUSED_LABEL
+ L2580: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == DImode
       && GET_CODE (x2) == REG
       && XINT (x2, 0) == 15)
     {
-      return 348;  /* tgd_call64 */
+      return 347;  /* tgd_call64 */
     }
   goto ret0;
 
- L4087: ATTRIBUTE_UNUSED_LABEL
+ L4076: ATTRIBUTE_UNUSED_LABEL
   if (XINT (x4, 1) == 31)
-    goto L2618;
+    goto L2613;
   goto ret0;
 
- L2618: ATTRIBUTE_UNUSED_LABEL
+ L2613: ATTRIBUTE_UNUSED_LABEL
   x5 = XVECEXP (x4, 0, 0);
   if (symbolic_operand (x5, DImode))
     {
       operands[1] = x5;
-      goto L2619;
+      goto L2614;
     }
   goto ret0;
 
- L2619: ATTRIBUTE_UNUSED_LABEL
+ L2614: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
   operands[2] = x3;
-  goto L2620;
+  goto L2615;
 
- L2620: ATTRIBUTE_UNUSED_LABEL
+ L2615: ATTRIBUTE_UNUSED_LABEL
   x1 = XVECEXP (x0, 0, 1);
   if (GET_CODE (x1) == CLOBBER)
-    goto L2621;
+    goto L2616;
   goto ret0;
 
- L2621: ATTRIBUTE_UNUSED_LABEL
+ L2616: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == DImode
       && GET_CODE (x2) == REG
       && XINT (x2, 0) == 15)
     {
-      return 352;  /* tldm_call64 */
+      return 351;  /* tldm_call64 */
     }
   goto ret0;
  ret0:
@@ -16277,19 +16232,19 @@ recog (rtx x0 ATTRIBUTE_UNUSED,
     case SET:
       goto L1;
     case PARALLEL:
-      goto L3533;
+      goto L3522;
     case CALL:
       goto L2425;
     case RETURN:
-      goto L3535;
+      goto L3524;
     case UNSPEC_VOLATILE:
-      goto L3536;
+      goto L3525;
     case CONST_INT:
-      goto L3537;
+      goto L3526;
     case PREFETCH:
-      goto L2536;
+      goto L2531;
     case TRAP_IF:
-      goto L2544;
+      goto L2539;
     default:
      break;
    }
@@ -16298,7 +16253,7 @@ recog (rtx x0 ATTRIBUTE_UNUSED,
  L1: ATTRIBUTE_UNUSED_LABEL
   return recog_5 (x0, insn, pnum_clobbers);
 
- L3533: ATTRIBUTE_UNUSED_LABEL
+ L3522: ATTRIBUTE_UNUSED_LABEL
   switch (XVECLEN (x0, 0))
     {
     case 2:
@@ -16387,7 +16342,7 @@ recog (rtx x0 ATTRIBUTE_UNUSED,
     case CLOBBER:
       goto L2435;
     case RETURN:
-      goto L4088;
+      goto L4077;
     default:
      break;
    }
@@ -16403,7 +16358,7 @@ recog (rtx x0 ATTRIBUTE_UNUSED,
     }
   goto ret0;
 
- L4088: ATTRIBUTE_UNUSED_LABEL
+ L4077: ATTRIBUTE_UNUSED_LABEL
   return 326;  /* *sibcall_symbolic_sp64 */
 
  L1254: ATTRIBUTE_UNUSED_LABEL
@@ -16417,19 +16372,19 @@ recog (rtx x0 ATTRIBUTE_UNUSED,
   switch (GET_MODE (x2))
     {
     case DImode:
-      goto L4091;
+      goto L4080;
     case CCmode:
-      goto L4090;
+      goto L4079;
     default:
       break;
     }
   goto ret0;
 
- L4091: ATTRIBUTE_UNUSED_LABEL
+ L4080: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == REG
       && XINT (x2, 0) == 30)
     goto L2490;
- L4089: ATTRIBUTE_UNUSED_LABEL
+ L4078: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, DImode))
     {
       operands[0] = x2;
@@ -16444,7 +16399,7 @@ recog (rtx x0 ATTRIBUTE_UNUSED,
       && XINT (x2, 0) == 14)
     goto L2491;
   x2 = XEXP (x1, 0);
-  goto L4089;
+  goto L4078;
 
  L2491: ATTRIBUTE_UNUSED_LABEL
   x1 = XVECEXP (x0, 0, 1);
@@ -16452,7 +16407,7 @@ recog (rtx x0 ATTRIBUTE_UNUSED,
     goto L2492;
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L4089;
+  goto L4078;
 
  L2492: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
@@ -16462,7 +16417,7 @@ recog (rtx x0 ATTRIBUTE_UNUSED,
     goto L2493;
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L4089;
+  goto L4078;
 
  L2493: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
@@ -16473,7 +16428,7 @@ recog (rtx x0 ATTRIBUTE_UNUSED,
     goto L2494;
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L4089;
+  goto L4078;
 
  L2494: ATTRIBUTE_UNUSED_LABEL
   x3 = XVECEXP (x2, 0, 0);
@@ -16483,7 +16438,7 @@ recog (rtx x0 ATTRIBUTE_UNUSED,
     goto L2495;
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L4089;
+  goto L4078;
 
  L2495: ATTRIBUTE_UNUSED_LABEL
   x3 = XVECEXP (x2, 0, 1);
@@ -16494,7 +16449,7 @@ recog (rtx x0 ATTRIBUTE_UNUSED,
     }
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L4089;
+  goto L4078;
 
  L2496: ATTRIBUTE_UNUSED_LABEL
   x1 = XVECEXP (x0, 0, 2);
@@ -16502,7 +16457,7 @@ recog (rtx x0 ATTRIBUTE_UNUSED,
     goto L2497;
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L4089;
+  goto L4078;
 
  L2497: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
@@ -16512,7 +16467,7 @@ recog (rtx x0 ATTRIBUTE_UNUSED,
     goto L2498;
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L4089;
+  goto L4078;
 
  L2498: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
@@ -16524,7 +16479,7 @@ recog (rtx x0 ATTRIBUTE_UNUSED,
     }
   x1 = XVECEXP (x0, 0, 0);
   x2 = XEXP (x1, 0);
-  goto L4089;
+  goto L4078;
 
  L1256: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
@@ -16583,14 +16538,14 @@ recog (rtx x0 ATTRIBUTE_UNUSED,
 
  L1263: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 3887 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3880 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8PLUS))
     {
       return 176;  /* muldi3_v8plus */
     }
   goto ret0;
 
- L4090: ATTRIBUTE_UNUSED_LABEL
+ L4079: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == REG
       && XINT (x2, 0) == 100)
     goto L1523;
@@ -16685,7 +16640,7 @@ recog (rtx x0 ATTRIBUTE_UNUSED,
 
  L1535: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 4409 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4402 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V8 || TARGET_DEPRECATED_V8_INSNS))
     {
       return 193;  /* *cmp_sdiv_cc_set */
@@ -16742,27 +16697,27 @@ recog (rtx x0 ATTRIBUTE_UNUSED,
     }
   goto ret0;
 
- L3535: ATTRIBUTE_UNUSED_LABEL
+ L3524: ATTRIBUTE_UNUSED_LABEL
   return 329;  /* *return_internal */
 
- L3536: ATTRIBUTE_UNUSED_LABEL
+ L3525: ATTRIBUTE_UNUSED_LABEL
   if (XVECLEN (x0, 0) == 1)
-    goto L4092;
+    goto L4081;
   goto ret0;
 
- L4092: ATTRIBUTE_UNUSED_LABEL
+ L4081: ATTRIBUTE_UNUSED_LABEL
   switch (XINT (x0, 1))
     {
     case 0L:
       goto L2501;
     case 1L:
-      goto L2512;
+      goto L2507;
     case 2L:
-      goto L2514;
+      goto L2509;
     case 5L:
-      goto L2517;
+      goto L2512;
     case 4L:
-      goto L2519;
+      goto L2514;
     default:
       break;
     }
@@ -16776,162 +16731,183 @@ recog (rtx x0 ATTRIBUTE_UNUSED,
     }
   goto ret0;
 
+ L2507: ATTRIBUTE_UNUSED_LABEL
+  x1 = XVECEXP (x0, 0, 0);
+  if (x1 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
+    {
+      return 333;  /* flush_register_windows */
+    }
+  goto ret0;
+
+ L2509: ATTRIBUTE_UNUSED_LABEL
+  x1 = XVECEXP (x0, 0, 0);
+  if (register_operand (x1, VOIDmode))
+    {
+      operands[0] = x1;
+      goto L2510;
+    }
+  goto ret0;
+
+ L2510: ATTRIBUTE_UNUSED_LABEL
+  if (
+#line 6480 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(GET_MODE (operands[0]) == Pmode))
+    {
+      return 334;  /* goto_handler_and_restore */
+    }
+  goto ret0;
+
  L2512: ATTRIBUTE_UNUSED_LABEL
   x1 = XVECEXP (x0, 0, 0);
   if (x1 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
     {
-      return 334;  /* flush_register_windows */
+      return 335;  /* do_builtin_setjmp_setup */
     }
   goto ret0;
 
  L2514: ATTRIBUTE_UNUSED_LABEL
   x1 = XVECEXP (x0, 0, 0);
-  if (register_operand (x1, VOIDmode))
-    {
-      operands[0] = x1;
-      goto L2515;
-    }
-  goto ret0;
-
- L2515: ATTRIBUTE_UNUSED_LABEL
-  if (
-#line 6494 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(GET_MODE (operands[0]) == Pmode))
-    {
-      return 335;  /* goto_handler_and_restore */
-    }
-  goto ret0;
-
- L2517: ATTRIBUTE_UNUSED_LABEL
-  x1 = XVECEXP (x0, 0, 0);
-  if (x1 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
-    {
-      return 336;  /* do_builtin_setjmp_setup */
-    }
-  goto ret0;
-
- L2519: ATTRIBUTE_UNUSED_LABEL
-  x1 = XVECEXP (x0, 0, 0);
   switch (GET_MODE (x1))
     {
     case SImode:
-      goto L4097;
+      goto L4086;
     case DImode:
-      goto L4098;
+      goto L4087;
     default:
       break;
     }
   goto ret0;
 
- L4097: ATTRIBUTE_UNUSED_LABEL
+ L4086: ATTRIBUTE_UNUSED_LABEL
   if (memory_operand (x1, SImode))
     {
       operands[0] = x1;
-      return 337;  /* flush */
+      return 336;  /* flush */
     }
   goto ret0;
 
- L4098: ATTRIBUTE_UNUSED_LABEL
+ L4087: ATTRIBUTE_UNUSED_LABEL
   if (memory_operand (x1, DImode))
     {
       operands[0] = x1;
-      return 338;  /* flushdi */
+      return 337;  /* flushdi */
     }
   goto ret0;
 
- L3537: ATTRIBUTE_UNUSED_LABEL
+ L3526: ATTRIBUTE_UNUSED_LABEL
   if (XWINT (x0, 0) == 0L)
     {
-      return 332;  /* nop */
+      return 331;  /* nop */
     }
   goto ret0;
 
- L2536: ATTRIBUTE_UNUSED_LABEL
+ L2531: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 0);
   if (address_operand (x1, DImode))
     {
       operands[0] = x1;
-      goto L2537;
+      goto L2532;
     }
- L2540: ATTRIBUTE_UNUSED_LABEL
+ L2535: ATTRIBUTE_UNUSED_LABEL
   if (address_operand (x1, SImode))
     {
       operands[0] = x1;
-      goto L2541;
+      goto L2536;
+    }
+  goto ret0;
+
+ L2532: ATTRIBUTE_UNUSED_LABEL
+  x1 = XEXP (x0, 1);
+  if (const_int_operand (x1, DImode))
+    {
+      operands[1] = x1;
+      goto L2533;
+    }
+  x1 = XEXP (x0, 0);
+  goto L2535;
+
+ L2533: ATTRIBUTE_UNUSED_LABEL
+  x1 = XEXP (x0, 2);
+  if (const_int_operand (x1, DImode))
+    {
+      operands[2] = x1;
+      return 339;  /* prefetch_64 */
+    }
+  x1 = XEXP (x0, 0);
+  goto L2535;
+
+ L2536: ATTRIBUTE_UNUSED_LABEL
+  x1 = XEXP (x0, 1);
+  if (const_int_operand (x1, SImode))
+    {
+      operands[1] = x1;
+      goto L2537;
     }
   goto ret0;
 
  L2537: ATTRIBUTE_UNUSED_LABEL
-  x1 = XEXP (x0, 1);
-  if (const_int_operand (x1, DImode))
-    {
-      operands[1] = x1;
-      goto L2538;
-    }
-  x1 = XEXP (x0, 0);
-  goto L2540;
-
- L2538: ATTRIBUTE_UNUSED_LABEL
-  x1 = XEXP (x0, 2);
-  if (const_int_operand (x1, DImode))
-    {
-      operands[2] = x1;
-      return 340;  /* prefetch_64 */
-    }
-  x1 = XEXP (x0, 0);
-  goto L2540;
-
- L2541: ATTRIBUTE_UNUSED_LABEL
-  x1 = XEXP (x0, 1);
-  if (const_int_operand (x1, SImode))
-    {
-      operands[1] = x1;
-      goto L2542;
-    }
-  goto ret0;
-
- L2542: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 2);
   if (const_int_operand (x1, SImode))
     {
       operands[2] = x1;
-      return 341;  /* prefetch_32 */
+      return 340;  /* prefetch_32 */
     }
   goto ret0;
 
- L2544: ATTRIBUTE_UNUSED_LABEL
+ L2539: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 0);
   if (x1 == const_int_rtx[MAX_SAVED_CONST_INT + (1)])
-    goto L2545;
+    goto L2540;
   if (noov_compare_operator (x1, VOIDmode))
     {
       operands[0] = x1;
-      goto L2548;
+      goto L2543;
     }
   goto ret0;
 
- L2545: ATTRIBUTE_UNUSED_LABEL
+ L2540: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (x1 == const_int_rtx[MAX_SAVED_CONST_INT + (5)])
     {
-      return 342;  /* trap */
+      return 341;  /* trap */
     }
   goto ret0;
 
- L2548: ATTRIBUTE_UNUSED_LABEL
+ L2543: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   switch (GET_MODE (x2))
     {
     case CCmode:
-      goto L4099;
+      goto L4088;
     case CCXmode:
-      goto L4100;
+      goto L4089;
     default:
       break;
     }
   goto ret0;
 
- L4099: ATTRIBUTE_UNUSED_LABEL
+ L4088: ATTRIBUTE_UNUSED_LABEL
+  if (GET_CODE (x2) == REG
+      && XINT (x2, 0) == 100)
+    goto L2544;
+  goto ret0;
+
+ L2544: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 1);
+  if (x2 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
+    goto L2545;
+  goto ret0;
+
+ L2545: ATTRIBUTE_UNUSED_LABEL
+  x1 = XEXP (x0, 1);
+  if (arith_operand (x1, SImode))
+    {
+      operands[1] = x1;
+      return 342;  /* *sparc.md:6873 */
+    }
+  goto ret0;
+
+ L4089: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x2) == REG
       && XINT (x2, 0) == 100)
     goto L2549;
@@ -16948,37 +16924,16 @@ recog (rtx x0 ATTRIBUTE_UNUSED,
   if (arith_operand (x1, SImode))
     {
       operands[1] = x1;
-      return 343;  /* *sparc.md:6894 */
+      goto L2551;
     }
   goto ret0;
 
- L4100: ATTRIBUTE_UNUSED_LABEL
-  if (GET_CODE (x2) == REG
-      && XINT (x2, 0) == 100)
-    goto L2554;
-  goto ret0;
-
- L2554: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 1);
-  if (x2 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
-    goto L2555;
-  goto ret0;
-
- L2555: ATTRIBUTE_UNUSED_LABEL
-  x1 = XEXP (x0, 1);
-  if (arith_operand (x1, SImode))
-    {
-      operands[1] = x1;
-      goto L2556;
-    }
-  goto ret0;
-
- L2556: ATTRIBUTE_UNUSED_LABEL
+ L2551: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 6909 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6888 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V9))
     {
-      return 344;  /* *sparc.md:6906 */
+      return 343;  /* *sparc.md:6885 */
     }
   goto ret0;
  ret0:
@@ -17001,202 +16956,185 @@ split_1 (rtx x0 ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
   switch (GET_MODE (x1))
     {
     case DImode:
-      goto L4121;
+      goto L4110;
     case SImode:
-      goto L4122;
+      goto L4111;
     case SFmode:
-      goto L4124;
+      goto L4113;
     case DFmode:
-      goto L4125;
+      goto L4114;
     case V2SImode:
-      goto L4126;
+      goto L4115;
     case V4HImode:
-      goto L4127;
+      goto L4116;
     case V8QImode:
-      goto L4128;
+      goto L4117;
     case TFmode:
-      goto L4133;
+      goto L4122;
     default:
       break;
     }
   goto ret0;
 
- L4121: ATTRIBUTE_UNUSED_LABEL
+ L4110: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x1, DImode))
     {
       operands[0] = x1;
-      goto L3176;
+      goto L3165;
     }
- L4123: ATTRIBUTE_UNUSED_LABEL
+ L4112: ATTRIBUTE_UNUSED_LABEL
   if (memory_operand (x1, DImode))
     {
       operands[0] = x1;
-      goto L3286;
+      goto L3275;
     }
   goto ret0;
 
- L3176: ATTRIBUTE_UNUSED_LABEL
+ L3165: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (GET_MODE (x1) == DImode)
-    goto L4136;
- L3278: ATTRIBUTE_UNUSED_LABEL
+    goto L4125;
+ L3267: ATTRIBUTE_UNUSED_LABEL
   if (const_double_operand (x1, DImode))
     {
       operands[1] = x1;
-      goto L3279;
+      goto L3268;
     }
   x1 = XEXP (x0, 0);
-  goto L4123;
+  goto L4112;
 
- L4136: ATTRIBUTE_UNUSED_LABEL
+ L4125: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x1))
     {
     case NE:
-      goto L3177;
+      goto L3166;
     case NEG:
-      goto L3182;
+      goto L3171;
     case EQ:
-      goto L3218;
+      goto L3207;
     case REG:
     case SUBREG:
-      goto L4139;
+      goto L4128;
     default:
-      goto L3278;
+      goto L3267;
    }
- L4139: ATTRIBUTE_UNUSED_LABEL
+ L4128: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x1, DImode))
     {
       operands[1] = x1;
-      goto L3283;
+      goto L3272;
     }
-  goto L3278;
+  goto L3267;
 
- L3177: ATTRIBUTE_UNUSED_LABEL
+ L3166: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (register_operand (x2, DImode))
     {
       operands[1] = x2;
-      goto L3178;
+      goto L3167;
     }
-  goto L3278;
+  goto L3267;
 
- L3178: ATTRIBUTE_UNUSED_LABEL
+ L3167: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (x2 == const_int_rtx[MAX_SAVED_CONST_INT + (0)]
       && (
-#line 594 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 587 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64) && 
-#line 596 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 589 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+( ! reg_overlap_mentioned_p (operands[1], operands[0]))))
+    {
+      return gen_split_435 (insn, operands);
+    }
+  goto L3267;
+
+ L3171: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 0);
+  if (GET_MODE (x2) == DImode)
+    goto L4129;
+  goto L3267;
+
+ L4129: ATTRIBUTE_UNUSED_LABEL
+  switch (GET_CODE (x2))
+    {
+    case NE:
+      goto L3172;
+    case EQ:
+      goto L3213;
+    default:
+     break;
+   }
+  goto L3267;
+
+ L3172: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 0);
+  if (register_operand (x3, DImode))
+    {
+      operands[1] = x3;
+      goto L3173;
+    }
+  goto L3267;
+
+ L3173: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 1);
+  if (x3 == const_int_rtx[MAX_SAVED_CONST_INT + (0)]
+      && (
+#line 602 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(TARGET_ARCH64) && 
+#line 604 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 ( ! reg_overlap_mentioned_p (operands[1], operands[0]))))
     {
       return gen_split_436 (insn, operands);
     }
-  goto L3278;
+  goto L3267;
 
- L3182: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 0);
-  if (GET_MODE (x2) == DImode)
-    goto L4140;
-  goto L3278;
-
- L4140: ATTRIBUTE_UNUSED_LABEL
-  switch (GET_CODE (x2))
-    {
-    case NE:
-      goto L3183;
-    case EQ:
-      goto L3224;
-    default:
-     break;
-   }
-  goto L3278;
-
- L3183: ATTRIBUTE_UNUSED_LABEL
+ L3213: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (register_operand (x3, DImode))
     {
       operands[1] = x3;
-      goto L3184;
+      goto L3214;
     }
-  goto L3278;
+  goto L3267;
 
- L3184: ATTRIBUTE_UNUSED_LABEL
+ L3214: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
   if (x3 == const_int_rtx[MAX_SAVED_CONST_INT + (0)]
       && (
-#line 609 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 693 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64) && 
-#line 611 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-( ! reg_overlap_mentioned_p (operands[1], operands[0]))))
-    {
-      return gen_split_437 (insn, operands);
-    }
-  goto L3278;
-
- L3224: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 0);
-  if (register_operand (x3, DImode))
-    {
-      operands[1] = x3;
-      goto L3225;
-    }
-  goto L3278;
-
- L3225: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 1);
-  if (x3 == const_int_rtx[MAX_SAVED_CONST_INT + (0)]
-      && (
-#line 700 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(TARGET_ARCH64) && 
-#line 702 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-( ! reg_overlap_mentioned_p (operands[1], operands[0]))))
-    {
-      return gen_split_443 (insn, operands);
-    }
-  goto L3278;
-
- L3218: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 0);
-  if (register_operand (x2, DImode))
-    {
-      operands[1] = x2;
-      goto L3219;
-    }
-  goto L3278;
-
- L3219: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 1);
-  if (x2 == const_int_rtx[MAX_SAVED_CONST_INT + (0)]
-      && (
-#line 685 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(TARGET_ARCH64) && 
-#line 687 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 695 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 ( ! reg_overlap_mentioned_p (operands[1], operands[0]))))
     {
       return gen_split_442 (insn, operands);
     }
-  goto L3278;
+  goto L3267;
 
- L3283: ATTRIBUTE_UNUSED_LABEL
-  if (
-#line 1709 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(reload_completed
-   && (! TARGET_V9
-       || (! TARGET_ARCH64
-           && ((GET_CODE (operands[0]) == REG
-                && REGNO (operands[0]) < 32)
-               || (GET_CODE (operands[0]) == SUBREG
-                   && GET_CODE (SUBREG_REG (operands[0])) == REG
-                   && REGNO (SUBREG_REG (operands[0])) < 32))))))
+ L3207: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 0);
+  if (register_operand (x2, DImode))
     {
-      return gen_split_465 (insn, operands);
+      operands[1] = x2;
+      goto L3208;
     }
-  x1 = XEXP (x0, 1);
-  goto L3278;
+  goto L3267;
 
- L3279: ATTRIBUTE_UNUSED_LABEL
+ L3208: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 1);
+  if (x2 == const_int_rtx[MAX_SAVED_CONST_INT + (0)]
+      && (
+#line 678 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(TARGET_ARCH64) && 
+#line 680 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+( ! reg_overlap_mentioned_p (operands[1], operands[0]))))
+    {
+      return gen_split_441 (insn, operands);
+    }
+  goto L3267;
+
+ L3272: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1676 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1702 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (reload_completed
    && (! TARGET_V9
        || (! TARGET_ARCH64
@@ -17208,259 +17146,364 @@ split_1 (rtx x0 ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
     {
       return gen_split_464 (insn, operands);
     }
-  x1 = XEXP (x0, 0);
-  goto L4123;
+  x1 = XEXP (x0, 1);
+  goto L3267;
 
- L3286: ATTRIBUTE_UNUSED_LABEL
+ L3268: ATTRIBUTE_UNUSED_LABEL
+  if (
+#line 1669 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(reload_completed
+   && (! TARGET_V9
+       || (! TARGET_ARCH64
+           && ((GET_CODE (operands[0]) == REG
+                && REGNO (operands[0]) < 32)
+               || (GET_CODE (operands[0]) == SUBREG
+                   && GET_CODE (SUBREG_REG (operands[0])) == REG
+                   && REGNO (SUBREG_REG (operands[0])) < 32))))))
+    {
+      return gen_split_463 (insn, operands);
+    }
+  x1 = XEXP (x0, 0);
+  goto L4112;
+
+ L3275: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (const_zero_operand (x1, DImode))
     {
       operands[1] = x1;
-      goto L3287;
+      goto L3276;
     }
   goto ret0;
 
- L3287: ATTRIBUTE_UNUSED_LABEL
+ L3276: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1790 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1783 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (reload_completed
    && (! TARGET_V9
        || (! TARGET_ARCH64
 	   && ! mem_min_alignment (operands[0], 8)))
    && offsettable_memref_p (operands[0])))
     {
-      return gen_split_466 (insn, operands);
+      return gen_split_465 (insn, operands);
     }
   goto ret0;
 
- L4122: ATTRIBUTE_UNUSED_LABEL
+ L4111: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x1, SImode))
     {
       operands[0] = x1;
-      goto L3187;
+      goto L3176;
     }
   goto ret0;
 
- L3187: ATTRIBUTE_UNUSED_LABEL
+ L3176: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (GET_MODE (x1) == SImode)
-    goto L4142;
+    goto L4131;
   goto ret0;
 
- L4142: ATTRIBUTE_UNUSED_LABEL
+ L4131: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x1))
     {
     case NE:
-      goto L3188;
+      goto L3177;
     case EQ:
-      goto L3229;
+      goto L3218;
     default:
      break;
    }
- L4144: ATTRIBUTE_UNUSED_LABEL
+ L4133: ATTRIBUTE_UNUSED_LABEL
   if (noov_compare_operator (x1, SImode))
     {
       operands[2] = x1;
-      goto L3274;
+      goto L3263;
     }
   goto ret0;
 
- L3188: ATTRIBUTE_UNUSED_LABEL
+ L3177: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (register_operand (x2, DImode))
     {
       operands[1] = x2;
-      goto L3189;
+      goto L3178;
     }
-  goto L4144;
+  goto L4133;
 
- L3189: ATTRIBUTE_UNUSED_LABEL
+ L3178: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (x2 == const_int_rtx[MAX_SAVED_CONST_INT + (0)]
       && (
-#line 624 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 617 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64) && 
-#line 626 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 619 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 ( ! reg_overlap_mentioned_p (operands[1], operands[0]))))
     {
-      return gen_split_438 (insn, operands);
+      return gen_split_437 (insn, operands);
     }
-  goto L4144;
+  goto L4133;
 
- L3229: ATTRIBUTE_UNUSED_LABEL
+ L3218: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (register_operand (x2, DImode))
     {
       operands[1] = x2;
-      goto L3230;
+      goto L3219;
     }
-  goto L4144;
+  goto L4133;
 
- L3230: ATTRIBUTE_UNUSED_LABEL
+ L3219: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (x2 == const_int_rtx[MAX_SAVED_CONST_INT + (0)]
       && (
-#line 715 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 708 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64) && 
-#line 717 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 710 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 ( ! reg_overlap_mentioned_p (operands[1], operands[0]))))
     {
-      return gen_split_444 (insn, operands);
+      return gen_split_443 (insn, operands);
     }
-  goto L4144;
+  goto L4133;
 
- L3274: ATTRIBUTE_UNUSED_LABEL
+ L3263: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (icc_or_fcc_register_operand (x2, VOIDmode))
     {
       operands[1] = x2;
-      goto L3275;
+      goto L3264;
     }
   goto ret0;
 
- L3275: ATTRIBUTE_UNUSED_LABEL
+ L3264: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (x2 == const_int_rtx[MAX_SAVED_CONST_INT + (0)]
       && 
-#line 912 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 905 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V9
    && REGNO (operands[1]) == SPARC_ICC_REG
    && (GET_MODE (operands[1]) == CCXmode
        /* 32-bit LTU/GEU are better implemented using addx/subx.  */
        || (GET_CODE (operands[2]) != LTU && GET_CODE (operands[2]) != GEU))))
     {
-      return gen_split_449 (insn, operands);
+      return gen_split_448 (insn, operands);
     }
   goto ret0;
 
- L4124: ATTRIBUTE_UNUSED_LABEL
+ L4113: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x1, SFmode))
     {
       operands[0] = x1;
-      goto L3290;
+      goto L3279;
     }
   goto ret0;
 
- L3290: ATTRIBUTE_UNUSED_LABEL
+ L3279: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (fp_const_high_losum_operand (x1, SFmode))
     {
       operands[1] = x1;
-      goto L3291;
+      goto L3280;
     }
   goto ret0;
 
- L3291: ATTRIBUTE_UNUSED_LABEL
+ L3280: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 1935 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1928 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (REG_P (operands[0]) && REGNO (operands[0]) < 32))
     {
-      return gen_split_470 (insn, operands);
+      return gen_split_469 (insn, operands);
     }
   goto ret0;
 
- L4125: ATTRIBUTE_UNUSED_LABEL
+ L4114: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x1, DFmode))
     {
       operands[0] = x1;
-      goto L3294;
+      goto L3283;
     }
- L4129: ATTRIBUTE_UNUSED_LABEL
+ L4118: ATTRIBUTE_UNUSED_LABEL
   if (memory_operand (x1, DFmode))
     {
       operands[0] = x1;
-      goto L3326;
+      goto L3315;
     }
   goto ret0;
 
- L3294: ATTRIBUTE_UNUSED_LABEL
+ L3283: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (GET_MODE (x1) == DFmode)
-    goto L4147;
+    goto L4136;
   x1 = XEXP (x0, 0);
-  goto L4129;
+  goto L4118;
 
- L4147: ATTRIBUTE_UNUSED_LABEL
+ L4136: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x1))
     {
     case NEG:
-      goto L3420;
+      goto L3409;
     case ABS:
-      goto L3435;
+      goto L3424;
     case CONST_DOUBLE:
     case CONST_VECTOR:
-      goto L4145;
+      goto L4134;
     case REG:
     case SUBREG:
-      goto L4146;
+      goto L4135;
     default:
       x1 = XEXP (x0, 0);
-      goto L4129;
+      goto L4118;
    }
- L4145: ATTRIBUTE_UNUSED_LABEL
+ L4134: ATTRIBUTE_UNUSED_LABEL
   if (const_double_or_vector_operand (x1, DFmode))
     {
       operands[1] = x1;
-      goto L3295;
+      goto L3284;
     }
- L4146: ATTRIBUTE_UNUSED_LABEL
+ L4135: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x1, DFmode))
     {
       operands[1] = x1;
-      goto L3311;
+      goto L3300;
     }
   x1 = XEXP (x0, 0);
-  goto L4129;
+  goto L4118;
 
- L3420: ATTRIBUTE_UNUSED_LABEL
+ L3409: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (register_operand (x2, DFmode))
     {
       operands[1] = x2;
-      goto L3421;
+      goto L3410;
     }
   x1 = XEXP (x0, 0);
-  goto L4129;
+  goto L4118;
 
- L3421: ATTRIBUTE_UNUSED_LABEL
+ L3410: ATTRIBUTE_UNUSED_LABEL
   if ((
-#line 5451 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5444 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU && ! TARGET_V9) && 
-#line 5455 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5448 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 ( reload_completed
    && sparc_absnegfloat_split_legitimate (operands[0], operands[1]))))
     {
-      return gen_split_565 (insn, operands);
+      return gen_split_564 (insn, operands);
     }
   x1 = XEXP (x0, 0);
-  goto L4129;
+  goto L4118;
 
- L3435: ATTRIBUTE_UNUSED_LABEL
+ L3424: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (register_operand (x2, DFmode))
     {
       operands[1] = x2;
-      goto L3436;
+      goto L3425;
     }
   x1 = XEXP (x0, 0);
-  goto L4129;
+  goto L4118;
 
- L3436: ATTRIBUTE_UNUSED_LABEL
+ L3425: ATTRIBUTE_UNUSED_LABEL
   if ((
-#line 5547 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5540 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU && ! TARGET_V9) && 
-#line 5551 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5544 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 ( reload_completed
    && sparc_absnegfloat_split_legitimate (operands[0], operands[1]))))
     {
-      return gen_split_570 (insn, operands);
+      return gen_split_569 (insn, operands);
     }
   x1 = XEXP (x0, 0);
-  goto L4129;
+  goto L4118;
 
- L3295: ATTRIBUTE_UNUSED_LABEL
+ L3284: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2066 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2059 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(TARGET_FPU
+   && (GET_CODE (operands[0]) == REG
+       && REGNO (operands[0]) < 32)
+   && ! const_zero_operand (operands[1], GET_MODE (operands[0]))
+   && reload_completed))
+    {
+      return gen_split_474 (insn, operands);
+    }
+  x1 = XEXP (x0, 0);
+  goto L4118;
+
+ L3300: ATTRIBUTE_UNUSED_LABEL
+  if (
+#line 2114 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+((! TARGET_V9
+    || (! TARGET_ARCH64
+        && ((GET_CODE (operands[0]) == REG
+             && REGNO (operands[0]) < 32)
+            || (GET_CODE (operands[0]) == SUBREG
+                && GET_CODE (SUBREG_REG (operands[0])) == REG
+                && REGNO (SUBREG_REG (operands[0])) < 32))))
+   && reload_completed))
+    {
+      return gen_split_478 (insn, operands);
+    }
+  x1 = XEXP (x0, 0);
+  goto L4118;
+
+ L3315: ATTRIBUTE_UNUSED_LABEL
+  x1 = XEXP (x0, 1);
+  if (const_zero_operand (x1, DFmode))
+    {
+      operands[1] = x1;
+      goto L3316;
+    }
+  goto ret0;
+
+ L3316: ATTRIBUTE_UNUSED_LABEL
+  if (
+#line 2221 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(reload_completed
+   && (! TARGET_V9
+       || (! TARGET_ARCH64
+	   && ! mem_min_alignment (operands[0], 8)))
+   && offsettable_memref_p (operands[0])))
+    {
+      return gen_split_482 (insn, operands);
+    }
+  goto ret0;
+
+ L4115: ATTRIBUTE_UNUSED_LABEL
+  if (register_operand (x1, V2SImode))
+    {
+      operands[0] = x1;
+      goto L3287;
+    }
+ L4119: ATTRIBUTE_UNUSED_LABEL
+  if (memory_operand (x1, V2SImode))
+    {
+      operands[0] = x1;
+      goto L3319;
+    }
+  goto ret0;
+
+ L3287: ATTRIBUTE_UNUSED_LABEL
+  x1 = XEXP (x0, 1);
+  if (GET_MODE (x1) == V2SImode)
+    goto L4138;
+  x1 = XEXP (x0, 0);
+  goto L4119;
+
+ L4138: ATTRIBUTE_UNUSED_LABEL
+  if (const_double_or_vector_operand (x1, V2SImode))
+    {
+      operands[1] = x1;
+      goto L3288;
+    }
+  if (register_operand (x1, V2SImode))
+    {
+      operands[1] = x1;
+      goto L3304;
+    }
+  x1 = XEXP (x0, 0);
+  goto L4119;
+
+ L3288: ATTRIBUTE_UNUSED_LABEL
+  if (
+#line 2059 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU
    && (GET_CODE (operands[0]) == REG
        && REGNO (operands[0]) < 32)
@@ -17470,11 +17513,11 @@ split_1 (rtx x0 ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
       return gen_split_475 (insn, operands);
     }
   x1 = XEXP (x0, 0);
-  goto L4129;
+  goto L4119;
 
- L3311: ATTRIBUTE_UNUSED_LABEL
+ L3304: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2121 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2114 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 ((! TARGET_V9
     || (! TARGET_ARCH64
         && ((GET_CODE (operands[0]) == REG
@@ -17487,20 +17530,20 @@ split_1 (rtx x0 ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
       return gen_split_479 (insn, operands);
     }
   x1 = XEXP (x0, 0);
-  goto L4129;
+  goto L4119;
 
- L3326: ATTRIBUTE_UNUSED_LABEL
+ L3319: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
-  if (const_zero_operand (x1, DFmode))
+  if (const_zero_operand (x1, V2SImode))
     {
       operands[1] = x1;
-      goto L3327;
+      goto L3320;
     }
   goto ret0;
 
- L3327: ATTRIBUTE_UNUSED_LABEL
+ L3320: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2228 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2221 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (reload_completed
    && (! TARGET_V9
        || (! TARGET_ARCH64
@@ -17511,44 +17554,44 @@ split_1 (rtx x0 ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
     }
   goto ret0;
 
- L4126: ATTRIBUTE_UNUSED_LABEL
-  if (register_operand (x1, V2SImode))
+ L4116: ATTRIBUTE_UNUSED_LABEL
+  if (register_operand (x1, V4HImode))
     {
       operands[0] = x1;
-      goto L3298;
+      goto L3291;
     }
- L4130: ATTRIBUTE_UNUSED_LABEL
-  if (memory_operand (x1, V2SImode))
+ L4120: ATTRIBUTE_UNUSED_LABEL
+  if (memory_operand (x1, V4HImode))
     {
       operands[0] = x1;
-      goto L3330;
+      goto L3323;
     }
   goto ret0;
 
- L3298: ATTRIBUTE_UNUSED_LABEL
+ L3291: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
-  if (GET_MODE (x1) == V2SImode)
-    goto L4149;
+  if (GET_MODE (x1) == V4HImode)
+    goto L4140;
   x1 = XEXP (x0, 0);
-  goto L4130;
+  goto L4120;
 
- L4149: ATTRIBUTE_UNUSED_LABEL
-  if (const_double_or_vector_operand (x1, V2SImode))
+ L4140: ATTRIBUTE_UNUSED_LABEL
+  if (const_double_or_vector_operand (x1, V4HImode))
     {
       operands[1] = x1;
-      goto L3299;
+      goto L3292;
     }
-  if (register_operand (x1, V2SImode))
+  if (register_operand (x1, V4HImode))
     {
       operands[1] = x1;
-      goto L3315;
+      goto L3308;
     }
   x1 = XEXP (x0, 0);
-  goto L4130;
+  goto L4120;
 
- L3299: ATTRIBUTE_UNUSED_LABEL
+ L3292: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2066 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2059 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU
    && (GET_CODE (operands[0]) == REG
        && REGNO (operands[0]) < 32)
@@ -17558,11 +17601,11 @@ split_1 (rtx x0 ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
       return gen_split_476 (insn, operands);
     }
   x1 = XEXP (x0, 0);
-  goto L4130;
+  goto L4120;
 
- L3315: ATTRIBUTE_UNUSED_LABEL
+ L3308: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2121 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2114 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 ((! TARGET_V9
     || (! TARGET_ARCH64
         && ((GET_CODE (operands[0]) == REG
@@ -17575,20 +17618,20 @@ split_1 (rtx x0 ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
       return gen_split_480 (insn, operands);
     }
   x1 = XEXP (x0, 0);
-  goto L4130;
+  goto L4120;
 
- L3330: ATTRIBUTE_UNUSED_LABEL
+ L3323: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
-  if (const_zero_operand (x1, V2SImode))
+  if (const_zero_operand (x1, V4HImode))
     {
       operands[1] = x1;
-      goto L3331;
+      goto L3324;
     }
   goto ret0;
 
- L3331: ATTRIBUTE_UNUSED_LABEL
+ L3324: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2228 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2221 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (reload_completed
    && (! TARGET_V9
        || (! TARGET_ARCH64
@@ -17599,44 +17642,44 @@ split_1 (rtx x0 ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
     }
   goto ret0;
 
- L4127: ATTRIBUTE_UNUSED_LABEL
-  if (register_operand (x1, V4HImode))
+ L4117: ATTRIBUTE_UNUSED_LABEL
+  if (register_operand (x1, V8QImode))
     {
       operands[0] = x1;
-      goto L3302;
+      goto L3295;
     }
- L4131: ATTRIBUTE_UNUSED_LABEL
-  if (memory_operand (x1, V4HImode))
+ L4121: ATTRIBUTE_UNUSED_LABEL
+  if (memory_operand (x1, V8QImode))
     {
       operands[0] = x1;
-      goto L3334;
+      goto L3327;
     }
   goto ret0;
 
- L3302: ATTRIBUTE_UNUSED_LABEL
+ L3295: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
-  if (GET_MODE (x1) == V4HImode)
-    goto L4151;
+  if (GET_MODE (x1) == V8QImode)
+    goto L4142;
   x1 = XEXP (x0, 0);
-  goto L4131;
+  goto L4121;
 
- L4151: ATTRIBUTE_UNUSED_LABEL
-  if (const_double_or_vector_operand (x1, V4HImode))
+ L4142: ATTRIBUTE_UNUSED_LABEL
+  if (const_double_or_vector_operand (x1, V8QImode))
     {
       operands[1] = x1;
-      goto L3303;
+      goto L3296;
     }
-  if (register_operand (x1, V4HImode))
+  if (register_operand (x1, V8QImode))
     {
       operands[1] = x1;
-      goto L3319;
+      goto L3312;
     }
   x1 = XEXP (x0, 0);
-  goto L4131;
+  goto L4121;
 
- L3303: ATTRIBUTE_UNUSED_LABEL
+ L3296: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2066 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2059 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU
    && (GET_CODE (operands[0]) == REG
        && REGNO (operands[0]) < 32)
@@ -17646,11 +17689,11 @@ split_1 (rtx x0 ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
       return gen_split_477 (insn, operands);
     }
   x1 = XEXP (x0, 0);
-  goto L4131;
+  goto L4121;
 
- L3319: ATTRIBUTE_UNUSED_LABEL
+ L3312: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2121 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2114 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 ((! TARGET_V9
     || (! TARGET_ARCH64
         && ((GET_CODE (operands[0]) == REG
@@ -17663,20 +17706,20 @@ split_1 (rtx x0 ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
       return gen_split_481 (insn, operands);
     }
   x1 = XEXP (x0, 0);
-  goto L4131;
+  goto L4121;
 
- L3334: ATTRIBUTE_UNUSED_LABEL
+ L3327: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
-  if (const_zero_operand (x1, V4HImode))
+  if (const_zero_operand (x1, V8QImode))
     {
       operands[1] = x1;
-      goto L3335;
+      goto L3328;
     }
   goto ret0;
 
- L3335: ATTRIBUTE_UNUSED_LABEL
+ L3328: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2228 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2221 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (reload_completed
    && (! TARGET_V9
        || (! TARGET_ARCH64
@@ -17687,398 +17730,310 @@ split_1 (rtx x0 ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
     }
   goto ret0;
 
- L4128: ATTRIBUTE_UNUSED_LABEL
-  if (register_operand (x1, V8QImode))
-    {
-      operands[0] = x1;
-      goto L3306;
-    }
- L4132: ATTRIBUTE_UNUSED_LABEL
-  if (memory_operand (x1, V8QImode))
-    {
-      operands[0] = x1;
-      goto L3338;
-    }
-  goto ret0;
-
- L3306: ATTRIBUTE_UNUSED_LABEL
-  x1 = XEXP (x0, 1);
-  if (GET_MODE (x1) == V8QImode)
-    goto L4153;
-  x1 = XEXP (x0, 0);
-  goto L4132;
-
- L4153: ATTRIBUTE_UNUSED_LABEL
-  if (const_double_or_vector_operand (x1, V8QImode))
-    {
-      operands[1] = x1;
-      goto L3307;
-    }
-  if (register_operand (x1, V8QImode))
-    {
-      operands[1] = x1;
-      goto L3323;
-    }
-  x1 = XEXP (x0, 0);
-  goto L4132;
-
- L3307: ATTRIBUTE_UNUSED_LABEL
-  if (
-#line 2066 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(TARGET_FPU
-   && (GET_CODE (operands[0]) == REG
-       && REGNO (operands[0]) < 32)
-   && ! const_zero_operand (operands[1], GET_MODE (operands[0]))
-   && reload_completed))
-    {
-      return gen_split_478 (insn, operands);
-    }
-  x1 = XEXP (x0, 0);
-  goto L4132;
-
- L3323: ATTRIBUTE_UNUSED_LABEL
-  if (
-#line 2121 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-((! TARGET_V9
-    || (! TARGET_ARCH64
-        && ((GET_CODE (operands[0]) == REG
-             && REGNO (operands[0]) < 32)
-            || (GET_CODE (operands[0]) == SUBREG
-                && GET_CODE (SUBREG_REG (operands[0])) == REG
-                && REGNO (SUBREG_REG (operands[0])) < 32))))
-   && reload_completed))
-    {
-      return gen_split_482 (insn, operands);
-    }
-  x1 = XEXP (x0, 0);
-  goto L4132;
-
- L3338: ATTRIBUTE_UNUSED_LABEL
-  x1 = XEXP (x0, 1);
-  if (const_zero_operand (x1, V8QImode))
-    {
-      operands[1] = x1;
-      goto L3339;
-    }
-  goto ret0;
-
- L3339: ATTRIBUTE_UNUSED_LABEL
-  if (
-#line 2228 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(reload_completed
-   && (! TARGET_V9
-       || (! TARGET_ARCH64
-	   && ! mem_min_alignment (operands[0], 8)))
-   && offsettable_memref_p (operands[0])))
-    {
-      return gen_split_486 (insn, operands);
-    }
-  goto ret0;
-
- L4133: ATTRIBUTE_UNUSED_LABEL
+ L4122: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x1, TFmode))
     {
       operands[0] = x1;
-      goto L3342;
+      goto L3331;
     }
- L4134: ATTRIBUTE_UNUSED_LABEL
+ L4123: ATTRIBUTE_UNUSED_LABEL
   if (nonimmediate_operand (x1, TFmode))
     {
       operands[0] = x1;
-      goto L3346;
+      goto L3335;
     }
- L4135: ATTRIBUTE_UNUSED_LABEL
+ L4124: ATTRIBUTE_UNUSED_LABEL
   if (memory_operand (x1, TFmode))
     {
       operands[0] = x1;
-      goto L3354;
+      goto L3343;
     }
   goto ret0;
 
- L3342: ATTRIBUTE_UNUSED_LABEL
+ L3331: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (GET_MODE (x1) == TFmode)
-    goto L4157;
+    goto L4146;
   x1 = XEXP (x0, 0);
-  goto L4134;
+  goto L4123;
 
- L4157: ATTRIBUTE_UNUSED_LABEL
+ L4146: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x1))
     {
     case IF_THEN_ELSE:
-      goto L3359;
+      goto L3348;
     case NEG:
-      goto L3410;
+      goto L3399;
     case ABS:
-      goto L3425;
+      goto L3414;
     case REG:
     case SUBREG:
-      goto L4155;
+      goto L4144;
     default:
-      goto L4156;
+      goto L4145;
    }
- L4155: ATTRIBUTE_UNUSED_LABEL
+ L4144: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x1, TFmode))
     {
       operands[1] = x1;
-      goto L3343;
+      goto L3332;
     }
- L4156: ATTRIBUTE_UNUSED_LABEL
+ L4145: ATTRIBUTE_UNUSED_LABEL
   if (memory_operand (x1, TFmode))
     {
       operands[1] = x1;
-      goto L3351;
+      goto L3340;
     }
   x1 = XEXP (x0, 0);
-  goto L4134;
+  goto L4123;
 
- L3359: ATTRIBUTE_UNUSED_LABEL
+ L3348: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (comparison_operator (x2, VOIDmode))
     {
       operands[1] = x2;
-      goto L3360;
+      goto L3349;
     }
- L3368: ATTRIBUTE_UNUSED_LABEL
+ L3357: ATTRIBUTE_UNUSED_LABEL
   if (v9_register_compare_operator (x2, VOIDmode))
     {
       operands[1] = x2;
-      goto L3369;
+      goto L3358;
     }
   x1 = XEXP (x0, 0);
-  goto L4134;
+  goto L4123;
 
- L3360: ATTRIBUTE_UNUSED_LABEL
+ L3349: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (icc_or_fcc_register_operand (x3, VOIDmode))
     {
       operands[2] = x3;
-      goto L3361;
+      goto L3350;
     }
-  goto L3368;
+  goto L3357;
 
- L3361: ATTRIBUTE_UNUSED_LABEL
+ L3350: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
   if (x3 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
-    goto L3362;
-  goto L3368;
+    goto L3351;
+  goto L3357;
 
- L3362: ATTRIBUTE_UNUSED_LABEL
+ L3351: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (register_operand (x2, TFmode))
     {
       operands[3] = x2;
-      goto L3363;
+      goto L3352;
     }
   x2 = XEXP (x1, 0);
-  goto L3368;
+  goto L3357;
 
- L3363: ATTRIBUTE_UNUSED_LABEL
+ L3352: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 2);
   if (register_operand (x2, TFmode))
     {
       operands[4] = x2;
-      goto L3364;
+      goto L3353;
     }
   x2 = XEXP (x1, 0);
-  goto L3368;
+  goto L3357;
 
- L3364: ATTRIBUTE_UNUSED_LABEL
+ L3353: ATTRIBUTE_UNUSED_LABEL
   if ((
-#line 2657 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2650 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V9 && TARGET_FPU && !TARGET_HARD_QUAD) && 
-#line 2659 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2652 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 ( reload_completed)))
     {
-      return gen_split_499 (insn, operands);
+      return gen_split_498 (insn, operands);
     }
   x1 = XEXP (x0, 1);
   x2 = XEXP (x1, 0);
-  goto L3368;
+  goto L3357;
 
- L3369: ATTRIBUTE_UNUSED_LABEL
+ L3358: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (register_operand (x3, DImode))
     {
       operands[2] = x3;
-      goto L3370;
+      goto L3359;
     }
   x1 = XEXP (x0, 0);
-  goto L4134;
+  goto L4123;
 
- L3370: ATTRIBUTE_UNUSED_LABEL
+ L3359: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
   if (x3 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
-    goto L3371;
+    goto L3360;
   x1 = XEXP (x0, 0);
-  goto L4134;
+  goto L4123;
 
- L3371: ATTRIBUTE_UNUSED_LABEL
+ L3360: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (register_operand (x2, TFmode))
     {
       operands[3] = x2;
-      goto L3372;
+      goto L3361;
     }
   x1 = XEXP (x0, 0);
-  goto L4134;
+  goto L4123;
 
- L3372: ATTRIBUTE_UNUSED_LABEL
+ L3361: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 2);
   if (register_operand (x2, TFmode))
     {
       operands[4] = x2;
-      goto L3373;
+      goto L3362;
     }
   x1 = XEXP (x0, 0);
-  goto L4134;
+  goto L4123;
 
- L3373: ATTRIBUTE_UNUSED_LABEL
+ L3362: ATTRIBUTE_UNUSED_LABEL
   if ((
-#line 2700 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2693 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64 && TARGET_FPU && ! TARGET_HARD_QUAD) && 
-#line 2702 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2695 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 ( reload_completed)))
     {
-      return gen_split_500 (insn, operands);
+      return gen_split_499 (insn, operands);
     }
   x1 = XEXP (x0, 0);
-  goto L4134;
+  goto L4123;
 
- L3410: ATTRIBUTE_UNUSED_LABEL
+ L3399: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (register_operand (x2, TFmode))
     {
       operands[1] = x2;
-      goto L3411;
+      goto L3400;
     }
   x1 = XEXP (x0, 0);
-  goto L4134;
+  goto L4123;
 
- L3411: ATTRIBUTE_UNUSED_LABEL
+ L3400: ATTRIBUTE_UNUSED_LABEL
   if ((
-#line 5403 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5396 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU
    && ! TARGET_V9) && 
-#line 5408 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5401 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+( reload_completed
+   && sparc_absnegfloat_split_legitimate (operands[0], operands[1]))))
+    {
+      return gen_split_561 (insn, operands);
+    }
+ L3405: ATTRIBUTE_UNUSED_LABEL
+  if ((
+#line 5419 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(TARGET_FPU && TARGET_V9) && 
+#line 5423 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 ( reload_completed
    && sparc_absnegfloat_split_legitimate (operands[0], operands[1]))))
     {
       return gen_split_562 (insn, operands);
     }
- L3416: ATTRIBUTE_UNUSED_LABEL
-  if ((
-#line 5426 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(TARGET_FPU && TARGET_V9) && 
-#line 5430 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-( reload_completed
-   && sparc_absnegfloat_split_legitimate (operands[0], operands[1]))))
-    {
-      return gen_split_563 (insn, operands);
-    }
   x1 = XEXP (x0, 0);
-  goto L4134;
+  goto L4123;
 
- L3425: ATTRIBUTE_UNUSED_LABEL
+ L3414: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (register_operand (x2, TFmode))
     {
       operands[1] = x2;
-      goto L3426;
+      goto L3415;
     }
   x1 = XEXP (x0, 0);
-  goto L4134;
+  goto L4123;
 
- L3426: ATTRIBUTE_UNUSED_LABEL
+ L3415: ATTRIBUTE_UNUSED_LABEL
   if ((
-#line 5491 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5484 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_FPU && ! TARGET_V9) && 
-#line 5495 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5488 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+( reload_completed
+   && sparc_absnegfloat_split_legitimate (operands[0], operands[1]))))
+    {
+      return gen_split_566 (insn, operands);
+    }
+ L3420: ATTRIBUTE_UNUSED_LABEL
+  if ((
+#line 5515 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(TARGET_FPU && TARGET_V9 && !TARGET_HARD_QUAD) && 
+#line 5519 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 ( reload_completed
    && sparc_absnegfloat_split_legitimate (operands[0], operands[1]))))
     {
       return gen_split_567 (insn, operands);
     }
- L3431: ATTRIBUTE_UNUSED_LABEL
-  if ((
-#line 5522 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(TARGET_FPU && TARGET_V9 && !TARGET_HARD_QUAD) && 
-#line 5526 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-( reload_completed
-   && sparc_absnegfloat_split_legitimate (operands[0], operands[1]))))
-    {
-      return gen_split_568 (insn, operands);
-    }
   x1 = XEXP (x0, 0);
-  goto L4134;
+  goto L4123;
 
- L3343: ATTRIBUTE_UNUSED_LABEL
+ L3332: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2357 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2350 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (reload_completed
    && (! TARGET_ARCH64
        || (TARGET_FPU
            && ! TARGET_HARD_QUAD)
        || ! fp_register_operand (operands[0], TFmode))))
     {
-      return gen_split_488 (insn, operands);
+      return gen_split_487 (insn, operands);
     }
   x1 = XEXP (x0, 1);
-  goto L4156;
+  goto L4145;
 
- L3351: ATTRIBUTE_UNUSED_LABEL
+ L3340: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2420 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2413 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 ((reload_completed
     && offsettable_memref_p (operands[1])
     && (! TARGET_ARCH64
 	|| ! TARGET_HARD_QUAD
 	|| ! fp_register_operand (operands[0], TFmode)))))
     {
-      return gen_split_490 (insn, operands);
+      return gen_split_489 (insn, operands);
     }
   x1 = XEXP (x0, 0);
-  goto L4134;
+  goto L4123;
 
- L3346: ATTRIBUTE_UNUSED_LABEL
+ L3335: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (const_zero_operand (x1, TFmode))
     {
       operands[1] = x1;
-      goto L3347;
+      goto L3336;
     }
   x1 = XEXP (x0, 0);
-  goto L4135;
+  goto L4124;
 
- L3347: ATTRIBUTE_UNUSED_LABEL
+ L3336: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2392 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2385 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (reload_completed))
     {
-      return gen_split_489 (insn, operands);
+      return gen_split_488 (insn, operands);
     }
   x1 = XEXP (x0, 0);
-  goto L4135;
+  goto L4124;
 
- L3354: ATTRIBUTE_UNUSED_LABEL
+ L3343: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (register_operand (x1, TFmode))
     {
       operands[1] = x1;
-      goto L3355;
+      goto L3344;
     }
   goto ret0;
 
- L3355: ATTRIBUTE_UNUSED_LABEL
+ L3344: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 2455 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 2448 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 ((reload_completed
     && offsettable_memref_p (operands[0])
     && (! TARGET_ARCH64
 	|| ! TARGET_HARD_QUAD
 	|| ! fp_register_operand (operands[1], TFmode)))))
     {
-      return gen_split_491 (insn, operands);
+      return gen_split_490 (insn, operands);
     }
   goto ret0;
  ret0:
@@ -18101,100 +18056,149 @@ split_insns (rtx x0 ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
   switch (GET_CODE (x0))
     {
     case PARALLEL:
-      goto L4101;
+      goto L4090;
     case SET:
-      goto L3175;
+      goto L3164;
     default:
      break;
    }
   goto ret0;
 
- L4101: ATTRIBUTE_UNUSED_LABEL
+ L4090: ATTRIBUTE_UNUSED_LABEL
   if (XVECLEN (x0, 0) == 2)
-    goto L3150;
+    goto L3139;
   goto ret0;
 
- L3150: ATTRIBUTE_UNUSED_LABEL
+ L3139: ATTRIBUTE_UNUSED_LABEL
   x1 = XVECEXP (x0, 0, 0);
   if (GET_CODE (x1) == SET)
-    goto L3151;
+    goto L3140;
   goto ret0;
 
- L3151: ATTRIBUTE_UNUSED_LABEL
+ L3140: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   switch (GET_MODE (x2))
     {
     case SImode:
-      goto L4102;
+      goto L4091;
     case DImode:
-      goto L4103;
+      goto L4092;
     default:
       break;
     }
   goto ret0;
 
- L4102: ATTRIBUTE_UNUSED_LABEL
+ L4091: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, SImode))
     {
       operands[0] = x2;
-      goto L3152;
+      goto L3141;
     }
   goto ret0;
 
- L3152: ATTRIBUTE_UNUSED_LABEL
+ L3141: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (GET_MODE (x2) == SImode)
-    goto L4104;
+    goto L4093;
   goto ret0;
 
- L4104: ATTRIBUTE_UNUSED_LABEL
+ L4093: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x2))
     {
     case NE:
-      goto L3153;
+      goto L3142;
     case NEG:
-      goto L3161;
+      goto L3150;
     case EQ:
-      goto L3194;
+      goto L3183;
     case PLUS:
-      goto L3235;
+      goto L3224;
     case MINUS:
-      goto L3245;
+      goto L3234;
     case AND:
-      goto L3378;
+      goto L3367;
     case IOR:
-      goto L3386;
+      goto L3375;
     case XOR:
-      goto L3394;
+      goto L3383;
     case NOT:
-      goto L3402;
+      goto L3391;
     default:
      break;
    }
   goto ret0;
 
- L3153: ATTRIBUTE_UNUSED_LABEL
+ L3142: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (register_operand (x3, SImode))
     {
       operands[1] = x3;
-      goto L3154;
+      goto L3143;
     }
   goto ret0;
 
- L3154: ATTRIBUTE_UNUSED_LABEL
+ L3143: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
   if (x3 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
-    goto L3155;
+    goto L3144;
   goto ret0;
 
- L3155: ATTRIBUTE_UNUSED_LABEL
+ L3144: ATTRIBUTE_UNUSED_LABEL
   x1 = XVECEXP (x0, 0, 1);
   if (GET_CODE (x1) == CLOBBER)
-    goto L3156;
+    goto L3145;
   goto ret0;
 
- L3156: ATTRIBUTE_UNUSED_LABEL
+ L3145: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 0);
+  if (GET_MODE (x2) == CCmode
+      && GET_CODE (x2) == REG
+      && XINT (x2, 0) == 100)
+    {
+      return gen_split_432 (insn, operands);
+    }
+  goto ret0;
+
+ L3150: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 0);
+  if (GET_MODE (x3) == SImode)
+    goto L4102;
+  goto ret0;
+
+ L4102: ATTRIBUTE_UNUSED_LABEL
+  switch (GET_CODE (x3))
+    {
+    case NE:
+      goto L3151;
+    case EQ:
+      goto L3192;
+    default:
+     break;
+   }
+  goto ret0;
+
+ L3151: ATTRIBUTE_UNUSED_LABEL
+  x4 = XEXP (x3, 0);
+  if (register_operand (x4, SImode))
+    {
+      operands[1] = x4;
+      goto L3152;
+    }
+  goto ret0;
+
+ L3152: ATTRIBUTE_UNUSED_LABEL
+  x4 = XEXP (x3, 1);
+  if (x4 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
+    goto L3153;
+  goto ret0;
+
+ L3153: ATTRIBUTE_UNUSED_LABEL
+  x1 = XVECEXP (x0, 0, 1);
+  if (GET_CODE (x1) == CLOBBER)
+    goto L3154;
+  goto ret0;
+
+ L3154: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == CCmode
       && GET_CODE (x2) == REG
@@ -18204,108 +18208,28 @@ split_insns (rtx x0 ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
     }
   goto ret0;
 
- L3161: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 0);
-  if (GET_MODE (x3) == SImode)
-    goto L4113;
-  goto ret0;
-
- L4113: ATTRIBUTE_UNUSED_LABEL
-  switch (GET_CODE (x3))
-    {
-    case NE:
-      goto L3162;
-    case EQ:
-      goto L3203;
-    default:
-     break;
-   }
-  goto ret0;
-
- L3162: ATTRIBUTE_UNUSED_LABEL
+ L3192: ATTRIBUTE_UNUSED_LABEL
   x4 = XEXP (x3, 0);
   if (register_operand (x4, SImode))
     {
       operands[1] = x4;
-      goto L3163;
+      goto L3193;
     }
   goto ret0;
 
- L3163: ATTRIBUTE_UNUSED_LABEL
+ L3193: ATTRIBUTE_UNUSED_LABEL
   x4 = XEXP (x3, 1);
   if (x4 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
-    goto L3164;
-  goto ret0;
-
- L3164: ATTRIBUTE_UNUSED_LABEL
-  x1 = XVECEXP (x0, 0, 1);
-  if (GET_CODE (x1) == CLOBBER)
-    goto L3165;
-  goto ret0;
-
- L3165: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 0);
-  if (GET_MODE (x2) == CCmode
-      && GET_CODE (x2) == REG
-      && XINT (x2, 0) == 100)
-    {
-      return gen_split_434 (insn, operands);
-    }
-  goto ret0;
-
- L3203: ATTRIBUTE_UNUSED_LABEL
-  x4 = XEXP (x3, 0);
-  if (register_operand (x4, SImode))
-    {
-      operands[1] = x4;
-      goto L3204;
-    }
-  goto ret0;
-
- L3204: ATTRIBUTE_UNUSED_LABEL
-  x4 = XEXP (x3, 1);
-  if (x4 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
-    goto L3205;
-  goto ret0;
-
- L3205: ATTRIBUTE_UNUSED_LABEL
-  x1 = XVECEXP (x0, 0, 1);
-  if (GET_CODE (x1) == CLOBBER)
-    goto L3206;
-  goto ret0;
-
- L3206: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 0);
-  if (GET_MODE (x2) == CCmode
-      && GET_CODE (x2) == REG
-      && XINT (x2, 0) == 100)
-    {
-      return gen_split_440 (insn, operands);
-    }
+    goto L3194;
   goto ret0;
 
  L3194: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 0);
-  if (register_operand (x3, SImode))
-    {
-      operands[1] = x3;
-      goto L3195;
-    }
+  x1 = XVECEXP (x0, 0, 1);
+  if (GET_CODE (x1) == CLOBBER)
+    goto L3195;
   goto ret0;
 
  L3195: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 1);
-  if (x3 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
-    goto L3196;
-  goto ret0;
-
- L3196: ATTRIBUTE_UNUSED_LABEL
-  x1 = XVECEXP (x0, 0, 1);
-  if (GET_CODE (x1) == CLOBBER)
-    goto L3197;
-  goto ret0;
-
- L3197: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == CCmode
       && GET_CODE (x2) == REG
@@ -18315,13 +18239,151 @@ split_insns (rtx x0 ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
     }
   goto ret0;
 
- L3235: ATTRIBUTE_UNUSED_LABEL
+ L3183: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
-  if (GET_MODE (x3) == SImode)
-    goto L4115;
+  if (register_operand (x3, SImode))
+    {
+      operands[1] = x3;
+      goto L3184;
+    }
   goto ret0;
 
- L4115: ATTRIBUTE_UNUSED_LABEL
+ L3184: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 1);
+  if (x3 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
+    goto L3185;
+  goto ret0;
+
+ L3185: ATTRIBUTE_UNUSED_LABEL
+  x1 = XVECEXP (x0, 0, 1);
+  if (GET_CODE (x1) == CLOBBER)
+    goto L3186;
+  goto ret0;
+
+ L3186: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 0);
+  if (GET_MODE (x2) == CCmode
+      && GET_CODE (x2) == REG
+      && XINT (x2, 0) == 100)
+    {
+      return gen_split_438 (insn, operands);
+    }
+  goto ret0;
+
+ L3224: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 0);
+  if (GET_MODE (x3) == SImode)
+    goto L4104;
+  goto ret0;
+
+ L4104: ATTRIBUTE_UNUSED_LABEL
+  switch (GET_CODE (x3))
+    {
+    case NE:
+      goto L3225;
+    case EQ:
+      goto L3245;
+    default:
+     break;
+   }
+  goto ret0;
+
+ L3225: ATTRIBUTE_UNUSED_LABEL
+  x4 = XEXP (x3, 0);
+  if (register_operand (x4, SImode))
+    {
+      operands[1] = x4;
+      goto L3226;
+    }
+  goto ret0;
+
+ L3226: ATTRIBUTE_UNUSED_LABEL
+  x4 = XEXP (x3, 1);
+  if (x4 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
+    goto L3227;
+  goto ret0;
+
+ L3227: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 1);
+  if (register_operand (x3, SImode))
+    {
+      operands[2] = x3;
+      goto L3228;
+    }
+  goto ret0;
+
+ L3228: ATTRIBUTE_UNUSED_LABEL
+  x1 = XVECEXP (x0, 0, 1);
+  if (GET_CODE (x1) == CLOBBER)
+    goto L3229;
+  goto ret0;
+
+ L3229: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 0);
+  if (GET_MODE (x2) == CCmode
+      && GET_CODE (x2) == REG
+      && XINT (x2, 0) == 100)
+    {
+      return gen_split_444 (insn, operands);
+    }
+  goto ret0;
+
+ L3245: ATTRIBUTE_UNUSED_LABEL
+  x4 = XEXP (x3, 0);
+  if (register_operand (x4, SImode))
+    {
+      operands[1] = x4;
+      goto L3246;
+    }
+  goto ret0;
+
+ L3246: ATTRIBUTE_UNUSED_LABEL
+  x4 = XEXP (x3, 1);
+  if (x4 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
+    goto L3247;
+  goto ret0;
+
+ L3247: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 1);
+  if (register_operand (x3, SImode))
+    {
+      operands[2] = x3;
+      goto L3248;
+    }
+  goto ret0;
+
+ L3248: ATTRIBUTE_UNUSED_LABEL
+  x1 = XVECEXP (x0, 0, 1);
+  if (GET_CODE (x1) == CLOBBER)
+    goto L3249;
+  goto ret0;
+
+ L3249: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 0);
+  if (GET_MODE (x2) == CCmode
+      && GET_CODE (x2) == REG
+      && XINT (x2, 0) == 100)
+    {
+      return gen_split_446 (insn, operands);
+    }
+  goto ret0;
+
+ L3234: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 0);
+  if (register_operand (x3, SImode))
+    {
+      operands[2] = x3;
+      goto L3235;
+    }
+  goto ret0;
+
+ L3235: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 1);
+  if (GET_MODE (x3) == SImode)
+    goto L4106;
+  goto ret0;
+
+ L4106: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x3))
     {
     case NE:
@@ -18349,21 +18411,12 @@ split_insns (rtx x0 ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
   goto ret0;
 
  L3238: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 1);
-  if (register_operand (x3, SImode))
-    {
-      operands[2] = x3;
-      goto L3239;
-    }
+  x1 = XVECEXP (x0, 0, 1);
+  if (GET_CODE (x1) == CLOBBER)
+    goto L3239;
   goto ret0;
 
  L3239: ATTRIBUTE_UNUSED_LABEL
-  x1 = XVECEXP (x0, 0, 1);
-  if (GET_CODE (x1) == CLOBBER)
-    goto L3240;
-  goto ret0;
-
- L3240: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == CCmode
       && GET_CODE (x2) == REG
@@ -18389,21 +18442,12 @@ split_insns (rtx x0 ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
   goto ret0;
 
  L3258: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 1);
-  if (register_operand (x3, SImode))
-    {
-      operands[2] = x3;
-      goto L3259;
-    }
+  x1 = XVECEXP (x0, 0, 1);
+  if (GET_CODE (x1) == CLOBBER)
+    goto L3259;
   goto ret0;
 
  L3259: ATTRIBUTE_UNUSED_LABEL
-  x1 = XVECEXP (x0, 0, 1);
-  if (GET_CODE (x1) == CLOBBER)
-    goto L3260;
-  goto ret0;
-
- L3260: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == CCmode
       && GET_CODE (x2) == REG
@@ -18413,186 +18457,137 @@ split_insns (rtx x0 ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
     }
   goto ret0;
 
- L3245: ATTRIBUTE_UNUSED_LABEL
+ L3367: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (register_operand (x3, SImode))
     {
-      operands[2] = x3;
-      goto L3246;
+      operands[1] = x3;
+      goto L3368;
     }
   goto ret0;
 
- L3246: ATTRIBUTE_UNUSED_LABEL
+ L3368: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
-  if (GET_MODE (x3) == SImode)
-    goto L4117;
-  goto ret0;
-
- L4117: ATTRIBUTE_UNUSED_LABEL
-  switch (GET_CODE (x3))
+  if (const_compl_high_operand (x3, SImode))
     {
-    case NE:
-      goto L3247;
-    case EQ:
-      goto L3267;
-    default:
-     break;
-   }
-  goto ret0;
-
- L3247: ATTRIBUTE_UNUSED_LABEL
-  x4 = XEXP (x3, 0);
-  if (register_operand (x4, SImode))
-    {
-      operands[1] = x4;
-      goto L3248;
+      operands[2] = x3;
+      goto L3369;
     }
   goto ret0;
 
- L3248: ATTRIBUTE_UNUSED_LABEL
-  x4 = XEXP (x3, 1);
-  if (x4 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
-    goto L3249;
-  goto ret0;
-
- L3249: ATTRIBUTE_UNUSED_LABEL
+ L3369: ATTRIBUTE_UNUSED_LABEL
   x1 = XVECEXP (x0, 0, 1);
   if (GET_CODE (x1) == CLOBBER)
-    goto L3250;
+    goto L3370;
   goto ret0;
 
- L3250: ATTRIBUTE_UNUSED_LABEL
+ L3370: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
-  if (GET_MODE (x2) == CCmode
-      && GET_CODE (x2) == REG
-      && XINT (x2, 0) == 100)
+  if (register_operand (x2, SImode))
     {
-      return gen_split_446 (insn, operands);
+      operands[3] = x2;
+      return gen_split_539 (insn, operands);
     }
   goto ret0;
 
- L3267: ATTRIBUTE_UNUSED_LABEL
-  x4 = XEXP (x3, 0);
-  if (register_operand (x4, SImode))
+ L3375: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 0);
+  if (register_operand (x3, SImode))
     {
-      operands[1] = x4;
-      goto L3268;
+      operands[1] = x3;
+      goto L3376;
     }
   goto ret0;
 
- L3268: ATTRIBUTE_UNUSED_LABEL
-  x4 = XEXP (x3, 1);
-  if (x4 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
-    goto L3269;
+ L3376: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 1);
+  if (const_compl_high_operand (x3, SImode))
+    {
+      operands[2] = x3;
+      goto L3377;
+    }
   goto ret0;
 
- L3269: ATTRIBUTE_UNUSED_LABEL
+ L3377: ATTRIBUTE_UNUSED_LABEL
   x1 = XVECEXP (x0, 0, 1);
   if (GET_CODE (x1) == CLOBBER)
-    goto L3270;
-  goto ret0;
-
- L3270: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 0);
-  if (GET_MODE (x2) == CCmode
-      && GET_CODE (x2) == REG
-      && XINT (x2, 0) == 100)
-    {
-      return gen_split_448 (insn, operands);
-    }
+    goto L3378;
   goto ret0;
 
  L3378: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 0);
-  if (register_operand (x3, SImode))
-    {
-      operands[1] = x3;
-      goto L3379;
-    }
-  goto ret0;
-
- L3379: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 1);
-  if (const_compl_high_operand (x3, SImode))
-    {
-      operands[2] = x3;
-      goto L3380;
-    }
-  goto ret0;
-
- L3380: ATTRIBUTE_UNUSED_LABEL
-  x1 = XVECEXP (x0, 0, 1);
-  if (GET_CODE (x1) == CLOBBER)
-    goto L3381;
-  goto ret0;
-
- L3381: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (register_operand (x2, SImode))
     {
       operands[3] = x2;
-      return gen_split_540 (insn, operands);
+      return gen_split_544 (insn, operands);
     }
+  goto ret0;
+
+ L3383: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 0);
+  if (register_operand (x3, SImode))
+    {
+      operands[1] = x3;
+      goto L3384;
+    }
+  goto ret0;
+
+ L3384: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 1);
+  if (const_compl_high_operand (x3, SImode))
+    {
+      operands[2] = x3;
+      goto L3385;
+    }
+  goto ret0;
+
+ L3385: ATTRIBUTE_UNUSED_LABEL
+  x1 = XVECEXP (x0, 0, 1);
+  if (GET_CODE (x1) == CLOBBER)
+    goto L3386;
   goto ret0;
 
  L3386: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 0);
-  if (register_operand (x3, SImode))
-    {
-      operands[1] = x3;
-      goto L3387;
-    }
-  goto ret0;
-
- L3387: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 1);
-  if (const_compl_high_operand (x3, SImode))
-    {
-      operands[2] = x3;
-      goto L3388;
-    }
-  goto ret0;
-
- L3388: ATTRIBUTE_UNUSED_LABEL
-  x1 = XVECEXP (x0, 0, 1);
-  if (GET_CODE (x1) == CLOBBER)
-    goto L3389;
-  goto ret0;
-
- L3389: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (register_operand (x2, SImode))
     {
       operands[3] = x2;
-      return gen_split_545 (insn, operands);
+      return gen_split_549 (insn, operands);
+    }
+  goto ret0;
+
+ L3391: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 0);
+  if (GET_MODE (x3) == SImode
+      && GET_CODE (x3) == XOR)
+    goto L3392;
+  goto ret0;
+
+ L3392: ATTRIBUTE_UNUSED_LABEL
+  x4 = XEXP (x3, 0);
+  if (register_operand (x4, SImode))
+    {
+      operands[1] = x4;
+      goto L3393;
+    }
+  goto ret0;
+
+ L3393: ATTRIBUTE_UNUSED_LABEL
+  x4 = XEXP (x3, 1);
+  if (const_compl_high_operand (x4, SImode))
+    {
+      operands[2] = x4;
+      goto L3394;
     }
   goto ret0;
 
  L3394: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 0);
-  if (register_operand (x3, SImode))
-    {
-      operands[1] = x3;
-      goto L3395;
-    }
+  x1 = XVECEXP (x0, 0, 1);
+  if (GET_CODE (x1) == CLOBBER)
+    goto L3395;
   goto ret0;
 
  L3395: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 1);
-  if (const_compl_high_operand (x3, SImode))
-    {
-      operands[2] = x3;
-      goto L3396;
-    }
-  goto ret0;
-
- L3396: ATTRIBUTE_UNUSED_LABEL
-  x1 = XVECEXP (x0, 0, 1);
-  if (GET_CODE (x1) == CLOBBER)
-    goto L3397;
-  goto ret0;
-
- L3397: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (register_operand (x2, SImode))
     {
@@ -18601,135 +18596,95 @@ split_insns (rtx x0 ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
     }
   goto ret0;
 
- L3402: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 0);
-  if (GET_MODE (x3) == SImode
-      && GET_CODE (x3) == XOR)
-    goto L3403;
-  goto ret0;
-
- L3403: ATTRIBUTE_UNUSED_LABEL
-  x4 = XEXP (x3, 0);
-  if (register_operand (x4, SImode))
-    {
-      operands[1] = x4;
-      goto L3404;
-    }
-  goto ret0;
-
- L3404: ATTRIBUTE_UNUSED_LABEL
-  x4 = XEXP (x3, 1);
-  if (const_compl_high_operand (x4, SImode))
-    {
-      operands[2] = x4;
-      goto L3405;
-    }
-  goto ret0;
-
- L3405: ATTRIBUTE_UNUSED_LABEL
-  x1 = XVECEXP (x0, 0, 1);
-  if (GET_CODE (x1) == CLOBBER)
-    goto L3406;
-  goto ret0;
-
- L3406: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 0);
-  if (register_operand (x2, SImode))
-    {
-      operands[3] = x2;
-      return gen_split_551 (insn, operands);
-    }
-  goto ret0;
-
- L4103: ATTRIBUTE_UNUSED_LABEL
+ L4092: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x2, DImode))
     {
       operands[0] = x2;
-      goto L3169;
+      goto L3158;
     }
   goto ret0;
 
- L3169: ATTRIBUTE_UNUSED_LABEL
+ L3158: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (GET_MODE (x2) == DImode)
-    goto L4119;
+    goto L4108;
   goto ret0;
 
- L4119: ATTRIBUTE_UNUSED_LABEL
+ L4108: ATTRIBUTE_UNUSED_LABEL
   switch (GET_CODE (x2))
     {
     case NE:
-      goto L3170;
+      goto L3159;
     case EQ:
-      goto L3211;
+      goto L3200;
     default:
      break;
    }
   goto ret0;
 
- L3170: ATTRIBUTE_UNUSED_LABEL
+ L3159: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (register_operand (x3, SImode))
     {
       operands[1] = x3;
-      goto L3171;
+      goto L3160;
     }
   goto ret0;
 
- L3171: ATTRIBUTE_UNUSED_LABEL
+ L3160: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
   if (x3 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
-    goto L3172;
+    goto L3161;
   goto ret0;
 
- L3172: ATTRIBUTE_UNUSED_LABEL
+ L3161: ATTRIBUTE_UNUSED_LABEL
   x1 = XVECEXP (x0, 0, 1);
   if (GET_CODE (x1) == CLOBBER)
-    goto L3173;
+    goto L3162;
   goto ret0;
 
- L3173: ATTRIBUTE_UNUSED_LABEL
+ L3162: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == CCmode
       && GET_CODE (x2) == REG
       && XINT (x2, 0) == 100)
     {
-      return gen_split_435 (insn, operands);
+      return gen_split_434 (insn, operands);
     }
   goto ret0;
 
- L3211: ATTRIBUTE_UNUSED_LABEL
+ L3200: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (register_operand (x3, SImode))
     {
       operands[1] = x3;
-      goto L3212;
+      goto L3201;
     }
   goto ret0;
 
- L3212: ATTRIBUTE_UNUSED_LABEL
+ L3201: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
   if (x3 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
-    goto L3213;
+    goto L3202;
   goto ret0;
 
- L3213: ATTRIBUTE_UNUSED_LABEL
+ L3202: ATTRIBUTE_UNUSED_LABEL
   x1 = XVECEXP (x0, 0, 1);
   if (GET_CODE (x1) == CLOBBER)
-    goto L3214;
+    goto L3203;
   goto ret0;
 
- L3214: ATTRIBUTE_UNUSED_LABEL
+ L3203: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == CCmode
       && GET_CODE (x2) == REG
       && XINT (x2, 0) == 100)
     {
-      return gen_split_441 (insn, operands);
+      return gen_split_440 (insn, operands);
     }
   goto ret0;
 
- L3175: ATTRIBUTE_UNUSED_LABEL
+ L3164: ATTRIBUTE_UNUSED_LABEL
   return split_1 (x0, insn);
  ret0:
   return 0;
@@ -18751,115 +18706,167 @@ peephole2_insns (rtx x0 ATTRIBUTE_UNUSED,
   recog_data.insn = NULL_RTX;
 
   if (peep2_current_count >= 2)
-    goto L3438;
+    goto L3427;
   goto ret0;
 
- L3438: ATTRIBUTE_UNUSED_LABEL
+ L3427: ATTRIBUTE_UNUSED_LABEL
   if (GET_CODE (x0) == SET)
-    goto L3439;
+    goto L3428;
   goto ret0;
 
- L3439: ATTRIBUTE_UNUSED_LABEL
+ L3428: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 0);
   switch (GET_MODE (x1))
     {
     case SImode:
-      goto L4160;
+      goto L4149;
     case SFmode:
-      goto L4163;
+      goto L4152;
     case DImode:
-      goto L4169;
+      goto L4158;
     default:
       break;
     }
   goto ret0;
 
- L4160: ATTRIBUTE_UNUSED_LABEL
+ L4149: ATTRIBUTE_UNUSED_LABEL
   if (memory_operand (x1, SImode))
     {
       operands[0] = x1;
-      goto L3440;
+      goto L3429;
     }
- L4161: ATTRIBUTE_UNUSED_LABEL
+ L4150: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x1, SImode))
     {
       operands[0] = x1;
-      goto L3454;
+      goto L3443;
     }
- L4162: ATTRIBUTE_UNUSED_LABEL
+ L4151: ATTRIBUTE_UNUSED_LABEL
   if (memory_operand (x1, SImode))
     {
       operands[0] = x1;
-      goto L3462;
+      goto L3451;
     }
- L4165: ATTRIBUTE_UNUSED_LABEL
+ L4154: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x1, SImode))
     {
       operands[0] = x1;
-      goto L3486;
+      goto L3475;
     }
- L4166: ATTRIBUTE_UNUSED_LABEL
+ L4155: ATTRIBUTE_UNUSED_LABEL
   if (memory_operand (x1, SImode))
     {
       operands[0] = x1;
-      goto L3494;
+      goto L3483;
     }
   goto ret0;
 
- L3440: ATTRIBUTE_UNUSED_LABEL
+ L3429: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (x1 == const_int_rtx[MAX_SAVED_CONST_INT + (0)])
-    goto L3441;
+    goto L3430;
   x1 = XEXP (x0, 0);
-  goto L4161;
+  goto L4150;
 
- L3441: ATTRIBUTE_UNUSED_LABEL
+ L3430: ATTRIBUTE_UNUSED_LABEL
   tem = peep2_next_insn (1);
   x1 = PATTERN (tem);
   if (GET_CODE (x1) == SET)
-    goto L3442;
+    goto L3431;
   x1 = XEXP (x0, 0);
-  goto L4161;
+  goto L4150;
 
- L3442: ATTRIBUTE_UNUSED_LABEL
+ L3431: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (memory_operand (x2, SImode))
     {
       operands[1] = x2;
-      goto L3443;
+      goto L3432;
     }
   x1 = XEXP (x0, 0);
-  goto L4161;
+  goto L4150;
 
- L3443: ATTRIBUTE_UNUSED_LABEL
+ L3432: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (GET_CODE (x2) == CONST_INT)
-    goto L4170;
+    goto L4159;
   x1 = XEXP (x0, 0);
-  goto L4161;
+  goto L4150;
 
- L4170: ATTRIBUTE_UNUSED_LABEL
+ L4159: ATTRIBUTE_UNUSED_LABEL
   if (XWINT (x2, 0) == 0L)
-    goto L4172;
+    goto L4161;
   x1 = XEXP (x0, 0);
-  goto L4161;
+  goto L4150;
 
- L4172: ATTRIBUTE_UNUSED_LABEL
+ L4161: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 6643 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6622 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_V9
    && mems_ok_for_ldd_peep (operands[0], operands[1], NULL_RTX)))
+    {
+      *_pmatch_len = 1;
+      tem = gen_peephole2_590 (insn, operands);
+      if (tem != 0)
+        return tem;
+    }
+ L4162: ATTRIBUTE_UNUSED_LABEL
+  if (
+#line 6633 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(TARGET_V9
+   && mems_ok_for_ldd_peep (operands[1], operands[0], NULL_RTX)))
     {
       *_pmatch_len = 1;
       tem = gen_peephole2_591 (insn, operands);
       if (tem != 0)
         return tem;
     }
- L4173: ATTRIBUTE_UNUSED_LABEL
+  x1 = XEXP (x0, 0);
+  goto L4150;
+
+ L3443: ATTRIBUTE_UNUSED_LABEL
+  x1 = XEXP (x0, 1);
+  if (memory_operand (x1, SImode))
+    {
+      operands[1] = x1;
+      goto L3444;
+    }
+  x1 = XEXP (x0, 0);
+  goto L4151;
+
+ L3444: ATTRIBUTE_UNUSED_LABEL
+  tem = peep2_next_insn (1);
+  x1 = PATTERN (tem);
+  if (GET_CODE (x1) == SET)
+    goto L3445;
+  x1 = XEXP (x0, 0);
+  goto L4151;
+
+ L3445: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 0);
+  if (register_operand (x2, SImode))
+    {
+      operands[2] = x2;
+      goto L3446;
+    }
+  x1 = XEXP (x0, 0);
+  goto L4151;
+
+ L3446: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 1);
+  if (memory_operand (x2, SImode))
+    {
+      operands[3] = x2;
+      goto L3447;
+    }
+  x1 = XEXP (x0, 0);
+  goto L4151;
+
+ L3447: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 6654 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(TARGET_V9
-   && mems_ok_for_ldd_peep (operands[1], operands[0], NULL_RTX)))
+#line 6644 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(registers_ok_for_ldd_peep (operands[0], operands[2]) 
+   && mems_ok_for_ldd_peep (operands[1], operands[3], operands[0])))
     {
       *_pmatch_len = 1;
       tem = gen_peephole2_592 (insn, operands);
@@ -18867,51 +18874,51 @@ peephole2_insns (rtx x0 ATTRIBUTE_UNUSED,
         return tem;
     }
   x1 = XEXP (x0, 0);
-  goto L4161;
+  goto L4151;
 
- L3454: ATTRIBUTE_UNUSED_LABEL
+ L3451: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
-  if (memory_operand (x1, SImode))
+  if (register_operand (x1, SImode))
     {
       operands[1] = x1;
-      goto L3455;
+      goto L3452;
     }
   x1 = XEXP (x0, 0);
-  goto L4162;
+  goto L4154;
 
- L3455: ATTRIBUTE_UNUSED_LABEL
+ L3452: ATTRIBUTE_UNUSED_LABEL
   tem = peep2_next_insn (1);
   x1 = PATTERN (tem);
   if (GET_CODE (x1) == SET)
-    goto L3456;
+    goto L3453;
   x1 = XEXP (x0, 0);
-  goto L4162;
+  goto L4154;
 
- L3456: ATTRIBUTE_UNUSED_LABEL
+ L3453: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
-  if (register_operand (x2, SImode))
-    {
-      operands[2] = x2;
-      goto L3457;
-    }
-  x1 = XEXP (x0, 0);
-  goto L4162;
-
- L3457: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 1);
   if (memory_operand (x2, SImode))
     {
-      operands[3] = x2;
-      goto L3458;
+      operands[2] = x2;
+      goto L3454;
     }
   x1 = XEXP (x0, 0);
-  goto L4162;
+  goto L4154;
 
- L3458: ATTRIBUTE_UNUSED_LABEL
+ L3454: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 1);
+  if (register_operand (x2, SImode))
+    {
+      operands[3] = x2;
+      goto L3455;
+    }
+  x1 = XEXP (x0, 0);
+  goto L4154;
+
+ L3455: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 6665 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(registers_ok_for_ldd_peep (operands[0], operands[2]) 
-   && mems_ok_for_ldd_peep (operands[1], operands[3], operands[0])))
+#line 6656 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(registers_ok_for_ldd_peep (operands[1], operands[3]) 
+   && mems_ok_for_ldd_peep (operands[0], operands[2], NULL_RTX)))
     {
       *_pmatch_len = 1;
       tem = gen_peephole2_593 (insn, operands);
@@ -18919,51 +18926,241 @@ peephole2_insns (rtx x0 ATTRIBUTE_UNUSED,
         return tem;
     }
   x1 = XEXP (x0, 0);
-  goto L4162;
+  goto L4154;
 
- L3462: ATTRIBUTE_UNUSED_LABEL
+ L3475: ATTRIBUTE_UNUSED_LABEL
+  x1 = XEXP (x0, 1);
+  if (GET_MODE (x1) == SImode)
+    goto L4163;
+  x1 = XEXP (x0, 0);
+  goto L4155;
+
+ L4163: ATTRIBUTE_UNUSED_LABEL
+  if (memory_operand (x1, SImode))
+    {
+      operands[1] = x1;
+      goto L3476;
+    }
+ L4164: ATTRIBUTE_UNUSED_LABEL
+  if (register_operand (x1, SImode))
+    {
+      operands[1] = x1;
+      goto L3508;
+    }
+  x1 = XEXP (x0, 0);
+  goto L4155;
+
+ L3476: ATTRIBUTE_UNUSED_LABEL
+  tem = peep2_next_insn (1);
+  x1 = PATTERN (tem);
+  if (GET_CODE (x1) == SET)
+    goto L3477;
+  x1 = XEXP (x0, 1);
+  goto L4164;
+
+ L3477: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 0);
+  if (register_operand (x2, SImode))
+    {
+      operands[2] = x2;
+      goto L3478;
+    }
+  x1 = XEXP (x0, 1);
+  goto L4164;
+
+ L3478: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 1);
+  if (memory_operand (x2, SImode))
+    {
+      operands[3] = x2;
+      goto L3479;
+    }
+  x1 = XEXP (x0, 1);
+  goto L4164;
+
+ L3479: ATTRIBUTE_UNUSED_LABEL
+  if (
+#line 6692 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(registers_ok_for_ldd_peep (operands[2], operands[0]) 
+  && mems_ok_for_ldd_peep (operands[3], operands[1], operands[0])))
+    {
+      *_pmatch_len = 1;
+      tem = gen_peephole2_596 (insn, operands);
+      if (tem != 0)
+        return tem;
+    }
+  x1 = XEXP (x0, 1);
+  goto L4164;
+
+ L3508: ATTRIBUTE_UNUSED_LABEL
+  tem = peep2_next_insn (1);
+  x1 = PATTERN (tem);
+  if (GET_CODE (x1) == SET)
+    goto L3509;
+  x1 = XEXP (x0, 0);
+  goto L4155;
+
+ L3509: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 0);
+  if (GET_MODE (x2) == CCmode
+      && GET_CODE (x2) == REG
+      && XINT (x2, 0) == 100)
+    goto L3510;
+  x1 = XEXP (x0, 0);
+  goto L4155;
+
+ L3510: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 1);
+  if (GET_MODE (x2) == CCmode
+      && GET_CODE (x2) == COMPARE)
+    goto L3511;
+  x1 = XEXP (x0, 0);
+  goto L4155;
+
+ L3511: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 0);
+  if (register_operand (x3, SImode))
+    {
+      operands[2] = x3;
+      goto L3512;
+    }
+  x1 = XEXP (x0, 0);
+  goto L4155;
+
+ L3512: ATTRIBUTE_UNUSED_LABEL
+  x3 = XEXP (x2, 1);
+  if (x3 == const_int_rtx[MAX_SAVED_CONST_INT + (0)]
+      && 
+#line 6746 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+((rtx_equal_p (operands[2], operands[0])
+    || rtx_equal_p (operands[2], operands[1]))
+    && ! SPARC_FP_REG_P (REGNO (operands[0]))
+    && ! SPARC_FP_REG_P (REGNO (operands[1]))))
+    {
+      *_pmatch_len = 1;
+      tem = gen_peephole2_600 (insn, operands);
+      if (tem != 0)
+        return tem;
+    }
+  x1 = XEXP (x0, 0);
+  goto L4155;
+
+ L3483: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (register_operand (x1, SImode))
     {
       operands[1] = x1;
-      goto L3463;
+      goto L3484;
     }
-  x1 = XEXP (x0, 0);
-  goto L4165;
+  goto ret0;
 
- L3463: ATTRIBUTE_UNUSED_LABEL
+ L3484: ATTRIBUTE_UNUSED_LABEL
   tem = peep2_next_insn (1);
   x1 = PATTERN (tem);
   if (GET_CODE (x1) == SET)
-    goto L3464;
-  x1 = XEXP (x0, 0);
-  goto L4165;
+    goto L3485;
+  goto ret0;
 
- L3464: ATTRIBUTE_UNUSED_LABEL
+ L3485: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (memory_operand (x2, SImode))
     {
       operands[2] = x2;
-      goto L3465;
+      goto L3486;
     }
-  x1 = XEXP (x0, 0);
-  goto L4165;
+  goto ret0;
 
- L3465: ATTRIBUTE_UNUSED_LABEL
+ L3486: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (register_operand (x2, SImode))
     {
       operands[3] = x2;
-      goto L3466;
+      goto L3487;
+    }
+  goto ret0;
+
+ L3487: ATTRIBUTE_UNUSED_LABEL
+  if (
+#line 6704 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(registers_ok_for_ldd_peep (operands[3], operands[1]) 
+  && mems_ok_for_ldd_peep (operands[2], operands[0], NULL_RTX)))
+    {
+      *_pmatch_len = 1;
+      tem = gen_peephole2_597 (insn, operands);
+      if (tem != 0)
+        return tem;
+    }
+  goto ret0;
+
+ L4152: ATTRIBUTE_UNUSED_LABEL
+  if (register_operand (x1, SFmode))
+    {
+      operands[0] = x1;
+      goto L3459;
+    }
+ L4153: ATTRIBUTE_UNUSED_LABEL
+  if (memory_operand (x1, SFmode))
+    {
+      operands[0] = x1;
+      goto L3467;
+    }
+ L4156: ATTRIBUTE_UNUSED_LABEL
+  if (register_operand (x1, SFmode))
+    {
+      operands[0] = x1;
+      goto L3491;
+    }
+ L4157: ATTRIBUTE_UNUSED_LABEL
+  if (memory_operand (x1, SFmode))
+    {
+      operands[0] = x1;
+      goto L3499;
+    }
+  goto ret0;
+
+ L3459: ATTRIBUTE_UNUSED_LABEL
+  x1 = XEXP (x0, 1);
+  if (memory_operand (x1, SFmode))
+    {
+      operands[1] = x1;
+      goto L3460;
     }
   x1 = XEXP (x0, 0);
-  goto L4165;
+  goto L4153;
 
- L3466: ATTRIBUTE_UNUSED_LABEL
+ L3460: ATTRIBUTE_UNUSED_LABEL
+  tem = peep2_next_insn (1);
+  x1 = PATTERN (tem);
+  if (GET_CODE (x1) == SET)
+    goto L3461;
+  x1 = XEXP (x0, 0);
+  goto L4153;
+
+ L3461: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 0);
+  if (register_operand (x2, SFmode))
+    {
+      operands[2] = x2;
+      goto L3462;
+    }
+  x1 = XEXP (x0, 0);
+  goto L4153;
+
+ L3462: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 1);
+  if (memory_operand (x2, SFmode))
+    {
+      operands[3] = x2;
+      goto L3463;
+    }
+  x1 = XEXP (x0, 0);
+  goto L4153;
+
+ L3463: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 6677 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(registers_ok_for_ldd_peep (operands[1], operands[3]) 
-   && mems_ok_for_ldd_peep (operands[0], operands[2], NULL_RTX)))
+#line 6668 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(registers_ok_for_ldd_peep (operands[0], operands[2]) 
+   && mems_ok_for_ldd_peep (operands[1], operands[3], operands[0])))
     {
       *_pmatch_len = 1;
       tem = gen_peephole2_594 (insn, operands);
@@ -18971,241 +19168,51 @@ peephole2_insns (rtx x0 ATTRIBUTE_UNUSED,
         return tem;
     }
   x1 = XEXP (x0, 0);
-  goto L4165;
+  goto L4153;
 
- L3486: ATTRIBUTE_UNUSED_LABEL
+ L3467: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
-  if (GET_MODE (x1) == SImode)
-    goto L4174;
-  x1 = XEXP (x0, 0);
-  goto L4166;
-
- L4174: ATTRIBUTE_UNUSED_LABEL
-  if (memory_operand (x1, SImode))
-    {
-      operands[1] = x1;
-      goto L3487;
-    }
- L4175: ATTRIBUTE_UNUSED_LABEL
-  if (register_operand (x1, SImode))
-    {
-      operands[1] = x1;
-      goto L3519;
-    }
-  x1 = XEXP (x0, 0);
-  goto L4166;
-
- L3487: ATTRIBUTE_UNUSED_LABEL
-  tem = peep2_next_insn (1);
-  x1 = PATTERN (tem);
-  if (GET_CODE (x1) == SET)
-    goto L3488;
-  x1 = XEXP (x0, 1);
-  goto L4175;
-
- L3488: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 0);
-  if (register_operand (x2, SImode))
-    {
-      operands[2] = x2;
-      goto L3489;
-    }
-  x1 = XEXP (x0, 1);
-  goto L4175;
-
- L3489: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 1);
-  if (memory_operand (x2, SImode))
-    {
-      operands[3] = x2;
-      goto L3490;
-    }
-  x1 = XEXP (x0, 1);
-  goto L4175;
-
- L3490: ATTRIBUTE_UNUSED_LABEL
-  if (
-#line 6713 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(registers_ok_for_ldd_peep (operands[2], operands[0]) 
-  && mems_ok_for_ldd_peep (operands[3], operands[1], operands[0])))
-    {
-      *_pmatch_len = 1;
-      tem = gen_peephole2_597 (insn, operands);
-      if (tem != 0)
-        return tem;
-    }
-  x1 = XEXP (x0, 1);
-  goto L4175;
-
- L3519: ATTRIBUTE_UNUSED_LABEL
-  tem = peep2_next_insn (1);
-  x1 = PATTERN (tem);
-  if (GET_CODE (x1) == SET)
-    goto L3520;
-  x1 = XEXP (x0, 0);
-  goto L4166;
-
- L3520: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 0);
-  if (GET_MODE (x2) == CCmode
-      && GET_CODE (x2) == REG
-      && XINT (x2, 0) == 100)
-    goto L3521;
-  x1 = XEXP (x0, 0);
-  goto L4166;
-
- L3521: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 1);
-  if (GET_MODE (x2) == CCmode
-      && GET_CODE (x2) == COMPARE)
-    goto L3522;
-  x1 = XEXP (x0, 0);
-  goto L4166;
-
- L3522: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 0);
-  if (register_operand (x3, SImode))
-    {
-      operands[2] = x3;
-      goto L3523;
-    }
-  x1 = XEXP (x0, 0);
-  goto L4166;
-
- L3523: ATTRIBUTE_UNUSED_LABEL
-  x3 = XEXP (x2, 1);
-  if (x3 == const_int_rtx[MAX_SAVED_CONST_INT + (0)]
-      && 
-#line 6767 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-((rtx_equal_p (operands[2], operands[0])
-    || rtx_equal_p (operands[2], operands[1]))
-    && ! SPARC_FP_REG_P (REGNO (operands[0]))
-    && ! SPARC_FP_REG_P (REGNO (operands[1]))))
-    {
-      *_pmatch_len = 1;
-      tem = gen_peephole2_601 (insn, operands);
-      if (tem != 0)
-        return tem;
-    }
-  x1 = XEXP (x0, 0);
-  goto L4166;
-
- L3494: ATTRIBUTE_UNUSED_LABEL
-  x1 = XEXP (x0, 1);
-  if (register_operand (x1, SImode))
-    {
-      operands[1] = x1;
-      goto L3495;
-    }
-  goto ret0;
-
- L3495: ATTRIBUTE_UNUSED_LABEL
-  tem = peep2_next_insn (1);
-  x1 = PATTERN (tem);
-  if (GET_CODE (x1) == SET)
-    goto L3496;
-  goto ret0;
-
- L3496: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 0);
-  if (memory_operand (x2, SImode))
-    {
-      operands[2] = x2;
-      goto L3497;
-    }
-  goto ret0;
-
- L3497: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 1);
-  if (register_operand (x2, SImode))
-    {
-      operands[3] = x2;
-      goto L3498;
-    }
-  goto ret0;
-
- L3498: ATTRIBUTE_UNUSED_LABEL
-  if (
-#line 6725 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(registers_ok_for_ldd_peep (operands[3], operands[1]) 
-  && mems_ok_for_ldd_peep (operands[2], operands[0], NULL_RTX)))
-    {
-      *_pmatch_len = 1;
-      tem = gen_peephole2_598 (insn, operands);
-      if (tem != 0)
-        return tem;
-    }
-  goto ret0;
-
- L4163: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x1, SFmode))
     {
-      operands[0] = x1;
+      operands[1] = x1;
+      goto L3468;
+    }
+  x1 = XEXP (x0, 0);
+  goto L4156;
+
+ L3468: ATTRIBUTE_UNUSED_LABEL
+  tem = peep2_next_insn (1);
+  x1 = PATTERN (tem);
+  if (GET_CODE (x1) == SET)
+    goto L3469;
+  x1 = XEXP (x0, 0);
+  goto L4156;
+
+ L3469: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 0);
+  if (memory_operand (x2, SFmode))
+    {
+      operands[2] = x2;
       goto L3470;
     }
- L4164: ATTRIBUTE_UNUSED_LABEL
-  if (memory_operand (x1, SFmode))
-    {
-      operands[0] = x1;
-      goto L3478;
-    }
- L4167: ATTRIBUTE_UNUSED_LABEL
-  if (register_operand (x1, SFmode))
-    {
-      operands[0] = x1;
-      goto L3502;
-    }
- L4168: ATTRIBUTE_UNUSED_LABEL
-  if (memory_operand (x1, SFmode))
-    {
-      operands[0] = x1;
-      goto L3510;
-    }
-  goto ret0;
+  x1 = XEXP (x0, 0);
+  goto L4156;
 
  L3470: ATTRIBUTE_UNUSED_LABEL
-  x1 = XEXP (x0, 1);
-  if (memory_operand (x1, SFmode))
+  x2 = XEXP (x1, 1);
+  if (register_operand (x2, SFmode))
     {
-      operands[1] = x1;
+      operands[3] = x2;
       goto L3471;
     }
   x1 = XEXP (x0, 0);
-  goto L4164;
+  goto L4156;
 
  L3471: ATTRIBUTE_UNUSED_LABEL
-  tem = peep2_next_insn (1);
-  x1 = PATTERN (tem);
-  if (GET_CODE (x1) == SET)
-    goto L3472;
-  x1 = XEXP (x0, 0);
-  goto L4164;
-
- L3472: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 0);
-  if (register_operand (x2, SFmode))
-    {
-      operands[2] = x2;
-      goto L3473;
-    }
-  x1 = XEXP (x0, 0);
-  goto L4164;
-
- L3473: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 1);
-  if (memory_operand (x2, SFmode))
-    {
-      operands[3] = x2;
-      goto L3474;
-    }
-  x1 = XEXP (x0, 0);
-  goto L4164;
-
- L3474: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 6689 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(registers_ok_for_ldd_peep (operands[0], operands[2]) 
-   && mems_ok_for_ldd_peep (operands[1], operands[3], operands[0])))
+#line 6680 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(registers_ok_for_ldd_peep (operands[1], operands[3]) 
+  && mems_ok_for_ldd_peep (operands[0], operands[2], NULL_RTX)))
     {
       *_pmatch_len = 1;
       tem = gen_peephole2_595 (insn, operands);
@@ -19213,212 +19220,160 @@ peephole2_insns (rtx x0 ATTRIBUTE_UNUSED,
         return tem;
     }
   x1 = XEXP (x0, 0);
-  goto L4164;
+  goto L4156;
 
- L3478: ATTRIBUTE_UNUSED_LABEL
-  x1 = XEXP (x0, 1);
-  if (register_operand (x1, SFmode))
-    {
-      operands[1] = x1;
-      goto L3479;
-    }
-  x1 = XEXP (x0, 0);
-  goto L4167;
-
- L3479: ATTRIBUTE_UNUSED_LABEL
-  tem = peep2_next_insn (1);
-  x1 = PATTERN (tem);
-  if (GET_CODE (x1) == SET)
-    goto L3480;
-  x1 = XEXP (x0, 0);
-  goto L4167;
-
- L3480: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 0);
-  if (memory_operand (x2, SFmode))
-    {
-      operands[2] = x2;
-      goto L3481;
-    }
-  x1 = XEXP (x0, 0);
-  goto L4167;
-
- L3481: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 1);
-  if (register_operand (x2, SFmode))
-    {
-      operands[3] = x2;
-      goto L3482;
-    }
-  x1 = XEXP (x0, 0);
-  goto L4167;
-
- L3482: ATTRIBUTE_UNUSED_LABEL
-  if (
-#line 6701 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(registers_ok_for_ldd_peep (operands[1], operands[3]) 
-  && mems_ok_for_ldd_peep (operands[0], operands[2], NULL_RTX)))
-    {
-      *_pmatch_len = 1;
-      tem = gen_peephole2_596 (insn, operands);
-      if (tem != 0)
-        return tem;
-    }
-  x1 = XEXP (x0, 0);
-  goto L4167;
-
- L3502: ATTRIBUTE_UNUSED_LABEL
+ L3491: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (memory_operand (x1, SFmode))
     {
       operands[1] = x1;
-      goto L3503;
+      goto L3492;
     }
   x1 = XEXP (x0, 0);
-  goto L4168;
+  goto L4157;
 
- L3503: ATTRIBUTE_UNUSED_LABEL
+ L3492: ATTRIBUTE_UNUSED_LABEL
   tem = peep2_next_insn (1);
   x1 = PATTERN (tem);
   if (GET_CODE (x1) == SET)
-    goto L3504;
+    goto L3493;
   x1 = XEXP (x0, 0);
-  goto L4168;
+  goto L4157;
 
- L3504: ATTRIBUTE_UNUSED_LABEL
+ L3493: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (register_operand (x2, SFmode))
     {
       operands[2] = x2;
-      goto L3505;
+      goto L3494;
     }
   x1 = XEXP (x0, 0);
-  goto L4168;
+  goto L4157;
 
- L3505: ATTRIBUTE_UNUSED_LABEL
+ L3494: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (memory_operand (x2, SFmode))
     {
       operands[3] = x2;
-      goto L3506;
+      goto L3495;
     }
   x1 = XEXP (x0, 0);
-  goto L4168;
+  goto L4157;
 
- L3506: ATTRIBUTE_UNUSED_LABEL
+ L3495: ATTRIBUTE_UNUSED_LABEL
   if (
-#line 6738 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6717 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (registers_ok_for_ldd_peep (operands[2], operands[0]) 
   && mems_ok_for_ldd_peep (operands[3], operands[1], operands[0])))
+    {
+      *_pmatch_len = 1;
+      tem = gen_peephole2_598 (insn, operands);
+      if (tem != 0)
+        return tem;
+    }
+  x1 = XEXP (x0, 0);
+  goto L4157;
+
+ L3499: ATTRIBUTE_UNUSED_LABEL
+  x1 = XEXP (x0, 1);
+  if (register_operand (x1, SFmode))
+    {
+      operands[1] = x1;
+      goto L3500;
+    }
+  goto ret0;
+
+ L3500: ATTRIBUTE_UNUSED_LABEL
+  tem = peep2_next_insn (1);
+  x1 = PATTERN (tem);
+  if (GET_CODE (x1) == SET)
+    goto L3501;
+  goto ret0;
+
+ L3501: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 0);
+  if (memory_operand (x2, SFmode))
+    {
+      operands[2] = x2;
+      goto L3502;
+    }
+  goto ret0;
+
+ L3502: ATTRIBUTE_UNUSED_LABEL
+  x2 = XEXP (x1, 1);
+  if (register_operand (x2, SFmode))
+    {
+      operands[3] = x2;
+      goto L3503;
+    }
+  goto ret0;
+
+ L3503: ATTRIBUTE_UNUSED_LABEL
+  if (
+#line 6729 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+(registers_ok_for_ldd_peep (operands[3], operands[1]) 
+  && mems_ok_for_ldd_peep (operands[2], operands[0], NULL_RTX)))
     {
       *_pmatch_len = 1;
       tem = gen_peephole2_599 (insn, operands);
       if (tem != 0)
         return tem;
     }
-  x1 = XEXP (x0, 0);
-  goto L4168;
-
- L3510: ATTRIBUTE_UNUSED_LABEL
-  x1 = XEXP (x0, 1);
-  if (register_operand (x1, SFmode))
-    {
-      operands[1] = x1;
-      goto L3511;
-    }
   goto ret0;
 
- L3511: ATTRIBUTE_UNUSED_LABEL
-  tem = peep2_next_insn (1);
-  x1 = PATTERN (tem);
-  if (GET_CODE (x1) == SET)
-    goto L3512;
-  goto ret0;
-
- L3512: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 0);
-  if (memory_operand (x2, SFmode))
-    {
-      operands[2] = x2;
-      goto L3513;
-    }
-  goto ret0;
-
- L3513: ATTRIBUTE_UNUSED_LABEL
-  x2 = XEXP (x1, 1);
-  if (register_operand (x2, SFmode))
-    {
-      operands[3] = x2;
-      goto L3514;
-    }
-  goto ret0;
-
- L3514: ATTRIBUTE_UNUSED_LABEL
-  if (
-#line 6750 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-(registers_ok_for_ldd_peep (operands[3], operands[1]) 
-  && mems_ok_for_ldd_peep (operands[2], operands[0], NULL_RTX)))
-    {
-      *_pmatch_len = 1;
-      tem = gen_peephole2_600 (insn, operands);
-      if (tem != 0)
-        return tem;
-    }
-  goto ret0;
-
- L4169: ATTRIBUTE_UNUSED_LABEL
+ L4158: ATTRIBUTE_UNUSED_LABEL
   if (register_operand (x1, DImode))
     {
       operands[0] = x1;
-      goto L3527;
+      goto L3516;
     }
   goto ret0;
 
- L3527: ATTRIBUTE_UNUSED_LABEL
+ L3516: ATTRIBUTE_UNUSED_LABEL
   x1 = XEXP (x0, 1);
   if (register_operand (x1, DImode))
     {
       operands[1] = x1;
-      goto L3528;
+      goto L3517;
     }
   goto ret0;
 
- L3528: ATTRIBUTE_UNUSED_LABEL
+ L3517: ATTRIBUTE_UNUSED_LABEL
   tem = peep2_next_insn (1);
   x1 = PATTERN (tem);
   if (GET_CODE (x1) == SET)
-    goto L3529;
+    goto L3518;
   goto ret0;
 
- L3529: ATTRIBUTE_UNUSED_LABEL
+ L3518: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 0);
   if (GET_MODE (x2) == CCXmode
       && GET_CODE (x2) == REG
       && XINT (x2, 0) == 100)
-    goto L3530;
+    goto L3519;
   goto ret0;
 
- L3530: ATTRIBUTE_UNUSED_LABEL
+ L3519: ATTRIBUTE_UNUSED_LABEL
   x2 = XEXP (x1, 1);
   if (GET_MODE (x2) == CCXmode
       && GET_CODE (x2) == COMPARE)
-    goto L3531;
+    goto L3520;
   goto ret0;
 
- L3531: ATTRIBUTE_UNUSED_LABEL
+ L3520: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 0);
   if (register_operand (x3, DImode))
     {
       operands[2] = x3;
-      goto L3532;
+      goto L3521;
     }
   goto ret0;
 
- L3532: ATTRIBUTE_UNUSED_LABEL
+ L3521: ATTRIBUTE_UNUSED_LABEL
   x3 = XEXP (x2, 1);
   if (x3 == const_int_rtx[MAX_SAVED_CONST_INT + (0)]
       && 
-#line 6782 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6761 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 (TARGET_ARCH64
    && (rtx_equal_p (operands[2], operands[0])
        || rtx_equal_p (operands[2], operands[1]))
@@ -19426,7 +19381,7 @@ peephole2_insns (rtx x0 ATTRIBUTE_UNUSED,
    && ! SPARC_FP_REG_P (REGNO (operands[1]))))
     {
       *_pmatch_len = 1;
-      tem = gen_peephole2_602 (insn, operands);
+      tem = gen_peephole2_601 (insn, operands);
       if (tem != 0)
         return tem;
     }

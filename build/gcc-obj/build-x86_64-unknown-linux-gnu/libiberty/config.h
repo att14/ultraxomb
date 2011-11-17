@@ -45,8 +45,8 @@
    don't. */
 #define HAVE_DECL_ASPRINTF 0
 
-/* Define to 1 if you have the declaration of `basename(char *)', and to 0 if
-   you don't. */
+/* Define to 1 if you have the declaration of `basename', and to 0 if you
+   don't. */
 #define HAVE_DECL_BASENAME 0
 
 /* Define to 1 if you have the declaration of `calloc', and to 0 if you don't.
@@ -91,9 +91,6 @@
 /* Define to 1 if you have the declaration of `vsnprintf', and to 0 if you
    don't. */
 #define HAVE_DECL_VSNPRINTF 1
-
-/* Define to 1 if you have the `dup3' function. */
-#define HAVE_DUP3 1
 
 /* Define to 1 if you have the <fcntl.h> header file. */
 #define HAVE_FCNTL_H 1
@@ -158,6 +155,9 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1
 
+/* Define to 1 if you have the `mempcpy' function. */
+#define HAVE_MEMPCPY 1
+
 /* Define to 1 if you have the `memset' function. */
 #define HAVE_MEMSET 1
 
@@ -169,9 +169,6 @@
 
 /* Define to 1 if you have the `on_exit' function. */
 #define HAVE_ON_EXIT 1
-
-/* Define to 1 if you have the <process.h> header file. */
-/* #undef HAVE_PROCESS_H */
 
 /* Define to 1 if you have the `psignal' function. */
 #define HAVE_PSIGNAL 1
@@ -203,20 +200,11 @@
 /* Define to 1 if you have the `setenv' function. */
 #define HAVE_SETENV 1
 
-/* Define to 1 if you have the `setproctitle' function. */
-/* #undef HAVE_SETPROCTITLE */
-
 /* Define to 1 if you have the `sigsetmask' function. */
 #define HAVE_SIGSETMASK 1
 
 /* Define to 1 if you have the `snprintf' function. */
 #define HAVE_SNPRINTF 1
-
-/* Define to 1 if you have the `spawnve' function. */
-/* #undef HAVE_SPAWNVE */
-
-/* Define to 1 if you have the `spawnvpe' function. */
-/* #undef HAVE_SPAWNVPE */
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #define HAVE_STDINT_H 1
@@ -302,9 +290,6 @@
 /* Define to 1 if you have the <sys/param.h> header file. */
 #define HAVE_SYS_PARAM_H 1
 
-/* Define to 1 if you have the <sys/prctl.h> header file. */
-#define HAVE_SYS_PRCTL_H 1
-
 /* Define to 1 if you have the <sys/pstat.h> header file. */
 /* #undef HAVE_SYS_PSTAT_H */
 
@@ -373,6 +358,9 @@
 
 /* Define to 1 if you have the `vprintf' function. */
 #define HAVE_VPRINTF 1
+
+/* Define to 1 if you have the `vsnprintf' function. */
+#define HAVE_VSNPRINTF 1
 
 /* Define to 1 if you have the `vsprintf' function. */
 #define HAVE_VSPRINTF 1
@@ -479,9 +467,6 @@
 
 /* Define to `int' if <sys/types.h> does not define. */
 /* #undef pid_t */
-
-/* Define to `int' if <sys/types.h> does not define. */
-/* #undef ssize_t */
 
 /* Define to the type of an unsigned integer type wide enough to hold a
    pointer, if such a type exists, and if the system does not define it. */

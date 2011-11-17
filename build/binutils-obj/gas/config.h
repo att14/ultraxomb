@@ -221,13 +221,13 @@
 /* #undef STRICTCOFF */
 
 /* Target alias. */
-#define TARGET_ALIAS "sparc64-pc-xomb"
+#define TARGET_ALIAS "sparc64-sun-xomb"
 
 /* Define as 1 if big endian. */
 /* #undef TARGET_BYTES_BIG_ENDIAN */
 
 /* Canonical target. */
-#define TARGET_CANONICAL "sparc64-pc-xomb"
+#define TARGET_CANONICAL "sparc64-sun-xomb"
 
 /* Target CPU. */
 #define TARGET_CPU "sparc64"
@@ -242,7 +242,7 @@
 /* #undef TARGET_SYMBIAN */
 
 /* Target vendor. */
-#define TARGET_VENDOR "pc"
+#define TARGET_VENDOR "sun"
 
 /* Use b modifier when opening binary files? */
 /* #undef USE_BINARY_FOPEN */

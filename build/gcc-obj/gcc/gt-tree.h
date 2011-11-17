@@ -59,7 +59,7 @@ void
 gt_pch_n_P9type_hash4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P9type_hash4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P9type_hash4htab, gt_e_P9type_hash4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;
@@ -111,13 +111,6 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gt_tree_h[] = {
     &gt_pch_nx_tree_node
   },
   {
-    &nonstandard_integer_type_cache[0],
-    1 * (2 * MAX_INT_CACHED_PREC + 2),
-    sizeof (nonstandard_integer_type_cache[0]),
-    &gt_ggc_mx_tree_node,
-    &gt_pch_nx_tree_node
-  },
-  {
     &cl_target_option_node,
     1,
     sizeof (cl_target_option_node),
@@ -154,17 +147,17 @@ EXPORTED_CONST struct ggc_cache_tab gt_ggc_rc_gt_tree_h[] = {
     &value_expr_for_decl,
     1,
     sizeof (value_expr_for_decl),
-    &gt_ggc_mx_tree_decl_map,
-    &gt_pch_nx_tree_decl_map,
-    &tree_decl_map_marked_p
+    &gt_ggc_mx_tree_map,
+    &gt_pch_nx_tree_map,
+    &tree_map_marked_p
   },
   {
     &debug_expr_for_decl,
     1,
     sizeof (debug_expr_for_decl),
-    &gt_ggc_mx_tree_decl_map,
-    &gt_pch_nx_tree_decl_map,
-    &tree_decl_map_marked_p
+    &gt_ggc_mx_tree_map,
+    &gt_pch_nx_tree_map,
+    &tree_map_marked_p
   },
   {
     &cl_option_hash_table,
@@ -205,15 +198,15 @@ EXPORTED_CONST struct ggc_root_tab gt_pch_rc_gt_tree_h[] = {
     &value_expr_for_decl,
     1,
     sizeof (value_expr_for_decl),
-    &gt_ggc_m_P13tree_decl_map4htab,
-    &gt_pch_n_P13tree_decl_map4htab
+    &gt_ggc_m_P8tree_map4htab,
+    &gt_pch_n_P8tree_map4htab
   },
   {
     &debug_expr_for_decl,
     1,
     sizeof (debug_expr_for_decl),
-    &gt_ggc_m_P13tree_decl_map4htab,
-    &gt_pch_n_P13tree_decl_map4htab
+    &gt_ggc_m_P8tree_map4htab,
+    &gt_pch_n_P8tree_map4htab
   },
   {
     &cl_option_hash_table,

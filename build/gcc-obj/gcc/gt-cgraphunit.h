@@ -29,6 +29,20 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gt_cgraphunit_h[] = {
     &gt_ggc_mx_tree_node,
     &gt_pch_nx_tree_node
   },
+  {
+    &static_dtors,
+    1,
+    sizeof (static_dtors),
+    &gt_ggc_mx_VEC_tree_gc,
+    &gt_pch_nx_VEC_tree_gc
+  },
+  {
+    &static_ctors,
+    1,
+    sizeof (static_ctors),
+    &gt_ggc_mx_VEC_tree_gc,
+    &gt_pch_nx_VEC_tree_gc
+  },
   LAST_GGC_ROOT_TAB
 };
 

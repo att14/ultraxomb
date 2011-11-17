@@ -1,6 +1,6 @@
 # Makefile for fixincludes.
 #
-#   Copyright (C) 1998, 1999, 2000, 2001, 2003, 2004, 2009, 2010
+#   Copyright (C) 1998, 1999, 2000, 2001, 2003, 2004, 2009
 #   Free Software Foundation, Inc.
 
 #This file is part of fixincludes.
@@ -34,7 +34,7 @@ INCLUDES = -I. -I$(srcdir) -I../include -I$(srcdir)/../include
 FIXINC_CFLAGS = -DHAVE_CONFIG_H $(INCLUDES)
 
 # Directory where sources are, from where we are.
-srcdir = ../../gcc-4.6.1/fixincludes
+srcdir = ../../gcc-4.5.3/fixincludes
 VPATH = $(srcdir)
 
 # Directory in which to put the directories used by the compiler.
@@ -45,8 +45,8 @@ libexecdir = ${exec_prefix}/libexec
 # End of variables for you to override.
 
 # The target that we're configured for.
-target = sparc64-pc-xomb
-target_noncanonical:=sparc64-pc-xomb
+target = sparc64-sun-xomb
+target_noncanonical:=sparc64-sun-xomb
 
 # The version of GCC in this tree
 gcc_version := $(shell cat $(srcdir)/../gcc/BASE-VER)
@@ -188,11 +188,6 @@ install : all
 	  $(DESTDIR)$(itoolsdir)/fixincl
 	$(INSTALL_SCRIPT) mkheaders $(DESTDIR)$(itoolsdir)/mkheaders
 
-install-strip: install
-	test -z '$(STRIP)' \
-	  || $(STRIP) $(DESTDIR)$(itoolsdir)/fixincl
-
-.PHONY: all check install install-strip
 .PHONY: dvi pdf info html install-pdf install-info install-html
 
 dvi :

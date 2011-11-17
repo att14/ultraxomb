@@ -43,7 +43,7 @@ ac_cv_env_build_alias_value=x86_64-unknown-linux-gnu
 ac_cv_env_host_alias_set=set
 ac_cv_env_host_alias_value=x86_64-unknown-linux-gnu
 ac_cv_env_target_alias_set=set
-ac_cv_env_target_alias_value=sparc64-pc-xomb
+ac_cv_env_target_alias_value=sparc64-sun-xomb
 ac_cv_func_close=${ac_cv_func_close=yes}
 ac_cv_func_dlclose=${ac_cv_func_dlclose=yes}
 ac_cv_func_dlopen=${ac_cv_func_dlopen=yes}
@@ -115,7 +115,7 @@ ac_cv_search_strerror=${ac_cv_search_strerror='none required'}
 ac_cv_search_zlibVersion=${ac_cv_search_zlibVersion=-lz}
 ac_cv_sys_file_offset_bits=${ac_cv_sys_file_offset_bits=no}
 ac_cv_sys_largefile_CC=${ac_cv_sys_largefile_CC=no}
-ac_cv_target=${ac_cv_target=sparc64-pc-xomb}
+ac_cv_target=${ac_cv_target=sparc64-sun-xomb}
 am_cv_CC_dependencies_compiler_type=${am_cv_CC_dependencies_compiler_type=gcc3}
 am_cv_CXX_dependencies_compiler_type=${am_cv_CXX_dependencies_compiler_type=gcc3}
 gcc_cv_prog_cmp_skip=${gcc_cv_prog_cmp_skip='cmp --ignore-initial=16 $$f1 $$f2'}

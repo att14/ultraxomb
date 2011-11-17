@@ -1,0 +1,1 @@
+../gcc/d/druntime/LICENSE_1_0.txt

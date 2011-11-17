@@ -19,8 +19,8 @@
 #<http://www.gnu.org/licenses/>.
 
 # Basic information
-target=sparc64-pc-xomb
-target_noncanonical=sparc64-pc-xomb
+target=sparc64-sun-xomb
+target_noncanonical=sparc64-sun-xomb
 version=@gcc_version@
 
 VERBOSE=0
@@ -53,7 +53,7 @@ if [ x$1 != x ] ; then
   prefix=$1
   shift
 else
-  prefix=/home/edf12/buildtools_cross/local
+  prefix=/home/att14/ultraxomb/local
 fi
 
 # Allow for alternate isysroot in which to find headers

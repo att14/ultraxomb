@@ -39,7 +39,7 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gt_cp_mangle_h[] = {
   {
     &G.substitutions,
     1,
-    sizeof (G.substitutions),
+    sizeof (G),
     &gt_ggc_mx_VEC_tree_gc,
     &gt_pch_nx_VEC_tree_gc
   },

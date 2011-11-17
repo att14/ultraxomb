@@ -87,7 +87,7 @@ void
 gt_pch_n_P23temp_slot_address_entry4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P23temp_slot_address_entry4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P23temp_slot_address_entry4htab, gt_e_P23temp_slot_address_entry4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;

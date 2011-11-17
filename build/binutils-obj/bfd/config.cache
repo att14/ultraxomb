@@ -30,7 +30,7 @@ ac_cv_env_build_alias_value=x86_64-unknown-linux-gnu
 ac_cv_env_host_alias_set=set
 ac_cv_env_host_alias_value=x86_64-unknown-linux-gnu
 ac_cv_env_target_alias_set=set
-ac_cv_env_target_alias_value=sparc64-pc-xomb
+ac_cv_env_target_alias_value=sparc64-sun-xomb
 ac_cv_func_dlopen=${ac_cv_func_dlopen=no}
 ac_cv_func_fcntl=${ac_cv_func_fcntl=yes}
 ac_cv_func_fdopen=${ac_cv_func_fdopen=yes}
@@ -120,7 +120,7 @@ ac_cv_sizeof_off_t=${ac_cv_sizeof_off_t=8}
 ac_cv_sizeof_void_p=${ac_cv_sizeof_void_p=8}
 ac_cv_sys_file_offset_bits=${ac_cv_sys_file_offset_bits=no}
 ac_cv_sys_largefile_CC=${ac_cv_sys_largefile_CC=no}
-ac_cv_target=${ac_cv_target=sparc64-pc-xomb}
+ac_cv_target=${ac_cv_target=sparc64-sun-xomb}
 ac_cv_type_int_fast32_t=${ac_cv_type_int_fast32_t=yes}
 ac_cv_type_int_least32_t=${ac_cv_type_int_least32_t=yes}
 ac_cv_type_u_int64_t=${ac_cv_type_u_int64_t=no}

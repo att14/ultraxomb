@@ -24,8 +24,8 @@ along with GCC; see the file COPYING3.  If not see
 EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gt_fortran_trans_intrinsic_h[] = {
   {
     &gfc_intrinsic_map[0].name,
-    1 * ARRAY_SIZE (gfc_intrinsic_map),
-    sizeof (gfc_intrinsic_map[0]),
+    1, 
+    sizeof (gfc_intrinsic_map),
     (gt_pointer_walker) &gt_ggc_m_S,
     (gt_pointer_walker) &gt_pch_n_S
   },

@@ -161,6 +161,13 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gt_alias_h[] = {
     &gt_pch_na_reg_known_value
   },
   {
+    &static_reg_base_value[0],
+    1 * (FIRST_PSEUDO_REGISTER),
+    sizeof (static_reg_base_value[0]),
+    &gt_ggc_mx_rtx_def,
+    &gt_pch_nx_rtx_def
+  },
+  {
     &reg_base_value,
     1,
     sizeof (reg_base_value),

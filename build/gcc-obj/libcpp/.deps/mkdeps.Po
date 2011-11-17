@@ -1,21 +1,21 @@
-mkdeps.o: ../../gcc-4.6.1/libcpp/mkdeps.c config.h \
- ../../gcc-4.6.1/libcpp/system.h \
- ../../gcc-4.6.1/libcpp/../include/filenames.h \
- ../../gcc-4.6.1/libcpp/../include/libiberty.h \
- ../../gcc-4.6.1/libcpp/../include/ansidecl.h \
- ../../gcc-4.6.1/libcpp/../include/safe-ctype.h \
- ../../gcc-4.6.1/libcpp/include/mkdeps.h
+mkdeps.o: ../../gcc-4.5.3/libcpp/mkdeps.c config.h \
+ ../../gcc-4.5.3/libcpp/system.h \
+ ../../gcc-4.5.3/libcpp/../include/filenames.h \
+ ../../gcc-4.5.3/libcpp/../include/libiberty.h \
+ ../../gcc-4.5.3/libcpp/../include/ansidecl.h \
+ ../../gcc-4.5.3/libcpp/../include/safe-ctype.h \
+ ../../gcc-4.5.3/libcpp/include/mkdeps.h
 
 config.h:
 
-../../gcc-4.6.1/libcpp/system.h:
+../../gcc-4.5.3/libcpp/system.h:
 
-../../gcc-4.6.1/libcpp/../include/filenames.h:
+../../gcc-4.5.3/libcpp/../include/filenames.h:
 
-../../gcc-4.6.1/libcpp/../include/libiberty.h:
+../../gcc-4.5.3/libcpp/../include/libiberty.h:
 
-../../gcc-4.6.1/libcpp/../include/ansidecl.h:
+../../gcc-4.5.3/libcpp/../include/ansidecl.h:
 
-../../gcc-4.6.1/libcpp/../include/safe-ctype.h:
+../../gcc-4.5.3/libcpp/../include/safe-ctype.h:
 
-../../gcc-4.6.1/libcpp/include/mkdeps.h:
+../../gcc-4.5.3/libcpp/include/mkdeps.h:

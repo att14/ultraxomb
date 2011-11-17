@@ -1,9 +1,6 @@
 /* config.h.  Generated from config.in by configure.  */
 /* config.in.  Generated from configure.ac by autoheader.  */
 
-/* Define if building universal (internal helper macro) */
-/* #undef AC_APPLE_UNIVERSAL_BUILD */
-
 /* Define to one of `_getb67', `GETB67', `getb67' for Cray-2 and Cray-YMP
    systems. This function is required for `alloca.c' support on those systems.
    */
@@ -35,11 +32,11 @@
 
 /* Define to 1 if you have the declaration of `asprintf', and to 0 if you
    don't. */
-#define HAVE_DECL_ASPRINTF 1
+#define HAVE_DECL_ASPRINTF 0
 
-/* Define to 1 if you have the declaration of `basename(char *)', and to 0 if
-   you don't. */
-#define HAVE_DECL_BASENAME 1
+/* Define to 1 if you have the declaration of `basename', and to 0 if you
+   don't. */
+#define HAVE_DECL_BASENAME 0
 
 /* Define to 1 if you have the declaration of `clearerr_unlocked', and to 0 if
    you don't. */
@@ -67,7 +64,7 @@
 
 /* Define to 1 if you have the declaration of `fgets_unlocked', and to 0 if
    you don't. */
-#define HAVE_DECL_FGETS_UNLOCKED 1
+#define HAVE_DECL_FGETS_UNLOCKED 0
 
 /* Define to 1 if you have the declaration of `fileno_unlocked', and to 0 if
    you don't. */
@@ -83,7 +80,7 @@
 
 /* Define to 1 if you have the declaration of `fputs_unlocked', and to 0 if
    you don't. */
-#define HAVE_DECL_FPUTS_UNLOCKED 1
+#define HAVE_DECL_FPUTS_UNLOCKED 0
 
 /* Define to 1 if you have the declaration of `fread_unlocked', and to 0 if
    you don't. */
@@ -115,7 +112,7 @@
 
 /* Define to 1 if you have the declaration of `vasprintf', and to 0 if you
    don't. */
-#define HAVE_DECL_VASPRINTF 1
+#define HAVE_DECL_VASPRINTF 0
 
 /* Define to 1 if you have the <fcntl.h> header file. */
 #define HAVE_FCNTL_H 1
@@ -186,9 +183,6 @@
 /* Define to 1 if you have the `putc_unlocked' function. */
 #define HAVE_PUTC_UNLOCKED 1
 
-/* Define to 1 if you can assemble SSE4 insns. */
-/* #undef HAVE_SSE4 */
-
 /* Define to 1 if you have the <stddef.h> header file. */
 #define HAVE_STDDEF_H 1
 
@@ -215,9 +209,6 @@
 
 /* Define if <sys/types.h> defines \`uchar'. */
 /* #undef HAVE_UCHAR */
-
-/* Define to 1 if the system has the type `uintptr_t'. */
-#define HAVE_UINTPTR_T 1
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
@@ -276,56 +267,6 @@
 /* Define to 1 if your <sys/time.h> declares `struct tm'. */
 /* #undef TM_IN_SYS_TIME */
 
-/* Enable extensions on AIX 3, Interix.  */
-#ifndef _ALL_SOURCE
-# define _ALL_SOURCE 1
-#endif
-/* Enable GNU extensions on systems that have them.  */
-#ifndef _GNU_SOURCE
-# define _GNU_SOURCE 1
-#endif
-/* Enable threading extensions on Solaris.  */
-#ifndef _POSIX_PTHREAD_SEMANTICS
-# define _POSIX_PTHREAD_SEMANTICS 1
-#endif
-/* Enable extensions on HP NonStop.  */
-#ifndef _TANDEM_SOURCE
-# define _TANDEM_SOURCE 1
-#endif
-/* Enable general extensions on Solaris.  */
-#ifndef __EXTENSIONS__
-# define __EXTENSIONS__ 1
-#endif
-
-
-/* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
-   significant byte first (like Motorola and SPARC, unlike Intel). */
-#if defined AC_APPLE_UNIVERSAL_BUILD
-# if defined __BIG_ENDIAN__
-#  define WORDS_BIGENDIAN 1
-# endif
-#else
-# ifndef WORDS_BIGENDIAN
-/* #  undef WORDS_BIGENDIAN */
-# endif
-#endif
-
-/* Number of bits in a file offset, on hosts where this is settable. */
-/* #undef _FILE_OFFSET_BITS */
-
-/* Define for large files, on AIX-style hosts. */
-/* #undef _LARGE_FILES */
-
-/* Define to 1 if on MINIX. */
-/* #undef _MINIX */
-
-/* Define to 2 if the system does not provide POSIX.1 features except with
-   this defined. */
-/* #undef _POSIX_1_SOURCE */
-
-/* Define to 1 if you need to in order for `stat' and other things to work. */
-/* #undef _POSIX_SOURCE */
-
 /* Define to empty if `const' does not conform to ANSI C. */
 /* #undef const */
 
@@ -338,15 +279,8 @@
 /* Define to `long int' if <sys/types.h> does not define. */
 /* #undef off_t */
 
-/* Define to `int' if <sys/types.h> does not define. */
-/* #undef ptrdiff_t */
-
 /* Define to `unsigned int' if <sys/types.h> does not define. */
 /* #undef size_t */
 
 /* Define to `int' if <sys/types.h> does not define. */
 /* #undef ssize_t */
-
-/* Define to the type of an unsigned integer type wide enough to hold a
-   pointer, if such a type exists, and if the system does not define it. */
-/* #undef uintptr_t */

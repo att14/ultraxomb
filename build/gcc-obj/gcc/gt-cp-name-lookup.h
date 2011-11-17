@@ -20,23 +20,6 @@ along with GCC; see the file COPYING3.  If not see
 /* This file is machine generated.  Do not edit.  */
 
 void
-gt_ggc_mx_VEC_cp_label_binding_gc (void *x_p)
-{
-  struct VEC_cp_label_binding_gc * const x = (struct VEC_cp_label_binding_gc *)x_p;
-  if (ggc_test_and_set_mark (x))
-    {
-      {
-        size_t i0;
-        size_t l0 = (size_t)(((*x).base).num);
-        for (i0 = 0; i0 != l0; i0++) {
-          gt_ggc_m_9tree_node ((*x).base.vec[i0].label);
-          gt_ggc_m_9tree_node ((*x).base.vec[i0].prev_value);
-        }
-      }
-    }
-}
-
-void
 gt_ggc_mx_VEC_cp_class_binding_gc (void *x_p)
 {
   struct VEC_cp_class_binding_gc * const x = (struct VEC_cp_class_binding_gc *)x_p;
@@ -87,11 +70,11 @@ gt_ggc_mx_cp_binding_level (void *x_p)
       gt_ggc_m_9tree_node ((*x).using_directives);
       gt_ggc_m_23VEC_cp_class_binding_gc ((*x).class_shadowed);
       gt_ggc_m_9tree_node ((*x).type_shadowed);
-      gt_ggc_m_23VEC_cp_label_binding_gc ((*x).shadowed_labels);
+      gt_ggc_m_9tree_node ((*x).shadowed_labels);
       gt_ggc_m_9tree_node ((*x).blocks);
       gt_ggc_m_9tree_node ((*x).this_entity);
       gt_ggc_m_16cp_binding_level ((*x).level_chain);
-      gt_ggc_m_11VEC_tree_gc ((*x).dead_vars_from_for);
+      gt_ggc_m_9tree_node ((*x).dead_vars_from_for);
       gt_ggc_m_9tree_node ((*x).statement_list);
     }
 }
@@ -133,23 +116,6 @@ gt_ggc_mx_binding_table_s (void *x_p)
           gt_ggc_m_15binding_entry_s ((*x).chain[i0]);
         }
         ggc_mark ((*x).chain);
-      }
-    }
-}
-
-void
-gt_pch_nx_VEC_cp_label_binding_gc (void *x_p)
-{
-  struct VEC_cp_label_binding_gc * const x = (struct VEC_cp_label_binding_gc *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_23VEC_cp_label_binding_gc, gt_ggc_e_23VEC_cp_label_binding_gc))
-    {
-      {
-        size_t i0;
-        size_t l0 = (size_t)(((*x).base).num);
-        for (i0 = 0; i0 != l0; i0++) {
-          gt_pch_n_9tree_node ((*x).base.vec[i0].label);
-          gt_pch_n_9tree_node ((*x).base.vec[i0].prev_value);
-        }
       }
     }
 }
@@ -205,11 +171,11 @@ gt_pch_nx_cp_binding_level (void *x_p)
       gt_pch_n_9tree_node ((*x).using_directives);
       gt_pch_n_23VEC_cp_class_binding_gc ((*x).class_shadowed);
       gt_pch_n_9tree_node ((*x).type_shadowed);
-      gt_pch_n_23VEC_cp_label_binding_gc ((*x).shadowed_labels);
+      gt_pch_n_9tree_node ((*x).shadowed_labels);
       gt_pch_n_9tree_node ((*x).blocks);
       gt_pch_n_9tree_node ((*x).this_entity);
       gt_pch_n_16cp_binding_level ((*x).level_chain);
-      gt_pch_n_11VEC_tree_gc ((*x).dead_vars_from_for);
+      gt_pch_n_9tree_node ((*x).dead_vars_from_for);
       gt_pch_n_9tree_node ((*x).statement_list);
     }
 }
@@ -253,25 +219,6 @@ gt_pch_nx_binding_table_s (void *x_p)
         gt_pch_note_object ((*x).chain, x, gt_pch_p_15binding_table_s, gt_types_enum_last);
       }
     }
-}
-
-void
-gt_pch_p_23VEC_cp_label_binding_gc (ATTRIBUTE_UNUSED void *this_obj,
-	void *x_p,
-	ATTRIBUTE_UNUSED gt_pointer_operator op,
-	ATTRIBUTE_UNUSED void *cookie)
-{
-  struct VEC_cp_label_binding_gc * const x ATTRIBUTE_UNUSED = (struct VEC_cp_label_binding_gc *)x_p;
-  {
-    size_t i0;
-    size_t l0 = (size_t)(((*x).base).num);
-    for (i0 = 0; i0 != l0; i0++) {
-      if ((void *)(x) == this_obj)
-        op (&((*x).base.vec[i0].label), cookie);
-      if ((void *)(x) == this_obj)
-        op (&((*x).base.vec[i0].prev_value), cookie);
-    }
-  }
 }
 
 void

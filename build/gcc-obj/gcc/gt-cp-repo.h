@@ -26,8 +26,8 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gt_cp_repo_h[] = {
     &pending_repo,
     1,
     sizeof (pending_repo),
-    &gt_ggc_mx_VEC_tree_gc,
-    &gt_pch_nx_VEC_tree_gc
+    &gt_ggc_mx_tree_node,
+    &gt_pch_nx_tree_node
   },
   LAST_GGC_ROOT_TAB
 };

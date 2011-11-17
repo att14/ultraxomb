@@ -1,1 +1,1 @@
-#define LOCALEDIR "/home/edf12/buildtools_cross/local/share/locale"
+#define LOCALEDIR "/home/att14/ultraxomb/local/share/locale"

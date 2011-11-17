@@ -98,3 +98,9 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gt_sparc_h[] = {
   LAST_GGC_ROOT_TAB
 };
 
+EXPORTED_CONST struct ggc_root_tab gt_pch_rs_gt_sparc_h[] = {
+  { &struct_value_alias_set, 1, sizeof (struct_value_alias_set), NULL, NULL },
+  { &sparc_sr_alias_set, 1, sizeof (sparc_sr_alias_set), NULL, NULL },
+  LAST_GGC_ROOT_TAB
+};
+

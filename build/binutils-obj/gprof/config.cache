@@ -30,7 +30,7 @@ ac_cv_env_build_alias_value=x86_64-unknown-linux-gnu
 ac_cv_env_host_alias_set=set
 ac_cv_env_host_alias_value=x86_64-unknown-linux-gnu
 ac_cv_env_target_alias_set=set
-ac_cv_env_target_alias_value=sparc64-pc-xomb
+ac_cv_env_target_alias_value=sparc64-sun-xomb
 ac_cv_func_setmode=${ac_cv_func_setmode=no}
 ac_cv_header_dlfcn_h=${ac_cv_header_dlfcn_h=yes}
 ac_cv_header_inttypes_h=${ac_cv_header_inttypes_h=yes}
@@ -71,7 +71,7 @@ ac_cv_search_fabs=${ac_cv_search_fabs=-lm}
 ac_cv_search_strerror=${ac_cv_search_strerror='none required'}
 ac_cv_sys_file_offset_bits=${ac_cv_sys_file_offset_bits=no}
 ac_cv_sys_largefile_CC=${ac_cv_sys_largefile_CC=no}
-ac_cv_target=${ac_cv_target=sparc64-pc-xomb}
+ac_cv_target=${ac_cv_target=sparc64-sun-xomb}
 am_cv_CC_dependencies_compiler_type=${am_cv_CC_dependencies_compiler_type=gcc3}
 gprof_cv_decl_getopt_unistd_h=${gprof_cv_decl_getopt_unistd_h=yes}
 lt_cv_archive_cmds_need_lc=${lt_cv_archive_cmds_need_lc=no}

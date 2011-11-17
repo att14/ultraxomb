@@ -97,7 +97,7 @@ void
 gt_pch_n_P23constant_descriptor_rtx4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P23constant_descriptor_rtx4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P23constant_descriptor_rtx4htab, gt_e_P23constant_descriptor_rtx4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;
@@ -198,6 +198,13 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gt_varasm_h[] = {
     &gt_pch_nx_tree_node
   },
   {
+    &emutls_object_type,
+    1,
+    sizeof (emutls_object_type),
+    &gt_ggc_mx_tree_node,
+    &gt_pch_nx_tree_node
+  },
+  {
     &shared_constant_pool,
     1,
     sizeof (shared_constant_pool),
@@ -227,17 +234,40 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gt_varasm_h[] = {
   },
   {
     &weak_global_object_name,
-    1,
+    1, 
     sizeof (weak_global_object_name),
     (gt_pointer_walker) &gt_ggc_m_S,
     (gt_pointer_walker) &gt_pch_n_S
   },
   {
     &first_global_object_name,
-    1,
+    1, 
     sizeof (first_global_object_name),
     (gt_pointer_walker) &gt_ggc_m_S,
     (gt_pointer_walker) &gt_pch_n_S
+  },
+  LAST_GGC_ROOT_TAB
+};
+
+EXPORTED_CONST struct ggc_cache_tab gt_ggc_rc_gt_varasm_h[] = {
+  {
+    &emutls_htab,
+    1,
+    sizeof (emutls_htab),
+    &gt_ggc_mx_tree_map,
+    &gt_pch_nx_tree_map,
+    &tree_map_marked_p
+  },
+  LAST_GGC_CACHE_TAB
+};
+
+EXPORTED_CONST struct ggc_root_tab gt_pch_rc_gt_varasm_h[] = {
+  {
+    &emutls_htab,
+    1,
+    sizeof (emutls_htab),
+    &gt_ggc_m_P8tree_map4htab,
+    &gt_pch_n_P8tree_map4htab
   },
   LAST_GGC_ROOT_TAB
 };

@@ -83,7 +83,6 @@ gt_ggc_mx_lang_type (void *x_p)
           gt_ggc_m_9tree_node ((*x).base_decl[i3]);
         }
       }
-      gt_ggc_m_9tree_node ((*x).nonrestricted_type);
     }
 }
 
@@ -167,7 +166,6 @@ gt_pch_nx_lang_type (void *x_p)
           gt_pch_n_9tree_node ((*x).base_decl[i3]);
         }
       }
-      gt_pch_n_9tree_node ((*x).nonrestricted_type);
     }
 }
 
@@ -175,7 +173,7 @@ void
 gt_pch_n_P17module_htab_entry4htab (void *x_p)
 {
   struct htab * const x = (struct htab *)x_p;
-  if (gt_pch_note_object (x, x, gt_pch_p_P17module_htab_entry4htab, gt_types_enum_last))
+  if (gt_pch_note_object (x, x, gt_pch_p_P17module_htab_entry4htab, gt_e_P17module_htab_entry4htab))
     {
       if ((*x).entries != NULL) {
         size_t i0;
@@ -268,8 +266,6 @@ gt_pch_p_9lang_type (ATTRIBUTE_UNUSED void *this_obj,
         op (&((*x).base_decl[i3]), cookie);
     }
   }
-  if ((void *)(x) == this_obj)
-    op (&((*x).nonrestricted_type), cookie);
 }
 
 void
@@ -318,6 +314,20 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gtype_fortran_h[] = {
     &gfor_fndecl_sc_kind,
     1,
     sizeof (gfor_fndecl_sc_kind),
+    &gt_ggc_mx_tree_node,
+    &gt_pch_nx_tree_node
+  },
+  {
+    &gfor_fndecl_ctz128,
+    1,
+    sizeof (gfor_fndecl_ctz128),
+    &gt_ggc_mx_tree_node,
+    &gt_pch_nx_tree_node
+  },
+  {
+    &gfor_fndecl_clz128,
+    1,
+    sizeof (gfor_fndecl_clz128),
     &gt_ggc_mx_tree_node,
     &gt_pch_nx_tree_node
   },
@@ -672,30 +682,9 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gtype_fortran_h[] = {
     &gt_pch_nx_tree_node
   },
   {
-    &gfor_fndecl_error_stop_string,
-    1,
-    sizeof (gfor_fndecl_error_stop_string),
-    &gt_ggc_mx_tree_node,
-    &gt_pch_nx_tree_node
-  },
-  {
-    &gfor_fndecl_error_stop_numeric,
-    1,
-    sizeof (gfor_fndecl_error_stop_numeric),
-    &gt_ggc_mx_tree_node,
-    &gt_pch_nx_tree_node
-  },
-  {
     &gfor_fndecl_stop_string,
     1,
     sizeof (gfor_fndecl_stop_string),
-    &gt_ggc_mx_tree_node,
-    &gt_pch_nx_tree_node
-  },
-  {
-    &gfor_fndecl_stop_numeric_f08,
-    1,
-    sizeof (gfor_fndecl_stop_numeric_f08),
     &gt_ggc_mx_tree_node,
     &gt_pch_nx_tree_node
   },
@@ -731,20 +720,6 @@ EXPORTED_CONST struct ggc_root_tab gt_ggc_r_gtype_fortran_h[] = {
     &gfc_charlen_type_node,
     1,
     sizeof (gfc_charlen_type_node),
-    &gt_ggc_mx_tree_node,
-    &gt_pch_nx_tree_node
-  },
-  {
-    &complex_float128_type_node,
-    1,
-    sizeof (complex_float128_type_node),
-    &gt_ggc_mx_tree_node,
-    &gt_pch_nx_tree_node
-  },
-  {
-    &float128_type_node,
-    1,
-    sizeof (float128_type_node),
     &gt_ggc_mx_tree_node,
     &gt_pch_nx_tree_node
   },
@@ -817,15 +792,14 @@ extern const struct ggc_root_tab gt_ggc_r_gt_expr_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_function_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_except_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_gcse_h[];
-extern const struct ggc_root_tab gt_ggc_r_gt_godump_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_optabs_h[];
+extern const struct ggc_root_tab gt_ggc_r_gt_reginfo_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_cfglayout_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_sdbout_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_stor_layout_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_stringpool_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_tree_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_varasm_h[];
-extern const struct ggc_root_tab gt_ggc_r_gt_gimple_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_tree_mudflap_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_tree_ssa_address_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_gimplify_h[];
@@ -840,12 +814,12 @@ extern const struct ggc_root_tab gt_ggc_r_gt_sparc_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_passes_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_cgraphunit_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_tree_ssa_propagate_h[];
+extern const struct ggc_root_tab gt_ggc_r_gt_ipa_reference_h[];
 extern const struct ggc_root_tab gt_ggc_r_gtype_desc_c[];
 extern const struct ggc_root_tab gt_ggc_r_gt_fortran_f95_lang_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_fortran_trans_decl_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_fortran_trans_intrinsic_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_fortran_trans_io_h[];
-extern const struct ggc_root_tab gt_ggc_r_gt_fortran_trans_stmt_h[];
 extern const struct ggc_root_tab gt_ggc_r_gt_fortran_trans_types_h[];
 extern const struct ggc_root_tab gt_ggc_r_gtype_fortran_h[];
 EXPORTED_CONST struct ggc_root_tab * const gt_ggc_rtab[] = {
@@ -866,15 +840,14 @@ EXPORTED_CONST struct ggc_root_tab * const gt_ggc_rtab[] = {
   gt_ggc_r_gt_function_h,
   gt_ggc_r_gt_except_h,
   gt_ggc_r_gt_gcse_h,
-  gt_ggc_r_gt_godump_h,
   gt_ggc_r_gt_optabs_h,
+  gt_ggc_r_gt_reginfo_h,
   gt_ggc_r_gt_cfglayout_h,
   gt_ggc_r_gt_sdbout_h,
   gt_ggc_r_gt_stor_layout_h,
   gt_ggc_r_gt_stringpool_h,
   gt_ggc_r_gt_tree_h,
   gt_ggc_r_gt_varasm_h,
-  gt_ggc_r_gt_gimple_h,
   gt_ggc_r_gt_tree_mudflap_h,
   gt_ggc_r_gt_tree_ssa_address_h,
   gt_ggc_r_gt_gimplify_h,
@@ -889,12 +862,12 @@ EXPORTED_CONST struct ggc_root_tab * const gt_ggc_rtab[] = {
   gt_ggc_r_gt_passes_h,
   gt_ggc_r_gt_cgraphunit_h,
   gt_ggc_r_gt_tree_ssa_propagate_h,
+  gt_ggc_r_gt_ipa_reference_h,
   gt_ggc_r_gtype_desc_c,
   gt_ggc_r_gt_fortran_f95_lang_h,
   gt_ggc_r_gt_fortran_trans_decl_h,
   gt_ggc_r_gt_fortran_trans_intrinsic_h,
   gt_ggc_r_gt_fortran_trans_io_h,
-  gt_ggc_r_gt_fortran_trans_stmt_h,
   gt_ggc_r_gt_fortran_trans_types_h,
   gt_ggc_r_gtype_fortran_h,
   NULL
@@ -919,14 +892,14 @@ EXPORTED_CONST struct ggc_root_tab * const gt_ggc_deletable_rtab[] = {
 extern const struct ggc_cache_tab gt_ggc_rc_gt_emit_rtl_h[];
 extern const struct ggc_cache_tab gt_ggc_rc_gt_function_h[];
 extern const struct ggc_cache_tab gt_ggc_rc_gt_tree_h[];
-extern const struct ggc_cache_tab gt_ggc_rc_gt_gimple_h[];
+extern const struct ggc_cache_tab gt_ggc_rc_gt_varasm_h[];
 extern const struct ggc_cache_tab gt_ggc_rc_gt_tree_ssa_structalias_h[];
 extern const struct ggc_cache_tab gt_ggc_rc_gt_lto_symtab_h[];
 EXPORTED_CONST struct ggc_cache_tab * const gt_ggc_cache_rtab[] = {
   gt_ggc_rc_gt_emit_rtl_h,
   gt_ggc_rc_gt_function_h,
   gt_ggc_rc_gt_tree_h,
-  gt_ggc_rc_gt_gimple_h,
+  gt_ggc_rc_gt_varasm_h,
   gt_ggc_rc_gt_tree_ssa_structalias_h,
   gt_ggc_rc_gt_lto_symtab_h,
   NULL
@@ -934,14 +907,14 @@ EXPORTED_CONST struct ggc_cache_tab * const gt_ggc_cache_rtab[] = {
 extern const struct ggc_root_tab gt_pch_rc_gt_emit_rtl_h[];
 extern const struct ggc_root_tab gt_pch_rc_gt_function_h[];
 extern const struct ggc_root_tab gt_pch_rc_gt_tree_h[];
-extern const struct ggc_root_tab gt_pch_rc_gt_gimple_h[];
+extern const struct ggc_root_tab gt_pch_rc_gt_varasm_h[];
 extern const struct ggc_root_tab gt_pch_rc_gt_tree_ssa_structalias_h[];
 extern const struct ggc_root_tab gt_pch_rc_gt_lto_symtab_h[];
 EXPORTED_CONST struct ggc_root_tab * const gt_pch_cache_rtab[] = {
   gt_pch_rc_gt_emit_rtl_h,
   gt_pch_rc_gt_function_h,
   gt_pch_rc_gt_tree_h,
-  gt_pch_rc_gt_gimple_h,
+  gt_pch_rc_gt_varasm_h,
   gt_pch_rc_gt_tree_ssa_structalias_h,
   gt_pch_rc_gt_lto_symtab_h,
   NULL
@@ -965,6 +938,7 @@ extern const struct ggc_root_tab gt_pch_rs_gt_tree_h[];
 extern const struct ggc_root_tab gt_pch_rs_gt_varasm_h[];
 extern const struct ggc_root_tab gt_pch_rs_gt_gimplify_h[];
 extern const struct ggc_root_tab gt_pch_rs_gt_omp_low_h[];
+extern const struct ggc_root_tab gt_pch_rs_gt_sparc_h[];
 extern const struct ggc_root_tab gt_pch_rs_gtype_desc_c[];
 extern const struct ggc_root_tab gt_pch_rs_gt_fortran_trans_intrinsic_h[];
 extern const struct ggc_root_tab gt_pch_rs_gt_fortran_trans_io_h[];
@@ -984,6 +958,7 @@ EXPORTED_CONST struct ggc_root_tab * const gt_pch_scalar_rtab[] = {
   gt_pch_rs_gt_varasm_h,
   gt_pch_rs_gt_gimplify_h,
   gt_pch_rs_gt_omp_low_h,
+  gt_pch_rs_gt_sparc_h,
   gt_pch_rs_gtype_desc_c,
   gt_pch_rs_gt_fortran_trans_intrinsic_h,
   gt_pch_rs_gt_fortran_trans_io_h,

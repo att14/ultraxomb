@@ -1,0 +1,27 @@
+unwind-c.o: ../../../gcc-4.5.3/libgcc/../gcc/unwind-c.c \
+ ../.././gcc/tconfig.h ../.././gcc/auto-host.h \
+ ../../../gcc-4.5.3/libgcc/../include/ansidecl.h \
+ ../../../gcc-4.5.3/libgcc/../gcc/tsystem.h \
+ /home/att14/ultraxomb/build/gcc-obj/./gcc/include/stddef.h \
+ /home/att14/ultraxomb/build/gcc-obj/./gcc/include/float.h \
+ ../../../gcc-4.5.3/libgcc/../include/filenames.h \
+ /home/att14/ultraxomb/build/gcc-obj/./gcc/include/unwind.h \
+ ../../../gcc-4.5.3/libgcc/../gcc/unwind-pe.h
+
+../.././gcc/tconfig.h:
+
+../.././gcc/auto-host.h:
+
+../../../gcc-4.5.3/libgcc/../include/ansidecl.h:
+
+../../../gcc-4.5.3/libgcc/../gcc/tsystem.h:
+
+/home/att14/ultraxomb/build/gcc-obj/./gcc/include/stddef.h:
+
+/home/att14/ultraxomb/build/gcc-obj/./gcc/include/float.h:
+
+../../../gcc-4.5.3/libgcc/../include/filenames.h:
+
+/home/att14/ultraxomb/build/gcc-obj/./gcc/include/unwind.h:
+
+../../../gcc-4.5.3/libgcc/../gcc/unwind-pe.h:

@@ -14,6 +14,7 @@
 #include "function.h"
 #include "regs.h"
 #include "hard-reg-set.h"
+#include "real.h"
 #include "insn-config.h"
 
 #include "conditions.h"
@@ -21,7 +22,7 @@
 
 #include "recog.h"
 
-#include "diagnostic-core.h"
+#include "toplev.h"
 #include "output.h"
 #include "target.h"
 #include "tm-constrs.h"
@@ -29,7 +30,7 @@
 static const char *
 output_2 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 390 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 383 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (TARGET_V9)
     return "fcmpes\t%0, %1, %2";
@@ -40,7 +41,7 @@ output_2 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_3 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 402 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 395 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (TARGET_V9)
     return "fcmped\t%0, %1, %2";
@@ -51,7 +52,7 @@ output_3 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_4 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 415 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 408 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (TARGET_V9)
     return "fcmpeq\t%0, %1, %2";
@@ -62,7 +63,7 @@ output_4 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_5 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 427 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 420 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (TARGET_V9)
     return "fcmps\t%0, %1, %2";
@@ -73,7 +74,7 @@ output_5 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_6 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 439 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 432 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (TARGET_V9)
     return "fcmpd\t%0, %1, %2";
@@ -84,7 +85,7 @@ output_6 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_7 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 452 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 445 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (TARGET_V9)
     return "fcmpq\t%0, %1, %2";
@@ -95,7 +96,7 @@ output_7 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_37 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 982 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 975 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   return output_cbranch (operands[0], operands[1], 1, 0,
 			 final_sequence && INSN_ANNULLED_BRANCH_P (insn),
@@ -106,7 +107,7 @@ output_37 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_38 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 998 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 991 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   return output_cbranch (operands[0], operands[1], 1, 1,
 			 final_sequence && INSN_ANNULLED_BRANCH_P (insn),
@@ -117,7 +118,7 @@ output_38 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_39 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 1015 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1008 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   return output_cbranch (operands[1], operands[2], 2, 0,
 			 final_sequence && INSN_ANNULLED_BRANCH_P (insn),
@@ -128,7 +129,7 @@ output_39 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_40 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 1032 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1025 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   return output_cbranch (operands[1], operands[2], 2, 1,
 			 final_sequence && INSN_ANNULLED_BRANCH_P (insn),
@@ -139,7 +140,7 @@ output_40 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_41 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 1049 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1042 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   return output_cbranch (operands[1], operands[2], 2, 0,
 			 final_sequence && INSN_ANNULLED_BRANCH_P (insn),
@@ -150,7 +151,7 @@ output_41 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_42 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 1066 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1059 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   return output_cbranch (operands[1], operands[2], 2, 1,
 			 final_sequence && INSN_ANNULLED_BRANCH_P (insn),
@@ -161,7 +162,7 @@ output_42 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_43 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 1088 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1081 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   return output_v9branch (operands[0], operands[2], 1, 2, 0,
 			  final_sequence && INSN_ANNULLED_BRANCH_P (insn),
@@ -172,7 +173,7 @@ output_43 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_44 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 1105 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1098 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   return output_v9branch (operands[0], operands[2], 1, 2, 1,
 			  final_sequence && INSN_ANNULLED_BRANCH_P (insn),
@@ -183,7 +184,7 @@ output_44 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_45 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 1125 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1118 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (flag_delayed_branch)
     return "sethi\t%%hi(%a1-4), %0\n\tcall\t%a2\n\t add\t%0, %%lo(%a1+4), %0";
@@ -195,7 +196,7 @@ output_45 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_46 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 1125 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1118 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (flag_delayed_branch)
     return "sethi\t%%hi(%a1-4), %0\n\tcall\t%a2\n\t add\t%0, %%lo(%a1+4), %0";
@@ -231,7 +232,7 @@ static const char * const output_50[] = {
 static const char *
 output_53 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 1236 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1229 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
 #ifdef HAVE_AS_SPARC_GOTDATA_OP
   return "xor\t%1, %%gdop_lox10(%a2), %0";
@@ -244,7 +245,7 @@ output_53 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_54 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 1248 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1241 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
 #ifdef HAVE_AS_SPARC_GOTDATA_OP
   return "sethi\t%%gdop_hix22(%a1), %0";
@@ -257,7 +258,7 @@ output_54 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_55 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 1262 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1255 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
 #ifdef HAVE_AS_SPARC_GOTDATA_OP
   return "ld\t[%1 + %2], %0, %%gdop(%a3)";
@@ -296,7 +297,7 @@ static const char * const output_59[] = {
 static const char *
 output_62 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 1469 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1462 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
 #ifdef HAVE_AS_SPARC_GOTDATA_OP
   return "xor\t%1, %%gdop_lox10(%a2), %0";
@@ -309,7 +310,7 @@ output_62 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_63 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 1481 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1474 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
 #ifdef HAVE_AS_SPARC_GOTDATA_OP
   return "sethi\t%%gdop_hix22(%a1), %0";
@@ -322,7 +323,7 @@ output_63 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_64 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 1495 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1488 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
 #ifdef HAVE_AS_SPARC_GOTDATA_OP
   return "ldx\t[%1 + %2], %0, %%gdop(%a3)";
@@ -335,7 +336,7 @@ output_64 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_82 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 1821 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1814 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (GET_CODE (operands[1]) == CONST_DOUBLE
       && (which_alternative == 2
@@ -377,7 +378,7 @@ output_82 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_83 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 1821 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1814 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (GET_CODE (operands[1]) == CONST_DOUBLE
       && (which_alternative == 2
@@ -419,7 +420,7 @@ output_83 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_84 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 1821 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1814 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (GET_CODE (operands[1]) == CONST_DOUBLE
       && (which_alternative == 2
@@ -461,7 +462,7 @@ output_84 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_85 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 1869 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1862 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (GET_CODE (operands[1]) == CONST_DOUBLE
       && (which_alternative == 0
@@ -497,7 +498,7 @@ output_85 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_86 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 1908 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1901 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   REAL_VALUE_TYPE r;
   long i;
@@ -512,7 +513,7 @@ output_86 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_87 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 1922 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 1915 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   REAL_VALUE_TYPE r;
   long i;
@@ -702,7 +703,7 @@ static const char * const output_137[] = {
 static const char *
 output_138 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 3215 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3208 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   int len = INTVAL (operands[1]);
   int pos = 32 - INTVAL (operands[2]) - len;
@@ -715,7 +716,7 @@ output_138 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_139 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 3232 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3225 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   int len = INTVAL (operands[1]);
   int pos = 64 - INTVAL (operands[2]) - len;
@@ -750,7 +751,7 @@ static const char * const output_169[] = {
 static const char *
 output_176 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 3888 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 3881 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (sparc_check_64 (operands[1], insn) <= 0)
     output_asm_insn ("srl\t%L1, 0, %L1", operands);
@@ -827,7 +828,7 @@ static const char * const output_190[] = {
 static const char *
 output_193 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 4410 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4403 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   output_asm_insn ("sra\t%1, 31, %3", operands);
   output_asm_insn ("wr\t%3, 0, %%y", operands);
@@ -842,7 +843,7 @@ output_193 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_196 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 4500 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 4493 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   output_asm_insn ("wr\t%%g0, 0, %%y", operands);
 
@@ -1136,7 +1137,7 @@ static const char * const output_295[] = {
 static const char *
 output_301 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 5613 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5606 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (GET_CODE (operands[2]) == CONST_INT)
     operands[2] = GEN_INT (INTVAL (operands[2]) & 0x1f);
@@ -1147,7 +1148,7 @@ output_301 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_302 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 5642 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5635 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (GET_CODE (operands[2]) == CONST_INT)
     operands[2] = GEN_INT (INTVAL (operands[2]) & 0x3f);
@@ -1158,14 +1159,14 @@ output_302 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_303 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 5658 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5651 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
  return output_v8plus_shift (operands, insn, "sllx");
 }
 
 static const char *
 output_306 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 5704 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5697 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
      if (GET_CODE (operands[2]) == CONST_INT)
        operands[2] = GEN_INT (INTVAL (operands[2]) & 0x1f);
@@ -1176,7 +1177,7 @@ output_306 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_308 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 5727 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5720 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   operands[2] = GEN_INT (INTVAL (operands[2]) - 32);
   return "sra\t%1, %2, %0";
@@ -1186,7 +1187,7 @@ output_308 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_309 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 5754 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5747 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
     if (GET_CODE (operands[2]) == CONST_INT)
       operands[2] = GEN_INT (INTVAL (operands[2]) & 0x3f);
@@ -1197,14 +1198,14 @@ output_309 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_310 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 5768 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5761 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
  return output_v8plus_shift (operands, insn, "srax");
 }
 
 static const char *
 output_311 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 5777 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5770 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
     if (GET_CODE (operands[2]) == CONST_INT)
       operands[2] = GEN_INT (INTVAL (operands[2]) & 0x1f);
@@ -1215,7 +1216,7 @@ output_311 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_313 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 5805 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5798 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   operands[2] = GEN_INT (32 - INTVAL (operands[2]));
   return "srl\t%1, %2, %0";
@@ -1225,7 +1226,7 @@ output_313 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_314 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 5831 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5824 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
     if (GET_CODE (operands[2]) == CONST_INT)
       operands[2] = GEN_INT (INTVAL (operands[2]) & 0x3f);
@@ -1236,14 +1237,14 @@ output_314 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_315 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 5845 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5838 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
  return output_v8plus_shift (operands, insn, "srlx");
 }
 
 static const char *
 output_316 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 5855 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5848 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   operands[2] = GEN_INT (INTVAL (operands[2]) + 32);
   return "srax\t%1, %2, %0";
@@ -1253,7 +1254,7 @@ output_316 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_317 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 5867 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5860 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   operands[2] = GEN_INT (INTVAL (operands[2]) + 32);
   return "srlx\t%1, %2, %0";
@@ -1263,7 +1264,7 @@ output_317 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_318 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 5882 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5875 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   operands[2] = GEN_INT (INTVAL (operands[2]) + INTVAL (operands[3]));
 
@@ -1274,7 +1275,7 @@ output_318 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_319 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 5898 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5891 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   operands[2] = GEN_INT (INTVAL (operands[2]) + INTVAL (operands[3]));
 
@@ -1285,49 +1286,42 @@ output_319 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 static const char *
 output_320 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 5911 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 5904 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
  return output_ubranch (operands[0], 0, insn);
 }
 
 static const char *
 output_326 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 6234 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6227 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
  return output_sibcall(insn, operands[0]);
 }
 
 static const char *
 output_327 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 6259 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6252 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
  return output_sibcall(insn, operands[1]);
 }
 
 static const char *
 output_329 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 6313 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6306 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
  return output_return (insn);
 }
 
 static const char *
-output_331 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
+output_333 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 6355 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
- return output_probe_stack_range (operands[0], operands[2]);
+#line 6475 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+{ return TARGET_V9 ? "flushw" : "ta\t3"; }
 }
 
 static const char *
 output_334 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 6489 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-{ return TARGET_V9 ? "flushw" : "ta\t3"; }
-}
-
-static const char *
-output_335 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
-{
-#line 6495 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6481 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (flag_delayed_branch)
     return "jmp\t%0\n\t restore";
@@ -1337,9 +1331,9 @@ output_335 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 }
 
 static const char *
-output_336 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
+output_335 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 6521 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6507 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (!cfun->calls_alloca)
     return "";
@@ -1361,32 +1355,56 @@ output_336 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 }
 
 static const char *
+output_336 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
+{
+#line 6565 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+{ return TARGET_V9 ? "flush\t%f0" : "iflush\t%f0"; }
+}
+
+static const char *
 output_337 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 6586 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6571 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 { return TARGET_V9 ? "flush\t%f0" : "iflush\t%f0"; }
 }
 
 static const char *
 output_338 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 6592 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-{ return TARGET_V9 ? "flush\t%f0" : "iflush\t%f0"; }
-}
-
-static const char *
-output_339 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
-{
-#line 6609 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6588 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   return "sub\t%%g0, %1, %0\n\tand\t%0, %1, %0\n\tscan\t%0, 0, %0\n\tmov\t32, %2\n\tsub\t%2, %0, %0\n\tsra\t%0, 31, %2\n\tand\t%2, 31, %2\n\tadd\t%2, %0, %0";
 }
 }
 
 static const char *
+output_339 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
+{
+#line 6796 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
+{
+  static const char * const prefetch_instr[2][2] = {
+    {
+      "prefetch\t[%a0], 1", /* no locality: prefetch for one read */
+      "prefetch\t[%a0], 0", /* medium to high locality: prefetch for several reads */
+    },
+    {
+      "prefetch\t[%a0], 3", /* no locality: prefetch for one write */
+      "prefetch\t[%a0], 2", /* medium to high locality: prefetch for several writes */
+    }
+  };
+  int read_or_write = INTVAL (operands[1]);
+  int locality = INTVAL (operands[2]);
+
+  gcc_assert (read_or_write == 0 || read_or_write == 1);
+  gcc_assert (locality >= 0 && locality < 4);
+  return prefetch_instr [read_or_write][locality == 0 ? 0 : 1];
+}
+}
+
+static const char *
 output_340 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 6817 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6821 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   static const char * const prefetch_instr[2][2] = {
     {
@@ -1408,33 +1426,9 @@ output_340 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 }
 
 static const char *
-output_341 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
+output_342 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 6842 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
-{
-  static const char * const prefetch_instr[2][2] = {
-    {
-      "prefetch\t[%a0], 1", /* no locality: prefetch for one read */
-      "prefetch\t[%a0], 0", /* medium to high locality: prefetch for several reads */
-    },
-    {
-      "prefetch\t[%a0], 3", /* no locality: prefetch for one write */
-      "prefetch\t[%a0], 2", /* medium to high locality: prefetch for several writes */
-    }
-  };
-  int read_or_write = INTVAL (operands[1]);
-  int locality = INTVAL (operands[2]);
-
-  gcc_assert (read_or_write == 0 || read_or_write == 1);
-  gcc_assert (locality >= 0 && locality < 4);
-  return prefetch_instr [read_or_write][locality == 0 ? 0 : 1];
-}
-}
-
-static const char *
-output_343 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
-{
-#line 6898 "../../gcc-4.6.1/gcc/config/sparc/sparc.md"
+#line 6877 "../../gcc-4.5.3/gcc/config/sparc/sparc.md"
 {
   if (TARGET_V9)
     return "t%C0\t%%icc, %1";
@@ -1444,9 +1438,9 @@ output_343 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 }
 
 static const char *
-output_419 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
+output_418 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
 {
-#line 103 "../../gcc-4.6.1/gcc/config/sparc/sync.md"
+#line 103 "../../gcc-4.5.3/gcc/config/sparc/sync.md"
 {
   if (sparc_check_64 (operands[3], insn) <= 0)
     output_asm_insn ("srl\t%L3, 0, %L3", operands);
@@ -1456,7 +1450,7 @@ output_419 (rtx *operands ATTRIBUTE_UNUSED, rtx insn ATTRIBUTE_UNUSED)
     output_asm_insn ("srl\t%L2, 0, %L2", operands);
   output_asm_insn ("sllx\t%H2, 32, %H3", operands);
   output_asm_insn ("or\t%L2, %H3, %H3", operands);
-  output_asm_insn ("casx\t[%1], %H3, %L3", operands);
+  output_asm_insn ("casx\t%1, %H3, %L3", operands);
   return "srlx\t%L3, 32, %H3";
 }
 }
@@ -1470,7 +1464,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
     0
   },
   {
@@ -1478,7 +1471,6 @@ static const struct insn_operand_data operand_data[] =
     "r",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -1486,14 +1478,12 @@ static const struct insn_operand_data operand_data[] =
     "rI",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
     DImode,
-    0,
     0,
     1
   },
@@ -1502,6 +1492,26 @@ static const struct insn_operand_data operand_data[] =
     "rI",
     DImode,
     0,
+    1
+  },
+  {
+    fcc_register_operand,
+    "=c",
+    CCFPEmode,
+    0,
+    1
+  },
+  {
+    register_operand,
+    "f",
+    SFmode,
+    0,
+    1
+  },
+  {
+    register_operand,
+    "f",
+    SFmode,
     0,
     1
   },
@@ -1510,22 +1520,19 @@ static const struct insn_operand_data operand_data[] =
     "=c",
     CCFPEmode,
     0,
+    1
+  },
+  {
+    register_operand,
+    "e",
+    DFmode,
     0,
     1
   },
   {
     register_operand,
-    "f",
-    SFmode,
-    0,
-    0,
-    1
-  },
-  {
-    register_operand,
-    "f",
-    SFmode,
-    0,
+    "e",
+    DFmode,
     0,
     1
   },
@@ -1534,31 +1541,6 @@ static const struct insn_operand_data operand_data[] =
     "=c",
     CCFPEmode,
     0,
-    0,
-    1
-  },
-  {
-    register_operand,
-    "e",
-    DFmode,
-    0,
-    0,
-    1
-  },
-  {
-    register_operand,
-    "e",
-    DFmode,
-    0,
-    0,
-    1
-  },
-  {
-    fcc_register_operand,
-    "=c",
-    CCFPEmode,
-    0,
-    0,
     1
   },
   {
@@ -1566,14 +1548,12 @@ static const struct insn_operand_data operand_data[] =
     "e",
     TFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "e",
     TFmode,
-    0,
     0,
     1
   },
@@ -1581,7 +1561,6 @@ static const struct insn_operand_data operand_data[] =
     fcc_register_operand,
     "=c",
     CCFPmode,
-    0,
     0,
     1
   },
@@ -1590,7 +1569,6 @@ static const struct insn_operand_data operand_data[] =
     "f",
     SFmode,
     0,
-    0,
     1
   },
   {
@@ -1598,14 +1576,12 @@ static const struct insn_operand_data operand_data[] =
     "f",
     SFmode,
     0,
-    0,
     1
   },
   {
     fcc_register_operand,
     "=c",
     CCFPmode,
-    0,
     0,
     1
   },
@@ -1614,14 +1590,12 @@ static const struct insn_operand_data operand_data[] =
     "e",
     DFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "e",
     DFmode,
-    0,
     0,
     1
   },
@@ -1630,7 +1604,6 @@ static const struct insn_operand_data operand_data[] =
     "=c",
     CCFPmode,
     0,
-    0,
     1
   },
   {
@@ -1638,14 +1611,12 @@ static const struct insn_operand_data operand_data[] =
     "e",
     TFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "e",
     TFmode,
-    0,
     0,
     1
   },
@@ -1654,14 +1625,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
     SImode,
-    0,
     0,
     1
   },
@@ -1670,14 +1639,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
     SImode,
-    0,
     0,
     1
   },
@@ -1686,14 +1653,12 @@ static const struct insn_operand_data operand_data[] =
     "=&r",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
     DImode,
-    0,
     0,
     1
   },
@@ -1702,7 +1667,6 @@ static const struct insn_operand_data operand_data[] =
     "=&r",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -1710,14 +1674,12 @@ static const struct insn_operand_data operand_data[] =
     "r",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     SImode,
-    0,
     0,
     1
   },
@@ -1726,7 +1688,6 @@ static const struct insn_operand_data operand_data[] =
     "r",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -1734,14 +1695,12 @@ static const struct insn_operand_data operand_data[] =
     "r",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     SImode,
-    0,
     0,
     1
   },
@@ -1750,14 +1709,12 @@ static const struct insn_operand_data operand_data[] =
     "rI",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     SImode,
-    0,
     0,
     1
   },
@@ -1766,7 +1723,6 @@ static const struct insn_operand_data operand_data[] =
     "%r",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -1774,14 +1730,12 @@ static const struct insn_operand_data operand_data[] =
     "rI",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     SImode,
-    0,
     0,
     1
   },
@@ -1790,14 +1744,12 @@ static const struct insn_operand_data operand_data[] =
     "rJ",
     SImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "rI",
     SImode,
-    0,
     0,
     1
   },
@@ -1806,14 +1758,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
     0,
     "",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -1822,7 +1772,6 @@ static const struct insn_operand_data operand_data[] =
     "c",
     CCFPmode,
     0,
-    0,
     1
   },
   {
@@ -1830,14 +1779,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
     0,
     "",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -1846,7 +1793,6 @@ static const struct insn_operand_data operand_data[] =
     "c",
     CCFPEmode,
     0,
-    0,
     1
   },
   {
@@ -1854,14 +1800,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
     0,
     "",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -1870,14 +1814,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
     register_operand,
     "r",
     DImode,
-    0,
     0,
     1
   },
@@ -1886,14 +1828,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     SImode,
-    0,
     0,
     1
   },
@@ -1902,7 +1842,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -1910,14 +1849,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
     const_int_operand,
     "",
     SImode,
-    0,
     0,
     1
   },
@@ -1926,14 +1863,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     DImode,
     0,
-    0,
     1
   },
   {
     symbolic_operand,
     "",
     DImode,
-    0,
     0,
     1
   },
@@ -1942,14 +1877,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
     const_int_operand,
     "",
     DImode,
-    0,
     0,
     1
   },
@@ -1957,7 +1890,6 @@ static const struct insn_operand_data operand_data[] =
     nonimmediate_operand,
     "=r,r,m",
     QImode,
-    0,
     0,
     1
   },
@@ -1966,14 +1898,12 @@ static const struct insn_operand_data operand_data[] =
     "rI,m,rJ",
     QImode,
     0,
-    0,
     1
   },
   {
     nonimmediate_operand,
     "=r,r,r,m",
     HImode,
-    0,
     0,
     1
   },
@@ -1982,14 +1912,12 @@ static const struct insn_operand_data operand_data[] =
     "rI,K,m,rJ",
     HImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     HImode,
-    0,
     0,
     1
   },
@@ -1998,14 +1926,12 @@ static const struct insn_operand_data operand_data[] =
     "%r",
     HImode,
     0,
-    0,
     1
   },
   {
     small_int_operand,
     "I",
     HImode,
-    0,
     0,
     1
   },
@@ -2014,7 +1940,6 @@ static const struct insn_operand_data operand_data[] =
     "=r,r,r,m,!f,!f,!m,d",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -2022,14 +1947,12 @@ static const struct insn_operand_data operand_data[] =
     "rI,K,m,rJ,f,m,f,J",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     SImode,
-    0,
     0,
     1
   },
@@ -2038,14 +1961,12 @@ static const struct insn_operand_data operand_data[] =
     "r",
     SImode,
     0,
-    0,
     1
   },
   {
     immediate_operand,
     "in",
     SImode,
-    0,
     0,
     1
   },
@@ -2054,7 +1975,6 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -2062,14 +1982,12 @@ static const struct insn_operand_data operand_data[] =
     "in",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     SImode,
-    0,
     0,
     1
   },
@@ -2078,7 +1996,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
     1
   },
   {
@@ -2086,7 +2003,6 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -2094,14 +2010,12 @@ static const struct insn_operand_data operand_data[] =
     "r",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
     SImode,
-    0,
     0,
     1
   },
@@ -2110,14 +2024,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     SImode,
-    0,
     0,
     1
   },
@@ -2126,7 +2038,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -2134,14 +2045,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     SImode,
-    0,
     0,
     1
   },
@@ -2150,7 +2059,6 @@ static const struct insn_operand_data operand_data[] =
     "r",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -2158,14 +2066,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
     0,
     "",
     SImode,
-    0,
     0,
     1
   },
@@ -2174,14 +2080,12 @@ static const struct insn_operand_data operand_data[] =
     "=o,T,U,o,r,r,r,?T,?f,?f,?o,?f",
     DImode,
     0,
-    0,
     1
   },
   {
     input_operand,
     "J,U,T,r,o,i,r,f,T,o,f,f",
     DImode,
-    0,
     0,
     1
   },
@@ -2190,7 +2094,6 @@ static const struct insn_operand_data operand_data[] =
     "=r,r,r,m,?e,?e,?W,b",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -2198,14 +2101,12 @@ static const struct insn_operand_data operand_data[] =
     "rI,N,m,rJ,e,W,e,J",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     DImode,
-    0,
     0,
     1
   },
@@ -2214,14 +2115,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
     0,
     "",
     DImode,
-    0,
     0,
     1
   },
@@ -2230,14 +2129,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
     DImode,
-    0,
     0,
     1
   },
@@ -2246,14 +2143,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
     0,
     "",
     DImode,
-    0,
     0,
     1
   },
@@ -2262,14 +2157,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
     DImode,
-    0,
     0,
     1
   },
@@ -2278,14 +2171,12 @@ static const struct insn_operand_data operand_data[] =
     "in",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     DImode,
-    0,
     0,
     1
   },
@@ -2294,7 +2185,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
     1
   },
   {
@@ -2302,7 +2192,6 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -2310,14 +2199,12 @@ static const struct insn_operand_data operand_data[] =
     "r",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
     DImode,
-    0,
     0,
     1
   },
@@ -2326,14 +2213,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     DImode,
-    0,
     0,
     1
   },
@@ -2342,7 +2227,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -2350,14 +2234,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
     DImode,
-    0,
     0,
     1
   },
@@ -2366,14 +2248,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     DImode,
-    0,
     0,
     1
   },
@@ -2382,7 +2262,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -2390,14 +2269,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
     DImode,
-    0,
     0,
     1
   },
@@ -2406,14 +2283,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     DImode,
-    0,
     0,
     1
   },
@@ -2422,14 +2297,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     DImode,
-    0,
     0,
     1
   },
@@ -2438,7 +2311,6 @@ static const struct insn_operand_data operand_data[] =
     "r",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -2446,7 +2318,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -2454,14 +2325,12 @@ static const struct insn_operand_data operand_data[] =
     "=d,f,*r,*r,*r,f,*r,m,m",
     SFmode,
     0,
-    0,
     1
   },
   {
     input_operand,
     "GY,f,*rRY,Q,S,m,m,f,*rGY",
     SFmode,
-    0,
     0,
     1
   },
@@ -2470,14 +2339,12 @@ static const struct insn_operand_data operand_data[] =
     "=d,f,*r,*r,*r,f,*r,m,m",
     V2HImode,
     0,
-    0,
     1
   },
   {
     input_operand,
     "GY,f,*rRY,Q,S,m,m,f,*rGY",
     V2HImode,
-    0,
     0,
     1
   },
@@ -2486,14 +2353,12 @@ static const struct insn_operand_data operand_data[] =
     "=d,f,*r,*r,*r,f,*r,m,m",
     V4QImode,
     0,
-    0,
     1
   },
   {
     input_operand,
     "GY,f,*rRY,Q,S,m,m,f,*rGY",
     V4QImode,
-    0,
     0,
     1
   },
@@ -2502,7 +2367,6 @@ static const struct insn_operand_data operand_data[] =
     "=r,r,r,r,m",
     SFmode,
     0,
-    0,
     1
   },
   {
@@ -2510,14 +2374,12 @@ static const struct insn_operand_data operand_data[] =
     "rR,Q,S,m,rG",
     SFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     SFmode,
-    0,
     0,
     1
   },
@@ -2526,14 +2388,12 @@ static const struct insn_operand_data operand_data[] =
     "r",
     SFmode,
     0,
-    0,
     1
   },
   {
     fp_const_high_losum_operand,
     "S",
     SFmode,
-    0,
     0,
     1
   },
@@ -2542,14 +2402,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     SFmode,
     0,
-    0,
     1
   },
   {
     fp_const_high_losum_operand,
     "S",
     SFmode,
-    0,
     0,
     1
   },
@@ -2558,14 +2416,12 @@ static const struct insn_operand_data operand_data[] =
     "=e,W,U,T,o,e,*r,o,e,o",
     DFmode,
     0,
-    0,
     1
   },
   {
     input_operand,
     "W#F,e,T,U,G,e,*rFo,*r,o#F,e",
     DFmode,
-    0,
     0,
     1
   },
@@ -2574,7 +2430,6 @@ static const struct insn_operand_data operand_data[] =
     "=U,T,o,r,o",
     DFmode,
     0,
-    0,
     1
   },
   {
@@ -2582,7 +2437,6 @@ static const struct insn_operand_data operand_data[] =
     "T,U,G,ro,r",
     DFmode,
     0,
-    0,
     1
   },
   {
@@ -2590,14 +2444,12 @@ static const struct insn_operand_data operand_data[] =
     "=b,e,e,W,*r,*r,m,*r",
     DFmode,
     0,
-    0,
     1
   },
   {
     input_operand,
     "GY,e,W#F,e,*rGY,m,*rGY,DF",
     DFmode,
-    0,
     0,
     1
   },
@@ -2606,7 +2458,6 @@ static const struct insn_operand_data operand_data[] =
     "=b,e,e,W,*r,*r,m,*r",
     V2SImode,
     0,
-    0,
     1
   },
   {
@@ -2614,14 +2465,12 @@ static const struct insn_operand_data operand_data[] =
     "GY,e,W#F,e,*rGY,m,*rGY,DF",
     V2SImode,
     0,
-    0,
     1
   },
   {
     nonimmediate_operand,
     "=b,e,e,W,*r,*r,m,*r",
     V4HImode,
-    0,
     0,
     1
   },
@@ -2630,7 +2479,6 @@ static const struct insn_operand_data operand_data[] =
     "GY,e,W#F,e,*rGY,m,*rGY,DF",
     V4HImode,
     0,
-    0,
     1
   },
   {
@@ -2638,14 +2486,12 @@ static const struct insn_operand_data operand_data[] =
     "=b,e,e,W,*r,*r,m,*r",
     V8QImode,
     0,
-    0,
     1
   },
   {
     input_operand,
     "GY,e,W#F,e,*rGY,m,*rGY,DF",
     V8QImode,
-    0,
     0,
     1
   },
@@ -2654,14 +2500,12 @@ static const struct insn_operand_data operand_data[] =
     "=r,r,m",
     DFmode,
     0,
-    0,
     1
   },
   {
     input_operand,
     "r,m,rG",
     DFmode,
-    0,
     0,
     1
   },
@@ -2670,14 +2514,12 @@ static const struct insn_operand_data operand_data[] =
     "=b,e,o,r",
     TFmode,
     0,
-    0,
     1
   },
   {
     input_operand,
     "G,oe,Ger,roG",
     TFmode,
-    0,
     0,
     1
   },
@@ -2686,14 +2528,12 @@ static const struct insn_operand_data operand_data[] =
     "=b,e,e,m,o,r",
     TFmode,
     0,
-    0,
     1
   },
   {
     input_operand,
     "G,e,m,e,rG,roG",
     TFmode,
-    0,
     0,
     1
   },
@@ -2702,7 +2542,6 @@ static const struct insn_operand_data operand_data[] =
     "=r,o",
     TFmode,
     0,
-    0,
     1
   },
   {
@@ -2710,14 +2549,12 @@ static const struct insn_operand_data operand_data[] =
     "orG,rG",
     TFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,r",
     QImode,
-    0,
     0,
     1
   },
@@ -2726,14 +2563,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
     icc_or_fcc_register_operand,
     "X,X",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -2742,7 +2577,6 @@ static const struct insn_operand_data operand_data[] =
     "rL,0",
     QImode,
     0,
-    0,
     1
   },
   {
@@ -2750,14 +2584,12 @@ static const struct insn_operand_data operand_data[] =
     "0,rL",
     QImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,r",
     HImode,
-    0,
     0,
     1
   },
@@ -2766,14 +2598,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
     icc_or_fcc_register_operand,
     "X,X",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -2782,7 +2612,6 @@ static const struct insn_operand_data operand_data[] =
     "rL,0",
     HImode,
     0,
-    0,
     1
   },
   {
@@ -2790,14 +2619,12 @@ static const struct insn_operand_data operand_data[] =
     "0,rL",
     HImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,r",
     SImode,
-    0,
     0,
     1
   },
@@ -2806,14 +2633,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
     icc_or_fcc_register_operand,
     "X,X",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -2822,7 +2647,6 @@ static const struct insn_operand_data operand_data[] =
     "rL,0",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -2830,14 +2654,12 @@ static const struct insn_operand_data operand_data[] =
     "0,rL",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,r",
     DImode,
-    0,
     0,
     1
   },
@@ -2846,14 +2668,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
     icc_or_fcc_register_operand,
     "X,X",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -2862,7 +2682,6 @@ static const struct insn_operand_data operand_data[] =
     "rL,0",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -2870,14 +2689,12 @@ static const struct insn_operand_data operand_data[] =
     "0,rL",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,r",
     QImode,
-    0,
     0,
     1
   },
@@ -2886,14 +2703,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
     register_operand,
     "r,r",
     DImode,
-    0,
     0,
     1
   },
@@ -2902,7 +2717,6 @@ static const struct insn_operand_data operand_data[] =
     "rM,0",
     QImode,
     0,
-    0,
     1
   },
   {
@@ -2910,14 +2724,12 @@ static const struct insn_operand_data operand_data[] =
     "0,rM",
     QImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,r",
     HImode,
-    0,
     0,
     1
   },
@@ -2926,14 +2738,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
     register_operand,
     "r,r",
     DImode,
-    0,
     0,
     1
   },
@@ -2942,7 +2752,6 @@ static const struct insn_operand_data operand_data[] =
     "rM,0",
     HImode,
     0,
-    0,
     1
   },
   {
@@ -2950,14 +2759,12 @@ static const struct insn_operand_data operand_data[] =
     "0,rM",
     HImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,r",
     SImode,
-    0,
     0,
     1
   },
@@ -2966,14 +2773,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
     register_operand,
     "r,r",
     DImode,
-    0,
     0,
     1
   },
@@ -2982,14 +2787,12 @@ static const struct insn_operand_data operand_data[] =
     "rM,0",
     SImode,
     0,
-    0,
     1
   },
   {
     arith10_operand,
     "0,rM",
     SImode,
-    0,
     0,
     1
   },
@@ -2998,7 +2801,6 @@ static const struct insn_operand_data operand_data[] =
     "=r,r",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -3006,14 +2808,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
     register_operand,
     "r,r",
     DImode,
-    0,
     0,
     1
   },
@@ -3022,14 +2822,12 @@ static const struct insn_operand_data operand_data[] =
     "rM,0",
     DImode,
     0,
-    0,
     1
   },
   {
     arith10_operand,
     "0,rM",
     DImode,
-    0,
     0,
     1
   },
@@ -3038,7 +2836,6 @@ static const struct insn_operand_data operand_data[] =
     "=f,f",
     SFmode,
     0,
-    0,
     1
   },
   {
@@ -3046,14 +2843,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
     icc_or_fcc_register_operand,
     "X,X",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -3062,14 +2857,12 @@ static const struct insn_operand_data operand_data[] =
     "f,0",
     SFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "0,f",
     SFmode,
-    0,
     0,
     1
   },
@@ -3078,7 +2871,6 @@ static const struct insn_operand_data operand_data[] =
     "=f,f",
     SFmode,
     0,
-    0,
     1
   },
   {
@@ -3086,14 +2878,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
     register_operand,
     "r,r",
     DImode,
-    0,
     0,
     1
   },
@@ -3102,7 +2892,6 @@ static const struct insn_operand_data operand_data[] =
     "f,0",
     SFmode,
     0,
-    0,
     1
   },
   {
@@ -3110,14 +2899,12 @@ static const struct insn_operand_data operand_data[] =
     "0,f",
     SFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=e,e",
     DFmode,
-    0,
     0,
     1
   },
@@ -3126,14 +2913,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
     icc_or_fcc_register_operand,
     "X,X",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -3142,7 +2927,6 @@ static const struct insn_operand_data operand_data[] =
     "e,0",
     DFmode,
     0,
-    0,
     1
   },
   {
@@ -3150,14 +2934,12 @@ static const struct insn_operand_data operand_data[] =
     "0,e",
     DFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=e,e",
     DFmode,
-    0,
     0,
     1
   },
@@ -3166,14 +2948,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
     register_operand,
     "r,r",
     DImode,
-    0,
     0,
     1
   },
@@ -3182,7 +2962,6 @@ static const struct insn_operand_data operand_data[] =
     "e,0",
     DFmode,
     0,
-    0,
     1
   },
   {
@@ -3190,14 +2969,12 @@ static const struct insn_operand_data operand_data[] =
     "0,e",
     DFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=e,e",
     TFmode,
-    0,
     0,
     1
   },
@@ -3206,14 +2983,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
     icc_or_fcc_register_operand,
     "X,X",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -3222,14 +2997,12 @@ static const struct insn_operand_data operand_data[] =
     "e,0",
     TFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "0,e",
     TFmode,
-    0,
     0,
     1
   },
@@ -3238,7 +3011,6 @@ static const struct insn_operand_data operand_data[] =
     "=e,e",
     TFmode,
     0,
-    0,
     1
   },
   {
@@ -3246,14 +3018,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
     register_operand,
     "r,r",
     DImode,
-    0,
     0,
     1
   },
@@ -3262,7 +3032,6 @@ static const struct insn_operand_data operand_data[] =
     "e,0",
     TFmode,
     0,
-    0,
     1
   },
   {
@@ -3270,14 +3039,12 @@ static const struct insn_operand_data operand_data[] =
     "0,e",
     TFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     SImode,
-    0,
     0,
     1
   },
@@ -3286,7 +3053,6 @@ static const struct insn_operand_data operand_data[] =
     "m",
     HImode,
     0,
-    0,
     1
   },
   {
@@ -3294,14 +3060,12 @@ static const struct insn_operand_data operand_data[] =
     "=r,r",
     HImode,
     0,
-    0,
     1
   },
   {
     input_operand,
     "r,m",
     QImode,
-    0,
     0,
     1
   },
@@ -3310,14 +3074,12 @@ static const struct insn_operand_data operand_data[] =
     "=r,r",
     SImode,
     0,
-    0,
     1
   },
   {
     input_operand,
     "r,m",
     QImode,
-    0,
     0,
     1
   },
@@ -3326,7 +3088,6 @@ static const struct insn_operand_data operand_data[] =
     "=r,r",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -3334,14 +3095,12 @@ static const struct insn_operand_data operand_data[] =
     "r,m",
     QImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     DImode,
-    0,
     0,
     1
   },
@@ -3350,14 +3109,12 @@ static const struct insn_operand_data operand_data[] =
     "m",
     HImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,r",
     DImode,
-    0,
     0,
     1
   },
@@ -3366,14 +3123,12 @@ static const struct insn_operand_data operand_data[] =
     "r,m",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
     QImode,
-    0,
     0,
     1
   },
@@ -3382,14 +3137,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
     QImode,
-    0,
     0,
     1
   },
@@ -3398,7 +3151,6 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -3406,14 +3158,12 @@ static const struct insn_operand_data operand_data[] =
     "r",
     QImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     QImode,
-    0,
     0,
     1
   },
@@ -3422,7 +3172,6 @@ static const struct insn_operand_data operand_data[] =
     "r",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -3430,14 +3179,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     QImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
     DImode,
-    0,
     0,
     1
   },
@@ -3446,14 +3193,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     HImode,
     0,
-    0,
     1
   },
   {
     memory_operand,
     "m",
     QImode,
-    0,
     0,
     1
   },
@@ -3462,14 +3207,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     SImode,
     0,
-    0,
     1
   },
   {
     memory_operand,
     "m",
     QImode,
-    0,
     0,
     1
   },
@@ -3478,14 +3221,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     DImode,
     0,
-    0,
     1
   },
   {
     memory_operand,
     "m",
     QImode,
-    0,
     0,
     1
   },
@@ -3494,7 +3235,6 @@ static const struct insn_operand_data operand_data[] =
     "r",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -3502,14 +3242,12 @@ static const struct insn_operand_data operand_data[] =
     "I",
     SImode,
     0,
-    0,
     1
   },
   {
     small_int_operand,
     "I",
     SImode,
-    0,
     0,
     1
   },
@@ -3518,6 +3256,12 @@ static const struct insn_operand_data operand_data[] =
     "r",
     DImode,
     0,
+    1
+  },
+  {
+    small_int_operand,
+    "I",
+    SImode,
     0,
     1
   },
@@ -3526,15 +3270,6 @@ static const struct insn_operand_data operand_data[] =
     "I",
     SImode,
     0,
-    0,
-    1
-  },
-  {
-    small_int_operand,
-    "I",
-    SImode,
-    0,
-    0,
     1
   },
   {
@@ -3542,14 +3277,12 @@ static const struct insn_operand_data operand_data[] =
     "=e",
     DFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "f",
     SFmode,
-    0,
     0,
     1
   },
@@ -3558,7 +3291,6 @@ static const struct insn_operand_data operand_data[] =
     "=e",
     TFmode,
     0,
-    0,
     1
   },
   {
@@ -3566,14 +3298,12 @@ static const struct insn_operand_data operand_data[] =
     "f",
     SFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=e",
     TFmode,
-    0,
     0,
     1
   },
@@ -3582,14 +3312,12 @@ static const struct insn_operand_data operand_data[] =
     "e",
     DFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=f",
     SFmode,
-    0,
     0,
     1
   },
@@ -3598,14 +3326,12 @@ static const struct insn_operand_data operand_data[] =
     "e",
     DFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=f",
     SFmode,
-    0,
     0,
     1
   },
@@ -3614,14 +3340,12 @@ static const struct insn_operand_data operand_data[] =
     "e",
     TFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=e",
     DFmode,
-    0,
     0,
     1
   },
@@ -3630,7 +3354,6 @@ static const struct insn_operand_data operand_data[] =
     "e",
     TFmode,
     0,
-    0,
     1
   },
   {
@@ -3638,14 +3361,12 @@ static const struct insn_operand_data operand_data[] =
     "=f",
     SFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "f",
     SImode,
-    0,
     0,
     1
   },
@@ -3654,14 +3375,12 @@ static const struct insn_operand_data operand_data[] =
     "=e",
     DFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "f",
     SImode,
-    0,
     0,
     1
   },
@@ -3670,7 +3389,6 @@ static const struct insn_operand_data operand_data[] =
     "=e",
     TFmode,
     0,
-    0,
     1
   },
   {
@@ -3678,14 +3396,12 @@ static const struct insn_operand_data operand_data[] =
     "f",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=f",
     SFmode,
-    0,
     0,
     1
   },
@@ -3694,7 +3410,6 @@ static const struct insn_operand_data operand_data[] =
     "e",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -3702,14 +3417,12 @@ static const struct insn_operand_data operand_data[] =
     "=e",
     DFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "e",
     DImode,
-    0,
     0,
     1
   },
@@ -3718,7 +3431,6 @@ static const struct insn_operand_data operand_data[] =
     "=e",
     TFmode,
     0,
-    0,
     1
   },
   {
@@ -3726,14 +3438,12 @@ static const struct insn_operand_data operand_data[] =
     "e",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=f",
     SImode,
-    0,
     0,
     1
   },
@@ -3742,14 +3452,12 @@ static const struct insn_operand_data operand_data[] =
     "f",
     SFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=f",
     SImode,
-    0,
     0,
     1
   },
@@ -3758,14 +3466,12 @@ static const struct insn_operand_data operand_data[] =
     "e",
     DFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=f",
     SImode,
-    0,
     0,
     1
   },
@@ -3774,14 +3480,12 @@ static const struct insn_operand_data operand_data[] =
     "e",
     TFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=e",
     DImode,
-    0,
     0,
     1
   },
@@ -3790,14 +3494,12 @@ static const struct insn_operand_data operand_data[] =
     "f",
     SFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=e",
     DImode,
-    0,
     0,
     1
   },
@@ -3806,7 +3508,6 @@ static const struct insn_operand_data operand_data[] =
     "e",
     DFmode,
     0,
-    0,
     1
   },
   {
@@ -3814,14 +3515,12 @@ static const struct insn_operand_data operand_data[] =
     "=e",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "e",
     TFmode,
-    0,
     0,
     1
   },
@@ -3829,7 +3528,6 @@ static const struct insn_operand_data operand_data[] =
     register_operand,
     "=r",
     DImode,
-    0,
     0,
     1
   },
@@ -3838,7 +3536,6 @@ static const struct insn_operand_data operand_data[] =
     "%rJ",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -3846,14 +3543,12 @@ static const struct insn_operand_data operand_data[] =
     "rI",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,r",
     DImode,
-    0,
     0,
     1
   },
@@ -3862,7 +3557,6 @@ static const struct insn_operand_data operand_data[] =
     "%r,r",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -3870,14 +3564,12 @@ static const struct insn_operand_data operand_data[] =
     "rI,O",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,r,d",
     SImode,
-    0,
     0,
     1
   },
@@ -3886,7 +3578,6 @@ static const struct insn_operand_data operand_data[] =
     "%r,r,d",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -3894,14 +3585,12 @@ static const struct insn_operand_data operand_data[] =
     "rI,O,d",
     SImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "%r",
     DImode,
-    0,
     0,
     1
   },
@@ -3910,14 +3599,12 @@ static const struct insn_operand_data operand_data[] =
     "rI",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     DImode,
-    0,
     0,
     1
   },
@@ -3926,7 +3613,6 @@ static const struct insn_operand_data operand_data[] =
     "%r",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -3934,14 +3620,12 @@ static const struct insn_operand_data operand_data[] =
     "rI",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     DImode,
-    0,
     0,
     1
   },
@@ -3950,14 +3634,12 @@ static const struct insn_operand_data operand_data[] =
     "rJ",
     SImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "rI",
     SImode,
-    0,
     0,
     1
   },
@@ -3966,14 +3648,12 @@ static const struct insn_operand_data operand_data[] =
     "=r,r",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r,r",
     DImode,
-    0,
     0,
     1
   },
@@ -3982,14 +3662,12 @@ static const struct insn_operand_data operand_data[] =
     "rI,O",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,r,d",
     SImode,
-    0,
     0,
     1
   },
@@ -3998,14 +3676,12 @@ static const struct insn_operand_data operand_data[] =
     "r,r,d",
     SImode,
     0,
-    0,
     1
   },
   {
     arith_add_operand,
     "rI,O,d",
     SImode,
-    0,
     0,
     1
   },
@@ -4014,7 +3690,6 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -4022,14 +3697,12 @@ static const struct insn_operand_data operand_data[] =
     "r",
     DImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "rI",
     DImode,
-    0,
     0,
     1
   },
@@ -4038,14 +3711,12 @@ static const struct insn_operand_data operand_data[] =
     "=r,h",
     DImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "%r,0",
     DImode,
-    0,
     0,
     1
   },
@@ -4054,7 +3725,6 @@ static const struct insn_operand_data operand_data[] =
     "rI,rI",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -4062,14 +3732,12 @@ static const struct insn_operand_data operand_data[] =
     "=&h,X",
     SImode,
     0,
-    0,
     0
   },
   {
     scratch_operand,
     "=&h,X",
     SImode,
-    0,
     0,
     0
   },
@@ -4078,7 +3746,6 @@ static const struct insn_operand_data operand_data[] =
     "=h,r",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -4086,14 +3753,12 @@ static const struct insn_operand_data operand_data[] =
     "r,r",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r,r",
     SImode,
-    0,
     0,
     1
   },
@@ -4102,7 +3767,6 @@ static const struct insn_operand_data operand_data[] =
     "=X,&h",
     SImode,
     0,
-    0,
     0
   },
   {
@@ -4110,14 +3774,12 @@ static const struct insn_operand_data operand_data[] =
     "=h,r",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r,r",
     SImode,
-    0,
     0,
     1
   },
@@ -4126,14 +3788,12 @@ static const struct insn_operand_data operand_data[] =
     "I,I",
     DImode,
     0,
-    0,
     1
   },
   {
     scratch_operand,
     "=X,&h",
     SImode,
-    0,
     0,
     0
   },
@@ -4142,7 +3802,6 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -4150,14 +3809,12 @@ static const struct insn_operand_data operand_data[] =
     "r",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
     SImode,
-    0,
     0,
     1
   },
@@ -4166,14 +3823,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
     SImode,
-    0,
     0,
     1
   },
@@ -4182,7 +3837,6 @@ static const struct insn_operand_data operand_data[] =
     "I",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -4190,7 +3844,6 @@ static const struct insn_operand_data operand_data[] =
     "=h,r",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -4198,14 +3851,12 @@ static const struct insn_operand_data operand_data[] =
     "r,r",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r,r",
     SImode,
-    0,
     0,
     1
   },
@@ -4213,7 +3864,6 @@ static const struct insn_operand_data operand_data[] =
     small_int_operand,
     "I,I",
     SImode,
-    0,
     0,
     1
   },
@@ -4222,14 +3872,12 @@ static const struct insn_operand_data operand_data[] =
     "=X,&h",
     SImode,
     0,
-    0,
     0
   },
   {
     register_operand,
     "=h,r",
     SImode,
-    0,
     0,
     1
   },
@@ -4238,7 +3886,6 @@ static const struct insn_operand_data operand_data[] =
     "r,r",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -4246,14 +3893,12 @@ static const struct insn_operand_data operand_data[] =
     "I,I",
     DImode,
     0,
-    0,
     1
   },
   {
     small_int_operand,
     "I,I",
     SImode,
-    0,
     0,
     1
   },
@@ -4262,14 +3907,12 @@ static const struct insn_operand_data operand_data[] =
     "=X,&h",
     SImode,
     0,
-    0,
     0
   },
   {
     register_operand,
     "=r",
     DImode,
-    0,
     0,
     1
   },
@@ -4278,14 +3921,12 @@ static const struct insn_operand_data operand_data[] =
     "r",
     SImode,
     0,
-    0,
     1
   },
   {
     uns_small_int_operand,
     "",
     DImode,
-    0,
     0,
     1
   },
@@ -4294,14 +3935,12 @@ static const struct insn_operand_data operand_data[] =
     "=h,r",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r,r",
     SImode,
-    0,
     0,
     1
   },
@@ -4310,14 +3949,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
     scratch_operand,
     "=X,h",
     SImode,
-    0,
     0,
     0
   },
@@ -4326,7 +3963,6 @@ static const struct insn_operand_data operand_data[] =
     "=h,r",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -4334,14 +3970,12 @@ static const struct insn_operand_data operand_data[] =
     "r,r",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r,r",
     SImode,
-    0,
     0,
     1
   },
@@ -4350,14 +3984,12 @@ static const struct insn_operand_data operand_data[] =
     "I,I",
     SImode,
     0,
-    0,
     1
   },
   {
     scratch_operand,
     "=X,h",
     SImode,
-    0,
     0,
     0
   },
@@ -4366,14 +3998,12 @@ static const struct insn_operand_data operand_data[] =
     "=h,r",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r,r",
     SImode,
-    0,
     0,
     1
   },
@@ -4382,7 +4012,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -4390,14 +4019,12 @@ static const struct insn_operand_data operand_data[] =
     "I,I",
     SImode,
     0,
-    0,
     1
   },
   {
     scratch_operand,
     "=X,h",
     SImode,
-    0,
     0,
     0
   },
@@ -4406,14 +4033,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
     SImode,
-    0,
     0,
     1
   },
@@ -4422,14 +4047,12 @@ static const struct insn_operand_data operand_data[] =
     "rI",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
     SImode,
-    0,
     0,
     1
   },
@@ -4438,7 +4061,6 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -4446,14 +4068,12 @@ static const struct insn_operand_data operand_data[] =
     "r",
     SImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "rI",
     SImode,
-    0,
     0,
     1
   },
@@ -4462,14 +4082,12 @@ static const struct insn_operand_data operand_data[] =
     "=&r",
     SImode,
     0,
-    0,
     0
   },
   {
     register_operand,
     "=r",
     SImode,
-    0,
     0,
     1
   },
@@ -4478,14 +4096,12 @@ static const struct insn_operand_data operand_data[] =
     "r",
     SImode,
     0,
-    0,
     1
   },
   {
     input_operand,
     "rI",
     SImode,
-    0,
     0,
     1
   },
@@ -4494,14 +4110,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "%r",
     SImode,
-    0,
     0,
     1
   },
@@ -4510,14 +4124,12 @@ static const struct insn_operand_data operand_data[] =
     "rI",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "0",
     SImode,
-    0,
     0,
     1
   },
@@ -4526,14 +4138,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "%r",
     SImode,
-    0,
     0,
     1
   },
@@ -4542,7 +4152,6 @@ static const struct insn_operand_data operand_data[] =
     "r",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -4550,7 +4159,6 @@ static const struct insn_operand_data operand_data[] =
     "0",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -4558,14 +4166,12 @@ static const struct insn_operand_data operand_data[] =
     "=r,b",
     DImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "%r,b",
     DImode,
-    0,
     0,
     1
   },
@@ -4574,14 +4180,12 @@ static const struct insn_operand_data operand_data[] =
     "rI,b",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,b",
     V2SImode,
-    0,
     0,
     1
   },
@@ -4590,7 +4194,6 @@ static const struct insn_operand_data operand_data[] =
     "%r,b",
     V2SImode,
     0,
-    0,
     1
   },
   {
@@ -4598,14 +4201,12 @@ static const struct insn_operand_data operand_data[] =
     "rI,b",
     V2SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,b",
     V4HImode,
-    0,
     0,
     1
   },
@@ -4614,14 +4215,12 @@ static const struct insn_operand_data operand_data[] =
     "%r,b",
     V4HImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "rI,b",
     V4HImode,
-    0,
     0,
     1
   },
@@ -4630,7 +4229,6 @@ static const struct insn_operand_data operand_data[] =
     "=r,b",
     V8QImode,
     0,
-    0,
     1
   },
   {
@@ -4638,14 +4236,12 @@ static const struct insn_operand_data operand_data[] =
     "%r,b",
     V8QImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "rI,b",
     V8QImode,
-    0,
     0,
     1
   },
@@ -4654,14 +4250,12 @@ static const struct insn_operand_data operand_data[] =
     "=r,d",
     SImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "%r,d",
     SImode,
-    0,
     0,
     1
   },
@@ -4670,7 +4264,6 @@ static const struct insn_operand_data operand_data[] =
     "rI,d",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -4678,14 +4271,12 @@ static const struct insn_operand_data operand_data[] =
     "=r,d",
     V2HImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "%r,d",
     V2HImode,
-    0,
     0,
     1
   },
@@ -4694,7 +4285,6 @@ static const struct insn_operand_data operand_data[] =
     "rI,d",
     V2HImode,
     0,
-    0,
     1
   },
   {
@@ -4702,14 +4292,12 @@ static const struct insn_operand_data operand_data[] =
     "=r,d",
     V4QImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "%r,d",
     V4QImode,
-    0,
     0,
     1
   },
@@ -4718,7 +4306,6 @@ static const struct insn_operand_data operand_data[] =
     "rI,d",
     V4QImode,
     0,
-    0,
     1
   },
   {
@@ -4726,14 +4313,12 @@ static const struct insn_operand_data operand_data[] =
     "=r,b",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "%r,b",
     DImode,
-    0,
     0,
     1
   },
@@ -4742,14 +4327,12 @@ static const struct insn_operand_data operand_data[] =
     "r,b",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,b",
     V2SImode,
-    0,
     0,
     1
   },
@@ -4758,7 +4341,6 @@ static const struct insn_operand_data operand_data[] =
     "%r,b",
     V2SImode,
     0,
-    0,
     1
   },
   {
@@ -4766,14 +4348,12 @@ static const struct insn_operand_data operand_data[] =
     "r,b",
     V2SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,b",
     V4HImode,
-    0,
     0,
     1
   },
@@ -4782,14 +4362,12 @@ static const struct insn_operand_data operand_data[] =
     "%r,b",
     V4HImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r,b",
     V4HImode,
-    0,
     0,
     1
   },
@@ -4798,7 +4376,6 @@ static const struct insn_operand_data operand_data[] =
     "=r,b",
     V8QImode,
     0,
-    0,
     1
   },
   {
@@ -4806,14 +4383,12 @@ static const struct insn_operand_data operand_data[] =
     "%r,b",
     V8QImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r,b",
     V8QImode,
-    0,
     0,
     1
   },
@@ -4821,7 +4396,6 @@ static const struct insn_operand_data operand_data[] =
     register_operand,
     "=r,d",
     SImode,
-    0,
     0,
     1
   },
@@ -4830,7 +4404,6 @@ static const struct insn_operand_data operand_data[] =
     "%r,d",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -4838,14 +4411,12 @@ static const struct insn_operand_data operand_data[] =
     "r,d",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,d",
     V2HImode,
-    0,
     0,
     1
   },
@@ -4854,7 +4425,6 @@ static const struct insn_operand_data operand_data[] =
     "%r,d",
     V2HImode,
     0,
-    0,
     1
   },
   {
@@ -4862,14 +4432,12 @@ static const struct insn_operand_data operand_data[] =
     "r,d",
     V2HImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,d",
     V4QImode,
-    0,
     0,
     1
   },
@@ -4878,7 +4446,6 @@ static const struct insn_operand_data operand_data[] =
     "%r,d",
     V4QImode,
     0,
-    0,
     1
   },
   {
@@ -4886,22 +4453,12 @@ static const struct insn_operand_data operand_data[] =
     "r,d",
     V4QImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,b",
     DImode,
-    0,
-    0,
-    1
-  },
-  {
-    register_operand,
-    "r,b",
-    DImode,
-    0,
     0,
     1
   },
@@ -4910,6 +4467,12 @@ static const struct insn_operand_data operand_data[] =
     "r,b",
     DImode,
     0,
+    1
+  },
+  {
+    register_operand,
+    "r,b",
+    DImode,
     0,
     1
   },
@@ -4918,6 +4481,12 @@ static const struct insn_operand_data operand_data[] =
     "=r,b",
     V2SImode,
     0,
+    1
+  },
+  {
+    register_operand,
+    "r,b",
+    V2SImode,
     0,
     1
   },
@@ -4926,15 +4495,6 @@ static const struct insn_operand_data operand_data[] =
     "r,b",
     V2SImode,
     0,
-    0,
-    1
-  },
-  {
-    register_operand,
-    "r,b",
-    V2SImode,
-    0,
-    0,
     1
   },
   {
@@ -4942,7 +4502,6 @@ static const struct insn_operand_data operand_data[] =
     "=r,b",
     V4HImode,
     0,
-    0,
     1
   },
   {
@@ -4950,14 +4509,12 @@ static const struct insn_operand_data operand_data[] =
     "r,b",
     V4HImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r,b",
     V4HImode,
-    0,
     0,
     1
   },
@@ -4966,7 +4523,6 @@ static const struct insn_operand_data operand_data[] =
     "=r,b",
     V8QImode,
     0,
-    0,
     1
   },
   {
@@ -4974,14 +4530,12 @@ static const struct insn_operand_data operand_data[] =
     "r,b",
     V8QImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r,b",
     V8QImode,
-    0,
     0,
     1
   },
@@ -4990,7 +4544,6 @@ static const struct insn_operand_data operand_data[] =
     "=r,d",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -4998,14 +4551,12 @@ static const struct insn_operand_data operand_data[] =
     "r,d",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r,d",
     SImode,
-    0,
     0,
     1
   },
@@ -5014,7 +4565,6 @@ static const struct insn_operand_data operand_data[] =
     "=r,d",
     V2HImode,
     0,
-    0,
     1
   },
   {
@@ -5022,14 +4572,12 @@ static const struct insn_operand_data operand_data[] =
     "r,d",
     V2HImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r,d",
     V2HImode,
-    0,
     0,
     1
   },
@@ -5038,6 +4586,12 @@ static const struct insn_operand_data operand_data[] =
     "=r,d",
     V4QImode,
     0,
+    1
+  },
+  {
+    register_operand,
+    "r,d",
+    V4QImode,
     0,
     1
   },
@@ -5046,22 +4600,12 @@ static const struct insn_operand_data operand_data[] =
     "r,d",
     V4QImode,
     0,
-    0,
-    1
-  },
-  {
-    register_operand,
-    "r,d",
-    V4QImode,
-    0,
-    0,
     1
   },
   {
     register_operand,
     "=r,b",
     DImode,
-    0,
     0,
     1
   },
@@ -5070,7 +4614,6 @@ static const struct insn_operand_data operand_data[] =
     "%rJ,b",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -5078,14 +4621,12 @@ static const struct insn_operand_data operand_data[] =
     "rI,b",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,b",
     V2SImode,
-    0,
     0,
     1
   },
@@ -5094,7 +4635,6 @@ static const struct insn_operand_data operand_data[] =
     "%rJ,b",
     V2SImode,
     0,
-    0,
     1
   },
   {
@@ -5102,14 +4642,12 @@ static const struct insn_operand_data operand_data[] =
     "rI,b",
     V2SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,b",
     V4HImode,
-    0,
     0,
     1
   },
@@ -5118,14 +4656,12 @@ static const struct insn_operand_data operand_data[] =
     "%rJ,b",
     V4HImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "rI,b",
     V4HImode,
-    0,
     0,
     1
   },
@@ -5134,7 +4670,6 @@ static const struct insn_operand_data operand_data[] =
     "=r,b",
     V8QImode,
     0,
-    0,
     1
   },
   {
@@ -5142,14 +4677,12 @@ static const struct insn_operand_data operand_data[] =
     "%rJ,b",
     V8QImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "rI,b",
     V8QImode,
-    0,
     0,
     1
   },
@@ -5157,7 +4690,6 @@ static const struct insn_operand_data operand_data[] =
     register_operand,
     "=r,d",
     SImode,
-    0,
     0,
     1
   },
@@ -5166,7 +4698,6 @@ static const struct insn_operand_data operand_data[] =
     "%rJ,d",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -5174,14 +4705,12 @@ static const struct insn_operand_data operand_data[] =
     "rI,d",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,d",
     V2HImode,
-    0,
     0,
     1
   },
@@ -5190,7 +4719,6 @@ static const struct insn_operand_data operand_data[] =
     "%rJ,d",
     V2HImode,
     0,
-    0,
     1
   },
   {
@@ -5198,14 +4726,12 @@ static const struct insn_operand_data operand_data[] =
     "rI,d",
     V2HImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,d",
     V4QImode,
-    0,
     0,
     1
   },
@@ -5214,7 +4740,6 @@ static const struct insn_operand_data operand_data[] =
     "%rJ,d",
     V4QImode,
     0,
-    0,
     1
   },
   {
@@ -5222,7 +4747,6 @@ static const struct insn_operand_data operand_data[] =
     "rI,d",
     V4QImode,
     0,
-    0,
     1
   },
   {
@@ -5230,14 +4754,12 @@ static const struct insn_operand_data operand_data[] =
     "=r,b",
     DImode,
     0,
-    0,
     1
   },
   {
     register_or_zero_operand,
     "rJ,b",
     DImode,
-    0,
     0,
     1
   },
@@ -5246,14 +4768,12 @@ static const struct insn_operand_data operand_data[] =
     "rI,b",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,b",
     V2SImode,
-    0,
     0,
     1
   },
@@ -5262,7 +4782,6 @@ static const struct insn_operand_data operand_data[] =
     "rJ,b",
     V2SImode,
     0,
-    0,
     1
   },
   {
@@ -5270,14 +4789,12 @@ static const struct insn_operand_data operand_data[] =
     "rI,b",
     V2SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,b",
     V4HImode,
-    0,
     0,
     1
   },
@@ -5286,14 +4803,12 @@ static const struct insn_operand_data operand_data[] =
     "rJ,b",
     V4HImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "rI,b",
     V4HImode,
-    0,
     0,
     1
   },
@@ -5302,7 +4817,6 @@ static const struct insn_operand_data operand_data[] =
     "=r,b",
     V8QImode,
     0,
-    0,
     1
   },
   {
@@ -5310,14 +4824,12 @@ static const struct insn_operand_data operand_data[] =
     "rJ,b",
     V8QImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "rI,b",
     V8QImode,
-    0,
     0,
     1
   },
@@ -5325,7 +4837,6 @@ static const struct insn_operand_data operand_data[] =
     register_operand,
     "=r,d",
     SImode,
-    0,
     0,
     1
   },
@@ -5334,7 +4845,6 @@ static const struct insn_operand_data operand_data[] =
     "rJ,d",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -5342,14 +4852,12 @@ static const struct insn_operand_data operand_data[] =
     "rI,d",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,d",
     V2HImode,
-    0,
     0,
     1
   },
@@ -5358,7 +4866,6 @@ static const struct insn_operand_data operand_data[] =
     "rJ,d",
     V2HImode,
     0,
-    0,
     1
   },
   {
@@ -5366,14 +4873,12 @@ static const struct insn_operand_data operand_data[] =
     "rI,d",
     V2HImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,d",
     V4QImode,
-    0,
     0,
     1
   },
@@ -5382,7 +4887,6 @@ static const struct insn_operand_data operand_data[] =
     "rJ,d",
     V4QImode,
     0,
-    0,
     1
   },
   {
@@ -5390,14 +4894,12 @@ static const struct insn_operand_data operand_data[] =
     "rI,d",
     V4QImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "%r",
     SImode,
-    0,
     0,
     1
   },
@@ -5406,7 +4908,6 @@ static const struct insn_operand_data operand_data[] =
     "rI",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -5414,7 +4915,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    1,
     0
   },
   {
@@ -5422,14 +4922,12 @@ static const struct insn_operand_data operand_data[] =
     "%r",
     DImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "rI",
     DImode,
-    0,
     0,
     1
   },
@@ -5438,7 +4936,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    1,
     0
   },
   {
@@ -5446,14 +4943,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     SImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "%r",
     SImode,
-    0,
     0,
     1
   },
@@ -5462,7 +4957,6 @@ static const struct insn_operand_data operand_data[] =
     "rI",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -5470,7 +4964,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    1,
     0
   },
   {
@@ -5478,7 +4971,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    1,
     0
   },
   {
@@ -5486,14 +4978,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     DImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "%r",
     DImode,
-    0,
     0,
     1
   },
@@ -5502,7 +4992,6 @@ static const struct insn_operand_data operand_data[] =
     "rI",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -5510,7 +4999,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    1,
     0
   },
   {
@@ -5518,7 +5006,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    1,
     0
   },
   {
@@ -5526,7 +5013,6 @@ static const struct insn_operand_data operand_data[] =
     "%rJ",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -5534,14 +5020,12 @@ static const struct insn_operand_data operand_data[] =
     "rI",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     SImode,
-    0,
     0,
     1
   },
@@ -5550,7 +5034,6 @@ static const struct insn_operand_data operand_data[] =
     "%rJ",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -5558,14 +5041,12 @@ static const struct insn_operand_data operand_data[] =
     "rI",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     DImode,
-    0,
     0,
     1
   },
@@ -5574,7 +5055,6 @@ static const struct insn_operand_data operand_data[] =
     "%rJ",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -5582,14 +5062,12 @@ static const struct insn_operand_data operand_data[] =
     "rI",
     DImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "rI",
     SImode,
-    0,
     0,
     1
   },
@@ -5598,7 +5076,6 @@ static const struct insn_operand_data operand_data[] =
     "rJ",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -5606,7 +5083,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    1,
     0
   },
   {
@@ -5614,14 +5090,12 @@ static const struct insn_operand_data operand_data[] =
     "rI",
     DImode,
     0,
-    0,
     1
   },
   {
     register_or_zero_operand,
     "rJ",
     DImode,
-    0,
     0,
     1
   },
@@ -5630,7 +5104,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    1,
     0
   },
   {
@@ -5638,14 +5111,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     SImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "rI",
     SImode,
-    0,
     0,
     1
   },
@@ -5654,7 +5125,6 @@ static const struct insn_operand_data operand_data[] =
     "rJ",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -5662,7 +5132,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    1,
     0
   },
   {
@@ -5670,7 +5139,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    1,
     0
   },
   {
@@ -5678,14 +5146,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     DImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "rI",
     DImode,
-    0,
     0,
     1
   },
@@ -5694,7 +5160,6 @@ static const struct insn_operand_data operand_data[] =
     "rJ",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -5702,7 +5167,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    1,
     0
   },
   {
@@ -5710,7 +5174,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    1,
     0
   },
   {
@@ -5718,14 +5181,12 @@ static const struct insn_operand_data operand_data[] =
     "=r,b",
     DImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "rI,b",
     DImode,
-    0,
     0,
     1
   },
@@ -5734,7 +5195,6 @@ static const struct insn_operand_data operand_data[] =
     "=r,b",
     V2SImode,
     0,
-    0,
     1
   },
   {
@@ -5742,14 +5202,12 @@ static const struct insn_operand_data operand_data[] =
     "rI,b",
     V2SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,b",
     V4HImode,
-    0,
     0,
     1
   },
@@ -5758,14 +5216,12 @@ static const struct insn_operand_data operand_data[] =
     "rI,b",
     V4HImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r,b",
     V8QImode,
-    0,
     0,
     1
   },
@@ -5774,7 +5230,6 @@ static const struct insn_operand_data operand_data[] =
     "rI,b",
     V8QImode,
     0,
-    0,
     1
   },
   {
@@ -5782,14 +5237,12 @@ static const struct insn_operand_data operand_data[] =
     "=r,d",
     SImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "rI,d",
     SImode,
-    0,
     0,
     1
   },
@@ -5798,14 +5251,12 @@ static const struct insn_operand_data operand_data[] =
     "=r,d",
     V2HImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "rI,d",
     V2HImode,
-    0,
     0,
     1
   },
@@ -5814,14 +5265,12 @@ static const struct insn_operand_data operand_data[] =
     "=r,d",
     V4QImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "rI,d",
     V4QImode,
-    0,
     0,
     1
   },
@@ -5830,7 +5279,6 @@ static const struct insn_operand_data operand_data[] =
     "=e",
     TFmode,
     0,
-    0,
     1
   },
   {
@@ -5838,14 +5286,12 @@ static const struct insn_operand_data operand_data[] =
     "e",
     TFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "e",
     TFmode,
-    0,
     0,
     1
   },
@@ -5854,7 +5300,6 @@ static const struct insn_operand_data operand_data[] =
     "=e",
     DFmode,
     0,
-    0,
     1
   },
   {
@@ -5862,14 +5307,12 @@ static const struct insn_operand_data operand_data[] =
     "e",
     DFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "e",
     DFmode,
-    0,
     0,
     1
   },
@@ -5878,7 +5321,6 @@ static const struct insn_operand_data operand_data[] =
     "=f",
     SFmode,
     0,
-    0,
     1
   },
   {
@@ -5886,14 +5328,12 @@ static const struct insn_operand_data operand_data[] =
     "f",
     SFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "f",
     SFmode,
-    0,
     0,
     1
   },
@@ -5902,7 +5342,6 @@ static const struct insn_operand_data operand_data[] =
     "=e",
     DFmode,
     0,
-    0,
     1
   },
   {
@@ -5910,14 +5349,12 @@ static const struct insn_operand_data operand_data[] =
     "f",
     SFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "f",
     SFmode,
-    0,
     0,
     1
   },
@@ -5926,6 +5363,12 @@ static const struct insn_operand_data operand_data[] =
     "=e",
     TFmode,
     0,
+    1
+  },
+  {
+    register_operand,
+    "e",
+    DFmode,
     0,
     1
   },
@@ -5934,22 +5377,12 @@ static const struct insn_operand_data operand_data[] =
     "e",
     DFmode,
     0,
-    0,
-    1
-  },
-  {
-    register_operand,
-    "e",
-    DFmode,
-    0,
-    0,
     1
   },
   {
     register_operand,
     "=e,e",
     TFmode,
-    0,
     0,
     1
   },
@@ -5958,7 +5391,6 @@ static const struct insn_operand_data operand_data[] =
     "0,e",
     TFmode,
     0,
-    0,
     1
   },
   {
@@ -5966,14 +5398,12 @@ static const struct insn_operand_data operand_data[] =
     "=e,e",
     DFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "0,e",
     DFmode,
-    0,
     0,
     1
   },
@@ -5982,7 +5412,6 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -5990,14 +5419,12 @@ static const struct insn_operand_data operand_data[] =
     "r",
     DImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "rI",
     SImode,
-    0,
     0,
     1
   },
@@ -6006,14 +5433,12 @@ static const struct insn_operand_data operand_data[] =
     "=&h,&h,r",
     DImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "rI,0,rI",
     DImode,
-    0,
     0,
     1
   },
@@ -6022,14 +5447,12 @@ static const struct insn_operand_data operand_data[] =
     "rI,rI,rI",
     SImode,
     0,
-    0,
     1
   },
   {
     scratch_operand,
     "=X,X,&h",
     SImode,
-    0,
     0,
     0
   },
@@ -6038,14 +5461,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
     SImode,
-    0,
     0,
     1
   },
@@ -6054,7 +5475,6 @@ static const struct insn_operand_data operand_data[] =
     "r",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -6062,14 +5482,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
     SImode,
-    0,
     0,
     1
   },
@@ -6078,7 +5496,6 @@ static const struct insn_operand_data operand_data[] =
     "I",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -6086,7 +5503,6 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -6094,14 +5510,12 @@ static const struct insn_operand_data operand_data[] =
     "r",
     SImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "r",
     SImode,
-    0,
     0,
     1
   },
@@ -6110,7 +5524,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
     1
   },
   {
@@ -6118,14 +5531,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
     SImode,
-    0,
     0,
     1
   },
@@ -6134,14 +5545,12 @@ static const struct insn_operand_data operand_data[] =
     "I",
     VOIDmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     SImode,
-    0,
     0,
     1
   },
@@ -6150,7 +5559,6 @@ static const struct insn_operand_data operand_data[] =
     "r",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -6158,14 +5566,12 @@ static const struct insn_operand_data operand_data[] =
     "I",
     SImode,
     0,
-    0,
     1
   },
   {
     small_int_operand,
     "I",
     SImode,
-    0,
     0,
     1
   },
@@ -6174,14 +5580,12 @@ static const struct insn_operand_data operand_data[] =
     "p",
     DImode,
     0,
-    0,
     1
   },
   {
     0,
     "",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -6190,14 +5594,12 @@ static const struct insn_operand_data operand_data[] =
     "s",
     DImode,
     0,
-    0,
     1
   },
   {
     0,
     "",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -6206,7 +5608,6 @@ static const struct insn_operand_data operand_data[] =
     "p",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -6214,38 +5615,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
-    1
-  },
-  {
-    register_operand,
-    "=r",
-    DImode,
-    0,
-    0,
-    1
-  },
-  {
-    register_operand,
-    "0",
-    DImode,
-    0,
-    0,
-    1
-  },
-  {
-    register_operand,
-    "r",
-    DImode,
-    0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -6254,14 +5629,12 @@ static const struct insn_operand_data operand_data[] =
     "m",
     SImode,
     0,
-    0,
     1
   },
   {
     memory_operand,
     "m",
     DImode,
-    0,
     0,
     1
   },
@@ -6270,14 +5643,12 @@ static const struct insn_operand_data operand_data[] =
     "=&r",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
     SImode,
-    0,
     0,
     1
   },
@@ -6286,7 +5657,6 @@ static const struct insn_operand_data operand_data[] =
     "=&r",
     SImode,
     0,
-    0,
     0
   },
   {
@@ -6294,7 +5664,6 @@ static const struct insn_operand_data operand_data[] =
     "p",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -6302,14 +5671,12 @@ static const struct insn_operand_data operand_data[] =
     "n",
     DImode,
     0,
-    0,
     1
   },
   {
     const_int_operand,
     "n",
     DImode,
-    0,
     0,
     1
   },
@@ -6318,7 +5685,6 @@ static const struct insn_operand_data operand_data[] =
     "p",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -6326,14 +5692,12 @@ static const struct insn_operand_data operand_data[] =
     "n",
     SImode,
     0,
-    0,
     1
   },
   {
     const_int_operand,
     "n",
     SImode,
-    0,
     0,
     1
   },
@@ -6342,7 +5706,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
@@ -6350,14 +5713,12 @@ static const struct insn_operand_data operand_data[] =
     "rM",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     SImode,
-    0,
     0,
     1
   },
@@ -6366,14 +5727,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     SImode,
-    0,
     0,
     1
   },
@@ -6382,14 +5741,12 @@ static const struct insn_operand_data operand_data[] =
     "r",
     SImode,
     0,
-    0,
     1
   },
   {
     tgd_symbolic_operand,
     "",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -6398,14 +5755,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
     DImode,
-    0,
     0,
     1
   },
@@ -6414,7 +5769,6 @@ static const struct insn_operand_data operand_data[] =
     "r",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -6422,14 +5776,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -6438,7 +5790,6 @@ static const struct insn_operand_data operand_data[] =
     "s",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -6446,7 +5797,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
     1
   },
   {
@@ -6454,14 +5804,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -6470,7 +5818,6 @@ static const struct insn_operand_data operand_data[] =
     "s",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -6478,14 +5825,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     SImode,
-    0,
     0,
     1
   },
@@ -6494,7 +5839,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
     1
   },
   {
@@ -6502,14 +5846,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
     SImode,
-    0,
     0,
     1
   },
@@ -6518,7 +5860,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
     1
   },
   {
@@ -6526,7 +5867,6 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -6534,14 +5874,12 @@ static const struct insn_operand_data operand_data[] =
     "r",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
     SImode,
-    0,
     0,
     1
   },
@@ -6550,14 +5888,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     SImode,
-    0,
     0,
     1
   },
@@ -6566,46 +5902,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     SImode,
-    0,
-    0,
-    1
-  },
-  {
-    register_operand,
-    "r",
-    SImode,
-    0,
-    0,
-    1
-  },
-  {
-    tie_symbolic_operand,
-    "",
-    VOIDmode,
-    0,
-    0,
-    1
-  },
-  {
-    register_operand,
-    "=r",
-    DImode,
-    0,
-    0,
-    1
-  },
-  {
-    register_operand,
-    "r",
-    DImode,
-    0,
     0,
     1
   },
@@ -6614,14 +5916,12 @@ static const struct insn_operand_data operand_data[] =
     "r",
     SImode,
     0,
-    0,
     1
   },
   {
     tie_symbolic_operand,
     "",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -6630,7 +5930,6 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -6638,14 +5937,12 @@ static const struct insn_operand_data operand_data[] =
     "r",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
-    DImode,
-    0,
+    SImode,
     0,
     1
   },
@@ -6654,7 +5951,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
     1
   },
   {
@@ -6662,6 +5958,33 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     DImode,
     0,
+    1
+  },
+  {
+    register_operand,
+    "r",
+    DImode,
+    0,
+    1
+  },
+  {
+    register_operand,
+    "r",
+    DImode,
+    0,
+    1
+  },
+  {
+    tie_symbolic_operand,
+    "",
+    VOIDmode,
+    0,
+    1
+  },
+  {
+    register_operand,
+    "=r",
+    DImode,
     0,
     1
   },
@@ -6670,14 +5993,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=r",
     DImode,
-    0,
     0,
     1
   },
@@ -6686,14 +6007,12 @@ static const struct insn_operand_data operand_data[] =
     "r",
     DImode,
     0,
-    0,
     1
   },
   {
     tle_symbolic_operand,
     "",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -6702,14 +6021,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     QImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
     DImode,
-    0,
     0,
     1
   },
@@ -6718,14 +6035,12 @@ static const struct insn_operand_data operand_data[] =
     "r",
     SImode,
     0,
-    0,
     1
   },
   {
     tld_symbolic_operand,
     "",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -6734,14 +6049,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     HImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
     DImode,
-    0,
     0,
     1
   },
@@ -6750,14 +6063,12 @@ static const struct insn_operand_data operand_data[] =
     "r",
     SImode,
     0,
-    0,
     1
   },
   {
     tld_symbolic_operand,
     "",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -6766,14 +6077,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "r",
     DImode,
-    0,
     0,
     1
   },
@@ -6782,14 +6091,12 @@ static const struct insn_operand_data operand_data[] =
     "r",
     SImode,
     0,
-    0,
     1
   },
   {
     tld_symbolic_operand,
     "",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -6798,14 +6105,12 @@ static const struct insn_operand_data operand_data[] =
     "=m",
     DImode,
     0,
-    0,
     1
   },
   {
     memory_operand,
     "m",
     DImode,
-    0,
     0,
     1
   },
@@ -6814,7 +6119,6 @@ static const struct insn_operand_data operand_data[] =
     "=&r",
     DImode,
     0,
-    0,
     0
   },
   {
@@ -6822,7 +6126,6 @@ static const struct insn_operand_data operand_data[] =
     "=&r",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -6830,14 +6133,12 @@ static const struct insn_operand_data operand_data[] =
     "m",
     DImode,
     0,
-    0,
     1
   },
   {
     memory_operand,
     "m",
     DImode,
-    0,
     0,
     1
   },
@@ -6846,7 +6147,6 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     DImode,
     0,
-    0,
     0
   },
   {
@@ -6854,7 +6154,6 @@ static const struct insn_operand_data operand_data[] =
     "=e",
     V2SImode,
     0,
-    0,
     1
   },
   {
@@ -6862,14 +6161,12 @@ static const struct insn_operand_data operand_data[] =
     "e",
     V2SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "e",
     V2SImode,
-    0,
     0,
     1
   },
@@ -6878,7 +6175,6 @@ static const struct insn_operand_data operand_data[] =
     "=e",
     V4HImode,
     0,
-    0,
     1
   },
   {
@@ -6886,14 +6182,12 @@ static const struct insn_operand_data operand_data[] =
     "e",
     V4HImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "e",
     V4HImode,
-    0,
     0,
     1
   },
@@ -6902,7 +6196,6 @@ static const struct insn_operand_data operand_data[] =
     "=f",
     V2HImode,
     0,
-    0,
     1
   },
   {
@@ -6910,14 +6203,12 @@ static const struct insn_operand_data operand_data[] =
     "f",
     V2HImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "f",
     V2HImode,
-    0,
     0,
     1
   },
@@ -6926,7 +6217,6 @@ static const struct insn_operand_data operand_data[] =
     "=e",
     V8QImode,
     0,
-    0,
     1
   },
   {
@@ -6934,14 +6224,12 @@ static const struct insn_operand_data operand_data[] =
     "e",
     V8QImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "e",
     V8QImode,
-    0,
     0,
     1
   },
@@ -6950,7 +6238,6 @@ static const struct insn_operand_data operand_data[] =
     "=f",
     V4QImode,
     0,
-    0,
     1
   },
   {
@@ -6958,14 +6245,12 @@ static const struct insn_operand_data operand_data[] =
     "f",
     V4QImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "f",
     V4QImode,
-    0,
     0,
     1
   },
@@ -6974,14 +6259,12 @@ static const struct insn_operand_data operand_data[] =
     "=f",
     V4QImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "e",
     V4HImode,
-    0,
     0,
     1
   },
@@ -6990,6 +6273,19 @@ static const struct insn_operand_data operand_data[] =
     "=f",
     V2HImode,
     0,
+    1
+  },
+  {
+    register_operand,
+    "e",
+    V2SImode,
+    0,
+    1
+  },
+  {
+    register_operand,
+    "=e",
+    V8QImode,
     0,
     1
   },
@@ -6998,6 +6294,26 @@ static const struct insn_operand_data operand_data[] =
     "e",
     V2SImode,
     0,
+    1
+  },
+  {
+    register_operand,
+    "e",
+    V8QImode,
+    0,
+    1
+  },
+  {
+    register_operand,
+    "=e",
+    V4HImode,
+    0,
+    1
+  },
+  {
+    register_operand,
+    "f",
+    V4QImode,
     0,
     1
   },
@@ -7006,22 +6322,19 @@ static const struct insn_operand_data operand_data[] =
     "=e",
     V8QImode,
     0,
+    1
+  },
+  {
+    register_operand,
+    "f",
+    V4QImode,
     0,
     1
   },
   {
     register_operand,
-    "e",
-    V2SImode,
-    0,
-    0,
-    1
-  },
-  {
-    register_operand,
-    "e",
-    V8QImode,
-    0,
+    "f",
+    V4QImode,
     0,
     1
   },
@@ -7030,54 +6343,12 @@ static const struct insn_operand_data operand_data[] =
     "=e",
     V4HImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "f",
     V4QImode,
-    0,
-    0,
-    1
-  },
-  {
-    register_operand,
-    "=e",
-    V8QImode,
-    0,
-    0,
-    1
-  },
-  {
-    register_operand,
-    "f",
-    V4QImode,
-    0,
-    0,
-    1
-  },
-  {
-    register_operand,
-    "f",
-    V4QImode,
-    0,
-    0,
-    1
-  },
-  {
-    register_operand,
-    "=e",
-    V4HImode,
-    0,
-    0,
-    1
-  },
-  {
-    register_operand,
-    "f",
-    V4QImode,
-    0,
     0,
     1
   },
@@ -7086,7 +6357,6 @@ static const struct insn_operand_data operand_data[] =
     "e",
     V4HImode,
     0,
-    0,
     1
   },
   {
@@ -7094,14 +6364,12 @@ static const struct insn_operand_data operand_data[] =
     "=e",
     V4HImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "f",
     V4QImode,
-    0,
     0,
     1
   },
@@ -7110,14 +6378,12 @@ static const struct insn_operand_data operand_data[] =
     "f",
     V2HImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "=e",
     V4HImode,
-    0,
     0,
     1
   },
@@ -7126,14 +6392,12 @@ static const struct insn_operand_data operand_data[] =
     "e",
     V8QImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "e",
     V4HImode,
-    0,
     0,
     1
   },
@@ -7142,7 +6406,6 @@ static const struct insn_operand_data operand_data[] =
     "=e",
     V2SImode,
     0,
-    0,
     1
   },
   {
@@ -7150,14 +6413,12 @@ static const struct insn_operand_data operand_data[] =
     "f",
     V4QImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "f",
     V2HImode,
-    0,
     0,
     1
   },
@@ -7166,7 +6427,6 @@ static const struct insn_operand_data operand_data[] =
     "=e",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -7174,14 +6434,12 @@ static const struct insn_operand_data operand_data[] =
     "e",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "e",
     DImode,
-    0,
     0,
     1
   },
@@ -7190,7 +6448,6 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -7198,14 +6455,12 @@ static const struct insn_operand_data operand_data[] =
     "rJ",
     DImode,
     0,
-    0,
     1
   },
   {
     register_or_zero_operand,
     "rJ",
     DImode,
-    0,
     0,
     1
   },
@@ -7214,7 +6469,6 @@ static const struct insn_operand_data operand_data[] =
     "=e",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -7222,14 +6476,12 @@ static const struct insn_operand_data operand_data[] =
     "e",
     V8QImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "e",
     V8QImode,
-    0,
     0,
     1
   },
@@ -7237,7 +6489,6 @@ static const struct insn_operand_data operand_data[] =
     register_operand,
     "0",
     DImode,
-    0,
     0,
     1
   },
@@ -7246,7 +6497,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     BLKmode,
     0,
-    0,
     1
   },
   {
@@ -7254,14 +6504,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     SImode,
     0,
-    0,
     1
   },
   {
-    register_operand,
-    "r",
-    VOIDmode,
-    0,
+    memory_reg_operand,
+    "+m",
+    SImode,
     0,
     1
   },
@@ -7269,7 +6517,6 @@ static const struct insn_operand_data operand_data[] =
     register_operand,
     "r",
     SImode,
-    0,
     0,
     1
   },
@@ -7278,7 +6525,6 @@ static const struct insn_operand_data operand_data[] =
     "0",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -7286,14 +6532,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     DImode,
     0,
-    0,
     1
   },
   {
-    register_operand,
-    "r",
-    VOIDmode,
-    0,
+    memory_reg_operand,
+    "+m",
+    DImode,
     0,
     1
   },
@@ -7301,7 +6545,6 @@ static const struct insn_operand_data operand_data[] =
     register_operand,
     "r",
     DImode,
-    0,
     0,
     1
   },
@@ -7309,7 +6552,6 @@ static const struct insn_operand_data operand_data[] =
     register_operand,
     "0",
     DImode,
-    0,
     0,
     1
   },
@@ -7318,14 +6560,12 @@ static const struct insn_operand_data operand_data[] =
     "=h",
     DImode,
     0,
-    0,
     1
   },
   {
-    register_operand,
-    "r",
-    VOIDmode,
-    0,
+    memory_reg_operand,
+    "+m",
+    DImode,
     0,
     1
   },
@@ -7334,7 +6574,6 @@ static const struct insn_operand_data operand_data[] =
     "h",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -7342,7 +6581,6 @@ static const struct insn_operand_data operand_data[] =
     "0",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -7350,14 +6588,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     SImode,
     0,
-    0,
     1
   },
   {
     memory_operand,
     "+m",
     SImode,
-    0,
     0,
     1
   },
@@ -7366,7 +6602,6 @@ static const struct insn_operand_data operand_data[] =
     "0",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -7374,14 +6609,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     QImode,
     0,
-    0,
     1
   },
   {
     memory_operand,
     "+m",
     QImode,
-    0,
     0,
     1
   },
@@ -7390,14 +6623,12 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     HImode,
     0,
-    0,
     1
   },
   {
     memory_operand,
     "+m",
     QImode,
-    0,
     0,
     1
   },
@@ -7406,7 +6637,6 @@ static const struct insn_operand_data operand_data[] =
     "=r",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -7414,14 +6644,12 @@ static const struct insn_operand_data operand_data[] =
     "+m",
     QImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     SImode,
-    0,
     0,
     1
   },
@@ -7430,14 +6658,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
     compare_operand,
     "",
     SImode,
-    0,
     0,
     1
   },
@@ -7446,14 +6672,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     SImode,
-    0,
     0,
     1
   },
@@ -7462,14 +6686,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
     compare_operand,
     "",
     DImode,
-    0,
     0,
     1
   },
@@ -7478,14 +6700,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     SImode,
-    0,
     0,
     1
   },
@@ -7494,14 +6714,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
     register_operand,
     "",
     SFmode,
-    0,
     0,
     1
   },
@@ -7510,14 +6728,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     SImode,
-    0,
     0,
     1
   },
@@ -7526,7 +6742,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
@@ -7534,7 +6749,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     DFmode,
     0,
-    0,
     1
   },
   {
@@ -7542,14 +6756,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     SImode,
-    0,
     0,
     1
   },
@@ -7558,7 +6770,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
@@ -7566,7 +6777,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     TFmode,
     0,
-    0,
     1
   },
   {
@@ -7574,6 +6784,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     TFmode,
     0,
+    1
+  },
+  {
+    register_operand,
+    "",
+    SImode,
     0,
     1
   },
@@ -7582,22 +6798,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     SImode,
-    0,
-    0,
-    1
-  },
-  {
-    register_operand,
-    "",
-    SImode,
-    0,
     0,
     1
   },
@@ -7606,7 +6812,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -7614,14 +6819,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     SImode,
-    0,
     0,
     1
   },
@@ -7630,7 +6833,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
     1
   },
   {
@@ -7638,7 +6840,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    1,
     0
   },
   {
@@ -7646,14 +6847,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
     compare_operand,
     "",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -7662,14 +6861,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
     1
   },
   {
     0,
     "",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -7678,14 +6875,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
     compare_operand,
     "",
     SImode,
-    0,
     0,
     1
   },
@@ -7694,14 +6889,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
     0,
     "",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -7710,14 +6903,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
     compare_operand,
     "",
     DImode,
-    0,
     0,
     1
   },
@@ -7726,14 +6917,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
     0,
     "",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -7742,14 +6931,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
     register_operand,
     "",
     SFmode,
-    0,
     0,
     1
   },
@@ -7758,14 +6945,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SFmode,
     0,
-    0,
     1
   },
   {
     0,
     "",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -7774,7 +6959,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
@@ -7782,7 +6966,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     DFmode,
     0,
-    0,
     1
   },
   {
@@ -7790,14 +6973,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DFmode,
     0,
-    0,
     1
   },
   {
     0,
     "",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -7806,7 +6987,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
@@ -7814,14 +6994,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     TFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     TFmode,
-    0,
     0,
     1
   },
@@ -7830,7 +7008,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
     1
   },
   {
@@ -7838,14 +7015,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     QImode,
     0,
-    0,
     1
   },
   {
     general_operand,
     "",
     QImode,
-    0,
     0,
     1
   },
@@ -7854,7 +7029,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     HImode,
     0,
-    0,
     1
   },
   {
@@ -7862,14 +7036,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     HImode,
     0,
-    0,
     1
   },
   {
     nonimmediate_operand,
     "",
     SImode,
-    0,
     0,
     1
   },
@@ -7878,7 +7050,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -7886,14 +7057,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
     general_operand,
     "",
     DImode,
-    0,
     0,
     1
   },
@@ -7901,7 +7070,6 @@ static const struct insn_operand_data operand_data[] =
     register_operand,
     "=r",
     DImode,
-    0,
     0,
     1
   },
@@ -7910,7 +7078,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -7918,14 +7085,12 @@ static const struct insn_operand_data operand_data[] =
     "=&r",
     TImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     DImode,
-    0,
     0,
     1
   },
@@ -7934,14 +7099,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
     memory_operand,
     "",
     DImode,
-    0,
     0,
     1
   },
@@ -7950,7 +7113,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -7958,14 +7120,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SFmode,
     0,
-    0,
     1
   },
   {
     general_operand,
     "",
     SFmode,
-    0,
     0,
     1
   },
@@ -7974,14 +7134,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     V2HImode,
     0,
-    0,
     1
   },
   {
     general_operand,
     "",
     V2HImode,
-    0,
     0,
     1
   },
@@ -7990,14 +7148,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     V4QImode,
     0,
-    0,
     1
   },
   {
     general_operand,
     "",
     V4QImode,
-    0,
     0,
     1
   },
@@ -8005,7 +7161,6 @@ static const struct insn_operand_data operand_data[] =
     register_operand,
     "",
     SFmode,
-    0,
     0,
     1
   },
@@ -8014,7 +7169,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     SFmode,
     0,
-    0,
     1
   },
   {
@@ -8022,14 +7176,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DFmode,
     0,
-    0,
     1
   },
   {
     general_operand,
     "",
     DFmode,
-    0,
     0,
     1
   },
@@ -8038,7 +7190,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     V2SImode,
     0,
-    0,
     1
   },
   {
@@ -8046,14 +7197,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     V2SImode,
     0,
-    0,
     1
   },
   {
     nonimmediate_operand,
     "",
     V4HImode,
-    0,
     0,
     1
   },
@@ -8062,7 +7211,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     V4HImode,
     0,
-    0,
     1
   },
   {
@@ -8070,14 +7218,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     V8QImode,
     0,
-    0,
     1
   },
   {
     general_operand,
     "",
     V8QImode,
-    0,
     0,
     1
   },
@@ -8085,7 +7231,6 @@ static const struct insn_operand_data operand_data[] =
     register_operand,
     "",
     DFmode,
-    0,
     0,
     1
   },
@@ -8094,14 +7239,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     V2SImode,
-    0,
     0,
     1
   },
@@ -8110,14 +7253,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     V2SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     V4HImode,
-    0,
     0,
     1
   },
@@ -8126,14 +7267,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     V4HImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     V8QImode,
-    0,
     0,
     1
   },
@@ -8142,6 +7281,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     V8QImode,
     0,
+    1
+  },
+  {
+    register_operand,
+    "",
+    V2SImode,
     0,
     1
   },
@@ -8150,14 +7295,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     V2SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
-    V2SImode,
-    0,
+    V4HImode,
     0,
     1
   },
@@ -8166,15 +7309,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     V4HImode,
     0,
-    0,
-    1
-  },
-  {
-    register_operand,
-    "",
-    V4HImode,
-    0,
-    0,
     1
   },
   {
@@ -8182,14 +7316,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     V8QImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     V8QImode,
-    0,
     0,
     1
   },
@@ -8198,7 +7330,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     DFmode,
     0,
-    0,
     1
   },
   {
@@ -8206,7 +7337,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     DFmode,
     0,
-    0,
     1
   },
   {
@@ -8214,14 +7344,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     V2SImode,
     0,
-    0,
     1
   },
   {
     const_zero_operand,
     "",
     V2SImode,
-    0,
     0,
     1
   },
@@ -8230,14 +7358,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     V4HImode,
     0,
-    0,
     1
   },
   {
     const_zero_operand,
     "",
     V4HImode,
-    0,
     0,
     1
   },
@@ -8246,14 +7372,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     V8QImode,
     0,
-    0,
     1
   },
   {
     const_zero_operand,
     "",
     V8QImode,
-    0,
     0,
     1
   },
@@ -8261,7 +7385,6 @@ static const struct insn_operand_data operand_data[] =
     nonimmediate_operand,
     "",
     TFmode,
-    0,
     0,
     1
   },
@@ -8270,14 +7393,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     TFmode,
     0,
-    0,
     1
   },
   {
     nonimmediate_operand,
     "",
     TFmode,
-    0,
     0,
     1
   },
@@ -8286,14 +7407,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     TFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     TFmode,
-    0,
     0,
     1
   },
@@ -8302,14 +7421,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     TFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     TFmode,
-    0,
     0,
     1
   },
@@ -8318,14 +7435,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     QImode,
     0,
-    0,
     1
   },
   {
     comparison_operator,
     "",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -8334,7 +7449,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     QImode,
     0,
-    0,
     1
   },
   {
@@ -8342,7 +7456,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     QImode,
     0,
-    0,
     1
   },
   {
@@ -8350,14 +7463,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     HImode,
     0,
-    0,
     1
   },
   {
     comparison_operator,
     "",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -8366,7 +7477,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     HImode,
     0,
-    0,
     1
   },
   {
@@ -8374,7 +7484,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     HImode,
     0,
-    0,
     1
   },
   {
@@ -8382,14 +7491,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
     comparison_operator,
     "",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -8398,7 +7505,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -8406,7 +7512,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -8414,14 +7519,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
     comparison_operator,
     "",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -8430,7 +7533,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -8438,6 +7540,19 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
+    1
+  },
+  {
+    register_operand,
+    "",
+    SFmode,
+    0,
+    1
+  },
+  {
+    comparison_operator,
+    "",
+    VOIDmode,
     0,
     1
   },
@@ -8446,15 +7561,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     SFmode,
     0,
-    0,
-    1
-  },
-  {
-    comparison_operator,
-    "",
-    VOIDmode,
-    0,
-    0,
     1
   },
   {
@@ -8462,22 +7568,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SFmode,
     0,
-    0,
-    1
-  },
-  {
-    register_operand,
-    "",
-    SFmode,
-    0,
-    0,
     1
   },
   {
     register_operand,
     "",
     DFmode,
-    0,
     0,
     1
   },
@@ -8486,6 +7582,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
+    1
+  },
+  {
+    register_operand,
+    "",
+    DFmode,
     0,
     1
   },
@@ -8494,22 +7596,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DFmode,
     0,
-    0,
-    1
-  },
-  {
-    register_operand,
-    "",
-    DFmode,
-    0,
-    0,
     1
   },
   {
     register_operand,
     "",
     TFmode,
-    0,
     0,
     1
   },
@@ -8518,7 +7610,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
     1
   },
   {
@@ -8526,14 +7617,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     TFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     TFmode,
-    0,
     0,
     1
   },
@@ -8542,7 +7631,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
@@ -8550,7 +7638,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
     1
   },
   {
@@ -8558,14 +7645,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     TFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     TFmode,
-    0,
     0,
     1
   },
@@ -8574,7 +7659,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
@@ -8582,7 +7666,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -8590,14 +7673,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     TFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     TFmode,
-    0,
     0,
     1
   },
@@ -8605,7 +7686,6 @@ static const struct insn_operand_data operand_data[] =
     register_operand,
     "",
     SImode,
-    0,
     0,
     1
   },
@@ -8614,14 +7694,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     HImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     QImode,
-    0,
     0,
     1
   },
@@ -8630,14 +7708,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     QImode,
-    0,
     0,
     1
   },
@@ -8646,7 +7722,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -8654,14 +7729,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     QImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     DImode,
-    0,
     0,
     1
   },
@@ -8670,14 +7743,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     HImode,
     0,
-    0,
     1
   },
   {
     nonimmediate_operand,
     "",
     TFmode,
-    0,
     0,
     1
   },
@@ -8686,7 +7757,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     SFmode,
     0,
-    0,
     1
   },
   {
@@ -8694,14 +7764,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     TFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     DFmode,
-    0,
     0,
     1
   },
@@ -8710,14 +7778,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SFmode,
     0,
-    0,
     1
   },
   {
     general_operand,
     "",
     TFmode,
-    0,
     0,
     1
   },
@@ -8726,7 +7792,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     DFmode,
     0,
-    0,
     1
   },
   {
@@ -8734,14 +7799,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     TFmode,
     0,
-    0,
     1
   },
   {
     nonimmediate_operand,
     "",
     TFmode,
-    0,
     0,
     1
   },
@@ -8750,7 +7813,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -8758,14 +7820,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SFmode,
     0,
-    0,
     1
   },
   {
     general_operand,
     "",
     DImode,
-    0,
     0,
     1
   },
@@ -8774,14 +7834,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DFmode,
     0,
-    0,
     1
   },
   {
     general_operand,
     "",
     DImode,
-    0,
     0,
     1
   },
@@ -8790,14 +7848,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     TFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     DImode,
-    0,
     0,
     1
   },
@@ -8806,7 +7862,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -8814,14 +7869,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     TFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     DImode,
-    0,
     0,
     1
   },
@@ -8830,14 +7883,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     DImode,
-    0,
     0,
     1
   },
@@ -8846,14 +7897,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     DImode,
-    0,
     0,
     1
   },
@@ -8862,7 +7911,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     TFmode,
     0,
-    0,
     1
   },
   {
@@ -8870,14 +7918,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     DImode,
-    0,
     0,
     1
   },
@@ -8886,14 +7932,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     DImode,
-    0,
     0,
     1
   },
@@ -8902,7 +7946,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -8910,7 +7953,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -8918,14 +7960,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     SImode,
-    0,
     0,
     1
   },
@@ -8934,7 +7974,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -8942,14 +7981,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     SImode,
-    0,
     0,
     1
   },
@@ -8958,7 +7995,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -8966,14 +8002,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     SImode,
-    0,
     0,
     1
   },
@@ -8981,7 +8015,6 @@ static const struct insn_operand_data operand_data[] =
     input_operand,
     "",
     SImode,
-    0,
     0,
     1
   },
@@ -8990,7 +8023,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     0
   },
   {
@@ -8998,14 +8030,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
     nonimmediate_operand,
     "",
     SImode,
-    0,
     0,
     1
   },
@@ -9014,22 +8044,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     DImode,
-    0,
-    0,
-    1
-  },
-  {
-    arith_double_operand,
-    "",
-    DImode,
-    0,
     0,
     1
   },
@@ -9038,6 +8058,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
+    1
+  },
+  {
+    arith_double_operand,
+    "",
+    DImode,
     0,
     1
   },
@@ -9046,6 +8072,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     V2SImode,
     0,
+    1
+  },
+  {
+    arith_double_operand,
+    "",
+    V2SImode,
     0,
     1
   },
@@ -9054,15 +8086,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     V2SImode,
     0,
-    0,
-    1
-  },
-  {
-    arith_double_operand,
-    "",
-    V2SImode,
-    0,
-    0,
     1
   },
   {
@@ -9070,7 +8093,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     V4HImode,
     0,
-    0,
     1
   },
   {
@@ -9078,14 +8100,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     V4HImode,
     0,
-    0,
     1
   },
   {
     arith_double_operand,
     "",
     V4HImode,
-    0,
     0,
     1
   },
@@ -9094,7 +8114,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     V8QImode,
     0,
-    0,
     1
   },
   {
@@ -9102,14 +8121,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     V8QImode,
     0,
-    0,
     1
   },
   {
     arith_double_operand,
     "",
     V8QImode,
-    0,
     0,
     1
   },
@@ -9118,14 +8135,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     SImode,
-    0,
     0,
     1
   },
@@ -9134,14 +8149,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     SImode,
-    0,
     0,
     1
   },
@@ -9150,7 +8163,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     TFmode,
     0,
-    0,
     1
   },
   {
@@ -9158,14 +8170,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     TFmode,
     0,
-    0,
     1
   },
   {
     general_operand,
     "",
     TFmode,
-    0,
     0,
     1
   },
@@ -9174,14 +8184,12 @@ static const struct insn_operand_data operand_data[] =
     "r",
     VOIDmode,
     0,
-    0,
     1
   },
   {
     0,
     "",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -9190,7 +8198,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
     1
   },
   {
@@ -9198,7 +8205,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
@@ -9206,14 +8212,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
     0,
     "i",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -9222,6 +8226,12 @@ static const struct insn_operand_data operand_data[] =
     "=rf",
     VOIDmode,
     0,
+    1
+  },
+  {
+    0,
+    "",
+    VOIDmode,
     0,
     1
   },
@@ -9230,15 +8240,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
-    1
-  },
-  {
-    0,
-    "",
-    VOIDmode,
-    0,
-    1,
     0
   },
   {
@@ -9246,14 +8247,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
     0
   },
   {
     0,
     "",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -9262,14 +8261,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     BLKmode,
     0,
-    0,
     1
   },
   {
     0,
     "",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -9277,7 +8274,6 @@ static const struct insn_operand_data operand_data[] =
     memory_operand,
     "",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -9286,6 +8282,12 @@ static const struct insn_operand_data operand_data[] =
     "p",
     VOIDmode,
     0,
+    1
+  },
+  {
+    general_operand,
+    "",
+    SImode,
     0,
     1
   },
@@ -9294,7 +8296,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -9302,22 +8303,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
-    1
-  },
-  {
-    general_operand,
-    "",
-    SImode,
-    0,
-    0,
     1
   },
   {
     0,
     "",
     SImode,
-    0,
     0,
     1
   },
@@ -9326,14 +8317,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
     memory_operand,
     "",
     SImode,
-    0,
     0,
     1
   },
@@ -9342,6 +8331,19 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
+    1
+  },
+  {
+    memory_operand,
+    "",
+    SImode,
+    0,
+    1
+  },
+  {
+    register_operand,
+    "",
+    SImode,
     0,
     1
   },
@@ -9350,30 +8352,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
-    1
-  },
-  {
-    register_operand,
-    "",
-    SImode,
-    0,
-    0,
-    1
-  },
-  {
-    memory_operand,
-    "",
-    SImode,
-    0,
-    0,
     1
   },
   {
     register_operand,
     "",
     SFmode,
-    0,
     0,
     1
   },
@@ -9382,14 +8366,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     SFmode,
-    0,
     0,
     1
   },
@@ -9398,14 +8380,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SFmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     SFmode,
-    0,
     0,
     1
   },
@@ -9414,7 +8394,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -9422,14 +8401,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     DImode,
-    0,
     0,
     1
   },
@@ -9438,6 +8415,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
+    1
+  },
+  {
+    const_int_operand,
+    "",
+    VOIDmode,
     0,
     1
   },
@@ -9446,14 +8429,33 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
+    1
+  },
+  {
+    noov_compare_operator,
+    "",
+    VOIDmode,
+    0,
+    0
+  },
+  {
+    compare_operand,
+    "",
+    SImode,
     0,
     1
   },
   {
-    const_int_operand,
+    arith_operand,
+    "",
+    SImode,
+    0,
+    1
+  },
+  {
+    0,
     "",
     VOIDmode,
-    0,
     0,
     1
   },
@@ -9462,39 +8464,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    1,
-    0
-  },
-  {
-    compare_operand,
-    "",
-    SImode,
-    0,
-    0,
-    1
-  },
-  {
-    arith_operand,
-    "",
-    SImode,
-    0,
-    0,
-    1
-  },
-  {
-    0,
-    "",
-    VOIDmode,
-    0,
-    0,
-    1
-  },
-  {
-    noov_compare_operator,
-    "",
-    VOIDmode,
-    0,
-    1,
     0
   },
   {
@@ -9502,14 +8471,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
     arith_operand,
     "",
     DImode,
-    0,
     0,
     1
   },
@@ -9518,6 +8485,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
+    1
+  },
+  {
+    memory_operand,
+    "",
+    VOIDmode,
     0,
     1
   },
@@ -9526,15 +8499,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
-    1
-  },
-  {
-    memory_operand,
-    "",
-    VOIDmode,
-    0,
-    0,
     1
   },
   {
@@ -9542,14 +8506,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     VOIDmode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     QImode,
-    0,
     0,
     1
   },
@@ -9558,7 +8520,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     QImode,
     0,
-    0,
     1
   },
   {
@@ -9566,14 +8527,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     QImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     QImode,
-    0,
     0,
     1
   },
@@ -9582,22 +8541,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     HImode,
     0,
-    0,
     1
   },
   {
     memory_operand,
     "",
     HImode,
-    0,
-    0,
-    1
-  },
-  {
-    register_operand,
-    "",
-    HImode,
-    0,
     0,
     1
   },
@@ -9606,14 +8555,19 @@ static const struct insn_operand_data operand_data[] =
     "",
     HImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
-    SImode,
+    HImode,
     0,
+    1
+  },
+  {
+    register_operand,
+    "=r",
+    SImode,
     0,
     1
   },
@@ -9622,6 +8576,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
+    1
+  },
+  {
+    register_operand,
+    "",
+    SImode,
     0,
     1
   },
@@ -9630,22 +8590,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
     register_operand,
-    "",
-    SImode,
-    0,
-    0,
-    1
-  },
-  {
-    register_operand,
-    "",
+    "=r",
     DImode,
-    0,
     0,
     1
   },
@@ -9654,7 +8604,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
@@ -9662,14 +8611,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     DImode,
     0,
-    0,
     1
   },
   {
     register_operand,
     "",
     DImode,
-    0,
     0,
     1
   },
@@ -9678,14 +8625,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     QImode,
     0,
-    0,
     1
   },
   {
     memory_operand,
     "",
     QImode,
-    0,
     0,
     1
   },
@@ -9694,7 +8639,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     QImode,
     0,
-    0,
     1
   },
   {
@@ -9702,14 +8646,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     HImode,
     0,
-    0,
     1
   },
   {
     memory_operand,
     "",
     HImode,
-    0,
     0,
     1
   },
@@ -9718,7 +8660,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     HImode,
     0,
-    0,
     1
   },
   {
@@ -9726,14 +8667,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
     memory_operand,
     "",
     SImode,
-    0,
     0,
     1
   },
@@ -9742,7 +8681,6 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
@@ -9750,14 +8688,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     HImode,
     0,
-    0,
     1
   },
   {
     memory_operand,
     "",
     QImode,
-    0,
     0,
     1
   },
@@ -9766,14 +8702,12 @@ static const struct insn_operand_data operand_data[] =
     "",
     SImode,
     0,
-    0,
     1
   },
   {
     memory_operand,
     "",
     QImode,
-    0,
     0,
     1
   },
@@ -9784,9 +8718,9 @@ static const struct insn_operand_data operand_data[] =
 __extension__
 #endif
 
-const struct insn_data_d insn_data[] = 
+const struct insn_data insn_data[] = 
 {
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:369 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:362 */
   {
     "*cmpsi_insn",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -9807,7 +8741,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:377 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:370 */
   {
     "*cmpdi_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -9828,7 +8762,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:385 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:378 */
   {
     "*cmpsf_fpe",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -9843,7 +8777,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:397 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:390 */
   {
     "*cmpdf_fpe",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -9858,7 +8792,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:410 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:403 */
   {
     "*cmptf_fpe",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -9873,7 +8807,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:422 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:415 */
   {
     "*cmpsf_fp",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -9888,7 +8822,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:434 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:427 */
   {
     "*cmpdf_fp",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -9903,7 +8837,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:447 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:440 */
   {
     "*cmptf_fp",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -9918,7 +8852,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:544 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:537 */
   {
     "*snesi_zero",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -9939,7 +8873,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:558 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:551 */
   {
     "*neg_snesi_zero",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -9960,7 +8894,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:572 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:565 */
   {
     "*snesi_zero_extend",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -9981,7 +8915,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:590 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:583 */
   {
     "*snedi_zero",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10002,7 +8936,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:605 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:598 */
   {
     "*neg_snedi_zero",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10023,7 +8957,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:620 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:613 */
   {
     "*snedi_zero_trunc",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10044,7 +8978,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:635 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:628 */
   {
     "*seqsi_zero",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10065,7 +8999,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:649 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:642 */
   {
     "*neg_seqsi_zero",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10086,7 +9020,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:663 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:656 */
   {
     "*seqsi_zero_extend",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10107,7 +9041,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:681 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:674 */
   {
     "*seqdi_zero",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10128,7 +9062,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:696 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:689 */
   {
     "*neg_seqdi_zero",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10149,7 +9083,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:711 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:704 */
   {
     "*seqdi_zero_trunc",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10170,7 +9104,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:730 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:723 */
   {
     "*x_plus_i_ne_0",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10191,7 +9125,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:746 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:739 */
   {
     "*x_minus_i_ne_0",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10212,7 +9146,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:762 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:755 */
   {
     "*x_plus_i_eq_0",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10233,7 +9167,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:778 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:771 */
   {
     "*x_minus_i_eq_0",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10254,7 +9188,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:798 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:791 */
   {
     "*sltu_insn",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10275,7 +9209,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:805 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:798 */
   {
     "*neg_sltu_insn",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10296,7 +9230,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:813 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:806 */
   {
     "*neg_sltu_minus_x",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10317,7 +9251,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:821 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:814 */
   {
     "*neg_sltu_plus_x",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10338,7 +9272,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:829 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:822 */
   {
     "*sgeu_insn",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10359,7 +9293,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:836 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:829 */
   {
     "*neg_sgeu_insn",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10380,7 +9314,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:847 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:840 */
   {
     "*sltu_plus_x",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10401,7 +9335,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:855 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:848 */
   {
     "*sltu_plus_x_plus_y",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10422,7 +9356,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:864 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:857 */
   {
     "*x_minus_sltu",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10443,7 +9377,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:873 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:866 */
   {
     "*x_minus_y_minus_sltu",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10464,7 +9398,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:882 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:875 */
   {
     "*x_minus_sltu_plus_y",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10485,7 +9419,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:891 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:884 */
   {
     "*sgeu_plus_x",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10506,7 +9440,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:899 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:892 */
   {
     "*x_minus_sgeu",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10527,7 +9461,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:975 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:968 */
   {
     "*normal_branch",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10542,7 +9476,7 @@ const struct insn_data_d insn_data[] =
     0,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:991 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:984 */
   {
     "*inverted_branch",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10557,7 +9491,7 @@ const struct insn_data_d insn_data[] =
     0,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1007 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1000 */
   {
     "*normal_fp_branch",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10572,7 +9506,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1024 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1017 */
   {
     "*inverted_fp_branch",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10587,7 +9521,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1041 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1034 */
   {
     "*normal_fpe_branch",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10602,7 +9536,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1058 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1051 */
   {
     "*inverted_fpe_branch",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10617,7 +9551,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1080 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1073 */
   {
     "*normal_int_branch_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10632,7 +9566,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1097 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1090 */
   {
     "*inverted_int_branch_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10647,7 +9581,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1118 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1111 */
   {
     "load_pcrel_symsi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10662,7 +9596,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1118 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1111 */
   {
     "load_pcrel_symdi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10677,7 +9611,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1149 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1142 */
   {
     "*movqi_insn",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10692,7 +9626,7 @@ const struct insn_data_d insn_data[] =
     3,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1170 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1163 */
   {
     "*movhi_insn",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10707,7 +9641,7 @@ const struct insn_data_d insn_data[] =
     4,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1184 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1177 */
   {
     "*movhi_lo_sum",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10728,7 +9662,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1200 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1193 */
   {
     "*movsi_insn",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10743,7 +9677,7 @@ const struct insn_data_d insn_data[] =
     8,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1216 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1209 */
   {
     "*movsi_lo_sum",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10764,7 +9698,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1223 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1216 */
   {
     "*movsi_high",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10785,7 +9719,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1231 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1224 */
   {
     "movsi_lo_sum_pic",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10800,7 +9734,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1244 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1237 */
   {
     "movsi_high_pic",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10815,7 +9749,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1256 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1249 */
   {
     "movsi_pic_gotdata_op",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10830,7 +9764,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1296 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1289 */
   {
     "*movsi_high_pic_label_ref",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10851,7 +9785,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1304 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1297 */
   {
     "*movsi_lo_sum_pic_label_ref",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10872,7 +9806,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1349 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1342 */
   {
     "*movdi_insn_sp32",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10887,7 +9821,7 @@ const struct insn_data_d insn_data[] =
     12,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1402 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1395 */
   {
     "*movdi_insn_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10902,7 +9836,7 @@ const struct insn_data_d insn_data[] =
     8,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1445 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1438 */
   {
     "*movdi_high_pic_label_ref",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10923,7 +9857,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1453 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1446 */
   {
     "*movdi_lo_sum_pic_label_ref",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10944,7 +9878,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1464 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1457 */
   {
     "movdi_lo_sum_pic",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10959,7 +9893,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1477 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1470 */
   {
     "movdi_high_pic",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10974,7 +9908,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1489 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1482 */
   {
     "movdi_pic_gotdata_op",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -10989,7 +9923,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1504 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1497 */
   {
     "*sethi_di_medlow_embmedany_pic",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11010,7 +9944,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1510 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1503 */
   {
     "*sethi_di_medlow",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11031,7 +9965,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1516 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1509 */
   {
     "*losum_di_medlow",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11052,7 +9986,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1523 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1516 */
   {
     "seth44",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11073,7 +10007,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1529 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1522 */
   {
     "setm44",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11094,7 +10028,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1536 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1529 */
   {
     "setl44",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11115,7 +10049,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1543 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1536 */
   {
     "sethh",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11136,7 +10070,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1549 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1542 */
   {
     "setlm",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11157,7 +10091,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1555 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1548 */
   {
     "sethm",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11178,7 +10112,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1562 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1555 */
   {
     "setlo",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11199,7 +10133,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1569 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1562 */
   {
     "embmedany_sethi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11220,7 +10154,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1575 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1568 */
   {
     "embmedany_losum",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11241,7 +10175,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1582 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1575 */
   {
     "embmedany_brsum",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11262,7 +10196,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1588 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1581 */
   {
     "embmedany_textuhi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11283,7 +10217,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1594 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1587 */
   {
     "embmedany_texthi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11304,7 +10238,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1600 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1593 */
   {
     "embmedany_textulo",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11325,7 +10259,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1607 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1600 */
   {
     "embmedany_textlo",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11346,7 +10280,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1815 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1808 */
   {
     "*movsf_insn",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11361,7 +10295,7 @@ const struct insn_data_d insn_data[] =
     9,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1815 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1808 */
   {
     "*movsf_insn",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11376,7 +10310,7 @@ const struct insn_data_d insn_data[] =
     9,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1815 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1808 */
   {
     "*movsf_insn",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11391,7 +10325,7 @@ const struct insn_data_d insn_data[] =
     9,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1863 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1856 */
   {
     "*movsf_insn_no_fpu",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11406,7 +10340,7 @@ const struct insn_data_d insn_data[] =
     5,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1903 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1896 */
   {
     "*movsf_lo_sum",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11421,7 +10355,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1918 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1911 */
   {
     "*movsf_high",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11436,7 +10370,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1950 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1943 */
   {
     "*movdf_insn_sp32",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11451,7 +10385,7 @@ const struct insn_data_d insn_data[] =
     10,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1971 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1964 */
   {
     "*movdf_insn_sp32_no_fpu",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11466,7 +10400,7 @@ const struct insn_data_d insn_data[] =
     5,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2029 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2022 */
   {
     "*movdf_insn_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11481,7 +10415,7 @@ const struct insn_data_d insn_data[] =
     8,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2029 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2022 */
   {
     "*movdf_insn_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11496,7 +10430,7 @@ const struct insn_data_d insn_data[] =
     8,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2029 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2022 */
   {
     "*movdf_insn_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11511,7 +10445,7 @@ const struct insn_data_d insn_data[] =
     8,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2029 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2022 */
   {
     "*movdf_insn_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11526,7 +10460,7 @@ const struct insn_data_d insn_data[] =
     8,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2049 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2042 */
   {
     "*movdf_insn_sp64_no_fpu",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11541,7 +10475,7 @@ const struct insn_data_d insn_data[] =
     3,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2314 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2307 */
   {
     "*movtf_insn_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11562,7 +10496,7 @@ const struct insn_data_d insn_data[] =
     4,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2325 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2318 */
   {
     "*movtf_insn_sp64_hq",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11577,7 +10511,7 @@ const struct insn_data_d insn_data[] =
     6,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2343 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2336 */
   {
     "*movtf_insn_sp64_no_fpu",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11598,7 +10532,7 @@ const struct insn_data_d insn_data[] =
     2,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2542 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2535 */
   {
     "*movqi_cc_v9",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11613,7 +10547,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2542 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2535 */
   {
     "*movhi_cc_v9",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11628,7 +10562,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2542 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2535 */
   {
     "*movsi_cc_v9",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11643,7 +10577,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2542 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2535 */
   {
     "*movdi_cc_v9",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11658,7 +10592,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2555 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2548 */
   {
     "*movqi_cc_reg_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11673,7 +10607,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2555 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2548 */
   {
     "*movhi_cc_reg_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11688,7 +10622,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2555 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2548 */
   {
     "*movsi_cc_reg_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11703,7 +10637,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2555 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2548 */
   {
     "*movdi_cc_reg_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11718,7 +10652,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2568 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2561 */
   {
     "*movsf_cc_v9",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11733,7 +10667,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2581 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2574 */
   {
     "*movsf_cc_reg_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11748,7 +10682,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2595 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2588 */
   {
     "movdf_cc_v9",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11763,7 +10697,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2610 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2603 */
   {
     "movdf_cc_reg_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11778,7 +10712,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2624 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2617 */
   {
     "*movtf_cc_hq_v9",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11793,7 +10727,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2637 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2630 */
   {
     "*movtf_cc_reg_hq_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11808,7 +10742,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2650 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2643 */
   {
     "*movtf_cc_v9",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11829,7 +10763,7 @@ const struct insn_data_d insn_data[] =
     2,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2693 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2686 */
   {
     "*movtf_cc_reg_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11850,7 +10784,7 @@ const struct insn_data_d insn_data[] =
     2,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2766 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2759 */
   {
     "*zero_extendhisi2_insn",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11871,7 +10805,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2780 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2773 */
   {
     "*zero_extendqihi2_insn",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11886,7 +10820,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2796 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2789 */
   {
     "*zero_extendqisi2_insn",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11901,7 +10835,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2812 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2805 */
   {
     "*zero_extendqidi2_insn",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11916,7 +10850,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2845 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2838 */
   {
     "*zero_extendhidi2_insn",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11937,7 +10871,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2861 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2854 */
   {
     "*zero_extendsidi2_insn_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11952,7 +10886,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2904 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2897 */
   {
     "*cmp_zero_extendqisi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11973,7 +10907,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2912 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2905 */
   {
     "*cmp_zero_qi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -11994,7 +10928,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2920 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2913 */
   {
     "*cmp_zero_extendqisi2_set",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12015,7 +10949,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2930 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2923 */
   {
     "*cmp_zero_extendqisi2_andcc_set",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12036,7 +10970,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2941 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2934 */
   {
     "*cmp_zero_extendqidi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12057,7 +10991,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2949 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2942 */
   {
     "*cmp_zero_qi_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12078,7 +11012,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2957 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2950 */
   {
     "*cmp_zero_extendqidi2_set",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12099,7 +11033,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2967 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2960 */
   {
     "*cmp_zero_extendqidi2_andcc_set",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12120,7 +11054,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2980 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2973 */
   {
     "*cmp_siqi_trunc",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12141,7 +11075,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2988 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2981 */
   {
     "*cmp_siqi_trunc_set",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12162,7 +11096,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2998 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2991 */
   {
     "*cmp_diqi_trunc",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12183,7 +11117,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3006 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2999 */
   {
     "*cmp_diqi_trunc_set",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12204,7 +11138,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3046 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3039 */
   {
     "*sign_extendhisi2_insn",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12225,7 +11159,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3086 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3079 */
   {
     "*sign_extendqihi2_insn",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12246,7 +11180,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3117 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3110 */
   {
     "*sign_extendqisi2_insn",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12267,7 +11201,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3148 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3141 */
   {
     "*sign_extendqidi2_insn",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12288,7 +11222,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3179 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3172 */
   {
     "*sign_extendhidi2_insn",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12309,7 +11243,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3193 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3186 */
   {
     "*sign_extendsidi2_insn",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12324,7 +11258,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3207 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3200 */
   {
     "*cmp_zero_extract",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12339,7 +11273,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3224 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3217 */
   {
     "*cmp_zero_extract_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12354,7 +11288,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3244 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3237 */
   {
     "extendsfdf2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12375,7 +11309,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3260 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3253 */
   {
     "*extendsftf2_hq",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12396,7 +11330,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3275 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3268 */
   {
     "*extenddftf2_hq",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12417,7 +11351,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3283 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3276 */
   {
     "truncdfsf2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12438,7 +11372,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3299 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3292 */
   {
     "*trunctfsf2_hq",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12459,7 +11393,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3314 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3307 */
   {
     "*trunctfdf2_hq",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12480,7 +11414,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3325 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3318 */
   {
     "floatsisf2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12501,7 +11435,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3333 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3326 */
   {
     "floatsidf2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12522,7 +11456,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3347 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3340 */
   {
     "*floatsitf2_hq",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12543,7 +11477,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3362 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3355 */
   {
     "floatdisf2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12564,7 +11498,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3376 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3369 */
   {
     "floatdidf2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12585,7 +11519,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3396 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3389 */
   {
     "*floatditf2_hq",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12606,7 +11540,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3412 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3405 */
   {
     "fix_truncsfsi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12627,7 +11561,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3420 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3413 */
   {
     "fix_truncdfsi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12648,7 +11582,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3434 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3427 */
   {
     "*fix_trunctfsi2_hq",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12669,7 +11603,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3449 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3442 */
   {
     "fix_truncsfdi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12690,7 +11624,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3463 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3456 */
   {
     "fix_truncdfdi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12711,7 +11645,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3483 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3476 */
   {
     "*fix_trunctfdi2_hq",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12732,7 +11666,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3556 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3549 */
   {
     "addx",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12753,7 +11687,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3581 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3574 */
   {
     "*addx_extend_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12774,7 +11708,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3611 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3604 */
   {
     "*adddi3_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12789,7 +11723,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3620 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3613 */
   {
     "addsi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12804,7 +11738,7 @@ const struct insn_data_d insn_data[] =
     3,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3632 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3625 */
   {
     "*cmp_cc_plus",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12825,7 +11759,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3641 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3634 */
   {
     "*cmp_ccx_plus",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12846,7 +11780,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3650 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3643 */
   {
     "*cmp_cc_plus_set",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12867,7 +11801,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3661 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3654 */
   {
     "*cmp_ccx_plus_set",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12888,7 +11822,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3729 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3722 */
   {
     "subx",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12909,7 +11843,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3738 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3731 */
   {
     "*subx_extend_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12930,7 +11864,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3783 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3776 */
   {
     "*subdi3_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12945,7 +11879,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3792 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3785 */
   {
     "subsi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12960,7 +11894,7 @@ const struct insn_data_d insn_data[] =
     3,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3804 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3797 */
   {
     "*cmp_minus_cc",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -12981,7 +11915,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3813 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3806 */
   {
     "*cmp_minus_ccx",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13002,7 +11936,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3822 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3815 */
   {
     "cmp_minus_cc_set",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13023,7 +11957,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3833 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3826 */
   {
     "*cmp_minus_ccx_set",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13044,7 +11978,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3850 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3843 */
   {
     "mulsi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13065,7 +11999,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3871 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3864 */
   {
     "*muldi3_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13086,7 +12020,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3881 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3874 */
   {
     "muldi3_v8plus",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13101,7 +12035,7 @@ const struct insn_data_d insn_data[] =
     2,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3917 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3910 */
   {
     "*cmp_mul_set",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13122,7 +12056,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3957 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3950 */
   {
     "mulsidi3_v8plus",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13137,7 +12071,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3970 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3963 */
   {
     "const_mulsidi3_v8plus",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13152,7 +12086,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4000 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3993 */
   {
     "*mulsidi3_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13173,7 +12107,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4028 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4021 */
   {
     "const_mulsidi3_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13194,7 +12128,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4066 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4059 */
   {
     "smulsi3_highpart_v8plus",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13209,9 +12143,9 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4082 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4075 */
   {
-    "*sparc.md:4082",
+    "*sparc.md:4075",
 #if HAVE_DESIGNATED_INITIALIZERS
     { .multi = output_183 },
 #else
@@ -13224,7 +12158,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4099 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4092 */
   {
     "const_smulsi3_highpart_v8plus",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13239,7 +12173,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4164 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4157 */
   {
     "umulsidi3_v8plus",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13254,7 +12188,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4194 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4187 */
   {
     "*umulsidi3_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13275,7 +12209,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4222 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4215 */
   {
     "const_umulsidi3_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13296,7 +12230,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4231 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4224 */
   {
     "const_umulsidi3_v8plus",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13311,7 +12245,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4273 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4266 */
   {
     "umulsi3_highpart_v8plus",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13326,7 +12260,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4288 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4281 */
   {
     "const_umulsi3_highpart_v8plus",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13341,7 +12275,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4383 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4376 */
   {
     "divsi3_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13362,7 +12296,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4393 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4386 */
   {
     "divdi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13383,7 +12317,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4401 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4394 */
   {
     "*cmp_sdiv_cc_set",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13398,7 +12332,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4475 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4468 */
   {
     "udivsi3_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13419,7 +12353,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4484 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4477 */
   {
     "udivdi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13440,7 +12374,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4492 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4485 */
   {
     "*cmp_udiv_cc_set",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13455,7 +12389,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4515 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4508 */
   {
     "*smacsi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13476,7 +12410,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4524 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4517 */
   {
     "*smacdi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13497,7 +12431,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4535 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4528 */
   {
     "*umacdi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13518,7 +12452,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4571 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4564 */
   {
     "*anddi3_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13533,7 +12467,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4571 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4564 */
   {
     "*andv2si3_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13548,7 +12482,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4571 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4564 */
   {
     "*andv4hi3_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13563,7 +12497,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4571 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4564 */
   {
     "*andv8qi3_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13578,7 +12512,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4582 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4575 */
   {
     "andsi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13593,7 +12527,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4582 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4575 */
   {
     "andv2hi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13608,7 +12542,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4582 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4575 */
   {
     "andv4qi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13623,7 +12557,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4631 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4624 */
   {
     "*and_not_di_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13638,7 +12572,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4631 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4624 */
   {
     "*and_not_v2si_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13653,7 +12587,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4631 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4624 */
   {
     "*and_not_v4hi_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13668,7 +12602,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4631 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4624 */
   {
     "*and_not_v8qi_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13683,7 +12617,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4642 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4635 */
   {
     "*and_not_si",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13698,7 +12632,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4642 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4635 */
   {
     "*and_not_v2hi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13713,7 +12647,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4642 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4635 */
   {
     "*and_not_v4qi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13728,7 +12662,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4672 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4665 */
   {
     "*iordi3_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13743,7 +12677,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4672 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4665 */
   {
     "*iorv2si3_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13758,7 +12692,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4672 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4665 */
   {
     "*iorv4hi3_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13773,7 +12707,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4672 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4665 */
   {
     "*iorv8qi3_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13788,7 +12722,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4683 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4676 */
   {
     "iorsi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13803,7 +12737,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4683 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4676 */
   {
     "iorv2hi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13818,7 +12752,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4683 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4676 */
   {
     "iorv4qi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13833,7 +12767,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4732 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4725 */
   {
     "*or_not_di_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13848,7 +12782,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4732 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4725 */
   {
     "*or_not_v2si_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13863,7 +12797,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4732 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4725 */
   {
     "*or_not_v4hi_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13878,7 +12812,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4732 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4725 */
   {
     "*or_not_v8qi_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13893,7 +12827,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4743 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4736 */
   {
     "*or_not_si",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13908,7 +12842,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4743 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4736 */
   {
     "*or_not_v2hi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13923,7 +12857,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4743 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4736 */
   {
     "*or_not_v4qi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13938,7 +12872,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4773 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4766 */
   {
     "*xordi3_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13953,7 +12887,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4773 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4766 */
   {
     "*xorv2si3_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13968,7 +12902,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4773 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4766 */
   {
     "*xorv4hi3_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13983,7 +12917,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4773 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4766 */
   {
     "*xorv8qi3_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -13998,7 +12932,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4784 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4777 */
   {
     "xorsi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14013,7 +12947,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4784 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4777 */
   {
     "xorv2hi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14028,7 +12962,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4784 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4777 */
   {
     "xorv4qi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14043,7 +12977,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4881 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4874 */
   {
     "*xor_not_di_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14058,7 +12992,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4881 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4874 */
   {
     "*xor_not_v2si_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14073,7 +13007,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4881 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4874 */
   {
     "*xor_not_v4hi_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14088,7 +13022,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4881 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4874 */
   {
     "*xor_not_v8qi_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14103,7 +13037,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4892 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4885 */
   {
     "*xor_not_si",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14118,7 +13052,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4892 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4885 */
   {
     "*xor_not_v2hi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14133,7 +13067,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4892 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4885 */
   {
     "*xor_not_v4qi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14148,7 +13082,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4906 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4899 */
   {
     "*cmp_cc_arith_op",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14169,7 +13103,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4917 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4910 */
   {
     "*cmp_ccx_arith_op",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14190,7 +13124,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4928 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4921 */
   {
     "*cmp_cc_arith_op_set",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14211,7 +13145,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4941 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4934 */
   {
     "*cmp_ccx_arith_op_set",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14232,7 +13166,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4954 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4947 */
   {
     "*cmp_cc_xor_not",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14253,7 +13187,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4964 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4957 */
   {
     "*cmp_ccx_xor_not",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14274,7 +13208,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4974 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4967 */
   {
     "*cmp_cc_xor_not_set",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14295,7 +13229,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4986 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4979 */
   {
     "*cmp_ccx_xor_not_set",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14316,7 +13250,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4998 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4991 */
   {
     "*cmp_cc_arith_op_not",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14337,7 +13271,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5009 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5002 */
   {
     "*cmp_ccx_arith_op_not",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14358,7 +13292,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5020 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5013 */
   {
     "*cmp_cc_arith_op_not_set",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14379,7 +13313,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5034 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5027 */
   {
     "*cmp_ccx_arith_op_not_set",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14400,7 +13334,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5089 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5082 */
   {
     "*negdi2_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14421,7 +13355,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5095 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5088 */
   {
     "negsi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14442,7 +13376,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5101 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5094 */
   {
     "*cmp_cc_neg",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14463,7 +13397,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5109 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5102 */
   {
     "*cmp_ccx_neg",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14484,7 +13418,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5117 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5110 */
   {
     "*cmp_cc_set_neg",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14505,7 +13439,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5127 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5120 */
   {
     "*cmp_ccx_set_neg",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14526,7 +13460,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5168 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5161 */
   {
     "*one_cmpldi2_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14541,7 +13475,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5168 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5161 */
   {
     "*one_cmplv2si2_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14556,7 +13490,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5168 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5161 */
   {
     "*one_cmplv4hi2_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14571,7 +13505,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5168 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5161 */
   {
     "*one_cmplv8qi2_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14586,7 +13520,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5178 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5171 */
   {
     "one_cmplsi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14601,7 +13535,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5178 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5171 */
   {
     "one_cmplv2hi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14616,7 +13550,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5178 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5171 */
   {
     "one_cmplv4qi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14631,7 +13565,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5188 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5181 */
   {
     "*cmp_cc_not",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14652,7 +13586,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5196 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5189 */
   {
     "*cmp_ccx_not",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14673,7 +13607,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5204 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5197 */
   {
     "*cmp_cc_set_not",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14694,7 +13628,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5214 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5207 */
   {
     "*cmp_ccx_set_not",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14715,7 +13649,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5224 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5217 */
   {
     "*cmp_cc_set",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14736,7 +13670,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5234 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5227 */
   {
     "*cmp_ccx_set64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14757,7 +13691,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5254 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5247 */
   {
     "*addtf3_hq",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14778,7 +13712,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5262 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5255 */
   {
     "adddf3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14799,7 +13733,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5271 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5264 */
   {
     "addsf3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14820,7 +13754,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5286 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5279 */
   {
     "*subtf3_hq",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14841,7 +13775,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5294 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5287 */
   {
     "subdf3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14862,7 +13796,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5303 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5296 */
   {
     "subsf3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14883,7 +13817,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5318 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5311 */
   {
     "*multf3_hq",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14904,7 +13838,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5326 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5319 */
   {
     "muldf3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14925,7 +13859,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5335 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5328 */
   {
     "mulsf3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14946,7 +13880,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5343 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5336 */
   {
     "*muldf3_extend",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14967,7 +13901,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5352 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5345 */
   {
     "*multf3_extend",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -14988,7 +13922,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5368 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5361 */
   {
     "*divtf3_hq",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15009,7 +13943,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5376 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5369 */
   {
     "divdf3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15030,7 +13964,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5385 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5378 */
   {
     "divsf3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15051,7 +13985,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5399 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5392 */
   {
     "*negtf2_notv9",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15066,7 +14000,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5422 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5415 */
   {
     "*negtf2_v9",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15081,7 +14015,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5448 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5441 */
   {
     "*negdf2_notv9",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15096,7 +14030,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5466 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5459 */
   {
     "*negdf2_v9",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15117,7 +14051,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5474 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5467 */
   {
     "negsf2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15138,7 +14072,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5487 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5480 */
   {
     "*abstf2_notv9",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15153,7 +14087,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5509 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5502 */
   {
     "*abstf2_hq_v9",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15168,7 +14102,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5519 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5512 */
   {
     "*abstf2_v9",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15183,7 +14117,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5544 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5537 */
   {
     "*absdf2_notv9",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15198,7 +14132,7 @@ const struct insn_data_d insn_data[] =
     2,
     2
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5562 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5555 */
   {
     "*absdf2_v9",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15219,7 +14153,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5570 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5563 */
   {
     "abssf2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15240,7 +14174,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5583 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5576 */
   {
     "*sqrttf2_hq",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15261,7 +14195,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5590 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5583 */
   {
     "sqrtdf2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15282,7 +14216,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5598 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5591 */
   {
     "sqrtsf2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15303,7 +14237,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5608 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5601 */
   {
     "ashlsi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15318,7 +14252,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5637 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5630 */
   {
     "*ashldi3_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15333,7 +14267,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5652 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5645 */
   {
     "ashldi3_v8plus",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15348,7 +14282,7 @@ const struct insn_data_d insn_data[] =
     3,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5679 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5672 */
   {
     "*cmp_cc_ashift_1",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15369,7 +14303,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5688 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5681 */
   {
     "*cmp_cc_set_ashift_1",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15390,7 +14324,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5699 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5692 */
   {
     "ashrsi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15405,7 +14339,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5711 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5704 */
   {
     "*ashrsi3_extend",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15426,7 +14360,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5721 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5714 */
   {
     "*ashrsi3_extend2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15441,7 +14375,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5748 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5741 */
   {
     "*ashrdi3_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15456,7 +14390,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5762 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5755 */
   {
     "ashrdi3_v8plus",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15471,7 +14405,7 @@ const struct insn_data_d insn_data[] =
     3,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5772 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5765 */
   {
     "lshrsi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15486,7 +14420,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5787 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5780 */
   {
     "*lshrsi3_extend",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15507,7 +14441,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5799 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5792 */
   {
     "*lshrsi3_extend2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15522,7 +14456,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5826 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5819 */
   {
     "*lshrdi3_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15537,7 +14471,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5839 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5832 */
   {
     "lshrdi3_v8plus",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15552,9 +14486,9 @@ const struct insn_data_d insn_data[] =
     3,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5849 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5842 */
   {
-    "*sparc.md:5849",
+    "*sparc.md:5842",
 #if HAVE_DESIGNATED_INITIALIZERS
     { .function = output_316 },
 #else
@@ -15567,9 +14501,9 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5861 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5854 */
   {
-    "*sparc.md:5861",
+    "*sparc.md:5854",
 #if HAVE_DESIGNATED_INITIALIZERS
     { .function = output_317 },
 #else
@@ -15582,9 +14516,9 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5873 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5866 */
   {
-    "*sparc.md:5873",
+    "*sparc.md:5866",
 #if HAVE_DESIGNATED_INITIALIZERS
     { .function = output_318 },
 #else
@@ -15597,9 +14531,9 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5889 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5882 */
   {
-    "*sparc.md:5889",
+    "*sparc.md:5882",
 #if HAVE_DESIGNATED_INITIALIZERS
     { .function = output_319 },
 #else
@@ -15612,7 +14546,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5908 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5901 */
   {
     "jump",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15627,7 +14561,7 @@ const struct insn_data_d insn_data[] =
     0,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5943 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5936 */
   {
     "*tablejump_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15648,7 +14582,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6041 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6034 */
   {
     "*call_address_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15669,7 +14603,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6050 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6043 */
   {
     "*call_symbolic_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15690,7 +14624,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6164 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6157 */
   {
     "*call_value_address_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15711,7 +14645,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6174 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6167 */
   {
     "*call_value_symbolic_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15732,7 +14666,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6229 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6222 */
   {
     "*sibcall_symbolic_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15747,7 +14681,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6253 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6246 */
   {
     "*sibcall_value_symbolic_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15762,7 +14696,7 @@ const struct insn_data_d insn_data[] =
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6281 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6274 */
   {
     "save_register_windowdi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15783,7 +14717,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6310 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6303 */
   {
     "*return_internal",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15798,7 +14732,7 @@ const struct insn_data_d insn_data[] =
     0,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6335 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6330 */
   {
     "blockage",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15819,22 +14753,7 @@ const struct insn_data_d insn_data[] =
     0,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6349 */
-  {
-    "probe_stack_rangedi",
-#if HAVE_DESIGNATED_INITIALIZERS
-    { .function = output_331 },
-#else
-    { 0, 0, output_331 },
-#endif
-    (insn_gen_fn) gen_probe_stack_rangedi,
-    &operand_data[594],
-    3,
-    0,
-    1,
-    3
-  },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6423 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6409 */
   {
     "nop",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15855,7 +14774,7 @@ const struct insn_data_d insn_data[] =
     0,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6439 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6425 */
   {
     "*branch_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -15876,13 +14795,13 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6486 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6472 */
   {
     "flush_register_windows",
 #if HAVE_DESIGNATED_INITIALIZERS
-    { .function = output_334 },
+    { .function = output_333 },
 #else
-    { 0, 0, output_334 },
+    { 0, 0, output_333 },
 #endif
     (insn_gen_fn) gen_flush_register_windows,
     &operand_data[0],
@@ -15891,28 +14810,28 @@ const struct insn_data_d insn_data[] =
     0,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6492 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6478 */
   {
     "goto_handler_and_restore",
 #if HAVE_DESIGNATED_INITIALIZERS
-    { .function = output_335 },
+    { .function = output_334 },
 #else
-    { 0, 0, output_335 },
+    { 0, 0, output_334 },
 #endif
     (insn_gen_fn) gen_goto_handler_and_restore,
-    &operand_data[597],
+    &operand_data[594],
     1,
     0,
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6518 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6504 */
   {
     "do_builtin_setjmp_setup",
 #if HAVE_DESIGNATED_INITIALIZERS
-    { .function = output_336 },
+    { .function = output_335 },
 #else
-    { 0, 0, output_336 },
+    { 0, 0, output_335 },
 #endif
     (insn_gen_fn) gen_do_builtin_setjmp_setup,
     &operand_data[0],
@@ -15921,82 +14840,82 @@ const struct insn_data_d insn_data[] =
     0,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6583 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6562 */
   {
     "flush",
+#if HAVE_DESIGNATED_INITIALIZERS
+    { .function = output_336 },
+#else
+    { 0, 0, output_336 },
+#endif
+    (insn_gen_fn) gen_flush,
+    &operand_data[595],
+    1,
+    0,
+    1,
+    3
+  },
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6568 */
+  {
+    "flushdi",
 #if HAVE_DESIGNATED_INITIALIZERS
     { .function = output_337 },
 #else
     { 0, 0, output_337 },
 #endif
-    (insn_gen_fn) gen_flush,
-    &operand_data[598],
+    (insn_gen_fn) gen_flushdi,
+    &operand_data[596],
     1,
     0,
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6589 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6583 */
   {
-    "flushdi",
+    "ffssi2",
 #if HAVE_DESIGNATED_INITIALIZERS
     { .function = output_338 },
 #else
     { 0, 0, output_338 },
 #endif
-    (insn_gen_fn) gen_flushdi,
-    &operand_data[599],
-    1,
+    (insn_gen_fn) gen_ffssi2,
+    &operand_data[597],
+    3,
     0,
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6604 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6791 */
   {
-    "ffssi2",
+    "prefetch_64",
 #if HAVE_DESIGNATED_INITIALIZERS
     { .function = output_339 },
 #else
     { 0, 0, output_339 },
 #endif
-    (insn_gen_fn) gen_ffssi2,
+    (insn_gen_fn) gen_prefetch_64,
     &operand_data[600],
     3,
     0,
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6812 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6816 */
   {
-    "prefetch_64",
+    "prefetch_32",
 #if HAVE_DESIGNATED_INITIALIZERS
     { .function = output_340 },
 #else
     { 0, 0, output_340 },
 #endif
-    (insn_gen_fn) gen_prefetch_64,
+    (insn_gen_fn) gen_prefetch_32,
     &operand_data[603],
     3,
     0,
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6837 */
-  {
-    "prefetch_32",
-#if HAVE_DESIGNATED_INITIALIZERS
-    { .function = output_341 },
-#else
-    { 0, 0, output_341 },
-#endif
-    (insn_gen_fn) gen_prefetch_32,
-    &operand_data[606],
-    3,
-    0,
-    1,
-    3
-  },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6865 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6844 */
   {
     "trap",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16017,24 +14936,24 @@ const struct insn_data_d insn_data[] =
     0,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6894 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6873 */
   {
-    "*sparc.md:6894",
+    "*sparc.md:6873",
 #if HAVE_DESIGNATED_INITIALIZERS
-    { .function = output_343 },
+    { .function = output_342 },
 #else
-    { 0, 0, output_343 },
+    { 0, 0, output_342 },
 #endif
     0,
-    &operand_data[609],
+    &operand_data[606],
     2,
     0,
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6906 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6885 */
   {
-    "*sparc.md:6906",
+    "*sparc.md:6885",
 #if HAVE_DESIGNATED_INITIALIZERS
     { .single =
 #else
@@ -16047,13 +14966,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[609],
+    &operand_data[606],
     2,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6916 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6895 */
   {
     "tgd_hi22",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16068,13 +14987,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_tgd_hi22,
-    &operand_data[611],
+    &operand_data[608],
     2,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6923 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6902 */
   {
     "tgd_lo10",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16089,13 +15008,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_tgd_lo10,
-    &operand_data[613],
+    &operand_data[610],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6940 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6919 */
   {
     "tgd_add64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16110,13 +15029,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_tgd_add64,
-    &operand_data[616],
+    &operand_data[613],
     4,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6960 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6939 */
   {
     "tgd_call64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16131,13 +15050,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_tgd_call64,
-    &operand_data[620],
+    &operand_data[617],
     4,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6971 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6950 */
   {
     "tldm_hi22",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16158,7 +15077,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6977 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6956 */
   {
     "tldm_lo10",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16179,7 +15098,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6992 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6971 */
   {
     "tldm_add64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16194,13 +15113,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_tldm_add64,
-    &operand_data[616],
+    &operand_data[613],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7010 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6989 */
   {
     "tldm_call64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16215,13 +15134,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_tldm_call64,
-    &operand_data[624],
+    &operand_data[621],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7020 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6999 */
   {
     "tldo_hix22",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16236,13 +15155,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_tldo_hix22,
-    &operand_data[627],
+    &operand_data[624],
     2,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7027 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7006 */
   {
     "tldo_lox10",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16257,13 +15176,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_tldo_lox10,
-    &operand_data[629],
+    &operand_data[626],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7044 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7023 */
   {
     "tldo_add64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16278,13 +15197,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_tldo_add64,
-    &operand_data[632],
+    &operand_data[629],
     4,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7053 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7032 */
   {
     "tie_hi22",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16299,13 +15218,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_tie_hi22,
-    &operand_data[636],
+    &operand_data[633],
     2,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7060 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7039 */
   {
     "tie_lo10",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16320,13 +15239,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_tie_lo10,
-    &operand_data[638],
+    &operand_data[635],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7078 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7057 */
   {
     "tie_ld64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16341,13 +15260,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_tie_ld64,
-    &operand_data[641],
+    &operand_data[638],
     4,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7097 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7076 */
   {
     "tie_add64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16362,13 +15281,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_tie_add64,
-    &operand_data[645],
+    &operand_data[642],
     4,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7121 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7100 */
   {
     "tle_hix22_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16383,13 +15302,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_tle_hix22_sp64,
-    &operand_data[649],
+    &operand_data[646],
     2,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7128 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7107 */
   {
     "tle_lox10_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16404,13 +15323,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_tle_lox10_sp64,
-    &operand_data[651],
+    &operand_data[648],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7192 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7171 */
   {
     "*tldo_ldub_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16425,13 +15344,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[654],
+    &operand_data[651],
     4,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7203 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7182 */
   {
     "*tldo_ldub1_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16446,13 +15365,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[658],
+    &operand_data[655],
     4,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7214 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7193 */
   {
     "*tldo_ldub2_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16467,13 +15386,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[662],
+    &operand_data[659],
     4,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7225 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7204 */
   {
     "*tldo_ldub3_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16488,13 +15407,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[632],
+    &operand_data[629],
     4,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7236 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7215 */
   {
     "*tldo_ldsb1_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16509,13 +15428,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[658],
+    &operand_data[655],
     4,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7247 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7226 */
   {
     "*tldo_ldsb2_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16530,13 +15449,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[662],
+    &operand_data[659],
     4,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7258 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7237 */
   {
     "*tldo_ldsb3_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16551,13 +15470,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[632],
+    &operand_data[629],
     4,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7302 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7281 */
   {
     "*tldo_lduh_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16572,13 +15491,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[658],
+    &operand_data[655],
     4,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7313 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7292 */
   {
     "*tldo_lduh1_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16593,13 +15512,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[662],
+    &operand_data[659],
     4,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7324 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7303 */
   {
     "*tldo_lduh2_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16614,13 +15533,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[632],
+    &operand_data[629],
     4,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7335 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7314 */
   {
     "*tldo_ldsh1_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16635,13 +15554,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[662],
+    &operand_data[659],
     4,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7346 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7325 */
   {
     "*tldo_ldsh2_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16656,13 +15575,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[632],
+    &operand_data[629],
     4,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7367 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7346 */
   {
     "*tldo_lduw_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16677,13 +15596,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[662],
+    &operand_data[659],
     4,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7377 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7356 */
   {
     "*tldo_lduw1_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16698,13 +15617,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[632],
+    &operand_data[629],
     4,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7387 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7366 */
   {
     "*tldo_ldsw1_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16719,13 +15638,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[632],
+    &operand_data[629],
     4,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7398 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7377 */
   {
     "*tldo_ldx_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16740,13 +15659,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[632],
+    &operand_data[629],
     4,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7418 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7397 */
   {
     "*tldo_stb_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16761,13 +15680,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[654],
+    &operand_data[651],
     4,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7438 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7417 */
   {
     "*tldo_sth_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16782,13 +15701,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[658],
+    &operand_data[655],
     4,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7458 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7437 */
   {
     "*tldo_stw_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16803,13 +15722,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[662],
+    &operand_data[659],
     4,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7468 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7447 */
   {
     "*tldo_stx_sp64",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16824,13 +15743,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[632],
+    &operand_data[629],
     4,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7507 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7486 */
   {
     "stack_protect_setdi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16845,13 +15764,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_stack_protect_setdi,
-    &operand_data[666],
+    &operand_data[663],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7557 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7536 */
   {
     "stack_protect_testdi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16866,13 +15785,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_stack_protect_testdi,
-    &operand_data[669],
+    &operand_data[666],
     4,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7571 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7550 */
   {
     "addv2si3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16887,13 +15806,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_addv2si3,
-    &operand_data[673],
+    &operand_data[670],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7580 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7559 */
   {
     "addv4hi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16908,13 +15827,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_addv4hi3,
-    &operand_data[676],
+    &operand_data[673],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7591 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7570 */
   {
     "addv2hi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16929,13 +15848,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_addv2hi3,
-    &operand_data[679],
+    &operand_data[676],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7600 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7579 */
   {
     "subv2si3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16950,13 +15869,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_subv2si3,
-    &operand_data[673],
+    &operand_data[670],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7609 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7588 */
   {
     "subv4hi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16971,13 +15890,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_subv4hi3,
-    &operand_data[676],
+    &operand_data[673],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7620 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7599 */
   {
     "subv2hi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -16992,13 +15911,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_subv2hi3,
-    &operand_data[679],
+    &operand_data[676],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7634 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7613 */
   {
     "*nanddf_vis",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17019,9 +15938,30 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7634 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7613 */
   {
     "*nandv2si_vis",
+#if HAVE_DESIGNATED_INITIALIZERS
+    { .single =
+#else
+    {
+#endif
+    "fnand\t%1, %2, %0",
+#if HAVE_DESIGNATED_INITIALIZERS
+    },
+#else
+    0, 0 },
+#endif
+    0,
+    &operand_data[670],
+    3,
+    0,
+    1,
+    1
+  },
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7613 */
+  {
+    "*nandv4hi_vis",
 #if HAVE_DESIGNATED_INITIALIZERS
     { .single =
 #else
@@ -17040,28 +15980,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7634 */
-  {
-    "*nandv4hi_vis",
-#if HAVE_DESIGNATED_INITIALIZERS
-    { .single =
-#else
-    {
-#endif
-    "fnand\t%1, %2, %0",
-#if HAVE_DESIGNATED_INITIALIZERS
-    },
-#else
-    0, 0 },
-#endif
-    0,
-    &operand_data[676],
-    3,
-    0,
-    1,
-    1
-  },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7634 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7613 */
   {
     "*nandv8qi_vis",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17076,13 +15995,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[682],
+    &operand_data[679],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7643 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7622 */
   {
     "*nandsf_vis",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17103,7 +16022,7 @@ const struct insn_data_d insn_data[] =
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7643 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7622 */
   {
     "*nandv2hi_vis",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17118,13 +16037,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[679],
+    &operand_data[676],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7643 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7622 */
   {
     "*nandv4qi_vis",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17139,13 +16058,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[685],
+    &operand_data[682],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7654 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7633 */
   {
     "fpack16_vis",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17160,13 +16079,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_fpack16_vis,
-    &operand_data[688],
+    &operand_data[685],
     2,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7663 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7642 */
   {
     "fpackfix_vis",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17181,13 +16100,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_fpackfix_vis,
-    &operand_data[690],
+    &operand_data[687],
     2,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7672 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7651 */
   {
     "fpack32_vis",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17202,13 +16121,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_fpack32_vis,
-    &operand_data[692],
+    &operand_data[689],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7682 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7661 */
   {
     "fexpand_vis",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17223,13 +16142,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_fexpand_vis,
-    &operand_data[695],
+    &operand_data[692],
     2,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7696 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7675 */
   {
     "fpmerge_vis",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17244,13 +16163,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_fpmerge_vis,
-    &operand_data[697],
+    &operand_data[694],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7707 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7686 */
   {
     "fmul8x16_vis",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17265,13 +16184,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_fmul8x16_vis,
-    &operand_data[700],
+    &operand_data[697],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7717 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7696 */
   {
     "fmul8x16au_vis",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17286,13 +16205,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_fmul8x16au_vis,
-    &operand_data[703],
+    &operand_data[700],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7726 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7705 */
   {
     "fmul8x16al_vis",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17307,13 +16226,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_fmul8x16al_vis,
-    &operand_data[703],
+    &operand_data[700],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7737 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7716 */
   {
     "fmul8sux16_vis",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17328,13 +16247,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_fmul8sux16_vis,
-    &operand_data[706],
+    &operand_data[703],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7746 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7725 */
   {
     "fmul8ulx16_vis",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17349,13 +16268,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_fmul8ulx16_vis,
-    &operand_data[706],
+    &operand_data[703],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7757 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7736 */
   {
     "fmuld8sux16_vis",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17370,13 +16289,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_fmuld8sux16_vis,
-    &operand_data[709],
+    &operand_data[706],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7766 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7745 */
   {
     "fmuld8ulx16_vis",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17391,13 +16310,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_fmuld8ulx16_vis,
-    &operand_data[709],
+    &operand_data[706],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7779 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7758 */
   {
     "faligndatadi_vis",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17412,13 +16331,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_faligndatadi_vis,
-    &operand_data[712],
+    &operand_data[709],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7779 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7758 */
   {
     "faligndatav2si_vis",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17433,13 +16352,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_faligndatav2si_vis,
-    &operand_data[673],
+    &operand_data[670],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7779 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7758 */
   {
     "faligndatav4hi_vis",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17454,13 +16373,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_faligndatav4hi_vis,
-    &operand_data[676],
+    &operand_data[673],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7779 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7758 */
   {
     "faligndatav8qi_vis",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17475,13 +16394,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_faligndatav8qi_vis,
-    &operand_data[682],
+    &operand_data[679],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7789 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7768 */
   {
     "alignaddrdi_vis",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17496,13 +16415,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_alignaddrdi_vis,
-    &operand_data[715],
+    &operand_data[712],
     3,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7797 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7776 */
   {
     "pdist_vis",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17517,13 +16436,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     (insn_gen_fn) gen_pdist_vis,
-    &operand_data[718],
+    &operand_data[715],
     4,
     0,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sync.md:36 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sync.md:36 */
   {
     "*stbar",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17538,13 +16457,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[722],
+    &operand_data[719],
     1,
     1,
     0,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sync.md:44 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sync.md:44 */
   {
     "*membar",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17559,13 +16478,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[722],
+    &operand_data[719],
     1,
     1,
     0,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sync.md:82 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sync.md:82 */
   {
     "*sync_compare_and_swapsi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17573,20 +16492,20 @@ const struct insn_data_d insn_data[] =
 #else
     {
 #endif
-    "cas\t[%1], %2, %0",
+    "cas\t%1, %2, %0",
 #if HAVE_DESIGNATED_INITIALIZERS
     },
 #else
     0, 0 },
 #endif
     0,
-    &operand_data[723],
+    &operand_data[720],
     4,
     1,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sync.md:82 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sync.md:82 */
   {
     "*sync_compare_and_swapdi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17594,35 +16513,35 @@ const struct insn_data_d insn_data[] =
 #else
     {
 #endif
-    "casx\t[%1], %2, %0",
+    "casx\t%1, %2, %0",
 #if HAVE_DESIGNATED_INITIALIZERS
     },
 #else
     0, 0 },
 #endif
     0,
-    &operand_data[727],
+    &operand_data[724],
     4,
     1,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sync.md:94 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sync.md:94 */
   {
     "*sync_compare_and_swapdi_v8plus",
 #if HAVE_DESIGNATED_INITIALIZERS
-    { .function = output_419 },
+    { .function = output_418 },
 #else
-    { 0, 0, output_419 },
+    { 0, 0, output_418 },
 #endif
     0,
-    &operand_data[731],
+    &operand_data[728],
     4,
     1,
     1,
     3
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sync.md:155 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sync.md:155 */
   {
     "*swapsi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17637,13 +16556,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[735],
+    &operand_data[732],
     3,
     1,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sync.md:182 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sync.md:182 */
   {
     "*ldstubqi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17658,13 +16577,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[738],
+    &operand_data[735],
     2,
     1,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sync.md:191 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sync.md:191 */
   {
     "*ldstubhi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17679,13 +16598,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[740],
+    &operand_data[737],
     2,
     1,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sync.md:191 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sync.md:191 */
   {
     "*ldstubsi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17700,13 +16619,13 @@ const struct insn_data_d insn_data[] =
     0, 0 },
 #endif
     0,
-    &operand_data[742],
+    &operand_data[739],
     2,
     1,
     1,
     1
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:461 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:454 */
   {
     "cstoresi4",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17715,13 +16634,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_cstoresi4,
-    &operand_data[744],
+    &operand_data[741],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:473 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:466 */
   {
     "cstoredi4",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17730,13 +16649,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_cstoredi4,
-    &operand_data[748],
+    &operand_data[745],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:485 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:478 */
   {
     "cstoresf4",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17745,13 +16664,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_cstoresf4,
-    &operand_data[752],
+    &operand_data[749],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:485 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:478 */
   {
     "cstoredf4",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17760,13 +16679,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_cstoredf4,
-    &operand_data[756],
+    &operand_data[753],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:485 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:478 */
   {
     "cstoretf4",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17775,13 +16694,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_cstoretf4,
-    &operand_data[760],
+    &operand_data[757],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:498 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:491 */
   {
     "seqsi_special",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17790,13 +16709,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_seqsi_special,
-    &operand_data[764],
+    &operand_data[761],
     3,
     2,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:508 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:501 */
   {
     "seqdi_special",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17805,13 +16724,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_seqdi_special,
-    &operand_data[766],
+    &operand_data[763],
     3,
     2,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:517 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:510 */
   {
     "snesi_special",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17820,13 +16739,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_snesi_special,
-    &operand_data[764],
+    &operand_data[761],
     3,
     2,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:527 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:520 */
   {
     "snedi_special",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17835,13 +16754,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_snedi_special,
-    &operand_data[766],
+    &operand_data[763],
     3,
     2,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:544 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:537 */
   {
     "snedi_special+1",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17850,13 +16769,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[764],
+    &operand_data[761],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:558 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:551 */
   {
     "snedi_special+2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17865,13 +16784,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[764],
+    &operand_data[761],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:572 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:565 */
   {
     "snedi_special+3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17880,13 +16799,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[768],
+    &operand_data[765],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:590 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:583 */
   {
     "snedi_special+4",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17895,13 +16814,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[767],
+    &operand_data[764],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:605 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:598 */
   {
     "snedi_special+5",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17910,13 +16829,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[767],
+    &operand_data[764],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:620 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:613 */
   {
     "snedi_special+6",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17925,13 +16844,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[766],
+    &operand_data[763],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:635 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:628 */
   {
     "snedi_special+7",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17940,13 +16859,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[764],
+    &operand_data[761],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:649 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:642 */
   {
     "snedi_special+8",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17955,13 +16874,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[764],
+    &operand_data[761],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:663 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:656 */
   {
     "snedi_special+9",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17970,13 +16889,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[768],
+    &operand_data[765],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:681 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:674 */
   {
     "cbranchcc4-8",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -17985,13 +16904,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[767],
+    &operand_data[764],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:696 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:689 */
   {
     "cbranchcc4-7",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18000,13 +16919,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[767],
+    &operand_data[764],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:711 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:704 */
   {
     "cbranchcc4-6",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18015,13 +16934,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[766],
+    &operand_data[763],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:730 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:723 */
   {
     "cbranchcc4-5",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18030,13 +16949,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[764],
+    &operand_data[761],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:746 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:739 */
   {
     "cbranchcc4-4",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18045,13 +16964,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[764],
+    &operand_data[761],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:762 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:755 */
   {
     "cbranchcc4-3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18060,13 +16979,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[764],
+    &operand_data[761],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:778 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:771 */
   {
     "cbranchcc4-2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18075,13 +16994,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[764],
+    &operand_data[761],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:907 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:900 */
   {
     "cbranchcc4-1",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18090,13 +17009,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[769],
+    &operand_data[766],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:927 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:920 */
   {
     "cbranchcc4",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18105,13 +17024,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_cbranchcc4,
-    &operand_data[772],
+    &operand_data[769],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:937 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:930 */
   {
     "cbranchsi4",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18120,13 +17039,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_cbranchsi4,
-    &operand_data[776],
+    &operand_data[773],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:950 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:943 */
   {
     "cbranchdi4",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18135,13 +17054,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_cbranchdi4,
-    &operand_data[780],
+    &operand_data[777],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:963 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:956 */
   {
     "cbranchsf4",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18150,13 +17069,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_cbranchsf4,
-    &operand_data[784],
+    &operand_data[781],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:963 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:956 */
   {
     "cbranchdf4",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18165,13 +17084,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_cbranchdf4,
-    &operand_data[788],
+    &operand_data[785],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:963 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:956 */
   {
     "cbranchtf4",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18180,13 +17099,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_cbranchtf4,
-    &operand_data[792],
+    &operand_data[789],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1140 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1133 */
   {
     "movqi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18195,13 +17114,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_movqi,
-    &operand_data[796],
+    &operand_data[793],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1161 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1154 */
   {
     "movhi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18210,13 +17129,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_movhi,
-    &operand_data[798],
+    &operand_data[795],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1191 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1184 */
   {
     "movsi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18225,13 +17144,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_movsi,
-    &operand_data[800],
+    &operand_data[797],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1271 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1264 */
   {
     "movsi_pic_label_ref",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18246,7 +17165,7 @@ const struct insn_data_d insn_data[] =
     1,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1328 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1321 */
   {
     "movdi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18255,13 +17174,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_movdi,
-    &operand_data[802],
+    &operand_data[799],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1420 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1413 */
   {
     "movdi_pic_label_ref",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18276,7 +17195,7 @@ const struct insn_data_d insn_data[] =
     1,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1615 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1608 */
   {
     "reload_indi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18285,13 +17204,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_reload_indi,
-    &operand_data[804],
+    &operand_data[801],
     3,
     0,
     1,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1627 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1620 */
   {
     "reload_outdi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18300,13 +17219,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_reload_outdi,
-    &operand_data[804],
+    &operand_data[801],
     3,
     0,
     1,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1673 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1666 */
   {
     "reload_outdi+1",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18315,13 +17234,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[807],
+    &operand_data[804],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1706 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1699 */
   {
     "reload_outdi+2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18330,13 +17249,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[767],
+    &operand_data[764],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1787 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1780 */
   {
     "movsf-1",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18345,13 +17264,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[809],
+    &operand_data[806],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1806 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1799 */
   {
     "movsf",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18360,13 +17279,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_movsf,
-    &operand_data[811],
+    &operand_data[808],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1806 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1799 */
   {
     "movv2hi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18375,13 +17294,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_movv2hi,
-    &operand_data[813],
+    &operand_data[810],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1806 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1799 */
   {
     "movv4qi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18390,13 +17309,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_movv4qi,
-    &operand_data[815],
+    &operand_data[812],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1932 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1925 */
   {
     "movv4qi+1",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18405,13 +17324,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[817],
+    &operand_data[814],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1940 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1933 */
   {
     "movdf",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18420,13 +17339,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_movdf,
-    &operand_data[819],
+    &operand_data[816],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1940 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1933 */
   {
     "movv2si",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18435,13 +17354,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_movv2si,
-    &operand_data[821],
+    &operand_data[818],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1940 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1933 */
   {
     "movv4hi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18450,13 +17369,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_movv4hi,
-    &operand_data[823],
+    &operand_data[820],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:1940 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:1933 */
   {
     "movv8qi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18465,13 +17384,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_movv8qi,
-    &operand_data[825],
+    &operand_data[822],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2063 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2056 */
   {
     "movv8qi+1",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18480,13 +17399,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[827],
+    &operand_data[824],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2063 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2056 */
   {
     "movv8qi+2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18495,13 +17414,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[829],
+    &operand_data[826],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2063 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2056 */
   {
     "movv8qi+3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18510,13 +17429,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[831],
+    &operand_data[828],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2063 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2056 */
   {
     "movv8qi+4",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18525,13 +17444,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[833],
+    &operand_data[830],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2118 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2111 */
   {
     "movv8qi+5",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18540,13 +17459,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[758],
+    &operand_data[755],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2118 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2111 */
   {
     "movv8qi+6",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18555,13 +17474,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[835],
+    &operand_data[832],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2118 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2111 */
   {
     "movtf-6",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18570,13 +17489,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[837],
+    &operand_data[834],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2118 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2111 */
   {
     "movtf-5",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18585,13 +17504,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[839],
+    &operand_data[836],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2225 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2218 */
   {
     "movtf-4",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18600,13 +17519,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[841],
+    &operand_data[838],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2225 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2218 */
   {
     "movtf-3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18615,13 +17534,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[843],
+    &operand_data[840],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2225 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2218 */
   {
     "movtf-2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18630,13 +17549,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[845],
+    &operand_data[842],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2225 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2218 */
   {
     "movtf-1",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18645,13 +17564,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[847],
+    &operand_data[844],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2281 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2274 */
   {
     "movtf",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18660,13 +17579,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_movtf,
-    &operand_data[849],
+    &operand_data[846],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2354 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2347 */
   {
     "movtf+1",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18675,15 +17594,45 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[762],
+    &operand_data[759],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2389 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2382 */
   {
     "movtf+2",
+#if HAVE_DESIGNATED_INITIALIZERS
+    { 0 },
+#else
+    { 0, 0, 0 },
+#endif
+    0,
+    &operand_data[848],
+    2,
+    0,
+    0,
+    0
+  },
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2410 */
+  {
+    "movqicc-2",
+#if HAVE_DESIGNATED_INITIALIZERS
+    { 0 },
+#else
+    { 0, 0, 0 },
+#endif
+    0,
+    &operand_data[850],
+    2,
+    0,
+    0,
+    0
+  },
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2445 */
+  {
+    "movqicc-1",
 #if HAVE_DESIGNATED_INITIALIZERS
     { 0 },
 #else
@@ -18696,37 +17645,7 @@ const struct insn_data_d insn_data[] =
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2417 */
-  {
-    "movqicc-2",
-#if HAVE_DESIGNATED_INITIALIZERS
-    { 0 },
-#else
-    { 0, 0, 0 },
-#endif
-    0,
-    &operand_data[853],
-    2,
-    0,
-    0,
-    0
-  },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2452 */
-  {
-    "movqicc-1",
-#if HAVE_DESIGNATED_INITIALIZERS
-    { 0 },
-#else
-    { 0, 0, 0 },
-#endif
-    0,
-    &operand_data[854],
-    2,
-    0,
-    0,
-    0
-  },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2480 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2473 */
   {
     "movqicc",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18735,13 +17654,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_movqicc,
-    &operand_data[856],
+    &operand_data[853],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2480 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2473 */
   {
     "movhicc",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18750,13 +17669,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_movhicc,
-    &operand_data[860],
+    &operand_data[857],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2480 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2473 */
   {
     "movsicc",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18765,13 +17684,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_movsicc,
-    &operand_data[864],
+    &operand_data[861],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2480 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2473 */
   {
     "movdicc",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18780,13 +17699,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_movdicc,
-    &operand_data[868],
+    &operand_data[865],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2510 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2503 */
   {
     "movsfcc",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18795,13 +17714,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_movsfcc,
-    &operand_data[872],
+    &operand_data[869],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2510 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2503 */
   {
     "movdfcc",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18810,13 +17729,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_movdfcc,
-    &operand_data[876],
+    &operand_data[873],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2510 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2503 */
   {
     "movtfcc",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18825,13 +17744,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_movtfcc,
-    &operand_data[880],
+    &operand_data[877],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2650 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2643 */
   {
     "movtfcc+1",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18840,13 +17759,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[883],
+    &operand_data[880],
     5,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2693 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2686 */
   {
     "zero_extendhisi2-1",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18855,13 +17774,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[887],
+    &operand_data[884],
     5,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2743 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2736 */
   {
     "zero_extendhisi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18870,13 +17789,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_zero_extendhisi2,
-    &operand_data[892],
+    &operand_data[889],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2774 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2767 */
   {
     "zero_extendqihi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18885,13 +17804,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_zero_extendqihi2,
-    &operand_data[893],
+    &operand_data[890],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2790 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2783 */
   {
     "zero_extendqisi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18900,13 +17819,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_zero_extendqisi2,
-    &operand_data[895],
+    &operand_data[892],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2806 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2799 */
   {
     "zero_extendqidi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18915,13 +17834,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_zero_extendqidi2,
-    &operand_data[897],
+    &operand_data[894],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2822 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2815 */
   {
     "zero_extendhidi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18930,13 +17849,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_zero_extendhidi2,
-    &operand_data[899],
+    &operand_data[896],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:2855 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:2848 */
   {
     "zero_extendsidi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18945,13 +17864,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_zero_extendsidi2,
-    &operand_data[768],
+    &operand_data[765],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3023 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3016 */
   {
     "extendhisi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18960,13 +17879,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_extendhisi2,
-    &operand_data[892],
+    &operand_data[889],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3054 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3047 */
   {
     "extendqihi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18975,13 +17894,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_extendqihi2,
-    &operand_data[893],
+    &operand_data[890],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3094 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3087 */
   {
     "extendqisi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -18990,13 +17909,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_extendqisi2,
-    &operand_data[895],
+    &operand_data[892],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3125 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3118 */
   {
     "extendqidi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19005,13 +17924,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_extendqidi2,
-    &operand_data[897],
+    &operand_data[894],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3156 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3149 */
   {
     "extendhidi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19020,13 +17939,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_extendhidi2,
-    &operand_data[899],
+    &operand_data[896],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3187 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3180 */
   {
     "extendsidi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19035,13 +17954,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_extendsidi2,
-    &operand_data[768],
+    &operand_data[765],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3253 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3246 */
   {
     "extendsftf2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19050,13 +17969,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_extendsftf2,
-    &operand_data[901],
+    &operand_data[898],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3268 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3261 */
   {
     "extenddftf2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19065,13 +17984,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_extenddftf2,
-    &operand_data[903],
+    &operand_data[900],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3292 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3285 */
   {
     "trunctfsf2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19080,13 +17999,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_trunctfsf2,
-    &operand_data[905],
+    &operand_data[902],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3307 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3300 */
   {
     "trunctfdf2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19095,13 +18014,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_trunctfdf2,
-    &operand_data[907],
+    &operand_data[904],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3341 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3334 */
   {
     "floatsitf2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19110,13 +18029,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_floatsitf2,
-    &operand_data[909],
+    &operand_data[906],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3354 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3347 */
   {
     "floatunssitf2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19125,13 +18044,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_floatunssitf2,
-    &operand_data[909],
+    &operand_data[906],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3370 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3363 */
   {
     "floatunsdisf2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19140,13 +18059,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_floatunsdisf2,
-    &operand_data[911],
+    &operand_data[908],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3384 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3377 */
   {
     "floatunsdidf2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19155,13 +18074,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_floatunsdidf2,
-    &operand_data[913],
+    &operand_data[910],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3390 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3383 */
   {
     "floatditf2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19170,13 +18089,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_floatditf2,
-    &operand_data[915],
+    &operand_data[912],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3403 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3396 */
   {
     "floatunsditf2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19185,13 +18104,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_floatunsditf2,
-    &operand_data[915],
+    &operand_data[912],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3428 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3421 */
   {
     "fix_trunctfsi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19200,13 +18119,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_fix_trunctfsi2,
-    &operand_data[917],
+    &operand_data[914],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3441 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3434 */
   {
     "fixuns_trunctfsi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19215,13 +18134,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_fixuns_trunctfsi2,
-    &operand_data[917],
+    &operand_data[914],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3457 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3450 */
   {
     "fixuns_truncsfdi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19230,13 +18149,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_fixuns_truncsfdi2,
-    &operand_data[919],
+    &operand_data[916],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3471 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3464 */
   {
     "fixuns_truncdfdi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19245,13 +18164,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_fixuns_truncdfdi2,
-    &operand_data[921],
+    &operand_data[918],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3477 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3470 */
   {
     "fix_trunctfdi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19260,13 +18179,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_fix_trunctfdi2,
-    &operand_data[923],
+    &operand_data[920],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3490 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3483 */
   {
     "fixuns_trunctfdi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19275,13 +18194,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_fixuns_trunctfdi2,
-    &operand_data[923],
+    &operand_data[920],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3499 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3492 */
   {
     "adddi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19290,13 +18209,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_adddi3,
-    &operand_data[925],
+    &operand_data[922],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3672 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3665 */
   {
     "subdi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19305,13 +18224,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_subdi3,
-    &operand_data[925],
+    &operand_data[922],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3858 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3851 */
   {
     "muldi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19320,13 +18239,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_muldi3,
-    &operand_data[928],
+    &operand_data[925],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:3928 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:3921 */
   {
     "mulsidi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19335,13 +18254,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_mulsidi3,
-    &operand_data[931],
+    &operand_data[928],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4137 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4130 */
   {
     "umulsidi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19350,13 +18269,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_umulsidi3,
-    &operand_data[934],
+    &operand_data[931],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4326 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4319 */
   {
     "divsi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19365,13 +18284,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_divsi3,
-    &operand_data[937],
+    &operand_data[934],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4425 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4418 */
   {
     "udivsi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19380,13 +18299,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_udivsi3,
-    &operand_data[941],
+    &operand_data[938],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4552 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4545 */
   {
     "anddi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19395,13 +18314,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_anddi3,
-    &operand_data[944],
+    &operand_data[941],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4552 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4545 */
   {
     "andv2si3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19410,13 +18329,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_andv2si3,
-    &operand_data[947],
+    &operand_data[944],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4552 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4545 */
   {
     "andv4hi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19425,13 +18344,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_andv4hi3,
-    &operand_data[950],
+    &operand_data[947],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4552 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4545 */
   {
     "andv8qi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19440,13 +18359,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_andv8qi3,
-    &operand_data[953],
+    &operand_data[950],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4593 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4586 */
   {
     "andv8qi3+1",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19455,13 +18374,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[956],
+    &operand_data[953],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4653 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4646 */
   {
     "iordi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19470,13 +18389,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_iordi3,
-    &operand_data[944],
+    &operand_data[941],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4653 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4646 */
   {
     "iorv2si3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19485,13 +18404,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_iorv2si3,
-    &operand_data[947],
+    &operand_data[944],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4653 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4646 */
   {
     "iorv4hi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19500,13 +18419,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_iorv4hi3,
-    &operand_data[950],
+    &operand_data[947],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4653 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4646 */
   {
     "iorv8qi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19515,13 +18434,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_iorv8qi3,
-    &operand_data[953],
+    &operand_data[950],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4694 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4687 */
   {
     "iorv8qi3+1",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19530,13 +18449,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[956],
+    &operand_data[953],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4754 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4747 */
   {
     "xordi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19545,13 +18464,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_xordi3,
-    &operand_data[944],
+    &operand_data[941],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4754 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4747 */
   {
     "xorv2si3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19560,13 +18479,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_xorv2si3,
-    &operand_data[947],
+    &operand_data[944],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4754 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4747 */
   {
     "xorv4hi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19575,13 +18494,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_xorv4hi3,
-    &operand_data[950],
+    &operand_data[947],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4754 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4747 */
   {
     "xorv8qi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19590,13 +18509,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_xorv8qi3,
-    &operand_data[953],
+    &operand_data[950],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4795 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4788 */
   {
     "xorv8qi3+1",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19605,13 +18524,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[956],
+    &operand_data[953],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:4807 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:4800 */
   {
     "negdi2-1",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19620,13 +18539,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[956],
+    &operand_data[953],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5051 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5044 */
   {
     "negdi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19641,7 +18560,7 @@ const struct insn_data_d insn_data[] =
     1,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5139 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5132 */
   {
     "one_cmpldi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19650,13 +18569,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_one_cmpldi2,
-    &operand_data[767],
+    &operand_data[764],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5139 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5132 */
   {
     "one_cmplv2si2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19665,13 +18584,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_one_cmplv2si2,
-    &operand_data[835],
+    &operand_data[832],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5139 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5132 */
   {
     "one_cmplv4hi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19680,13 +18599,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_one_cmplv4hi2,
-    &operand_data[837],
+    &operand_data[834],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5139 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5132 */
   {
     "one_cmplv8qi2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19695,13 +18614,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_one_cmplv8qi2,
-    &operand_data[839],
+    &operand_data[836],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5247 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5240 */
   {
     "addtf3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19710,13 +18629,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_addtf3,
-    &operand_data[960],
+    &operand_data[957],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5279 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5272 */
   {
     "subtf3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19725,13 +18644,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_subtf3,
-    &operand_data[960],
+    &operand_data[957],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5311 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5304 */
   {
     "multf3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19740,13 +18659,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_multf3,
-    &operand_data[960],
+    &operand_data[957],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5360 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5353 */
   {
     "divtf3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19755,13 +18674,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_divtf3,
-    &operand_data[960],
+    &operand_data[957],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5393 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5386 */
   {
     "negtf2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19776,7 +18695,7 @@ const struct insn_data_d insn_data[] =
     2,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5399 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5392 */
   {
     "negtf2+1",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19785,13 +18704,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[762],
+    &operand_data[759],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5422 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5415 */
   {
     "negdf2-1",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19800,13 +18719,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[762],
+    &operand_data[759],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5442 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5435 */
   {
     "negdf2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19815,13 +18734,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_negdf2,
-    &operand_data[758],
+    &operand_data[755],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5448 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5441 */
   {
     "negdf2+1",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19830,13 +18749,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[758],
+    &operand_data[755],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5481 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5474 */
   {
     "abstf2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19845,13 +18764,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_abstf2,
-    &operand_data[762],
+    &operand_data[759],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5487 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5480 */
   {
     "abstf2+1",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19860,13 +18779,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[762],
+    &operand_data[759],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5519 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5512 */
   {
     "absdf2-1",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19875,13 +18794,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[762],
+    &operand_data[759],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5538 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5531 */
   {
     "absdf2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19890,13 +18809,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_absdf2,
-    &operand_data[758],
+    &operand_data[755],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5544 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5537 */
   {
     "absdf2+1",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19905,13 +18824,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[758],
+    &operand_data[755],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5577 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5570 */
   {
     "sqrttf2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19920,13 +18839,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_sqrttf2,
-    &operand_data[849],
+    &operand_data[846],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5622 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5615 */
   {
     "ashldi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19941,7 +18860,7 @@ const struct insn_data_d insn_data[] =
     1,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5733 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5726 */
   {
     "ashrdi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19956,7 +18875,7 @@ const struct insn_data_d insn_data[] =
     1,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5811 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5804 */
   {
     "lshrdi3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19971,7 +18890,7 @@ const struct insn_data_d insn_data[] =
     1,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5914 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5907 */
   {
     "tablejump",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19980,13 +18899,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_tablejump,
-    &operand_data[963],
+    &operand_data[960],
     2,
     0,
     1,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:5953 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:5946 */
   {
     "call",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -19995,13 +18914,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_call,
-    &operand_data[965],
+    &operand_data[962],
     4,
     0,
     1,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6117 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6110 */
   {
     "call_value",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20010,13 +18929,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_call_value,
-    &operand_data[969],
+    &operand_data[966],
     5,
     0,
     1,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6184 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6177 */
   {
     "untyped_call",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20025,13 +18944,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_untyped_call,
-    &operand_data[973],
+    &operand_data[970],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6215 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6208 */
   {
     "sibcall",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20040,13 +18959,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_sibcall,
-    &operand_data[965],
+    &operand_data[962],
     1,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6237 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6230 */
   {
     "sibcall_value",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20055,13 +18974,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_sibcall_value,
-    &operand_data[969],
+    &operand_data[966],
     2,
     0,
     1,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6265 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6258 */
   {
     "prologue",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20076,7 +18995,7 @@ const struct insn_data_d insn_data[] =
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6290 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6283 */
   {
     "epilogue",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20091,7 +19010,7 @@ const struct insn_data_d insn_data[] =
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6297 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6290 */
   {
     "sibcall_epilogue",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20106,7 +19025,7 @@ const struct insn_data_d insn_data[] =
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6305 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6298 */
   {
     "return",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20121,7 +19040,7 @@ const struct insn_data_d insn_data[] =
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6341 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6336 */
   {
     "probe_stack",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20130,13 +19049,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_probe_stack,
-    &operand_data[976],
+    &operand_data[973],
     1,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6360 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6346 */
   {
     "untyped_return",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20145,13 +19064,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_untyped_return,
-    &operand_data[974],
+    &operand_data[971],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6428 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6414 */
   {
     "indirect_jump",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20160,13 +19079,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_indirect_jump,
-    &operand_data[977],
+    &operand_data[974],
     1,
     0,
     1,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6445 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6431 */
   {
     "nonlocal_goto",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20175,13 +19094,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_nonlocal_goto,
-    &operand_data[978],
+    &operand_data[975],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6510 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6496 */
   {
     "builtin_setjmp_setup",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20190,13 +19109,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_builtin_setjmp_setup,
-    &operand_data[724],
+    &operand_data[960],
     1,
     0,
     1,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6550 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6537 */
   {
     "setjmp",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20211,7 +19130,7 @@ const struct insn_data_d insn_data[] =
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6638 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6617 */
   {
     "setjmp+1",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20220,13 +19139,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[982],
+    &operand_data[979],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6649 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6628 */
   {
     "setjmp+2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20235,13 +19154,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[982],
+    &operand_data[979],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6660 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6639 */
   {
     "setjmp+3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20250,13 +19169,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[984],
+    &operand_data[981],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6672 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6651 */
   {
     "setjmp+4",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20265,13 +19184,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[983],
+    &operand_data[980],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6684 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6663 */
   {
     "setjmp+5",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20280,13 +19199,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[988],
+    &operand_data[985],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6696 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6675 */
   {
     "setjmp+6",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20295,13 +19214,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[989],
+    &operand_data[986],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6708 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6687 */
   {
     "prefetch-6",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20310,13 +19229,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[984],
+    &operand_data[981],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6720 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6699 */
   {
     "prefetch-5",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20325,13 +19244,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[983],
+    &operand_data[980],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6733 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6712 */
   {
     "prefetch-4",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20340,13 +19259,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[988],
+    &operand_data[985],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6745 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6724 */
   {
     "prefetch-3",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20355,13 +19274,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[989],
+    &operand_data[986],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6761 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6740 */
   {
     "prefetch-2",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20370,13 +19289,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[764],
+    &operand_data[761],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6776 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6755 */
   {
     "prefetch-1",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20385,13 +19304,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     0,
-    &operand_data[993],
+    &operand_data[990],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6799 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6778 */
   {
     "prefetch",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20400,13 +19319,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_prefetch,
-    &operand_data[996],
+    &operand_data[993],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6871 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6850 */
   {
     "ctrapsi4",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20415,13 +19334,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_ctrapsi4,
-    &operand_data[999],
+    &operand_data[996],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:6882 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:6861 */
   {
     "ctrapdi4",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20430,13 +19349,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_ctrapdi4,
-    &operand_data[1003],
+    &operand_data[1000],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7481 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7460 */
   {
     "stack_protect_set",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20445,13 +19364,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_stack_protect_set,
-    &operand_data[1007],
+    &operand_data[1004],
     2,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sparc.md:7516 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sparc.md:7495 */
   {
     "stack_protect_test",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20460,13 +19379,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_stack_protect_test,
-    &operand_data[1007],
+    &operand_data[1004],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sync.md:26 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sync.md:21 */
   {
     "memory_barrier",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20481,7 +19400,7 @@ const struct insn_data_d insn_data[] =
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sync.md:51 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sync.md:51 */
   {
     "sync_compare_and_swapqi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20490,13 +19409,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_sync_compare_and_swapqi,
-    &operand_data[1010],
+    &operand_data[1007],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sync.md:51 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sync.md:51 */
   {
     "sync_compare_and_swaphi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20505,13 +19424,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_sync_compare_and_swaphi,
-    &operand_data[1014],
+    &operand_data[1011],
     4,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sync.md:63 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sync.md:63 */
   {
     "sync_compare_and_swapsi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20520,13 +19439,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_sync_compare_and_swapsi,
-    &operand_data[1018],
+    &operand_data[1015],
     4,
     1,
-    0,
+    1,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sync.md:63 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sync.md:63 */
   {
     "sync_compare_and_swapdi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20535,13 +19454,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_sync_compare_and_swapdi,
-    &operand_data[1022],
+    &operand_data[1019],
     4,
     1,
-    0,
+    1,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sync.md:118 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sync.md:118 */
   {
     "sync_lock_test_and_setqi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20550,13 +19469,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_sync_lock_test_and_setqi,
-    &operand_data[1026],
+    &operand_data[1023],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sync.md:118 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sync.md:118 */
   {
     "sync_lock_test_and_sethi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20565,13 +19484,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_sync_lock_test_and_sethi,
-    &operand_data[1029],
+    &operand_data[1026],
     3,
     0,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sync.md:134 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sync.md:134 */
   {
     "sync_lock_test_and_setsi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20580,13 +19499,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_sync_lock_test_and_setsi,
-    &operand_data[1032],
+    &operand_data[1029],
     3,
     1,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sync.md:165 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sync.md:165 */
   {
     "ldstubqi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20595,13 +19514,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_ldstubqi,
-    &operand_data[1010],
+    &operand_data[1007],
     2,
     1,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sync.md:173 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sync.md:173 */
   {
     "ldstubhi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20610,13 +19529,13 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_ldstubhi,
-    &operand_data[1035],
+    &operand_data[1032],
     2,
     1,
     0,
     0
   },
-  /* ../../gcc-4.6.1/gcc/config/sparc/sync.md:173 */
+  /* ../../gcc-4.5.3/gcc/config/sparc/sync.md:173 */
   {
     "ldstubsi",
 #if HAVE_DESIGNATED_INITIALIZERS
@@ -20625,7 +19544,7 @@ const struct insn_data_d insn_data[] =
     { 0, 0, 0 },
 #endif
     (insn_gen_fn) gen_ldstubsi,
-    &operand_data[1037],
+    &operand_data[1034],
     2,
     1,
     0,

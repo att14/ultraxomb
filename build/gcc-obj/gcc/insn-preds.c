@@ -1,5 +1,5 @@
 /* Generated automatically by the program 'build/genpreds'
-   from the machine description file '../../gcc-4.6.1/gcc/config/sparc/sparc.md'.  */
+   from the machine description file '../../gcc-4.5.3/gcc/config/sparc/sparc.md'.  */
 
 #include "config.h"
 #include "system.h"
@@ -11,11 +11,12 @@
 #include "function.h"
 #include "insn-config.h"
 #include "recog.h"
+#include "real.h"
 #include "output.h"
 #include "flags.h"
 #include "hard-reg-set.h"
 #include "resource.h"
-#include "diagnostic-core.h"
+#include "toplev.h"
 #include "reload.h"
 #include "regs.h"
 #include "tm-constrs.h"
@@ -33,7 +34,7 @@ const_zero_operand (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
       return false;
     }
   return 
-#line 25 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 25 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 (op == CONST0_RTX (mode));
 }
 
@@ -50,7 +51,7 @@ const_one_operand (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
       return false;
     }
   return 
-#line 30 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 30 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 (op == CONST1_RTX (mode));
 }
 
@@ -58,7 +59,7 @@ int
 const_4096_operand (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
 {
   return (GET_CODE (op) == CONST_INT) && (
-#line 35 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 35 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 (INTVAL (op) == 4096));
 }
 
@@ -66,13 +67,13 @@ int
 small_int_operand (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
 {
   return (GET_CODE (op) == CONST_INT) && (
-#line 42 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 42 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 (SPARC_SIMM13_P (INTVAL (op))));
 }
 
 static inline int
 uns_small_int_operand_1 (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
-#line 49 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 49 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 {
 #if HOST_BITS_PER_WIDE_INT == 32
   return ((GET_CODE (op) == CONST_INT && (unsigned) INTVAL (op) < 0x1000)
@@ -106,7 +107,7 @@ int
 const_high_operand (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
 {
   return (GET_CODE (op) == CONST_INT) && ((!(small_int_operand (op, mode))) && (
-#line 68 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 68 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 (SPARC_SETHI_P (INTVAL (op) & GET_MODE_MASK (mode)))));
 }
 
@@ -114,13 +115,13 @@ int
 const_compl_high_operand (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
 {
   return (GET_CODE (op) == CONST_INT) && ((!(small_int_operand (op, mode))) && (
-#line 75 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 75 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 (SPARC_SETHI_P (~INTVAL (op) & GET_MODE_MASK (mode)))));
 }
 
 static inline int
 fp_const_high_losum_operand_1 (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
-#line 81 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 81 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 {
   gcc_assert (mode == SFmode);
   return fp_high_losum_p (op);
@@ -149,7 +150,7 @@ const_double_or_vector_operand (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
 
 static inline int
 symbolic_operand_1 (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
-#line 97 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 97 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 {
   enum machine_mode omode = GET_MODE (op);
 
@@ -197,7 +198,7 @@ int
 tgd_symbolic_operand (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
 {
   return ((GET_CODE (op) == SYMBOL_REF) && (
-#line 126 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 126 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 (SYMBOL_REF_TLS_MODEL (op) == TLS_MODEL_GLOBAL_DYNAMIC))) && (
 (mode == VOIDmode || GET_MODE (op) == mode));
 }
@@ -206,7 +207,7 @@ int
 tld_symbolic_operand (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
 {
   return ((GET_CODE (op) == SYMBOL_REF) && (
-#line 131 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 131 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 (SYMBOL_REF_TLS_MODEL (op) == TLS_MODEL_LOCAL_DYNAMIC))) && (
 (mode == VOIDmode || GET_MODE (op) == mode));
 }
@@ -215,7 +216,7 @@ int
 tie_symbolic_operand (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
 {
   return ((GET_CODE (op) == SYMBOL_REF) && (
-#line 136 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 136 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 (SYMBOL_REF_TLS_MODEL (op) == TLS_MODEL_INITIAL_EXEC))) && (
 (mode == VOIDmode || GET_MODE (op) == mode));
 }
@@ -224,14 +225,14 @@ int
 tle_symbolic_operand (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
 {
   return ((GET_CODE (op) == SYMBOL_REF) && (
-#line 141 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 141 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 (SYMBOL_REF_TLS_MODEL (op) == TLS_MODEL_LOCAL_EXEC))) && (
 (mode == VOIDmode || GET_MODE (op) == mode));
 }
 
 static inline int
 medium_pic_operand_1 (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
-#line 149 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 149 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 {
   /* Check for (const (minus (symbol_ref:GOT)
                              (const (minus (label) (pc))))).  */
@@ -254,14 +255,14 @@ int
 label_ref_operand (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
 {
   return ((GET_CODE (op) == LABEL_REF) && (
-#line 162 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 162 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 (GET_MODE (op) == mode))) && (
 (mode == VOIDmode || GET_MODE (op) == mode));
 }
 
 static inline int
 data_segment_operand_1 (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
-#line 170 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 170 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 {
   switch (GET_CODE (op))
     {
@@ -296,7 +297,7 @@ data_segment_operand (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
 
 static inline int
 text_segment_operand_1 (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
-#line 189 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 189 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 {
   switch (GET_CODE (op))
     {
@@ -340,7 +341,7 @@ register_or_zero_operand (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
 
 static inline int
 fp_register_operand_1 (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
-#line 217 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 217 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 {
   if (GET_CODE (op) == SUBREG)
     op = SUBREG_REG (op); /* Possibly a MEM */
@@ -358,15 +359,15 @@ int
 int_register_operand (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
 {
   return (
-#line 225 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 225 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 (register_operand (op, SImode))) || (
-#line 226 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 226 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 (TARGET_ARCH64 && register_operand (op, DImode)));
 }
 
 static inline int
 fcc_register_operand_1 (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
-#line 231 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 231 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 {
   if (mode != VOIDmode && mode != GET_MODE (op))
     return false;
@@ -393,7 +394,7 @@ fcc_register_operand (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
 
 static inline int
 fcc0_register_operand_1 (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
-#line 250 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 250 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 {
   if (mode != VOIDmode && mode != GET_MODE (op))
     return false;
@@ -414,7 +415,7 @@ fcc0_register_operand (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
 
 static inline int
 icc_or_fcc_register_operand_1 (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
-#line 263 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 263 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 {
   if (REGNO (op) == SPARC_ICC_REG)
     {
@@ -446,7 +447,7 @@ arith_operand (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
 
 static inline int
 arith_double_operand_1 (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
-#line 294 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 294 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 {
   bool arith_simple_operand = arith_operand (op, mode);
   HOST_WIDE_INT m1, m2;
@@ -494,7 +495,7 @@ arith_add_operand (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
 
 static inline int
 arith_double_add_operand_1 (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
-#line 324 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 324 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 {
   bool _arith_double_operand = arith_double_operand (op, mode);
 
@@ -525,7 +526,7 @@ int
 arith10_operand (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
 {
   return (register_operand (op, mode)) || ((GET_CODE (op) == CONST_INT) && (
-#line 339 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 339 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 (SPARC_SIMM10_P (INTVAL (op)))));
 }
 
@@ -533,7 +534,7 @@ int
 arith11_operand (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
 {
   return (register_operand (op, mode)) || ((GET_CODE (op) == CONST_INT) && (
-#line 347 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 347 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 (SPARC_SIMM11_P (INTVAL (op)))));
 }
 
@@ -545,7 +546,7 @@ uns_arith_operand (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
 
 static inline int
 compare_operand_1 (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
-#line 360 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 360 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 {
   if (GET_CODE (op) == ZERO_EXTRACT)
     return (register_operand (XEXP (op, 0), mode)
@@ -581,7 +582,7 @@ compare_operand (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
 
 static inline int
 input_operand_1 (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
-#line 379 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 379 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 {
   enum mode_class mclass;
 
@@ -644,7 +645,7 @@ int
 call_address_operand (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
 {
   return (symbolic_operand (op, mode)) || ((
-#line 423 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 423 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 (memory_address_p (Pmode, op))) && (
 (mode == VOIDmode || GET_MODE (op) == mode)));
 }
@@ -653,14 +654,14 @@ int
 call_operand (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
 {
   return ((GET_CODE (op) == MEM) && (
-#line 428 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 428 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 (call_address_operand (XEXP (op, 0), mode)))) && (
 (mode == VOIDmode || GET_MODE (op) == mode));
 }
 
 static inline int
 noov_compare_operator_1 (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
-#line 437 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 437 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 {
   enum rtx_code code = GET_CODE (op);
   if (GET_MODE (XEXP (op, 0)) == CC_NOOVmode
@@ -696,7 +697,7 @@ noov_compare_operator (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
 
 static inline int
 noov_compare64_operator_1 (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
-#line 451 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 451 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 {
   enum rtx_code code = GET_CODE (op);
   if (GET_MODE (XEXP (op, 0)) == CCX_NOOVmode)
@@ -709,7 +710,7 @@ int
 noov_compare64_operator (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
 {
   return (((GET_CODE (op) == NE || GET_CODE (op) == EQ || GET_CODE (op) == GE || GET_CODE (op) == GT || GET_CODE (op) == LE || GET_CODE (op) == LT || GET_CODE (op) == GEU || GET_CODE (op) == GTU || GET_CODE (op) == LEU || GET_CODE (op) == LTU) && (
-#line 450 "../../gcc-4.6.1/gcc/config/sparc/predicates.md"
+#line 450 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
 (TARGET_V9))) && (
 (noov_compare64_operator_1 (op, mode)))) && (
 (mode == VOIDmode || GET_MODE (op) == mode));
@@ -763,6 +764,14 @@ cc_arith_not_operator (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
     }
   return 
 (mode == VOIDmode || GET_MODE (op) == mode);
+}
+
+int
+memory_reg_operand (rtx op, enum machine_mode mode ATTRIBUTE_UNUSED)
+{
+  return (GET_CODE (op) == MEM) && ((memory_operand (op, mode)) && (
+#line 481 "../../gcc-4.5.3/gcc/config/sparc/predicates.md"
+(REG_P (XEXP (op, 0)))));
 }
 
 enum constraint_num
@@ -871,37 +880,37 @@ insn_const_int_ok_for_constraint (HOST_WIDE_INT ival, enum constraint_num c)
     {
     case CONSTRAINT_I:
       return 
-#line 66 "../../gcc-4.6.1/gcc/config/sparc/constraints.md"
+#line 66 "../../gcc-4.5.3/gcc/config/sparc/constraints.md"
 (SPARC_SIMM13_P (ival));
 
     case CONSTRAINT_J:
       return 
-#line 71 "../../gcc-4.6.1/gcc/config/sparc/constraints.md"
+#line 71 "../../gcc-4.5.3/gcc/config/sparc/constraints.md"
 (ival == 0);
 
     case CONSTRAINT_K:
       return 
-#line 76 "../../gcc-4.6.1/gcc/config/sparc/constraints.md"
+#line 76 "../../gcc-4.5.3/gcc/config/sparc/constraints.md"
 (SPARC_SETHI32_P (ival));
 
     case CONSTRAINT_L:
       return 
-#line 81 "../../gcc-4.6.1/gcc/config/sparc/constraints.md"
+#line 81 "../../gcc-4.5.3/gcc/config/sparc/constraints.md"
 (SPARC_SIMM11_P (ival));
 
     case CONSTRAINT_M:
       return 
-#line 86 "../../gcc-4.6.1/gcc/config/sparc/constraints.md"
+#line 86 "../../gcc-4.5.3/gcc/config/sparc/constraints.md"
 (SPARC_SIMM10_P (ival));
 
     case CONSTRAINT_N:
       return 
-#line 91 "../../gcc-4.6.1/gcc/config/sparc/constraints.md"
+#line 91 "../../gcc-4.5.3/gcc/config/sparc/constraints.md"
 (SPARC_SETHI_P (ival));
 
     case CONSTRAINT_O:
       return 
-#line 96 "../../gcc-4.6.1/gcc/config/sparc/constraints.md"
+#line 96 "../../gcc-4.5.3/gcc/config/sparc/constraints.md"
 (ival == 4096);
 
     default: break;
